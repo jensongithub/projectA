@@ -1,4 +1,4 @@
-<?php $this->load->helper('my_path'); ?>
+<?php $this->load->helper(array('my_path', 'html')); ?>
 
 <div id="header">
 	<div class="layout grid-m">

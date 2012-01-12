@@ -43,7 +43,7 @@ if ( ! function_exists('get_path')) {
 			case 'js':
 			case 'css':
 				$ci =& get_instance();
-				return './' . $ci->config->item($resource . '_dir');
+				return 'http://' . $ci->config->item('base_url') . $ci->config->item($resource . '_dir');
 
 			default:
 				return '';

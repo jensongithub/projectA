@@ -27,7 +27,7 @@ $config['base_url']	= '127.0.0.1/codeigniter/';
 */
 $config['image_dir'] = 'images/';
 $config['js_dir'] = 'js/';
-$config['css_dir'] = './';
+$config['css_dir'] = '';
 
 /*
 |--------------------------------------------------------------------------
