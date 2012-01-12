@@ -1,5 +1,3 @@
-<?php $this->load->helper('my_path'); ?>
-
 <div id="content" class='container'>
 	<div class="content">
 		<div id="cat-menu">
@@ -7,6 +5,10 @@
 		</div>
 		
 		<div class="container">
+			<div class="category-head">
+				<h3><?php echo $cat_item['name']; ?></h3>
+				<span><?php if( isset($path) ) echo $path[0]; ?></span>
+			</div>
 			<?php
 				for( $i = 0; $i < 16; $i++ ) {
 			?>

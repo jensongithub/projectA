@@ -155,6 +155,24 @@ h2 {
 /***********************************
  * class section
  */
+.category-head {
+	text-align: center;
+}
+
+.category-level-1 {
+	font-size: 100%;
+	padding-left: 0px;
+}
+
+.category-level-2 {
+	font-size: 100%;
+	padding-left: 20px;
+}
+
+.category-level-3 {
+	padding-left: 40px;
+}
+
 .clear {
 	clear: both;
 }

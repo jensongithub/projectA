@@ -1,3 +1,6 @@
+#2012-01-13 02:13 by Marco
+Updated some minor stuff of the category listing, slow job.
+
 #2012-01-12 20:00
 Added categories controls, can be accessed by /categories/*ID*.
 Created two tables for testing, but hasn't upload the query.
