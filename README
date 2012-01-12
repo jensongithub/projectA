@@ -1,1 +1,4 @@
-A few tests on GIT, get myself familiar with it.
+#2012-01-12 20:00
+Added categories controls, can be accessed by /categories/*ID*.
+Created two tables for testing, but hasn't upload the query.
+Modified my_path_helper.php, so that the path really work.

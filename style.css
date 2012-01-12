@@ -134,8 +134,17 @@ h2 {
 /***********************************
  * id section
  */
+#cat-menu {
+	float: left;
+	width: 150px;
+}
+
 #header {
 	margin-bottom: 24px;
+}
+
+#main-content {
+	float: left;
 }
 
 #slider-container {
@@ -145,8 +154,8 @@ h2 {
 
 /***********************************
  * class section
- */ 
- .clear {
+ */
+.clear {
 	clear: both;
 }
 
@@ -188,4 +197,25 @@ h2 {
 .container-col-lower {
 	height: 220px;
 	overflow: hidden;
+}
+
+.content {
+	background-color: #FFF;
+	margin-bottom: 12px;
+	overflow: hidden;
+	padding: 20px;
+}
+
+.product-thumbnail {
+	background-color: #FCC;
+	float: left;
+	margin: 10px 5px;
+	text-align: center;
+	width: 180px;
+	height: 265px;
+}
+
+.product-thumbnail img {
+	width: 175px;
+	height: 200px;
 }
