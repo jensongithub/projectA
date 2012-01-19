@@ -35,6 +35,7 @@ input,
 select,
 textarea {
 	font: 12px/1.5 tahoma, arial, \5b8b\4f53;
+	font-family: tahoma, arial, HM Ampersand Light, Arial, sans-serif;
 }
 
 address,
@@ -139,6 +140,21 @@ h2 {
 	width: 150px;
 }
 
+#emphasis-thumbnail {
+	background-color: #FCC;
+	float: right;
+	margin: 10px 5px;
+	padding: 0 5px 10px 5px;
+	text-align: center;
+	width: 360px;
+	height: 540px;
+}
+
+#emphasis-thumbnail img {
+	width: 350px;
+	height: 400px;
+}
+
 #header {
 	margin-bottom: 24px;
 }
@@ -236,4 +252,13 @@ h2 {
 .product-thumbnail img {
 	width: 175px;
 	height: 200px;
+}
+
+.thumbnail-description {
+	padding: 10px;
+	text-align: left;
+}
+
+.thumbnail-description p {
+	margin-bottom: 7px;
 }
