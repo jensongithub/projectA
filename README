@@ -1,5 +1,46 @@
 #2012-01-19 16:18 by Jenson
 Please confirm the system structure before moving on
+System Structure
+/lna
+  /application
+		/controllers
+			/index.php	- front page
+				/men.php
+				/women.php
+				/baby.php
+				/admin
+				/......
+		/views
+				/index.php							
+				/men
+					/*.*  	- men's files. 
+					/pics
+				/women
+					/*.*  	- women's files
+					/pics
+				/baby
+					/*.*	- baby's files
+					/pics
+				/admin
+				/common
+					/pics
+				/templates
+					header.php
+					footer.php
+				/...
+		/models
+				/men.php	- Model for men
+				/women.php	- Model for women
+				/baby.php	- Model for baby
+				/admin.php
+				/...
+		/libraries
+				/loginLib.php
+				/registerLib.php
+				/cartLib.php
+				/adminLib.php
+				/... 
+
 
 #2012-01-19 16:18 by Marco
 Added another template, for now it is randomized, either one will show up while accessing /categories/*ID*.
