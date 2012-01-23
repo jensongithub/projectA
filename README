@@ -1,7 +1,4 @@
-#2012-01-23 00:21 by Marco
-Upload the images I already have.
-
-#2012-01-19 16:18 by Jenson
+#2012-01-23 11:04 by Jenson
 Please confirm the system structure before moving on
 System Structure
 /lna
@@ -11,25 +8,28 @@ System Structure
 				/men.php
 				/women.php
 				/baby.php
-				/admin
+				/admin/*
+				/cms/*
 				/......
 		/views
 				/index.php							
 				/men
-					/*.*  	- men's files. 
-					/pics
+					/product.php // if there is acustomized product page
+					/*.*  	- men's files.					
 				/women
+					/product.php // if there is acustomized product page
 					/*.*  	- women's files
-					/pics
 				/baby
-					/*.*	- baby's files
-					/pics
-				/admin
-				/common
-					/pics
+					/product.php // if there is acustomized product page					
+					/*.*	- baby's files					
+						
 				/templates
-					header.php
-					footer.php
+					/header.php
+					/footer.php
+					/grid.php
+					/product.php
+				/admin/*
+				/cms/*
 				/...
 		/models
 				/men.php	- Model for men
@@ -42,7 +42,11 @@ System Structure
 				/registerLib.php
 				/cartLib.php
 				/adminLib.php
-				/... 
+				/js
+		/images
+
+#2012-01-23 00:21 by Marco
+Upload the images I already have.
 
 
 #2012-01-19 16:18 by Marco
