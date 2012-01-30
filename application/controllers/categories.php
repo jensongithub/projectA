@@ -9,11 +9,11 @@ class Categories extends CI_Controller {
 	}
 
 	public function index()	{
-		$data['category'] = $this->news_model->get_categories();
+		$data['category'] = $this->categories_model->get_categories();
 		$data['title'] = 'Categories archive';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('news/index', $data);
+		//$this->load->view('categories/index', $data);
 		$this->load->view('templates/footer');
 	}
 
