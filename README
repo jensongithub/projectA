@@ -8,25 +8,21 @@ System Structure
   /application
 		/controllers
 			/index.php	- front page
-				/men.php
-				/women.php
-				/baby.php
-				/admin
-				/......
+			/men.php
+			/women.php
+			/baby.php
+			/admin
+			/......
 		/views
 				/index.php							
 				/men
 					/*.*  	- men's files. 
-					/pics
 				/women
 					/*.*  	- women's files
-					/pics
 				/baby
 					/*.*	- baby's files
-					/pics
 				/admin
 				/common
-					/pics
 				/templates
 					header.php
 					footer.php
@@ -43,7 +39,11 @@ System Structure
 				/cartLib.php
 				/adminLib.php
 				/... 
-
+	/images
+		/men
+		/women
+		/baby
+		/common
 
 #2012-01-19 16:18 by Marco
 Added another template, for now it is randomized, either one will show up while accessing /categories/*ID*.
