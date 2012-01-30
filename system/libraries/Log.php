@@ -30,7 +30,11 @@ class CI_Log {
 	protected $_threshold	= 1;
 	protected $_date_fmt	= 'Y-m-d H:i:s';
 	protected $_enabled	= TRUE;
+<<<<<<< HEAD
 	protected $_levels	= array('ERROR' => '1', 'DEBUG' => '2',  'INFO' => '3', 'ALL' => '4');
+=======
+	protected $_levels	= array('JJ' => '1', 'ERROR' => '2', 'DEBUG' => '3',  'INFO' => '4', 'ALL' => '5');
+>>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 
 	/**
 	 * Constructor
@@ -71,6 +75,10 @@ class CI_Log {
 	 */
 	public function write_log($level = 'error', $msg, $php_error = FALSE)
 	{
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 		if ($this->_enabled === FALSE)
 		{
 			return FALSE;
@@ -84,19 +92,33 @@ class CI_Log {
 		}
 
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').'.php';
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 		$message  = '';
 
 		if ( ! file_exists($filepath))
 		{
 			$message .= "<"."?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?".">\n\n";
 		}
+<<<<<<< HEAD
+=======
+		
+		
+>>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 
 		if ( ! $fp = @fopen($filepath, FOPEN_WRITE_CREATE))
 		{
 			return FALSE;
 		}
 
+<<<<<<< HEAD
 		$message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
+=======
+		// $message .= $level.' '.(($level == 'INFO') ? ' -' : '-').' '.date($this->_date_fmt). ' --> '.$msg."\n";
+		$message .= date($this->_date_fmt) . " " . $level . " " . $_SERVER["REQUEST_URI"] . " - " . $msg . " \n";
+>>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 
 		flock($fp, LOCK_EX);
 		fwrite($fp, $message);
