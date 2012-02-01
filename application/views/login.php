@@ -5,7 +5,7 @@
 <?php echo mt_rand();
 
 ?>
-	<form method="POST" action="/login/submit">
+	<form method="POST" action="login/submit">
 		<div>
 			<label>Email</label><input type='text' name='email' />
 		</div>
