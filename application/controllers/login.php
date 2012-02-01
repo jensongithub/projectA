@@ -13,7 +13,7 @@ class Login extends CI_Controller {
 	public function submit(){
 		// the login logic is implemented inside the model
 		// keep the controller simple and clean
-		//redirect('index.php');
+		//redirect('index');
 		$this->myloginlib->submit();
 
 	}
