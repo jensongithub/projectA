@@ -45,7 +45,7 @@ $route['categories/(:any)'] = 'categories/view/$1';
 $route['categories'] = 'categories';
 $route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
-$route['(:any)'] = 'pages/view/$1';
+//$route['(:any)'] = 'pages/view/$1';
 $route['default_controller'] = 'pages/view';
 
 /* End of file routes.php */

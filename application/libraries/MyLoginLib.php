@@ -21,14 +21,14 @@
 // developer only change the model for every new project
 //include_once APPPATH.'libraries/loginLib.php';
 
-class LoginLib {
-	protected $CI;
+class MyLoginLib {
+	var $CI;
 	var $id;
 	var $email;
 
 	function __construct(){
 //		parent::__construct();
-		$this->CI = & $this->getInstance();
+		$this->CI =& get_instance();
 		$this->CI->load->database();
 		$dataRules = array();
 //		$dataRules["first_name"] = "XSS_CLEAN|TRIM|...";
@@ -40,12 +40,12 @@ class LoginLib {
 	}
 
 	function submit(){
+
 		$this->insert_user();
 	}
 
 	function insert_user(){
-		$uid = mt_srand(time());
-		echo $uid;
+		$uid = mt_rand();
 		$this->id = $uid;
 		$this->email = 'davidrobinson91@hotmail.com';
 		$this->CI->db->insert('user',$this);
