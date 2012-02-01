@@ -5,7 +5,7 @@ class MyLoginLib {
 	var $id;
 	var $email;
 
-	function __contruct(){
+	function __construct(){
 		$this->CI =& get_instance();
 		$this->CI->load->database();
 		$dataRules = array();
