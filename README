@@ -5,46 +5,25 @@ System Structure
   /application
 		/controllers
 			/index.php	- front page
-<<<<<<< HEAD
-			/men.php
-			/women.php
-			/baby.php
-			/admin
-			/......
-		/views
-				/index.php							
-				/men
-					/*.*  	- men's files. 
-=======
-				/men.php
-				/women.php
-				/baby.php
-				/admin/*
-				/cms/*
-				/......
 		/views
 				/index.php							
 				/men
 					/product.php // if there is acustomized product page
 					/*.*  	- men's files.					
->>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 				/women
 					/product.php // if there is acustomized product page
 					/*.*  	- women's files
 				/baby
-<<<<<<< HEAD
 					/*.*	- baby's files
 				/admin
 				/common
-=======
 					/product.php // if there is acustomized product page					
 					/*.*	- baby's files					
->>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
-				/templates
-					/header.php
-					/footer.php
-					/grid.php
-					/product.php
+		/templates
+				/header.php
+				/footer.php
+				/grid.php
+				/product.php
 				/admin/*
 				/cms/*
 				/...
@@ -54,28 +33,15 @@ System Structure
 				/baby.php	- Model for baby
 				/admin.php
 				/...
-		/libraries
-				/loginLib.php
-				/registerLib.php
-				/userLib.php
-				/cartLib.php
-				/adminLib.php
-<<<<<<< HEAD
-				/... 
 	/images
 		/men
 		/women
 		/baby
 		/common
-=======
-				/cms/*
-				/js	//all client-side jquery
-		/images
 
 #2012-01-23 00:21 by Marco
 Upload the images I already have.
 
->>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
 
 #2012-01-19 16:18 by Marco
 Added another template, for now it is randomized, either one will show up while accessing /categories/*ID*.
