@@ -5,8 +5,9 @@ class Login extends CI_Controller {
 
 	public function __construct()	{
 		parent::__construct();
-		//$this->load->model('login_model');
-		$this->load->library('MyLoginLib');
+//		$this->load->model('login_model');
+//		$this->load->library('MyLoginLib');
+		$this->load->model('login_modellib');
 		$this->load->helper('url');
 	}
 
@@ -14,7 +15,9 @@ class Login extends CI_Controller {
 		// the login logic is implemented inside the model
 		// keep the controller simple and clean
 		//redirect('index');
-		$this->myloginlib->submit();
+//		$this->myloginlib->submit();
+		$this->login_modellib->submit();
+
 
 	}
 

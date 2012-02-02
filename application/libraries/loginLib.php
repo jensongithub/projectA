@@ -1,5 +1,5 @@
-<?
-/*
+<?php
+
 abstract class LoginLib {
 
 	function submit(){
@@ -45,4 +45,3 @@ abstract class LoginLib {
 	abstract function createSession();
 
 }
-?>

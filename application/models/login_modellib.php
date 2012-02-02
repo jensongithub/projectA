@@ -1,6 +1,6 @@
 <?php
 
-class MyLoginLib {
+class Login_modellib {
 	var $CI;
 	var $id;
 	var $email;
