@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '127.0.0.1/codeigniter/';
+$config['base_url']	= '127.0.0.1/lna/';
 
 /*
 |--------------------------------------------------------------------------
