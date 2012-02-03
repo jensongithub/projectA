@@ -1,4 +1,4 @@
-<?php $this->load->helper(array('my_path', 'html')); ?>
+<?php $this->load->helper(array('my_html')); ?>
 
 <div id="header">
 	<div class="layout grid-m">
@@ -20,7 +20,7 @@
 								<!-- start header // -->
 								<div style="margin: 15px 0pt; height: 50px; overflow: hidden;" class="headerTop headerW01 id_header">
 									<div class="navArea navAreaH01 clearfix">
-										<div class="siteLogo"><a title="InA" name="top" class="id_top" href="http://<?php echo $this->config->item('base_url'); ?>" data-spm-anchor-id="1103GDct.4-9oM3U.N-44w*_G"><img border="0" alt="InA" src="<?php echo get_path('image'); ?>logo.gif"></a></div>
+										<div class="siteLogo"><a title="InA" name="top" class="id_top" href="<?php echo $this->config->item('base_url'); ?>" data-spm-anchor-id="1103GDct.4-9oM3U.N-44w*_G"><?php echo img('logo.gif'); ?></a></div>
 										<ul class="clearfix id_navHeader">
 											<!-- start men // -->
 											<li class=""><a class="id_header_men" href="#!men" data-spm-anchor-id="1103GDct.4-9oM3U.N-44w*_G"><img border="0" class="imgover" alt="MEN" src="http://im.uniqlo.cn/siterenew/L1/img/btn_nav_global_men.gif" dsrc="http://im.uniqlo.cn/siterenew/L1/img/btn_nav_global_men.gif" hsrc="http://im.uniqlo.cn/siterenew/L1/img/btn_nav_global_men_o.gif"></a>

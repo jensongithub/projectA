@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
 
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /lna/
 
     #'system' can be replaced if you have renamed your system folder.
     RewriteCond %{REQUEST_URI} ^system.*
