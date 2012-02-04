@@ -5,4 +5,4 @@
 	<?php echo css('style.css'); ?>
 </head>
 <body>
-<?php $this->load->view('nav'); ?>
+<?php $this->load->view('templates/nav'); ?>

@@ -50,35 +50,39 @@
 				echo form_close();
 			*/
 			?>
-			<?php echo form_open('register/submit'); ?>
+			<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>			
+				<?php echo validation_errors(); ?>
+			<?php if( $this->input->post('submit') ) echo "</div>"; ?>
+			<?php echo form_open('register'); ?>
+			<?php //echo form_open('register/submit'); ?>
 				<table>
 					<tr>
-						<td><label for='email'>Email</label></td>
-						<td><input id='email' name='email' type='email' /></td>
+						<td><label for='email' class='form-label'><?php echo lang('email'); ?></label></td>
+						<td><input id='email' name='email' type='email' value='<?php echo set_value('email'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='firstname'>First name</label></td>
-						<td><input id='firstname' name='firstname' /></td>
+						<td><label for='firstname' class='form-label'><?php echo lang('firstname'); ?></label></td>
+						<td><input id='firstname' name='firstname' value='<?php echo set_value('firstname'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='lastname'>Last name</label></td>
-						<td><input id='lastname' name='lastname' /></td>
+						<td><label for='lastname' class='form-label'><?php echo lang('lastname'); ?></label></td>
+						<td><input id='lastname' name='lastname' value='<?php echo set_value('lastname'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='pwd'>Password</label></td>
-						<td><input id='pwd' name='pwd' type='password' /></td>
+						<td><label for='pwd' class='form-label'><?php echo lang('pwd'); ?></label></td>
+						<td><input id='pwd' name='pwd' type='password' value='<?php echo set_value('pwd'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='conpwd'>Confirm password</label></td>
-						<td><input id='conpwd' name='conpwd' type='password' /></td>
+						<td><label for='conpwd' class='form-label'><?php echo lang('conpwd'); ?></label></td>
+						<td><input id='conpwd' name='conpwd' type='password' value='<?php echo set_value('conpwd'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='phone'>Phone</label></td>
-						<td><input id='phone' name='phone' /></td>
+						<td><label for='phone' class='form-label'><?php echo lang('phone'); ?></label></td>
+						<td><input id='phone' name='phone' value='<?php echo set_value('phone'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for=''>Gender</label></td>
-						<td><input id='gender1' name='gender' type='radio' value='M' /><label for='gender1'> Male</label> <input id='gender2' name='gender' type='radio' value='F' /><label for='gender2'> Female</label></td>
+						<td><label for='' class='form-label'><?php echo lang('gender'); ?></label></td>
+						<td><input id='gender1' name='gender' type='radio' value='M' <?php echo set_radio('gender', 'M'); ?> /><label for='gender1'> <?php echo lang('male', 'gender1'); ?></label> <input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> /><label for='gender2'> <?php echo lang('female'); ?></label></td>
 					</tr>
 					<tr>
 						<td><input id='submit' name='submit' type='submit' value='Submit' /></td>

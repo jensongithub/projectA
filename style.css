@@ -240,6 +240,20 @@ h2 {
 	padding: 20px;
 }
 
+.error-panel {
+	background-color: #FCC;
+	border: 2px solid #B33;
+	color: #B33;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+.form-label {
+	display: inline-block;
+	width: 200px;
+}
+
 .product-thumbnail {
 	background-color: #FCC;
 	float: left;
@@ -261,4 +275,11 @@ h2 {
 
 .thumbnail-description p {
 	margin-bottom: 7px;
+}
+
+.yellow-box {
+	background-color: #FFC;
+	border: 2px solid #FF0;
+	margin-bottom: 10px;
+	padding: 10px;
 }

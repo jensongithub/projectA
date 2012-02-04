@@ -9,14 +9,18 @@ class Register extends CI_Controller {
 	public function index()	{
 		$data['title'] = 'Register';
 		
-		$this->load->helper('form');
+		$this->load->helper( array('form') );
+		$this->lang->load('register');
+		$this->load->library('form_validation');
 		
 		$this->load->view('templates/header', $data);
-		$this->load->view('account/register_form', $data);
+		if($this->form_validation->run() == FALSE) {
+			$this->load->view('account/register_form', $data);
+		}
+		else {
+			//$this->register_model->insert_user();
+			$this->load->view('account/register_finish', $data);
+		}
 		$this->load->view('templates/footer');
-	}
-	
-	public function submit() {
-		$this->register_model->insert_user();
 	}
 }
