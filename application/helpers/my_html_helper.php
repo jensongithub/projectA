@@ -62,10 +62,15 @@ if ( ! function_exists('get_path')) {
  * @return	string	path to the resource
  */
 if ( ! function_exists('css')) {
-	function css($resource, $media = 'screen') {
+	function css($resource, $media = 'screen', $render_path = TRUE) {
 		$ci =& get_instance();
 		$css = "<link rel='stylesheet' type='text/css' href='";
-		$css .= $ci->config->item('base_url') . $ci->config->item('css_dir') . $resource;
+		if( $render_path === TRUE ) {
+			$css .= $ci->config->item('base_url') . $ci->config->item('css_dir') . $resource;
+		}
+		else {
+			$css .= $ci->config->item('base_url') . $resource;
+		}
 		$css .= "' media='$media' />";
 		return $css;
 	}
@@ -86,7 +91,7 @@ if ( ! function_exists('js')) {
 		$ci =& get_instance();
 		$js = "<script type='text/javascript' src='";
 		$js .= $ci->config->item('base_url') . $ci->config->item('js_dir') . $resource;
-		$js .= "' />";
+		$js .= "' ></script>";
 		return $js;
 	}
 }

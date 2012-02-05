@@ -168,7 +168,7 @@ h2 {
 }
 
 #slider-container {
-	height: 470px;
+	height: 480px;
 }
 
 
@@ -199,7 +199,6 @@ h2 {
 
 .container {
 	margin-bottom: 12px;
-	overflow: hidden;
 }
 
 .container-col-span-1 {
@@ -280,6 +279,17 @@ h2 {
 .product-thumbnail img {
 	width: 175px;
 	height: 200px;
+}
+
+.theme-default #slider {
+	margin:10px auto 10px auto;
+	width:950px; /* Make sure your images are the same size */
+	height:470px; /* Make sure your images are the same size */
+}
+
+.theme-pascal.slider-wrapper,
+.theme-orman.slider-wrapper {
+	margin-top:150px;
 }
 
 .thumbnail-description {

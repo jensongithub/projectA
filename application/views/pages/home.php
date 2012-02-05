@@ -1,15 +1,42 @@
-<?php $this->load->helper('my_html'); ?>
+<?php $this->load->helper('html'); ?>
 
 <div id="content" class='container'>
-	<div id="slider-container" class="container">
+	<!--<div id="slider-container" class="container">
 			<?php echo img( array(
 					'src' => 'single.jpg', 
 					'alt' => 'The slider goes here', 
 					'title' => 'The slider goes here', 
 					'width' => '100%', 
 					'height' => '100%') ); ?>
+	</div>-->
+	<div id='slider-container'>
+		<?php echo css('js/nivo-slider/themes/default/default.css', 'screen', FALSE); ?>
+		<?php echo css('js/nivo-slider/nivo-slider.css', 'screen', FALSE); ?>
+		<div class="slider-wrapper theme-default">
+			<div class="ribbon"></div>
+			<div id="slider" class="nivoSlider">
+				<?php //echo img('slider/toystory.jpg'); ?>
+				<?php //echo img('slider/up.jpg'); ?>
+				<?php //echo img('slider/walle.jpg'); ?>
+				<?php echo img('slider/nemo.jpg'); ?>
+				<?php echo img('single.jpg'); ?>
+			</div>
+		</div>
+		<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<?php echo js('nivo-slider/jquery.nivo.slider.pack.js'); ?>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$('#slider').nivoSlider({
+					effect: 'slideInLeft',
+					directionNavHide: false,
+					controlNav: false,
+					pauseTime: 5000,
+					animSpeed: 300
+				});
+			});
+		</script>
 	</div>
-	
+
 	<div class="container">
 		<h1>Showcase</h1>
 	</div>
