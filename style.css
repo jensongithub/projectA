@@ -159,12 +159,16 @@ h2 {
 	margin-bottom: 24px;
 }
 
+#lang-switcher a {
+	color: inherit;
+}
+
 #main-content {
 	float: left;
 }
 
 #slider-container {
-	height: 450px;
+	height: 470px;
 }
 
 
@@ -249,9 +253,19 @@ h2 {
 	padding: 5px;
 }
 
+.form td {
+	padding: 2px;
+}
+
 .form-label {
 	display: inline-block;
 	width: 200px;
+}
+
+.lang-switch {
+	float: right;
+	font-size: 1.2em;
+	width: 25px;
 }
 
 .product-thumbnail {

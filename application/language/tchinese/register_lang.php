@@ -9,4 +9,5 @@ $lang['pwd'] = '密碼';
 $lang['conpwd'] = '確認密碼';
 $lang['male'] = '男';
 $lang['female'] = '女';
+$lang['submit'] = '提交';
 $lang['register_success_message'] = '恭喜你已成功登記為會員！';

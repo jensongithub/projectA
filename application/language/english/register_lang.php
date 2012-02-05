@@ -9,3 +9,5 @@ $lang['pwd'] = 'Password';
 $lang['conpwd'] = 'Confirm password';
 $lang['male'] = 'Male';
 $lang['female'] = 'Female';
+$lang['submit'] = 'Submit';
+$lang['register_success_message'] = 'Congratulation! The registeration succeed!';

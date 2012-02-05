@@ -53,8 +53,10 @@
 			<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>			
 				<?php echo validation_errors(); ?>
 			<?php if( $this->input->post('submit') ) echo "</div>"; ?>
-			<?php echo form_open('register'); ?>
-			<?php //echo form_open('register/submit'); ?>
+			<?php 
+				$attr = array('class' => 'form', 'id' => 'registration-form');
+				echo form_open('register', $attr);
+			?>
 				<table>
 					<tr>
 						<td><label for='email' class='form-label'><?php echo lang('email'); ?></label></td>
@@ -85,7 +87,7 @@
 						<td><input id='gender1' name='gender' type='radio' value='M' <?php echo set_radio('gender', 'M'); ?> /><label for='gender1'> <?php echo lang('male', 'gender1'); ?></label> <input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> /><label for='gender2'> <?php echo lang('female'); ?></label></td>
 					</tr>
 					<tr>
-						<td><input id='submit' name='submit' type='submit' value='Submit' /></td>
+						<td><input id='submit' name='submit' type='submit' value='<?php echo lang('submit'); ?>' /></td>
 					</tr>
 				</table>
 			</form>

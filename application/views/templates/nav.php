@@ -1,6 +1,13 @@
-<?php $this->load->helper(array('my_html')); ?>
+<?php $this->load->helper(array('html', 'language', 'url')); ?>
+
 
 <div id="header">
+	<div id='lang-switcher'>
+		<?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?>
+		<?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?>
+		<div class='clear'></div>
+	</div>
+	
 	<div class="layout grid-m">
 		<div class="col-main">
 			<div data-width="h950" data-modules="main" class="main-wrap J_TRegion">
