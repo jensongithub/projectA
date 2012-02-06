@@ -21,9 +21,44 @@
 		<li>Site Map</li>
 	</ul>
 </div>
+
+<?php $this->load->helper('html'); ?>
+
 <div id="content" class='container'>
-	<div id="slider-container" class="container">
-		<img src='<?php echo get_path('image'); ?>single.jpg' alt="The slider goes here" title="The slider goes here" width="100%" height="100%" />
+	<!--<div id="slider-container" class="container">
+			<?php echo img( array(
+					'src' => 'single.jpg',
+					'alt' => 'The slider goes here',
+					'title' => 'The slider goes here',
+					'width' => '100%',
+					'height' => '100%') ); ?>
+	</div>-->
+	<div id='slider-container'>
+		<?php echo css('js/nivo-slider/themes/default/default.css', 'screen', FALSE); ?>
+		<?php echo css('js/nivo-slider/nivo-slider.css', 'screen', FALSE); ?>
+		<div class="slider-wrapper theme-default">
+			<div class="ribbon"></div>
+			<div id="slider" class="nivoSlider">
+				<?php //echo img('slider/toystory.jpg'); ?>
+				<?php //echo img('slider/up.jpg'); ?>
+				<?php //echo img('slider/walle.jpg'); ?>
+				<?php echo img('slider/nemo.jpg'); ?>
+				<?php echo img('single.jpg'); ?>
+			</div>
+		</div>
+		<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<?php echo js('nivo-slider/jquery.nivo.slider.pack.js'); ?>
+		<script type="text/javascript">
+			$(window).load(function() {
+				$('#slider').nivoSlider({
+					effect: 'slideInLeft',
+					directionNavHide: false,
+					controlNav: false,
+					pauseTime: 5000,
+					animSpeed: 300
+				});
+			});
+		</script>
 	</div>
 
 	<div class="container">
@@ -32,16 +67,16 @@
 
 	<div class="container">
 		<div class="container-col-span-1">
-			<img src="<?php echo get_path('image'); ?>1A_0106.jpg" />
+			<?php echo img('1A_0106.jpg'); ?>
 		</div>
 		<div class="container-col-span-1">
-			<img src="<?php echo get_path('image'); ?>1B_0106.jpg" />
+			<?php echo img('1B_0106.jpg'); ?>
 		</div>
 		<div class="container-col-span-1">
-			<img src="<?php echo get_path('image'); ?>1C_1_0106.jpg" />
+			<?php echo img('1C_1_0106.jpg'); ?>
 		</div>
 		<div class="container-col-span-1-last">
-			<img src="<?php echo get_path('image'); ?>1C_2_0106.jpg" />
+			<?php echo img('1C_2_0106.jpg'); ?>
 		</div>
 		<div class="clear"></div>
 	</div>
@@ -52,21 +87,21 @@
 
 	<div class="container">
 		<div class="container-col-span-1">
-			<img src="<?php echo get_path('image'); ?>3A_0106.jpg" />
+			<?php echo img('3A_0106.jpg'); ?>
 		</div>
 		<div class="container-col-span-1">
 			<div class="container-col-upper">
-				<img src="<?php echo get_path('image'); ?>6D_1125.jpg" />
+			<?php echo img('6D_1125.jpg'); ?>
 			</div>
 			<div class="container-col-lower">
-				<img src="<?php echo get_path('image'); ?>zhaopin_0914.gif" />
+			<?php echo img('zhaopin_0914.gif'); ?>
 			</div>
 		</div>
 		<div class="container-col-span-1">
-			<img src="<?php echo get_path('image'); ?>3B_1_0106.jpg" />
+			<?php echo img('3B_1_0106.jpg'); ?>
 		</div>
 		<div class="container-col-span-1-last">
-			<img src="<?php echo get_path('image'); ?>3C_1_0106.jpg" />
+			<?php echo img('3C_1_0106.jpg'); ?>
 		</div>
 		<div class="clear"></div>
 	</div>

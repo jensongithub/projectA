@@ -1,8 +1,8 @@
 <html>
 <head>
-	<?php $this->load->helper(array('my_path')); ?>
+	<?php $this->load->helper(array('my_html')); ?>
 	<title><?php echo $title ?> - CodeIgniter 2 Tutorial</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo get_path('css'); ?>style.css" media="screen" />
+	<?php echo css('style.css'); ?>
 </head>
 <body>
-<?php $this->load->view('nav'); ?>
+<?php $this->load->view('templates/nav'); ?>

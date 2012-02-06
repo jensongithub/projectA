@@ -1,3 +1,18 @@
+#2012-02-05 17:48 by Marco
+Added a language switcher above the navigation bar, and a image slider library.
+  Nivo Slider usage:
+    http://nivo.dev7studios.com/support/jquery-plugin-usage/
+
+
+#2012-02-04 22:37 by Marco
+Finished internationalization(i18n) and form validation on server side.
+Create a file called {NAME}_lang.php in application/languages/{LANG}, and load the lang file in your controller by $this->lang->load('{NAME}'), then you may use lang('key') to get the text in specific language. For more details, read the reference below.
+	form validation reference:
+		http://codeigniter.com/user_guide/libraries/form_validation.html
+	i18n reference:
+		http://codeigniter.com/wiki/CodeIgniter_2.1_internationalization_i18n
+
+
 #2012-01-23 11:34 by Jenson
 Please confirm the system structure before moving on
 System Structure

@@ -159,12 +159,16 @@ h2 {
 	margin-bottom: 24px;
 }
 
+#lang-switcher a {
+	color: inherit;
+}
+
 #main-content {
 	float: left;
 }
 
 #slider-container {
-	height: 450px;
+	height: 480px;
 }
 
 
@@ -195,7 +199,6 @@ h2 {
 
 .container {
 	margin-bottom: 12px;
-	overflow: hidden;
 }
 
 .container-col-span-1 {
@@ -240,6 +243,30 @@ h2 {
 	padding: 20px;
 }
 
+.error-panel {
+	background-color: #FCC;
+	border: 2px solid #B33;
+	color: #B33;
+	font-weight: bold;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+.form td {
+	padding: 2px;
+}
+
+.form-label {
+	display: inline-block;
+	width: 200px;
+}
+
+.lang-switch {
+	float: right;
+	font-size: 1.2em;
+	width: 25px;
+}
+
 .product-thumbnail {
 	background-color: #FCC;
 	float: left;
@@ -254,6 +281,17 @@ h2 {
 	height: 200px;
 }
 
+.theme-default #slider {
+	margin:10px auto 10px auto;
+	width:950px; /* Make sure your images are the same size */
+	height:470px; /* Make sure your images are the same size */
+}
+
+.theme-pascal.slider-wrapper,
+.theme-orman.slider-wrapper {
+	margin-top:150px;
+}
+
 .thumbnail-description {
 	padding: 10px;
 	text-align: left;
@@ -261,4 +299,11 @@ h2 {
 
 .thumbnail-description p {
 	margin-bottom: 7px;
+}
+
+.yellow-box {
+	background-color: #FFC;
+	border: 2px solid #FF0;
+	margin-bottom: 10px;
+	padding: 10px;
 }
