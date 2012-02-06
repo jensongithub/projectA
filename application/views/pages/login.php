@@ -2,7 +2,10 @@
 <head><title>Casimira Login</title>
 </head>
 <body>
-	<form method="POST" action="/login/submit">
+<?php echo mt_rand();
+
+?>
+	<form method="POST" action="login/submit">
 		<div>
 			<label>Email</label><input type='text' name='email' />
 		</div>
