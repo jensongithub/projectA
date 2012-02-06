@@ -1,6 +1,12 @@
 <?php $this->load->helper('html'); ?>
+<?php $this->load->helper(array('html', 'language', 'url')); ?>
 
 <div id="content" class='container'>
+	<div id='lang-switcher'>
+		<?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?>
+		<?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?>
+		<div class='clear'></div>
+	</div>
 	<div class='menu_l1'>
 		<ul>
 			<li>Facebook</li>
