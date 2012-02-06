@@ -2,7 +2,7 @@
 class Categories extends CI_Controller {
 	const GRID = 1;
 	const EMP_GRID = 2;
-	
+
 	public function __construct()	{
 		parent::__construct();
 		$this->load->model('categories_model');
@@ -20,11 +20,11 @@ class Categories extends CI_Controller {
 	public function view($cat_id) {
 		$template = $this->get_template_by_category() + 1;
 		$data['cat_item'] = $this->categories_model->get_categories($cat_id);
-		
+
 		if(empty($data['cat_item'])) {
 			show_404();
 		}
-		
+
 		/*
 		if( $data['cat_item']['parent'] != NULL ) {
 			do{
@@ -49,17 +49,17 @@ class Categories extends CI_Controller {
 		}
 		$this->load->view('templates/footer');
 	}
-	
+
 	public function list_cat($id = "") {
 		$data = $this->build_cat_list_array();
-		
+
 		if (empty($data['cat'])) {
 			show_404();
 		}
 
 		return $this->load->view('categories/list', $data, true);
 	}
-	
+
 	public function build_cat_list_array($id = false) {
 		$temp['cat'] = array();
 		if($id === false) {
@@ -70,7 +70,7 @@ class Categories extends CI_Controller {
 			$temp['cat'] = $this->categories_model->get_categories_by_parent($id);
 			// echo "get_categories_by_parent($id).<br />";
 		}
-		
+
 		if( empty($temp['cat']) )
 			return null;
 
@@ -83,7 +83,7 @@ class Categories extends CI_Controller {
 		}
 		return $data;
 	}
-	
+
 	public function get_template_by_category($cat_id = 1) {
 		return array_rand( array(self::GRID, self::EMP_GRID) );
 	}

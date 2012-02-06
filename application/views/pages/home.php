@@ -1,35 +1,6 @@
 <?php $this->load->helper('html'); ?>
-<?php $this->load->helper(array('html', 'language', 'url')); ?>
 
 <div id="content" class='container'>
-	<div id='lang-switcher'>
-		<?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?>
-		<?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?>
-		<div class='clear'></div>
-	</div>
-	<div class='menu_l1'>
-		<ul>
-			<li>Facebook</li>
-			<li>My Account</li>
-			<li>Login</li>
-			<li>Shopping Cart</li>
-			<li>Contact Us</li>
-		</ul>
-	</div>
-	<div class='menu_l2'>
-		<ul>
-			<li>Logo</li>
-			<li>The Company</li>
-			<li>News</li>
-			<li>Women</li>
-			<li>Men</li>
-			<li>Accessories</li>
-			<li>Sales</li>
-			<li>Location</li>
-			<li>Site Map</li>
-		</ul>
-	</div>
-
 	<!--<div id="slider-container" class="container">
 			<?php echo img( array(
 					'src' => 'single.jpg',
