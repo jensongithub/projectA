@@ -49,7 +49,7 @@
 		<script type="text/javascript">
 			$(window).load(function() {
 				$('#slider').nivoSlider({
-					effect: 'slideInLeft',
+					effect: 'fade',
 					directionNavHide: false,
 					controlNav: false,
 					pauseTime: 5000,
