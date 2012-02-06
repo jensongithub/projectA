@@ -4,36 +4,35 @@
 		<div class='block'>
 			<ul>
 				<li class='footer_head'>Customer Services</li>
-				<li>>How to Order</li>
-				<li>>Products</li>
-				<li>>Delivery</li>
-				<li>>Goods Returns and Change</li>
-				<li>>Contact Us</li>
+				<li><a href='/company/howtoorder'>>How to Order</a></li>
+				<li><a href='/company/delivery'>>Delivery</a></li>
+				<li><a href='/company/returns'>>Goods Returns and Change</a></li>
+				<li><a href='/company/contact'>>Contact Us</a></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Online Shop</li>
-				<li>>Women</li>
-				<li>>Men</li>
-				<li>>Accessories</li>
-				<li>>Sales</li>
+				<li class='footer_head'>Online Shop</a></li>
+				<li><a href='/women'>>Women</a></li>
+				<li><a href='/men'>>Men</a></li>
+				<li><a href='/accessories'>>Accessories</a></li>
+				<li><a href='/sales'>>Sales</a></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Payment Methods</li>
-				<li>>VISA/MASTER</li>
-				<li>>Paypal</li>
-				<li>>AliPay</li>
+				<li class='footer_head'>Payment Methods</a></li>
+				<li><a href=''>>VISA/MASTER</a></li>
+				<li><a href='http://www.paypal.com/'>>Paypal</a></li>
+				<li><a href='https://www.alipay.com/'>>AliPay</a></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
 				<li class='footer_head'>Others</li>
-				<li>>Sitemap</li>
-				<li>>Disclaimer and Terms</li>
-				<li>>Privacy and Policies</li>
+				<li><a href='/sitemap'>>Sitemap</a></li>
+				<li><a href='/terms'>>Disclaimer and Terms</a></li>
+				<li><a href='/privacy'>>Privacy and Policies</a></li>
 			</ul>
 		</div>
 	</div>
