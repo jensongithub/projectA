@@ -23,4 +23,9 @@ class Register extends CI_Controller {
 		}
 		$this->load->view('templates/footer');
 	}
+	
+	public function test() {
+		$this->load->view('templates/header', $data);
+		echo $this->lang->lang();
+	}
 }
