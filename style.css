@@ -69,7 +69,7 @@ ol {
 .menu_l2 ul li {
 	display: inline;
 	margin-left: 1em;
-	margin-right: 1em;
+	margin-right: auto;
 }
 
 .footer_list{

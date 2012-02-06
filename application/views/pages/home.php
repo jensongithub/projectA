@@ -1,29 +1,6 @@
 <?php $this->load->helper('html'); ?>
 
 <div id="content" class='container'>
-	<div class='menu_l1'>
-		<ul>
-			<li>Facebook</li>
-			<li>My Account</li>
-			<li>Login</li>
-			<li>Shopping Cart</li>
-			<li>Contact Us</li>
-		</ul>
-	</div>
-	<div class='menu_l2'>
-		<ul>
-			<li>Logo</li>
-			<li>The Company</li>
-			<li>News</li>
-			<li>Women</li>
-			<li>Men</li>
-			<li>Accessories</li>
-			<li>Sales</li>
-			<li>Location</li>
-			<li>Site Map</li>
-		</ul>
-	</div>
-
 	<!--<div id="slider-container" class="container">
 			<?php echo img( array(
 					'src' => 'single.jpg',
