@@ -25,6 +25,7 @@ class Register extends CI_Controller {
 	}
 	
 	public function test() {
+		$data['title'] = 'Register';
 		$this->load->view('templates/header', $data);
 		echo $this->lang->lang();
 	}
