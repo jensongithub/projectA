@@ -1,4 +1,4 @@
-<?php $this->load->helper('my_path'); ?>
+<?php $this->load->helper('html'); ?>
 <div class='menu_l1'>
 	<ul>
 		<li>Facebook</li>
@@ -21,8 +21,6 @@
 		<li>Site Map</li>
 	</ul>
 </div>
-
-<?php $this->load->helper('html'); ?>
 
 <div id="content" class='container'>
 	<!--<div id="slider-container" class="container">
