@@ -41,7 +41,7 @@ if ( ! function_exists('load_lang')) {
 	function load_lang($langfile = '') {
 		global $URI;
 		$segment = $URI->segment(1);
-		
+
 		$ci = get_instance(); // CI_Loader instance
 		$languages = $ci->config->item('lang');
 
