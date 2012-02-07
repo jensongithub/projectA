@@ -3,7 +3,7 @@ class Register extends CI_Controller {
 	
 	public function __construct()	{
 		parent::__construct();
-		$this->load->model('register_model');
+		$this->load->model('user_model');
 	}
 
 	public function index()	{
@@ -18,7 +18,7 @@ class Register extends CI_Controller {
 			$this->load->view('account/register_form', $data);
 		}
 		else {
-			//$this->register_model->insert_user();
+			$this->user_model->insert_user();
 			$this->load->view('account/register_finish', $data);
 		}
 		$this->load->view('templates/footer');

@@ -81,11 +81,11 @@
 					</tr>
 					<tr>
 						<td><label for='pwd' class='form-label'><?php echo lang('pwd'); ?></label></td>
-						<td><input id='pwd' name='pwd' type='password' class='required' value='<?php echo set_value('pwd'); ?>' /></td>
+						<td><input id='pwd' name='pwd' type='password' class='required' /></td>
 					</tr>
 					<tr>
 						<td><label for='conpwd' class='form-label'><?php echo lang('conpwd'); ?></label></td>
-						<td><input id='conpwd' name='conpwd' type='password' class='required' value='<?php echo set_value('conpwd'); ?>' /></td>
+						<td><input id='conpwd' name='conpwd' type='password' class='required' /></td>
 					</tr>
 					<tr>
 						<td><label for='phone' class='form-label'><?php echo lang('phone'); ?></label></td>
