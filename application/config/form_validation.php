@@ -5,7 +5,7 @@ $config = array(
 		array(
 			'field' => 'email',
 			'label' => 'lang:email',
-			'rules' => 'required|valid_email'
+			'rules' => 'required|valid_email|is_unique[users.email]'
 		),
 		array(
 			'field' => 'firstname',

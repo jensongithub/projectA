@@ -17,13 +17,13 @@
 							<div class="custom-area"> 
 								<link media="all" type="text/css" rel="stylesheet" href="http://im.uniqlo.cn/siterenew/L3/material/css/common.css">
 								<link media="all" type="text/css" rel="stylesheet" href="http://im.uniqlo.cn/siterenew/JP/css/top.css">
-								<link media="all" type="text/css" rel="stylesheet" href="http://im.uniqlo.cn/css/store_c.css">
-								<script src="http://im.uniqlo.cn/siterenew/L3/material/js/lib.js"></script><script src="http://im.uniqlo.cn/siterenew/L3/material/js/uniqlo.js"></script>
+								<script src="http://im.uniqlo.cn/siterenew/L3/material/js/lib.js"></script>
+								<script src="http://im.uniqlo.cn/siterenew/L3/material/js/uniqlo.js"></script>
 								<style type="text/css">
-#content {
-*zoom:1;
-}
-</style>
+									#content {
+										*zoom:1;
+									}
+								</style>
 								<!-- start header // -->
 								<div style="margin: 15px 0pt; height: 50px; overflow: hidden;" class="headerTop headerW01 id_header">
 									<div class="navArea navAreaH01 clearfix">
