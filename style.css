@@ -62,14 +62,47 @@ ol {
 	list-style: none;
 }
 
-.menu_l1, .menu_l2 {
+.logo{
+	position:relative;
+	float:left;
+}
+
+.menu_l1 {
+	background:#663300;
+}
+
+.menu_l1,
+.menu_l2 {
 	text-align:right;
 }
+
+.menu_l2 {
+	margin-bottom:3em;
+}
+
 .menu_l1 ul li,
 .menu_l2 ul li {
 	display: inline;
 	margin-left: 1em;
 	margin-right: auto;
+}
+
+.menu_l2 ul {
+	line-height:3em;
+}
+
+.menu_l1 a,
+.menu_l1 li,
+.menu_l2 a,
+.menu_l2 li{
+	font-family: Arial;
+	font-weight: bold;
+	font-size:16;
+	color:#fff;
+}
+.menu_l2 a,
+.menu_l2 li{
+	color:#663300;
 }
 
 .footer_list{

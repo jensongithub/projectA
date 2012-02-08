@@ -1,7 +1,7 @@
 <html>
 <head>
 	<?php $this->load->helper(array('html')); ?>
-	<title><?php echo $title ?> - CodeIgniter 2 Tutorial</title>
+	<title><?php echo $title ?> - Casimira</title>
 	<?php echo css('style.css'); ?>
 </head>
 <body>
@@ -16,22 +16,21 @@
 	<div class='menu_l1'>
 		<ul>
 			<li><a href='http://facebook.com/casimira'>Facebook</a></li>
-			<li><a href='/accounts'>My Account</a></li>
 			<li><a href='/login'>Login</a></li>
 			<li><a href='/cart'>Shopping Cart</a></li>
-			<li><a href='/company/contact'>Contact Us</a></li>
+			<li><a href='/contact'>Contact Us</a></li>
 		</ul>
 	</div>
 	<div class='menu_l2'>
+		<img class='logo' src='/images/logo.png' />
 		<ul>
-			<li>Logo</li>
 			<li><a href='/company'>The Company</a></li>
 			<li><a href='/news'>News</a></li>
 			<li><a href='/women'>Women</a></li>
 			<li><a href='/men'>Men</a></li>
 			<li><a href='/accessories'>Accessories</a></li>
 			<li><a href='/sales'>Sales</a></li>
-			<li><a href='/company/location'>Location</a></li>
+			<li><a href='/location'>Location</a></li>
 			<li><a href='/sitemap'>Site Map</a></li>
 		</ul>
 	</div>

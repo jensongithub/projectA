@@ -1,5 +1,5 @@
 <div id="footer">
-	<strong>&copy; 2011</strong>
+	<strong>Casimira &copy; 2012</strong>
 	<div class='footer_list'>
 		<div class='block'>
 			<ul>
