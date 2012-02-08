@@ -16,22 +16,22 @@
 	<div class='menu_l1'>
 		<ul>
 			<li><a href='http://facebook.com/casimira'>Facebook</a></li>
-			<li><a href='/login'>Login</a></li>
-			<li><a href='/cart'>Shopping Cart</a></li>
-			<li><a href='/contact'>Contact Us</a></li>
+			<li><a href='login'>Login</a></li>
+			<li><a href='cart'>Shopping Cart</a></li>
+			<li><a href='contact'>Contact Us</a></li>
 		</ul>
 	</div>
 	<div class='menu_l2'>
 		<img class='logo' src='/images/logo.png' />
 		<ul>
-			<li><a href='/company'>The Company</a></li>
-			<li><a href='/news'>News</a></li>
-			<li><a href='/women'>Women</a></li>
-			<li><a href='/men'>Men</a></li>
-			<li><a href='/accessories'>Accessories</a></li>
-			<li><a href='/sales'>Sales</a></li>
-			<li><a href='/location'>Location</a></li>
-			<li><a href='/sitemap'>Site Map</a></li>
+			<li><a href='company'>The Company</a></li>
+			<li><a href='news'>News</a></li>
+			<li><a href='women'>Women</a></li>
+			<li><a href='men'>Men</a></li>
+			<li><a href='accessories'>Accessories</a></li>
+			<li><a href='sales'>Sales</a></li>
+			<li><a href='location'>Location</a></li>
+			<li><a href='sitemap'>Site Map</a></li>
 		</ul>
 	</div>
 </div>
