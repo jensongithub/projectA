@@ -45,8 +45,9 @@
 $route['^zh/(.+)$'] = "$1";
 $route['^en/(.+)$'] = "$1";
 
+//$route['^en/pages/(.+)$'] = "pages/view/$1";
 
-$route['pages/(:any)'] = 'pages/view/$1';
+//$route['pages/(:any)'] = 'pages/view/$1';
 $route['categories/(:any)'] = 'categories/view/$1';
 $route['categories'] = 'categories';
 $route['news/(:any)'] = 'news/view/$1';
