@@ -24,7 +24,7 @@
 	<div class='menu_l2'>
 		<?php echo anchor( 'pages/view', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li><?php echo anchor('pages/company', 'The Campany'); ?></li>
+			<li><?php echo anchor('pages/company', 'The Company'); ?></li>
 			<li><a href='news'>News</a></li>
 			<li><?php echo anchor('pages/women', 'Women'); ?></li>
 			<li><?php echo anchor('pages/men', 'Men'); ?></li>

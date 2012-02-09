@@ -10,11 +10,16 @@ class Pages extends CI_Controller {
 
 		$data['title'] = ucfirst($page); // Capitalize the first letter
 
+		if ($page==='women') $this->women();
+		else{
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/'.$page, $data);
 		$this->load->view('templates/footer', $data);
+
+		}
 	}
-	
+
 	public function women($cat = 'sweaters') {
 		if ( ! file_exists('application/views/pages/women.php')){
 			// Whoops, we don't have a page for that!
@@ -23,7 +28,7 @@ class Pages extends CI_Controller {
 
 		$data['title'] = ucfirst('women'); // Capitalize the first letter
 		$data['cat'] = ucfirst($cat);
-		
+
 		switch($cat){
 			case 'cardigans':
 				$data['products'][] = 'DSL420-2a.jpg';
@@ -60,8 +65,7 @@ class Pages extends CI_Controller {
 				$data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
-		
-		$this->load->helper('html');
+
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/women', $data);
 		$this->load->view('templates/footer', $data);
