@@ -153,7 +153,5 @@ if ( ! function_exists('img'))
 	}
 }
 
-$this->load->helper('html');
-
 /* End of file my_path_helper.php */
 /* Location: ./application/helpers/my_path_helper.php */

@@ -22,12 +22,12 @@
 		</ul>
 	</div>
 	<div class='menu_l2'>
-		<img class='logo' src='/images/logo.png' />
+		<?php echo anchor( 'pages/view', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li><a href='company'>The Company</a></li>
+			<li><?php echo anchor('pages/company', 'The Campany'); ?></li>
 			<li><a href='news'>News</a></li>
-			<li><a href='women'>Women</a></li>
-			<li><a href='men'>Men</a></li>
+			<li><?php echo anchor('pages/women', 'Women'); ?></li>
+			<li><?php echo anchor('pages/men', 'Men'); ?></li>
 			<li><a href='accessories'>Accessories</a></li>
 			<li><a href='sales'>Sales</a></li>
 			<li><a href='location'>Location</a></li>
