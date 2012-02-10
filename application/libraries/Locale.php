@@ -11,11 +11,11 @@ class CI_Locale {
 
 	function __construct() {
 		$CI =& get_instance();
-		$locale = 'fr_FR';
+		$locale = $CI->lang->lang();
+		$locale .= '_' . strtoupper($locale);
 		
 		putenv("LANG=$locale");
 		setlocale(LC_ALL, $locale);
-		//setlocale(LC_NUMERIC, $CI->lang->lang());
 		bindtextdomain($this->domain, APPPATH.'language/locales/');
 		textdomain($this->domain);
 		bind_textdomain_codeset($this->domain, 'UTF-8');

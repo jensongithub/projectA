@@ -22,9 +22,10 @@ class my_Lang extends CI_Lang {
    
     // languages
     private $languages = array(
-        'en' => 'english',
-        'zh' => 'tchinese',
-		  'es' => 'spainish'
+		'en' => 'english',
+		'zh' => 'tchinese',
+		'es' => 'spainish',
+		'fr' => 'france'
     );
    
     // special URIs (not localized)
