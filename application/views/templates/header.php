@@ -1,7 +1,7 @@
 <html>
 <head>
 	<?php $this->load->helper(array('html')); ?>
-	<title><?php echo $title ?> - Casimira</title>
+	<title>Casimira - <?php echo $title ?></title>
 	<?php echo css('style.css'); ?>
 </head>
 <body>
@@ -9,8 +9,8 @@
 
 <div id='header'>
 	<div id='lang-switcher'>
-		<?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?>
-		<?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?>
+		<!--?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?-->
+		<!--?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?-->
 		<div class='clear'></div>
 	</div>
 	<div class='menu_l1'>
@@ -22,12 +22,12 @@
 		</ul>
 	</div>
 	<div class='menu_l2'>
-		<?php echo anchor( 'pages/view', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
+		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li><?php echo anchor('pages/company', 'The Company'); ?></li>
+			<li><?php echo anchor('company', 'The Company'); ?></li>
 			<li><a href='news'>News</a></li>
-			<li><?php echo anchor('pages/women', 'Women'); ?></li>
-			<li><?php echo anchor('pages/men', 'Men'); ?></li>
+			<li><?php echo anchor('women', 'Women'); ?></li>
+			<li><?php echo anchor('men', 'Men'); ?></li>
 			<li><a href='accessories'>Accessories</a></li>
 			<li><a href='sales'>Sales</a></li>
 			<li><a href='location'>Location</a></li>

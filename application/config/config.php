@@ -39,7 +39,8 @@ $config['css_dir'] = '';
 */
 $config['lang'] = array(
 	'en' => 'english',
-	'zh' => 'tchinese'
+	'zh' => 'tchinese',
+	'cn' => 'schinese'
 );
 
 /*

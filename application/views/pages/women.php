@@ -2,7 +2,7 @@
 	<div class="content">
 		<div id="cat-menu">
 			<div class=''>
-				<h4>Women</h4>
+				<h4><?php echo lang('women'); ?></h4>
 				<p><a href=''>SALES</a></p>
 				<p><a href=''>TOPS</a></p>
 				<p><a href=''>Tees & Knit</a></p>
@@ -24,7 +24,7 @@
 				<p><a href=''>Inner Wear</a></p>
 			</div>
 		</div>
-		
+
 		<div id='cat-main' class="container">
 			<div class="category-head">
 				<h3><?php echo $cat; ?></h3>
