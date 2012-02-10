@@ -42,6 +42,7 @@ $route['default_controller'] = 'index';
 //$route['404_override'] = '';
 
 // URI like '/en/about' -> use controller 'about'
+<<<<<<< HEAD
 
 
 $route['^(en|zh|cn)/(.+)$'] = "$2";
@@ -54,6 +55,10 @@ $route['^en$|^zh$|^cn$'] = $route['default_controller'];
 //$route['^en/(.+)$'] = "index/index/$1";
 //$route['^en'] = "index/$1";
 
+=======
+$route['^(zh|en|es)/(.+)$'] = "$2";
+
+>>>>>>> remotes/origin/gettext
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
 
 //$route['pages/(:any)'] = 'pages/view/$1';
@@ -67,8 +72,12 @@ $route['news'] = 'news';
 
 
 // '/en' and '/zh' URIs -> use default controller
+<<<<<<< HEAD
 //$route['^zh$'] = $route['default_controller'];
 //$route['^en$'] = $route['default_controller'];
+=======
+$route['^(zh|en|es)$'] = $route['default_controller'];
+>>>>>>> remotes/origin/gettext
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

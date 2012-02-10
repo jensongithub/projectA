@@ -10,7 +10,7 @@ class Register extends CI_Controller {
 		$data['title'] = 'Register';
 		
 		$this->load->helper( array('form') );
-		$this->lang->load('register');
+		//$this->lang->load('register');
 		$this->load->library('form_validation', 'session');
 		
 		$this->load->view('templates/header', $data);
