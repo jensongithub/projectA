@@ -42,8 +42,7 @@
 //$route['404_override'] = '';
 
 // URI like '/en/about' -> use controller 'about'
-$route['^zh/(.+)$'] = "$1";
-$route['^en/(.+)$'] = "$1";
+$route['^(zh|en|es)/(.+)$'] = "$2";
 
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
 
@@ -57,8 +56,7 @@ $route['default_controller'] = 'pages/view';
 
 
 // '/en' and '/zh' URIs -> use default controller
-$route['^zh$'] = $route['default_controller'];
-$route['^en$'] = $route['default_controller'];
+$route['^(zh|en|es)$'] = $route['default_controller'];
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

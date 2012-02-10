@@ -23,7 +23,8 @@ class my_Lang extends CI_Lang {
     // languages
     private $languages = array(
         'en' => 'english',
-        'zh' => 'tchinese'
+        'zh' => 'tchinese',
+		  'es' => 'spainish'
     );
    
     // special URIs (not localized)

@@ -65,7 +65,8 @@
 						padding-left: 16px;
 					}
 				</style>
-				
+				<?php echo _('Username'); ?>
+				<?php echo gettext('Username'); ?>
 				<table>
 					<tr>
 						<td><label for='email' class='form-label'><?php echo lang('email'); ?></label></td>
