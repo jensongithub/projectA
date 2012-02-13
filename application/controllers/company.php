@@ -8,6 +8,18 @@ class Company extends CI_Controller {
 	}
 
 	public function index(){
+		$this->load->view("pages/company");
+	}
 
+	public function location(){
+		$this->load->view("pages/company");
+	}
+
+	public function howtoorder(){
+		$this->load->view("pages/howtoorder");
+	}
+
+	public function contact(){
+		$this->load->view('pages/contact');
 	}
 }
