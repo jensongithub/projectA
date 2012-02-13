@@ -67,10 +67,23 @@ ol {
 	float:left;
 }
 
-.menu_l1 {
-	background:#663300;
+.fb_logo{
+	margin-top:0.5em;
+	width:30px;
+	height:30px;
 }
 
+.cart{
+	margin-top:0.5em;
+	width:30px;
+	height:30px;
+}
+
+.menu_l1 {
+	background:#501100;
+}
+
+.menu_lang,
 .menu_l1,
 .menu_l2 {
 	text-align:right;
@@ -80,6 +93,7 @@ ol {
 	margin-bottom:3em;
 }
 
+.menu_lang ul li,
 .menu_l1 ul li,
 .menu_l2 ul li {
 	display: inline;
@@ -102,7 +116,7 @@ ol {
 }
 .menu_l2 a,
 .menu_l2 li{
-	color:#663300;
+	color:#501100;
 }
 
 .footer_list{

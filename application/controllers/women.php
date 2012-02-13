@@ -3,13 +3,13 @@
 class Women extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-
-
+		$this->load->helper('html');
 	}
 
 	public function index($cat = 'sweaters'){
 		// load language file
-		$this->lang->load('women');
+		// $this->lang->load('women');
+		//$this->lang->lang();
 
 
 		$data['title'] = ucfirst('women');

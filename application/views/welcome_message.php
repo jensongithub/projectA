@@ -47,7 +47,7 @@
 	#body{
 		margin: 0 15px 0 15px;
 	}
-	
+
 	p.footer{
 		text-align: right;
 		font-size: 11px;
@@ -56,7 +56,7 @@
 		padding: 0 10px 0 10px;
 		margin: 20px 0 0 0;
 	}
-	
+
 	#container{
 		margin: 10px;
 		border: 1px solid #D0D0D0;
@@ -71,7 +71,7 @@
 
 	<div id="body">
 		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
-
+		<?php _("username");?>
 		<p>If you would like to edit this page you'll find it located at:</p>
 		<code>application/views/welcome_message.php</code>
 

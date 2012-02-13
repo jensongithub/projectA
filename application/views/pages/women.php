@@ -2,7 +2,7 @@
 	<div class="content">
 		<div id="cat-menu">
 			<div class=''>
-				<h4><?php echo lang('women'); ?></h4>
+				<h4><?php _('women'); ?></h4>
 				<p><a href=''>SALES</a></p>
 				<p><a href=''>TOPS</a></p>
 				<p><a href=''>Tees & Knit</a></p>

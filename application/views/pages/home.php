@@ -1,5 +1,3 @@
-<?php $this->load->helper('html'); ?>
-
 <div id="content" class='container'>
 	<!--<div id="slider-container" class="container">
 			<?php echo img( array(
