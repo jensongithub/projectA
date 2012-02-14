@@ -13,8 +13,8 @@
 	</div>
 	<div class='menu_l1'>
 		<ul>
-			<li><a href='/en'>Eng</a></li>
-			<li><a href='/zh'>繁</a></li>
+			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?>		</li>
+			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><a href='/cn'>簡</a></li>
 			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
@@ -26,9 +26,9 @@
 		<ul>
 			<li><?php echo anchor('company', _('The Company')); ?></li>
 			<li><?php echo anchor('news', _('News')); ?></li>
-			<li><?php echo anchor('women', _('Women')); ?></li>
-			<li><?php echo anchor('men', _('Men')); ?></li>
-			<li><?php echo anchor('accessories', _('Accessories')); ?></li>
+			<li><?php echo anchor('dept/women', _('Women')); ?></li>
+			<li><?php echo anchor('dept/men', _('Men')); ?></li>
+			<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
 			<li><?php echo anchor('location', _('Location')); ?></li>
 			<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>

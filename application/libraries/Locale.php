@@ -7,7 +7,7 @@ $autoload['libraries'] = array('your_other libraires','locale');
 */
 
 class CI_Locale {
-	var $domain = 'yourdomain.com'; // name of the po files (I use the domain name , but It can be anything)
+	var $domain = 'lna'; // name of the po files (I use the domain name , but It can be anything)
 
 	function __construct() {
 		$CI =& get_instance();

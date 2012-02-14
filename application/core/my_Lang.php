@@ -147,12 +147,12 @@ class my_Lang extends CI_Lang {
 
 
     // default language: first element of $this->languages
-     function default_lang()
- {
-  $browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
-  $browser_lang = substr($browser_lang, 0,2);
-  return (array_key_exists($browser_lang, $this->languages)) ? $browser_lang: 'en';
- }
+    function default_lang()
+	{
+	$browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
+	$browser_lang = substr($browser_lang, 0,2);
+	return (array_key_exists($browser_lang, $this->languages)) ? $browser_lang: 'en';
+	}
 
 
     // add language segment to $uri (if appropriate)

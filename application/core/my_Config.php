@@ -16,7 +16,7 @@ load the MX_Loader class */
 class my_Config extends CI_Config {
 
     function site_url($uri = '')
-    {    /*
+    {    
         if (is_array($uri))
         {
             $uri = implode('/', $uri);
@@ -26,7 +26,7 @@ class my_Config extends CI_Config {
         {
             $CI =& get_instance();
             $uri = $CI->lang->localized($uri);            
-        }*/
+        }
 
         return parent::site_url($uri);
     }
