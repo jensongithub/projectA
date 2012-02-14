@@ -1,12 +1,5 @@
 <div id="content" class='container'>
-	<!--<div id="slider-container" class="container">
-			<?php echo img( array(
-					'src' => 'single.jpg',
-					'alt' => 'The slider goes here',
-					'title' => 'The slider goes here',
-					'width' => '100%',
-					'height' => '100%') ); ?>
-	</div>-->
+	<div class='yellow-box'><?php echo 'If you can see the next line in langauges other than English, gettext works!<br/>Username => ' . _('Username'); ?></div>
 	<div id='slider-container'>
 		<?php echo css('js/nivo-slider/themes/default/default.css', 'screen', FALSE); ?>
 		<?php echo css('js/nivo-slider/nivo-slider.css', 'screen', FALSE); ?>

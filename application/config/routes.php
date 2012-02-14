@@ -56,6 +56,7 @@ $route['^en$|^zh$|^cn$'] = $route['default_controller'];
 
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
 
+
 //$route['pages/(:any)'] = 'pages/view/$1';
 $route['categories/(:any)'] = 'categories/view/$1';
 $route['categories'] = 'categories';
@@ -67,8 +68,10 @@ $route['news'] = 'news';
 
 
 // '/en' and '/zh' URIs -> use default controller
+
 //$route['^zh$'] = $route['default_controller'];
 //$route['^en$'] = $route['default_controller'];
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
