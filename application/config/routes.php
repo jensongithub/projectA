@@ -38,13 +38,29 @@
 |
 */
 
-//$route['default_controller'] = "welcome";
+$route['default_controller'] = 'index';
 //$route['404_override'] = '';
 
 // URI like '/en/about' -> use controller 'about'
+<<<<<<< HEAD
 $route['^(zh|en|es|fr)/(.+)$'] = "$2";
 
 $route['^(zh|en|es|fr)/pages/(.+)$'] = "pages/view/$2";
+=======
+
+
+$route['^(en|zh|cn)/(.+)$'] = "$2";
+
+// '/en' and '/fr' URIs -> use default controller
+
+$route['^en$|^zh$|^cn$'] = $route['default_controller'];
+
+//$route['^zh/(.+)$'] = "$1";
+//$route['^en/(.+)$'] = "index/index/$1";
+//$route['^en'] = "index/$1";
+
+//$route['^en/pages/(.+)$'] = "pages/view/$1";
+>>>>>>> fc5e728e846efcc990ae72312844870a491bb93d
 
 //$route['pages/(:any)'] = 'pages/view/$1';
 $route['categories/(:any)'] = 'categories/view/$1';
@@ -52,11 +68,17 @@ $route['categories'] = 'categories';
 $route['news/(:any)'] = 'news/view/$1';
 $route['news'] = 'news';
 //$route['(:any)'] = 'pages/view/$1';
-$route['default_controller'] = 'pages/view';
+//$route['default_controller'] = 'pages/view';
+
 
 
 // '/en' and '/zh' URIs -> use default controller
+<<<<<<< HEAD
 $route['^(zh|en|es|fr)$'] = $route['default_controller'];
+=======
+//$route['^zh$'] = $route['default_controller'];
+//$route['^en$'] = $route['default_controller'];
+>>>>>>> fc5e728e846efcc990ae72312844870a491bb93d
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

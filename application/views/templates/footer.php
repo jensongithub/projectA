@@ -1,38 +1,38 @@
 <div id="footer">
-	<strong>Casimira &copy; 2012</strong>
+	<strong><?php echo _("Casimira &copy; 2012");?></strong>
 	<div class='footer_list'>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Customer Services</li>
-				<li><a href='/company/howtoorder'>>How to Order</a></li>
-				<li><a href='/company/delivery'>>Delivery</a></li>
-				<li><a href='/company/returns'>>Goods Returns and Change</a></li>
-				<li><a href='/company/contact'>>Contact Us</a></li>
+				<li class='footer_head'><?php echo _("Customer Services");?></li>
+				<li><?php echo anchor('company/howtoorder', _('How to Order')); ?></li>
+				<li><?php echo anchor('delivery', _('Delivery')); ?></li>
+				<li><?php echo anchor('returns', _('Goods Return and Change')); ?></li>
+				<li><?php echo anchor('company/contact', _('Contact Us')); ?></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Online Shop</a></li>
-				<li><a href='/women'>>Women</a></li>
-				<li><a href='/men'>>Men</a></li>
-				<li><a href='/accessories'>>Accessories</a></li>
-				<li><a href='/sales'>>Sales</a></li>
+				<li class='footer_head'><?php echo _("Online Shop");?></a></li>
+				<li><?php echo anchor('dept/women', _('Women')); ?></li>
+				<li><?php echo anchor('dept/men', _('Men')); ?></li>
+				<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
+				<li><?php echo anchor('sales', _('Sales')); ?></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Payment Methods</a></li>
-				<li><a href=''>>VISA/MASTER</a></li>
+				<li class='footer_head'><?php echo _("Payment Methods");?></a></li>
+				<li>>VISA/MASTER</li>
 				<li><a href='http://www.paypal.com/'>>Paypal</a></li>
 				<li><a href='https://www.alipay.com/'>>AliPay</a></li>
 			</ul>
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'>Others</li>
-				<li><a href='/sitemap'>>Sitemap</a></li>
-				<li><a href='/terms'>>Disclaimer and Terms</a></li>
-				<li><a href='/privacy'>>Privacy and Policies</a></li>
+				<li class='footer_head'><?php echo _("Others");?></li>
+				<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
+				<li><?php echo anchor('terms', _('Disclaimer and Terms')); ?></li>
+				<li><?php echo anchor('privacy', _('Privacy and Policies')); ?></li>
 			</ul>
 		</div>
 	</div>

@@ -1,5 +1,3 @@
-<?php $this->load->helper('html'); ?>
-
 <div id="content" class='container'>
 	<div class='yellow-box'><?php echo 'If you can see the next line in langauges other than English, gettext works!<br/>Username => ' . _('Username'); ?></div>
 	<div id='slider-container'>

@@ -1,37 +1,38 @@
 <html>
 <head>
-	<?php $this->load->helper(array('html')); ?>
-	<title><?php echo $title ?> - Casimira</title>
+	<title><?php echo sprintf("Casimira - %s", _($title)); ?></title>
 	<?php echo css('style.css'); ?>
 </head>
 <body>
-<?php $this->load->helper(array('html', 'language', 'url')); ?>
 
 <div id='header'>
-	<div id='lang-switcher'>
-		<?php echo anchor($this->lang->switch_uri('en'), '<div class="lang-switch">Eng</div>'); ?>
-		<?php echo anchor($this->lang->switch_uri('zh'), '<div class="lang-switch">繁</div>'); ?>
-		<div class='clear'></div>
+	<div class='menu_lang'>
+		<ul>
+
+		</ul>
 	</div>
 	<div class='menu_l1'>
 		<ul>
-			<li><a href='http://facebook.com/casimira'>Facebook</a></li>
-			<li><a href='login'>Login</a></li>
-			<li><a href='cart'>Shopping Cart</a></li>
-			<li><a href='contact'>Contact Us</a></li>
+			<li><a href='/en'>Eng</a></li>
+			<li><a href='/zh'>繁</a></li>
+			<li><a href='/cn'>簡</a></li>
+			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
+			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
+			<li><a href='login'><?php echo _('Login'); ?></a></li>
 		</ul>
 	</div>
 	<div class='menu_l2'>
-		<?php echo anchor( 'pages/view', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
+		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li><?php echo anchor('pages/company', 'The Company'); ?></li>
-			<li><a href='news'>News</a></li>
-			<li><?php echo anchor('pages/women', 'Women'); ?></li>
-			<li><?php echo anchor('pages/men', 'Men'); ?></li>
-			<li><a href='accessories'>Accessories</a></li>
-			<li><a href='sales'>Sales</a></li>
-			<li><a href='location'>Location</a></li>
-			<li><a href='sitemap'>Site Map</a></li>
+			<li><?php echo anchor('company', _('The Company')); ?></li>
+			<li><?php echo anchor('news', _('News')); ?></li>
+			<li><?php echo anchor('women', _('Women')); ?></li>
+			<li><?php echo anchor('men', _('Men')); ?></li>
+			<li><?php echo anchor('accessories', _('Accessories')); ?></li>
+			<li><?php echo anchor('sales', _('Sales')); ?></li>
+			<li><?php echo anchor('location', _('Location')); ?></li>
+			<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
+			<li><?php echo anchor('contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>

@@ -11,13 +11,13 @@ class News extends CI_Controller {
 		$data['title'] = 'News archive';
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('news/index', $data);
+		$this->load->view('news', $data);
 		$this->load->view('templates/footer');
 	}
 
 	public function view($slug) {
 		$data['news_item'] = $this->news_model->get_news($slug);
-		
+
 		if (empty($data['news_item'])) {
 			show_404();
 		}

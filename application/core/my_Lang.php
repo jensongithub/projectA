@@ -12,49 +12,55 @@ load the MX_Loader class */
 //require APPPATH."third_party/MX/Lang.php";
 
 //class MY_Lang extends MX_Lang {
- 
+
 class my_Lang extends CI_Lang {
 
 
     /**************************************************
      configuration
     ***************************************************/
-   
+
     // languages
     private $languages = array(
+<<<<<<< HEAD
 		'en' => 'english',
 		'zh' => 'tchinese',
 		'es' => 'spainish',
 		'fr' => 'france'
+=======
+        'en' => 'english',
+        'zh' => 'tchinese',
+		'cn' => 'schinese'
+>>>>>>> fc5e728e846efcc990ae72312844870a491bb93d
     );
-   
+
     // special URIs (not localized)
     private $special = array (
         "admin"
     );
-    
+
     // where to redirect if no language in URI
     private $uri;
     private $default_uri;
     private $lang_code;
-   
+
     /**************************************************/
-    
-    
+
+
     function my_Lang()
     {
         parent::__construct();
-        
+
         global $CFG;
         global $URI;
         global $RTR;
-        
+
         $this->uri = $URI->uri_string();
         $this->default_uri = $RTR->default_controller;
-        
+
         $uri_segment = $this->get_uri_lang($this->uri);
         $this->lang_code = $uri_segment['lang'] ;
-        
+
         $url_ok = false;
         if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))
         {
@@ -62,40 +68,40 @@ class my_Lang extends CI_Lang {
             $CFG->set_item('language', $language);
             $url_ok = true;
         }
-        
+
      if ((!$url_ok) && (!$this->is_special($uri_segment['parts'][0]))) // special URI -> no redirect
      {
       // set default language
       $CFG->set_item('language', $this->languages[$this->default_lang()]);
-      
+
       $uri = (!empty($this->uri)) ? $this->uri: $this->default_uri;
           $uri = ($uri[0] != '/') ? '/'.$uri : $uri;
       $new_url = $CFG->config['base_url'].$this->default_lang().$uri;
-      
+
       header("Location: " . $new_url, TRUE, 302);
       exit;
      }
     }
 
-    
-    
+
+
     // get current language
-    // ex: return 'en' if language in CI config is 'english' 
+    // ex: return 'en' if language in CI config is 'english'
     function lang()
     {
-        global $CFG;        
+        global $CFG;
         $language = $CFG->item('language');
-        
+
         $lang = array_search($language, $this->languages);
         if ($lang)
         {
             return $lang;
         }
-        
+
         return NULL;    // this should not happen
     }
-    
-    
+
+
     function is_special($lang_code)
     {
         if ((!empty($lang_code)) && (in_array($lang_code, $this->special)))
@@ -103,8 +109,8 @@ class my_Lang extends CI_Lang {
         else
             return FALSE;
     }
-   
-   
+
+
     function switch_uri($lang)
      {
          if ((!empty($this->uri)) && (array_key_exists($lang, $this->languages)))
@@ -123,7 +129,7 @@ class my_Lang extends CI_Lang {
 
          return $uri;
      }
-    
+
  //check if the language exists
  //when true returns an array with lang abbreviation + rest
     function get_uri_lang($uri = '')
@@ -131,11 +137,11 @@ class my_Lang extends CI_Lang {
      if (!empty($uri))
      {
       $uri = ($uri[0] == '/') ? substr($uri, 1): $uri;
-      
+
       $uri_expl = explode('/', $uri, 2);
       $uri_segment['lang'] = NULL;
-      $uri_segment['parts'] = $uri_expl;  
-      
+      $uri_segment['parts'] = $uri_expl;
+
       if (array_key_exists($uri_expl[0], $this->languages))
       {
        $uri_segment['lang'] = $uri_expl[0];
@@ -146,7 +152,7 @@ class my_Lang extends CI_Lang {
       return FALSE;
     }
 
-    
+
     // default language: first element of $this->languages
      function default_lang()
  {
@@ -154,8 +160,8 @@ class my_Lang extends CI_Lang {
   $browser_lang = substr($browser_lang, 0,2);
   return (array_key_exists($browser_lang, $this->languages)) ? $browser_lang: 'en';
  }
-    
-    
+
+
     // add language segment to $uri (if appropriate)
     function localized($uri)
     {
@@ -173,9 +179,9 @@ class my_Lang extends CI_Lang {
      }
         return $uri;
     }
-} 
+}
 
 // END MY_Lang Class
 
 /* End of file MY_Lang.php */
-/* Location: ./application/core/MY_Lang.php */  
+/* Location: ./application/core/MY_Lang.php */
