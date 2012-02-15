@@ -22,8 +22,8 @@
 			<ul>
 				<li class='footer_head'><?php echo _("Payment Methods");?></li>
 				<li>>VISA/MASTER</li>
-				<li><a href='http://www.paypal.com/'>>Paypal</a></li>
-				<li><a href='https://www.alipay.com/'>>AliPay</a></li>
+				<li><a href='http://www.paypal.com/'>Paypal</a></li>
+				<li><a href='https://www.alipay.com/'>AliPay</a></li>
 			</ul>
 		</div>
 		<div class='block'>
@@ -37,6 +37,8 @@
 	</div>
 	<div class='footer_script'><strong><?php echo _("Casimira &copy; 2012");?></strong></div>
 </div>
+
+
 
 </body>
 </html>

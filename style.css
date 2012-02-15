@@ -123,6 +123,16 @@ ol {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.footer_list:after{
+	clear:both;
+	content:'.';
+	display:block;
+	visibility:hidden;
+	width:0;
+	height:0;
+}
+
 .footer_list .block{
 	position: relative;
 	float: left;
@@ -138,6 +148,7 @@ ol {
 
 .footer_script{
 	margin-top:3em;
+	text-align: center;
 }
 
 a {
