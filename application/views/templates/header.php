@@ -1,5 +1,6 @@
 <html>
 <head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8">
 	<title><?php echo sprintf("Casimira - %s", _($title)); ?></title>
 	<?php echo css('style.css'); ?>
 </head>

@@ -151,6 +151,7 @@ ol {
 	text-align: center;
 }
 
+
 a {
 	text-decoration: none;
 }
@@ -186,6 +187,11 @@ textarea {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+table[name='location'] th,
+table[name='location'] td{
+	padding-right:3em;
 }
 
 body {

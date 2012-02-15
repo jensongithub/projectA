@@ -8,7 +8,10 @@ class Company extends CI_Controller {
 	}
 
 	public function index(){
+		$data = array('title'=>'Company');
+		$this->load->view('templates/header', $data);
 		$this->load->view("pages/company");
+		$this->load->view("templates/footer");
 	}
 
 }

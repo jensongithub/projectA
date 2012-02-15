@@ -110,7 +110,6 @@ class Dept extends CI_Controller {
 	}
 
 	public function women($cat='sweaters'){
-		echo $this->lang->lang();
 		$data['title'] = ucfirst('women');
 		$data['cat'] = ucfirst($cat);
 
