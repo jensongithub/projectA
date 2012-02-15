@@ -5,8 +5,8 @@
 			<ul>
 				<li class='footer_head'><?php echo _("Customer Services");?></li>
 				<li><?php echo anchor('company/howtoorder', _('How to Order')); ?></li>
-				<li><?php echo anchor('delivery', _('Delivery')); ?></li>
-				<li><?php echo anchor('returns', _('Goods Return and Change')); ?></li>
+				<li><?php echo anchor('company/delivery', _('Delivery')); ?></li>
+				<li><?php echo anchor('company/returns', _('Goods Return and Change')); ?></li>
 				<li><?php echo anchor('company/contact', _('Contact Us')); ?></li>
 			</ul>
 		</div>

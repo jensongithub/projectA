@@ -11,7 +11,7 @@ class Dept extends CI_Controller {
 
 	}
 
-	public function accessories($cat=''){
+	public function accessories($cat='crewnecks'){
 		// load language file
 		// $this->lang->load('women');
 		//$this->lang->lang();
@@ -60,7 +60,7 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $data);
 	}
 
-	public function men($cat=''){
+	public function men($cat='cardigans'){
 	// load language file
 		// $this->lang->load('women');
 		//$this->lang->lang();
@@ -154,7 +154,7 @@ class Dept extends CI_Controller {
 		$this->load->view('pages/women', $data);
 		$this->load->view('templates/footer', $data);
 	}
-	
+
 	public function view($id = '', $pd = '') {
 		$data['title'] = ucfirst('women');
 		echo "$id<br/>$pd";
