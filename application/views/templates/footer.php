@@ -1,5 +1,4 @@
 <div id="footer">
-	<strong><?php echo _("Casimira &copy; 2012");?></strong>
 	<div class='footer_list'>
 		<div class='block'>
 			<ul>
@@ -12,7 +11,7 @@
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'><?php echo _("Online Shop");?></a></li>
+				<li class='footer_head'><?php echo _("Online Shop");?></li>
 				<li><?php echo anchor('dept/women', _('Women')); ?></li>
 				<li><?php echo anchor('dept/men', _('Men')); ?></li>
 				<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
@@ -21,7 +20,7 @@
 		</div>
 		<div class='block'>
 			<ul>
-				<li class='footer_head'><?php echo _("Payment Methods");?></a></li>
+				<li class='footer_head'><?php echo _("Payment Methods");?></li>
 				<li>>VISA/MASTER</li>
 				<li><a href='http://www.paypal.com/'>>Paypal</a></li>
 				<li><a href='https://www.alipay.com/'>>AliPay</a></li>
@@ -36,6 +35,8 @@
 			</ul>
 		</div>
 	</div>
+	<div class='footer_script'><strong><?php echo _("Casimira &copy; 2012");?></strong></div>
 </div>
+
 </body>
 </html>

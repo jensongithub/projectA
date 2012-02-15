@@ -136,6 +136,10 @@ ol {
 	border-bottom: 1px solid #565656;
 }
 
+.footer_script{
+	margin-top:3em;
+}
+
 a {
 	text-decoration: none;
 }
