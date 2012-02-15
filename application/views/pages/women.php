@@ -27,14 +27,14 @@
 
 		<div id='cat-main' class="container">
 			<div class="category-head">
-				<h3><?php echo $cat; ?></h3>
+				<h3><?php echo ucfirst($cat); ?></h3>
 				<span><?php if( isset($path) ) echo $path[0]; ?></span>
 			</div>
 			<?php
 				foreach( $products as $item ) {
 			?>
 			<div class="product-thumbnail">
-				<?php echo anchor("dept/women/view/$item", img("web-11-11-2011/WOMEN/$item")); ?>
+				<?php echo anchor("dept/women/$cat/view/$item", img("web-11-11-2011/WOMEN/$item")); ?>
 				<span>Product name</span><br />
 				<span>$Price</span><br />
 				<span>Color</span>
