@@ -1,5 +1,5 @@
 <?php $this->load->helper('html'); ?>
-
+<a href="#" id='location'><?php echo _('Location'); ?></a>
 <div id="content" class='container'>
 <table>
 	<tbody>

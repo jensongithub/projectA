@@ -30,9 +30,9 @@
 			<li><?php echo anchor('dept/men', _('Men')); ?></li>
 			<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
-			<li><?php echo anchor('company/location', _('Location')); ?></li>
+			<li><?php echo anchor('company#location', _('Location')); ?></li>
 			<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
-			<li><?php echo anchor('company/contact', _('Contact us')); ?></li>
+			<li><?php echo anchor('company#contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>
