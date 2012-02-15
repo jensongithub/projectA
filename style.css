@@ -27,6 +27,7 @@ th,
 td {
 	margin: 0;
 	padding: 0;
+	font-size:16px;
 }
 
 body,
@@ -34,8 +35,9 @@ button,
 input,
 select,
 textarea {
-	font: 12px/1.5 tahoma, arial, \5b8b\4f53;
+	/*font: 12px/1.5 tahoma, arial, \5b8b\4f53;
 	font-family: tahoma, arial, HM Ampersand Light, Arial, sans-serif;
+	*/
 }
 
 address,
@@ -50,7 +52,7 @@ code,
 kbd,
 pre,
 samp {
-	font-family: courier new, courier, monospace;
+	/*font-family: courier new, courier, monospace;*/
 }
 
 small {
@@ -61,6 +63,15 @@ ul,
 ol {
 	list-style: none;
 }
+
+pre {
+	white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
+	white-space: -pre-wrap; /* Opera 4 - 6 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+	word-wrap: break-word; /* IE 5.5+ */
+}
+
 
 .logo{
 	position:relative;
@@ -117,6 +128,10 @@ ol {
 .menu_l2 a,
 .menu_l2 li{
 	color:#501100;
+}
+
+.expando{
+	height:70%;
 }
 
 .footer_list{
@@ -208,6 +223,9 @@ body {
 	width: 950px;
 }
 
+.section{
+	margin-bottom:2em;
+}
 
 /***********************************
  * tag section
@@ -317,7 +335,7 @@ h2 {
 }
 
 .showcase-enlarged {
-	
+
 }
 
 .similar-thumbnail {

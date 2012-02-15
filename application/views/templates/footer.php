@@ -21,7 +21,7 @@
 		<div class='block'>
 			<ul>
 				<li class='footer_head'><?php echo _("Payment Methods");?></li>
-				<li>>VISA/MASTER</li>
+				<li>VISA/MASTER</li>
 				<li><a href='http://www.paypal.com/'>Paypal</a></li>
 				<li><a href='https://www.alipay.com/'>AliPay</a></li>
 			</ul>
