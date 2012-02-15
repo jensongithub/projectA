@@ -1,47 +1,105 @@
+<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <div id="content" class='container'>
 	<div class="content">
-		<div id="cat-menu">
-			<div class=''>
-				<h4><?php _('women'); ?></h4>
-				<p><a href=''>SALES</a></p>
-				<p><a href=''>TOPS</a></p>
-				<p><a href=''>Tees & Knit</a></p>
-				<p><a href=''>Dress</a></p>
-				<p><a href=''>Cashmere</a></p>
-				<div class=''>
-					<p><?php echo anchor('dept/women/sweaters', 'Sweaters'); ?></p>
-					<div class='category-level'>
-						<p><?php echo anchor('dept/women/cardigans', 'Cardigans'); ?></p>
-						<p><a href=''>Vests</a></p>
-						<p><a href=''>Crewnecks & V-necks</a></p>
-						<p><a href=''>Shawl Collars & Henlexs</a></p>
-						<p><a href=''>Turlenecks</a></p>
-						<p><a href=''>Cables</a></p>
+		<div class="container">
+			<div id='product-image'>
+				<div id='showcase'>
+					<?php 
+					$attr = array( 'id' => 'showcase-stage', 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-normal');
+					echo img($attr);
+					
+					$list = array(
+								img( array( 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-thumbnail') ),
+								img( array( 'src' => 'web-11-11-2011/WOMEN/IMG_2525a.jpg', 'class' => 'showcase-thumbnail') ),
+								img( array( 'src' => 'web-11-11-2011/WOMEN/IMG_2559a.jpg', 'class' => 'showcase-thumbnail') ),
+								img( array( 'src' => 'web-11-11-2011/WOMEN/DSL421-5a.jpg', 'class' => 'showcase-thumbnail') )
+					);
+
+					$attr = array(
+										'id' => 'showcase-backstage'
+					);
+
+					echo ul($list, $attr);
+					?>
+					<script type='text/javascript'>
+						$('.showcase-thumbnail').click(function(){
+							$('#showcase-stage').attr('src', $(this).attr('src'));
+						});
+					</script>
+				</div>
+				<div id='similar-products'>
+					<h3><?php echo _('Similar Products'); ?></h3>
+					<ul>
+						<?php foreach( array('IMG_2533a.jpg', 'IMG_2543a.jpg', 'DSL424-1a.jpg', 'DSL424-3a.jpg') as $product) { ?>
+						<li class="similar-thumbnail">
+							<?php echo anchor("dept/women/$cat/view/$product", img("web-11-11-2011/WOMEN/$product") ); ?>
+							<span>Product name</span><br />
+							<span>$Price</span><br />
+							<span>Color</span>
+						</li>
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
+			
+			<div id='product-text'>
+				<?php
+				$list = array(
+							anchor('dept/' . $dept, _( ucfirst($dept) )),
+							' > ',
+							anchor('dept/' . $dept . '/' . $cat, _( ucfirst($cat) )),
+							' > ',
+							$id
+				);
+
+				$attr = array(
+									'id'    => 'product-path'
+				);
+
+				echo ul($list, $attr);
+				?>
+				<div class='clear'></div>
+				
+				<div class='product-name'><?php echo $id; ?></div>
+				
+				<div id='product-description'>
+					<div style='margin-bottom: 30px;'>
+						<h4><?php echo _('Description'); ?></h4>
+						<p>Short, loose-fitting purl-knit jumper in marled textured yarn with 3/4-length sleeves. </p>
+					</div>
+					
+					<div>
+						<h4><?php echo _('Details'); ?></h4>
+						<p>69% acrylic, 18% polyamide, 13% cotton. Machine wash at 40˚ </p>
 					</div>
 				</div>
-				<p><a href=''>Trousers</a></p>
-				<p><a href=''>Denmin Trousers</a></p>
-				<p><a href=''>Inner Wear</a></p>
+				
+				<div id='product-options'>
+					<div style='margin-bottom: 30px;'>
+						<h4>Colour:</h4>
+						<span id="selected-color">Beige</span>
+						<ul>
+							<?php
+							foreach( array('Beige', 'Black', 'DarkBlue', 'Red') as $color ) {
+								echo "<li class='product-color' title='$color' style='background-color: $color'></li>";
+							}
+							?>
+						</ul>
+						<script type='text/javascript'>
+							$('.product-color').click(function(){
+								$('#selected-color').html($(this).attr('title'));
+								$('.product-color').removeClass('selected');
+								$(this).addClass('selected');
+							});
+						</script>
+					</div>
+					
+					<div>
+					<h4>Size:</h4>
+					<span id="selected-size">34 - 46</span>
+					</div>
+				</div>				
 			</div>
-		</div>
-
-		<div id='cat-main' class="container">
-			<div class="category-head">
-				<h3><?php echo $cat; ?></h3>
-				<span><?php if( isset($path) ) echo $path[0]; ?></span>
-			</div>
-			<?php
-				foreach( $products as $item ) {
-			?>
-			<div class="product-thumbnail">
-				<?php echo anchor("dept/women/view/$item", img("web-11-11-2011/WOMEN/$item")); ?>
-				<span>Product name</span><br />
-				<span>$Price</span><br />
-				<span>Color</span>
-			</div>
-			<?php
-				}
-			?>
 		</div>
 	</div>
 </div>

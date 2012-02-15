@@ -41,7 +41,7 @@
 $route['default_controller'] = 'index';
 //$route['404_override'] = '';
 
-$route['^(zh|en|es|fr)/dept/(.+)/view/(.+)$'] = "dept/view/$2/$3";
+$route['^(zh|en|es|fr)/dept/(.+)/(.+)/view/(.+)$'] = "dept/view/$2/$3/$4";
 
 // URI like '/en/about' -> use controller 'about'
 $route['^(en|zh|cn)/(.+)$'] = "$2";

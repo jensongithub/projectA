@@ -230,6 +230,138 @@ h2 {
 
 
 /***********************************
+ * Page specific - product
+ */
+#product-description {
+	float: left;
+	width: 200px;
+}
+
+#product-image {
+	float: left;
+	width: 485px;
+}
+
+#product-options {
+	float: left;
+	margin-left: 10px;
+	width: 190px;
+}
+
+#product-path {
+	text-align: left;
+	margin-bottom: 10px;
+}
+
+#product-path a {
+	color: inherit;
+}
+
+#product-path li {
+	float: left;
+	margin-right: 5px;
+}
+
+#product-text {
+	float: left;
+	margin-left: 10px;
+	width: 400px;
+}
+
+#showcase-backstage {
+	float: left;
+	width: 100px;
+	height: 448px;
+}
+
+#showcase-backstage li {
+	margin: 5px auto 10px auto;
+	width: 85px;
+	height: 100px;
+}
+
+#showcase-stage {
+	float: left;
+}
+
+#similar-products {
+	float: left;
+	margin: 10px 0;
+	width: 485px;
+	height: 160px;
+}
+
+.product-color {
+	background-color: #CCC;
+	cursor: pointer;
+	float: left;
+	margin-right: 3px;
+	width: 20px;
+	height: 20px;
+}
+
+.product-name {
+	border-bottom: 1px solid #E0E0E0;
+	font-size: 2em;
+	margin: 5px 0 20px;
+	padding: 0 0 10px;
+}
+
+.selected {
+	border: 2px solid #777;
+}
+
+.showcase-normal {
+	width: 380px;
+	height: 450px;
+}
+
+.showcase-enlarged {
+	
+}
+
+.similar-thumbnail {
+	-moz-box-shadow: 1px 1px 2px #CCC;
+	-webkit-box-shadow: 1px 1px 2px #CCC;
+	box-shadow: 1px 1px 2px #CCC;
+	float: left;
+	font-size: 0.8em;
+	margin: 0px 5px;
+	text-align: center;
+	width: 85px;
+	height: 160px;
+}
+
+.similar-thumbnail:hover {
+	-moz-box-shadow: 1px 1px 2px #999;
+	-webkit-box-shadow: 1px 1px 2px #999;
+	box-shadow: 1px 1px 2px #999;
+	border-top: 1px solid #FFF;
+}
+
+.similar-thumbnail img {
+	width: 85px;
+	height: 100px;
+}
+
+.showcase-thumbnail {
+	-moz-box-shadow: 1px 1px 2px #CCC;
+	-webkit-box-shadow: 1px 1px 2px #CCC;
+	box-shadow: 1px 1px 2px #CCC;
+	cursor: pointer;
+	width: 85px;
+	height: 100px;
+}
+
+.showcase-thumbnail:hover {
+	-moz-box-shadow: 1px 1px 2px #999;
+	-webkit-box-shadow: 1px 1px 2px #999;
+	box-shadow: 1px 1px 2px #999;
+	border-top: 1px solid #FFF;
+}
+
+
+/***********************************
  * id section
  */
 #cat-main {
@@ -366,6 +498,10 @@ h2 {
 .form-label {
 	display: inline-block;
 	width: 200px;
+}
+
+.hr {
+	border-bottom: 1px solid #E0E0E0;
 }
 
 .lang-switch {

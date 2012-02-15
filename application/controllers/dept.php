@@ -111,7 +111,7 @@ class Dept extends CI_Controller {
 
 	public function women($cat='sweaters'){
 		$data['title'] = ucfirst('women');
-		$data['cat'] = ucfirst($cat);
+		$data['cat'] = $cat;
 
 		switch($cat){
 			case 'cardigans':
@@ -153,10 +153,13 @@ class Dept extends CI_Controller {
 		$this->load->view('pages/women', $data);
 		$this->load->view('templates/footer', $data);
 	}
-
-	public function view($id = '', $pd = '') {
-		$data['title'] = ucfirst('women');
-		echo "$id<br/>$pd";
+	
+	public function view($dept = '', $cat = '', $id = '') {
+		$data['title'] = ucfirst($dept) . ' | ' . ucfirst($cat) . ' | ' . $id;
+		$data['dept'] = $dept;
+		$data['cat'] = $cat;
+		$data['id'] = $id;
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/view_product', $data);
 		$this->load->view('templates/footer', $data);
