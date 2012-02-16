@@ -8,6 +8,9 @@ class Sitemap extends CI_Controller {
 	}
 
 	public function index(){
-
+		$data['title'] = 'Sitemap';
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/sitemap');
+		$this->load->view('templates/footer');
 	}
 }

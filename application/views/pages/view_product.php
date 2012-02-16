@@ -4,10 +4,10 @@
 		<div class="container">
 			<div id='product-image'>
 				<div id='showcase'>
-					<?php 
+					<?php
 					$attr = array( 'id' => 'showcase-stage', 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-normal');
 					echo img($attr);
-					
+
 					$list = array(
 								img( array( 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-thumbnail') ),
 								img( array( 'src' => 'web-11-11-2011/WOMEN/IMG_2525a.jpg', 'class' => 'showcase-thumbnail') ),
@@ -41,7 +41,7 @@
 					</ul>
 				</div>
 			</div>
-			
+
 			<div id='product-text'>
 				<?php
 				$list = array(
@@ -59,21 +59,23 @@
 				echo ul($list, $attr);
 				?>
 				<div class='clear'></div>
-				
+
 				<div class='product-name'><?php echo $id; ?></div>
-				
+
 				<div id='product-description'>
 					<div style='margin-bottom: 30px;'>
 						<h4><?php echo _('Description'); ?></h4>
 						<p>Short, loose-fitting purl-knit jumper in marled textured yarn with 3/4-length sleeves. </p>
 					</div>
-					
+
 					<div>
 						<h4><?php echo _('Details'); ?></h4>
 						<p>69% acrylic, 18% polyamide, 13% cotton. Machine wash at 40˚ </p>
 					</div>
+					<div style='margin-top:1em;'><label>Quantity</label> <input style='width:3em;' type='text' name='qty'/>Pieces</div>
+					<span><a href='#'>Buy</a></span><span style='margin-left:2em;'><a href='#'>Add to Basket</a></span>
 				</div>
-				
+
 				<div id='product-options'>
 					<div style='margin-bottom: 30px;'>
 						<h4>Colour:</h4>
@@ -93,13 +95,14 @@
 							});
 						</script>
 					</div>
-					
+
 					<div>
-					<h4>Size:</h4>
-					<span id="selected-size">34 - 46</span>
+						<h4>Size:</h4>
+						<span id="selected-size">34 - 46 <a href='#'>Size Chart</a></span>
 					</div>
-				</div>				
+				</div>
 			</div>
 		</div>
+
 	</div>
 </div>
