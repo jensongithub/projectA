@@ -94,6 +94,7 @@ pre {
 	background:#501100;
 }
 
+
 .menu_lang,
 .menu_l1,
 .menu_l2 {
@@ -128,6 +129,31 @@ pre {
 .menu_l2 a,
 .menu_l2 li{
 	color:#501100;
+}
+
+.left-block,
+.right-block{
+	position:relative;
+	width:26em;
+	height: 16em;
+	border:1px solid #CCC;
+}
+
+.left-block{
+	float:left;
+}
+
+.right-block{
+	float:right;
+	margin-right:3em;
+}
+
+.left-block .header,
+.right-block .header{
+	padding-top:1em;
+	padding-bottom:1em;
+	font-size:18px;
+	border-bottom:1px solid #CCC;
 }
 
 .expando{
