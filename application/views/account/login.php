@@ -4,14 +4,13 @@
 		<div class='left-block'>
 			<div class='header'>Existing Customers</div>
 			<form method="POST" action="login/submit">
-				<div>
+				<div class='row'>
 					<label>Email</label><input type='text' name='email' />
 				</div>
-				<div>
+				<div class='row'>
 					<label>Password</label><input type='password' name='pwd' />
 				</div>
 				<div><a href=''>forgotten password?</a></div>
-				<div><a href='register'>Registration</a></div>
 				<div><input type='submit' value='Submit' /><input type='button' value='Reset' /></div>
 			</form>
 		</div>

@@ -156,6 +156,14 @@ pre {
 	border-bottom:1px solid #CCC;
 }
 
+.left-block label{
+	display:block;
+}
+
+.left-block .row{
+	margin-bottom:1em;
+}
+
 .expando{
 	height:70%;
 }
