@@ -35,7 +35,6 @@
 							<?php echo anchor("dept/women/$cat/view/$product", img("web-11-11-2011/WOMEN/$product") ); ?>
 							<span>Product name</span><br />
 							<span>$Price</span><br />
-							<span>Color</span>
 						</li>
 						<?php } ?>
 					</ul>
