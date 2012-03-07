@@ -66,7 +66,7 @@ class my_Lang extends CI_Lang {
 			
 			$uri = (!empty($this->uri)) ? $this->uri: $this->default_uri;
 			$uri = ($uri[0] != '/') ? '/'.$uri : $uri;
-			$new_url = $CFG->config['base_url'].$this->default_lang().uri;
+			$new_url = $CFG->config['base_url'].$this->default_lang().$uri;
 			header("Location: " . $new_url, TRUE, 302);
 		}
     }
