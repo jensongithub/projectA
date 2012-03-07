@@ -6,7 +6,7 @@
 				<li><?php echo anchor('company#howtoorder', _('How to Order')); ?></li>
 				<li><?php echo anchor('company#delivery', _('Delivery')); ?></li>
 				<li><?php echo anchor('company#returns', _('Goods Return and Change')); ?></li>
-				<li><?php echo anchor('company#contact', _('Contact Us')); ?></li>
+				<li><?php echo anchor('contact', _('Contact Us')); ?></li>
 			</ul>
 		</div>
 		<div class='block'>

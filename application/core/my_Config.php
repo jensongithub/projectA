@@ -12,7 +12,7 @@ load the MX_Loader class */
 
 //class MY_Config extends MX_Config {
  
-
+///*
 class my_Config extends CI_Config {
 
     function site_url($uri = '')
@@ -32,7 +32,7 @@ class my_Config extends CI_Config {
     }
         
 }
-
+//*/
 // END MY_Config Class
 
 /* End of file MY_Config.php */

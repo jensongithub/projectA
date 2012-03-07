@@ -8,6 +8,10 @@ class Contact extends CI_Controller {
 	}
 
 	public function index(){
-
+		$data = array('title'=>'Contact');
+		$this->load->view('templates/header', $data);
+		$this->load->view("pages/contact");
+		$this->load->view("templates/footer");
 	}
+
 }

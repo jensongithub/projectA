@@ -1,30 +1,30 @@
 <div id="content" class='container'>
 	<div class="expando">
-		<h3>Sign In / Create Account</h3>
+		<h3><?php echo _("Sign In / Create Account");?></h3>
 		<div class='left-block'>
-			<div class='header'>Existing Customers</div>
+			<div class='header'><?php echo _("Existing Customers");?></div>
 			<form method="POST" action="login/submit">
 				<div class='row'>
-					<label>Email</label><input type='text' name='email' />
+					<label><?php echo _("Email");?></label><input type='text' name='email' />
 				</div>
 				<div class='row'>
-					<label>Password</label><input type='password' name='pwd' />
+					<label><?php echo _("Password");?></label><input type='password' name='pwd' />
 				</div>
-				<div><a href=''>forgotten password?</a></div>
+				<div><a href=''><?php echo _("Forgotten Password");?></a></div>
 				<div><input type='submit' value='Submit' /><input type='button' value='Reset' /></div>
 			</form>
 		</div>
 		<div class='right-block'>
-			<div class='header'>New Customers</div>
-			<p>Creating an account provides you with convenient features, including:</p>
+			<div class='header'><?php echo _("New Customer");?></div>
+			<p><?php echo _("Creating an account provides you with convenient features, including:");?></p>
 				<ul>
-					<li>› Quick checkout</li>
-					<li>› View and track orders</li>
-					<li>› Add to wish list</li>
-					<li>› Save multiple shipping addresses</li>
-					<li>› Advance notice on latest promotions</li>
+					<li>› <?php echo _("Quick checkout");?></li>
+					<li>› <?php echo _("View and track orders");?></li>
+					<li>› <?php echo _("Add to wish list");?></li>
+					<li>› <?php echo _("Save multiple shipping addresses");?></li>
+					<li>› <?php echo _("Advance notice on latest promotions");?></li>
 				</ul>
-				<center><a class='reg-btn' href='register'>Register</a></center>
+				<center><a class='reg-btn' href='register'><?php echo _("Register");?></a></center>
 			</p>
 		</div>
 	</div>

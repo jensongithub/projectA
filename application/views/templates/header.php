@@ -5,7 +5,6 @@
 	<?php echo css('style.css'); ?>
 </head>
 <body>
-
 <div id='header'>
 	<div class='menu_lang'>
 		<ul>
@@ -33,7 +32,7 @@
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
 			<li><?php echo anchor('company#location', _('Location')); ?></li>
 			<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
-			<li><?php echo anchor('company#contact', _('Contact us')); ?></li>
+			<li><?php echo anchor('contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>

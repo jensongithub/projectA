@@ -37,11 +37,7 @@ $config['css_dir'] = '';
 | Languages available in the application
 |
 */
-$config['lang'] = array(
-	'en' => 'english',
-	'zh' => 'tchinese',
-	'cn' => 'schinese'
-);
+$config['language']='english';
 
 /*
 |--------------------------------------------------------------------------
@@ -96,7 +92,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+//$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------

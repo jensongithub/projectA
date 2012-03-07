@@ -68,35 +68,40 @@
 				<!--?php echo _('Username'); ?-->
 				<table>
 					<tr>
-						<td><label for='email' class='form-label'>Email<?php echo lang('email'); ?></label></td>
+						<td><label for='email' class='form-label'><?php echo _('Email'); ?></label></td>
 						<td><input id='email' name='email' type='email' class='required' value='<?php echo set_value('email'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='firstname' class='form-label'>First Name<?php echo lang('firstname'); ?></label></td>
+						<td><label for='firstname' class='form-label'><?php echo _('First Name'); ?></label></td>
 						<td><input id='firstname' name='firstname' class='required' value='<?php echo set_value('firstname'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='lastname' class='form-label'>Last Name<?php echo lang('lastname'); ?></label></td>
+						<td><label for='lastname' class='form-label'><?php echo _('Last Name'); ?></label></td>
 						<td><input id='lastname' name='lastname' class='required' value='<?php echo set_value('lastname'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='pwd' class='form-label'>Password<?php echo lang('pwd'); ?></label></td>
+						<td><label for='pwd' class='form-label'><?php echo _('Password'); ?></label></td>
 						<td><input id='pwd' name='pwd' type='password' class='required' /></td>
 					</tr>
 					<tr>
-						<td><label for='conpwd' class='form-label'>Confirm Password<?php echo lang('conpwd'); ?></label></td>
+						<td><label for='conpwd' class='form-label'><?php echo _('Confirm Password'); ?></label></td>
 						<td><input id='conpwd' name='conpwd' type='password' class='required' /></td>
 					</tr>
 					<tr>
-						<td><label for='phone' class='form-label'>Phone<?php echo lang('phone'); ?></label></td>
+						<td><label for='phone' class='form-label'><?php echo _('Phone'); ?></label></td>
 						<td><input id='phone' name='phone' value='<?php echo set_value('phone'); ?>' /></td>
 					</tr>
 					<tr>
-						<td><label for='' class='form-label'>Gender<?php echo lang('gender'); ?></label></td>
-						<td><input id='gender1' name='gender' type='radio' class='required' value='M' <?php echo set_radio('gender', 'M'); ?> /><label for='gender1'>M<?php echo lang('male', 'gender1'); ?></label> <input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> /><label for='gender2'> <?php echo lang('female'); ?>F</label><label for='gender' class='error'>Please select your gender</label></td>
+						<td><label for='' class='form-label'><?php echo _('Gender'); ?></label></td>
+						<td>
+						<input id='gender1' name='gender' type='radio' class='required' value='M' <?php echo set_radio('gender', 'M'); ?> />
+						<label for='gender1'><?php echo _('male'); ?></label> 
+						<input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> />
+						<label for='gender2'> <?php echo _('female'); ?></label>
+						<label for='gender' class='error'>Please select your gender</label></td>
 					</tr>
 					<tr>
-						<td><input id='submit' name='submit' type='submit' value='Register<?php echo lang('submit'); ?>' /></td>
+						<td><input id='submit' name='submit' type='submit' value='<?php echo _('submit'); ?>' /></td>
 					</tr>
 				</table>
 			</form>

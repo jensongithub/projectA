@@ -1,5 +1,4 @@
 <div id="content" class='container'>
-	<div class='yellow-box'><?php echo 'If you can see the next line in langauges other than English, gettext works!<br/>Username => ' . _('Username'); ?></div>
 	<div id='slider-container'>
 		<?php echo css('js/nivo-slider/themes/default/default.css', 'screen', FALSE); ?>
 		<?php echo css('js/nivo-slider/nivo-slider.css', 'screen', FALSE); ?>
@@ -25,50 +24,5 @@
 				});
 			});
 		</script>
-	</div>
-
-	<div class="container">
-		<h1>Showcase</h1>
-	</div>
-
-	<div class="container">
-		<div class="container-col-span-1">
-			<?php echo img('1A_0106.jpg'); ?>
-		</div>
-		<div class="container-col-span-1">
-			<?php echo img('1B_0106.jpg'); ?>
-		</div>
-		<div class="container-col-span-1">
-			<?php echo img('1C_1_0106.jpg'); ?>
-		</div>
-		<div class="container-col-span-1-last">
-			<?php echo img('1C_2_0106.jpg'); ?>
-		</div>
-		<div class="clear"></div>
-	</div>
-
-	<div class="container">
-		<h2>Showcase</h2>
-	</div>
-
-	<div class="container">
-		<div class="container-col-span-1">
-			<?php echo img('3A_0106.jpg'); ?>
-		</div>
-		<div class="container-col-span-1">
-			<div class="container-col-upper">
-			<?php echo img('6D_1125.jpg'); ?>
-			</div>
-			<div class="container-col-lower">
-			<?php echo img('zhaopin_0914.gif'); ?>
-			</div>
-		</div>
-		<div class="container-col-span-1">
-			<?php echo img('3B_1_0106.jpg'); ?>
-		</div>
-		<div class="container-col-span-1-last">
-			<?php echo img('3C_1_0106.jpg'); ?>
-		</div>
-		<div class="clear"></div>
 	</div>
 </div>

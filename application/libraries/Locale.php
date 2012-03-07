@@ -3,7 +3,7 @@
 /*
 Should be in : /application/librairies
 Must be declare in /application/config/autoload.php in the 
-$autoload['libraries'] = array('your_other libraires','locale');
+$autoload['libraries'] = array('your_other libraries','locale');
 */
 
 class CI_Locale {
@@ -14,10 +14,17 @@ class CI_Locale {
 		$locale = $CI->lang->lang();
 		$locale .= '_' . strtoupper($locale);
 		
-		putenv("LANG=$locale");
+		putenv('LANGUAGE='.$locale);
+		putenv('LANG='.$locale);
+		putenv('LC_ALL='.$locale);
+		putenv('LC_MESSAGES='.$locale);
+		setlocale(LC_ALL,$locale);
+		setlocale(LC_CTYPE,$locale);
 		setlocale(LC_ALL, $locale);
 		bindtextdomain($this->domain, APPPATH.'language/locales/');
 		textdomain($this->domain);
 		bind_textdomain_codeset($this->domain, 'UTF-8');
 	}
 }
+
+?>

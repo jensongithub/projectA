@@ -22,9 +22,10 @@ class my_Lang extends CI_Lang {
 
     // languages
     private $languages = array(
-        'en' => 'english',
-        'zh' => 'tchinese',
-		'cn' => 'schinese'
+		'en' => 'english',
+		'cn' => 'schinese',        
+        'zh' => 'tchinese'
+		
     );
 
     // special URIs (not localized)
@@ -39,43 +40,36 @@ class my_Lang extends CI_Lang {
 
     /**************************************************/
 
-
-    function my_Lang()
+	function __construct()
     {
-        parent::__construct();
-
-        global $CFG;
+		global $CFG;
         global $URI;
         global $RTR;
 
         $this->uri = $URI->uri_string();
         $this->default_uri = $RTR->default_controller;
-
         $uri_segment = $this->get_uri_lang($this->uri);
-        $this->lang_code = $uri_segment['lang'] ;
-
+		$this->lang_code = $uri_segment['lang'] ;
         $url_ok = false;
-        if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))
-        {
+	
+        if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))		
+        {	
             $language = $this->languages[$this->lang_code];
             $CFG->set_item('language', $language);
             $url_ok = true;
         }
-
-     if ((!$url_ok) && (!$this->is_special($uri_segment['parts'][0]))) // special URI -> no redirect
-     {
-      // set default language
-      $CFG->set_item('language', $this->languages[$this->default_lang()]);
-
-      $uri = (!empty($this->uri)) ? $this->uri: $this->default_uri;
-          $uri = ($uri[0] != '/') ? '/'.$uri : $uri;
-      $new_url = $CFG->config['base_url'].$this->default_lang().$uri;
-
-      header("Location: " . $new_url, TRUE, 302);
-      exit;
-     }
+		
+		if ((!$url_ok) && (!$this->is_special($uri_segment['parts'][0]))) // special URI -> no redirect
+		{
+			// set default language
+			$CFG->set_item('language', $this->languages[$this->default_lang()]);
+			
+			$uri = (!empty($this->uri)) ? $this->uri: $this->default_uri;
+			$uri = ($uri[0] != '/') ? '/'.$uri : $uri;
+			$new_url = $CFG->config['base_url'].$this->default_lang().uri;
+			header("Location: " . $new_url, TRUE, 302);
+		}
     }
-
 
 
     // get current language
@@ -83,9 +77,9 @@ class my_Lang extends CI_Lang {
     function lang()
     {
         global $CFG;
-        $language = $CFG->item('language');
-
+        $language = $CFG->item('language');		
         $lang = array_search($language, $this->languages);
+		
         if ($lang)
         {
             return $lang;
@@ -130,7 +124,7 @@ class my_Lang extends CI_Lang {
      if (!empty($uri))
      {
       $uri = ($uri[0] == '/') ? substr($uri, 1): $uri;
-
+		
       $uri_expl = explode('/', $uri, 2);
       $uri_segment['lang'] = NULL;
       $uri_segment['parts'] = $uri_expl;
@@ -138,10 +132,11 @@ class my_Lang extends CI_Lang {
       if (array_key_exists($uri_expl[0], $this->languages))
       {
        $uri_segment['lang'] = $uri_expl[0];
-      }
+      }	  
       return $uri_segment;
      }
      else
+		
       return FALSE;
     }
 
@@ -149,9 +144,9 @@ class my_Lang extends CI_Lang {
     // default language: first element of $this->languages
     function default_lang()
 	{
-	$browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
-	$browser_lang = substr($browser_lang, 0,2);
-	return (array_key_exists($browser_lang, $this->languages)) ? $browser_lang: 'en';
+		$browser_lang = !empty($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? strtok(strip_tags($_SERVER['HTTP_ACCEPT_LANGUAGE']), ',') : '';
+		$browser_lang = substr($browser_lang, 0,2);
+		return (array_key_exists($browser_lang, $this->languages)) ? $browser_lang: 'en';
 	}
 
 
