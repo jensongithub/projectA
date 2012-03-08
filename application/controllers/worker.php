@@ -1,21 +1,13 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Admin extends CI_Controller {
+class Worker extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper('html');
 	}
 
 	public function index(){
 		// require_login();
-		
-		$data['title'] = 'Administration';
-		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/dashboard', $data);
-		$this->load->view('admin/templates/footer', $data);
 	}
 	
 	public function edit_categories(){
@@ -61,29 +53,26 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/templates/footer', $data);
 	}
 	
-	public function edit_menu(){
+	public function update_menu(){
 		// require_login();
 		
-		$this->load->model('category_model');
 		$this->load->model('menu_model');
-		
-		$data['title'] = 'Edit Menu';
-		$this->load->library('form_validation');
-		$this->load->helper('json');
-		
-		$data['menu'] = $this->menu_model->get_menu();
-		$i = 1;
-		foreach( $data['menu'] as $menu ){
-			$data['menu_json']['mi' . $i] = $menu;
-			$i++;
+		$item['cat_id'] = $this->input->post('cat_id');
+		$item['text'] = $this->input->post('text');
+		$item['path'] = $this->input->post('path');
+		$item['level'] = $this->input->post('level');
+		if( !$this->menu_model->get_menu_item($item['cat_id']) ){
+			if( $this->menu_model->add_menu_item($item) )
+				echo 'OK';
+			else
+				echo 'FAIL';
 		}
-		$data['menu_json'] = json_encode($data['menu_json']);
-		$data['categories'] = $this->category_model->get_categories();
-		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/menu', $data);
-		$this->load->view('admin/templates/footer', $data);
+		else {
+			if( $this->menu_model->edit_menu_item($item) )
+				echo 'OK';
+			else
+				echo 'FAIL';
+		}
 	}
 	
 	public function edit_products(){

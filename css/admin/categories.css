@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+#categories-list {
+	width: 430px;
+}
+
+#categories-list-panel {
+	float: left;
+	width: 450px;
+}
+
+#forms-panel {
+	float: left;
+	margin-left: 10px;
+	padding: 0;
+	width: 450px;
+}
+
+.form {
+	border-top: 1px solid #EEE;
+	border-left: 1px solid #DDD;
+	border-right: 1px solid #CCC;
+	border-bottom: 1px solid #BBB;
+	margin: 10px;
+	padding: 10px;
+}

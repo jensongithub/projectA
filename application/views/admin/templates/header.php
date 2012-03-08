@@ -23,7 +23,8 @@
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
 			<li><?php echo anchor('admin/', _('Dashboard')); ?></li>
-			<li><?php echo anchor('admin/edit_categories', _('Categories & Menu')); ?></li>
+			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
+			<li><?php echo anchor('admin/edit_menu', _('Menu')); ?></li>
 			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
 			<li><?php echo anchor('admin/', _('Location')); ?></li>
 			<li><?php echo anchor('admin/', _('Contact us')); ?></li>
