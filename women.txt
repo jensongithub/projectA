@@ -1,0 +1,37 @@
+SALES
+
+TOPS
+TOPS -> Blouses
+TOPS -> Shirts
+
+Tees & Knit
+Tees & Knit -> Basic
+Tees & Knit -> Fancy
+Tees & Knit -> Graphic Tee
+
+Dress
+
+Cashmere
+Cashmere -> Cardigans
+Cashmere -> Vests
+Cashmere -> Crewnecks & V-necks
+Cashmere -> Shawl Collars & Henlexs
+Cashmere -> Turlenecks & hoodies
+Cashmere -> Cables
+
+Sweaters
+Sweaters -> Cardigans
+Sweaters -> Vests
+Sweaters -> Crewnecks & V-necks
+Sweaters -> Shawl Collars & Henlexs
+Sweaters -> Turlenecks
+Sweaters -> Cables
+
+Trousers
+Trousers -> Trousers
+Trousers -> Leggings
+
+Denmin Trousers
+
+Inner Wear
+Inner Wear -> Shorts

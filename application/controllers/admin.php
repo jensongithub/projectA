@@ -88,6 +88,27 @@ class Admin extends CI_Controller {
 	
 	public function edit_products(){
 		// require_login();
+		$this->load->library('Excel_reader');
+		$this->excel_reader->setOutputEncoding('CP950');
+		$this->excel_reader->read('upload/test.xls');
+		
+		foreach( $this->excel_reader->sheets as $key => $sheet){
+			print_r($sheet);
+			echo "<br/>";
+			echo $this->excel_reader->boundsheets[$key]['name'] . ": ";
+			echo "<br/>";
+			for ($i = 1; $i <= $this->excel_reader->sheets[$key]['numRows']; $i++) {
+				echo "Line $i: {";
+				for ($j = 1; $j <= $this->excel_reader->sheets[$key]['numCols']; $j++) {
+					if( isset($this->excel_reader->sheets[$key]['cells'][$i]) && isset($this->excel_reader->sheets[$key]['cells'][$i][$j]) )
+						echo "\"".$this->excel_reader->sheets[$key]['cells'][$i][$j]."\", ";
+					else
+						echo "\"\", ";
+				}
+				echo "}<br />\n";
+			}
+			echo "<br/>";
+		}
 		
 		$data['title'] = 'Edit products';
 		
