@@ -3,9 +3,7 @@
 <?php echo css('css/admin/menu.css') ?>
 
 <div id='menu-list-panel'>
-	<form>
-	<input type='submit' value='<?php echo _('Refresh the list') ?>' />
-	</form>
+	<h3><a href='<?php echo site_url( uri_string() ) ?>' class='refresh'><?php echo _('Refresh the list') ?></a></h4>
 	
 	<select id='menu-list' size='10'></select>
 	

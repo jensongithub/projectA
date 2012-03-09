@@ -88,28 +88,36 @@ class Admin extends CI_Controller {
 	
 	public function edit_products(){
 		// require_login();
-		$this->load->library('Excel_reader');
-		$this->excel_reader->setOutputEncoding('CP950');
-		$this->excel_reader->read('uploads/test.xls');
 		
 		$this->load->helper(array('form'));
 		
-		foreach( $this->excel_reader->sheets as $key => $sheet){
-			print_r($sheet);
-			echo "<br/>";
-			echo $this->excel_reader->boundsheets[$key]['name'] . ": ";
-			echo "<br/>";
-			for ($i = 1; $i <= $this->excel_reader->sheets[$key]['numRows']; $i++) {
-				echo "Line $i: {";
-				for ($j = 1; $j <= $this->excel_reader->sheets[$key]['numCols']; $j++) {
-					if( isset($this->excel_reader->sheets[$key]['cells'][$i]) && isset($this->excel_reader->sheets[$key]['cells'][$i][$j]) )
-						echo "\"".$this->excel_reader->sheets[$key]['cells'][$i][$j]."\", ";
-					else
-						echo "\"\", ";
-				}
-				echo "}<br />\n";
+		if( $this->input->post('upload') == '1' ){
+			$config['upload_path'] = 'uploads/';
+			$config['allowed_types'] = 'xls';
+			$config['max_size']	= '1024';
+
+			$this->load->library('upload', $config);
+		
+			if ( ! $this->upload->do_upload()) {
+				$error = array('error' => $this->upload->display_errors());
+				$this->load->view('admin/edit_products', $error);
 			}
-			echo "<br/>";
+			else {
+				$this->load->library('Excel_reader');
+				$this->load->model('product_model');
+				
+				$this->excel_reader->setOutputEncoding('CP950');
+				$data = array('upload_data' => $this->upload->data());
+				$this->excel_reader->read( $data['upload_data']['full_path'] );
+				
+				$sheets = $this->excel_reader->sheets;
+				$ns = count( $sheets );
+				for($i = 0; $i < $ns; $i++){
+					$sheets[$i]['name'] = $this->excel_reader->boundsheets[$i]['name'];
+				}
+				
+				$this->product_model->add_product_in_excel_sheets( $sheets );
+			}
 		}
 		
 		$data['title'] = 'Edit products';

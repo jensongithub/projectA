@@ -273,6 +273,10 @@ body {
 /***********************************
  * tag section
  */
+
+a {
+}
+ 
 h1 {
 	background-color: #000;
 	color: #FFF;
@@ -282,11 +286,7 @@ h1 {
 }
 
 h2 {
-	background-color: #666;
-	color: #FFF;
-	display: block;
-	font-size: 170%;
-	padding: 8px 20px;
+	font-size: 110%;
 }
 
 
@@ -366,6 +366,16 @@ h2 {
 	font-size: 2em;
 	margin: 5px 0 20px;
 	padding: 0 0 10px;
+}
+
+.refresh {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.refresh:hover {
+	color: #666;
+	text-decoration: underline;
 }
 
 .selected {
