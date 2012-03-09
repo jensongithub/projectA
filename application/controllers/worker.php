@@ -75,15 +75,27 @@ class Worker extends CI_Controller {
 		}
 	}
 	
-	public function edit_products(){
+	public function upload_product_list(){
 		// require_login();
 		
-		$data['title'] = 'Edit products';
+		$this->load->helper(array('form'));
 		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/products', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$config['upload_path'] = 'uploads/';
+		$config['allowed_types'] = 'xls';
+		$config['max_size']	= '1024';
+
+		$this->load->library('upload', $config);
+		
+		if ( ! $this->upload->do_upload()) {
+			$error = array('error' => $this->upload->display_errors());
+
+			$this->load->view('admin/products', $error);
+		}
+		else {
+			$data = array('upload_data' => $this->upload->data());
+
+			$this->load->view('admin/products', $data);
+		}
 	}
 	
 	public function read(){

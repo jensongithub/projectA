@@ -90,7 +90,9 @@ class Admin extends CI_Controller {
 		// require_login();
 		$this->load->library('Excel_reader');
 		$this->excel_reader->setOutputEncoding('CP950');
-		$this->excel_reader->read('upload/test.xls');
+		$this->excel_reader->read('uploads/test.xls');
+		
+		$this->load->helper(array('form'));
 		
 		foreach( $this->excel_reader->sheets as $key => $sheet){
 			print_r($sheet);
