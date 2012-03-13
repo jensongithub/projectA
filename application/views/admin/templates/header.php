@@ -9,7 +9,7 @@
 <div id='header'>
 	<div class='menu_lang'>
 		<ul>
-
+			
 		</ul>
 	</div>
 	<div class='menu_l1'>
@@ -23,6 +23,7 @@
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
 			<li><?php echo anchor('admin/', _('Dashboard')); ?></li>
+			<li><?php echo anchor('admin/edit_content/company', _('Company')); ?></li>
 			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
 			<li><?php echo anchor('admin/edit_menu', _('Menu')); ?></li>
 			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
@@ -32,5 +33,3 @@
 	</div>
 </div>
 
-<div id='content' class='container'>
-	<div class='content'>

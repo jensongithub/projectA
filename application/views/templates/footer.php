@@ -38,7 +38,5 @@
 	<div class='footer_script'><strong><?php echo _("Casimira &copy; 2012");?></strong></div>
 </div>
 
-
-
 </body>
 </html>

@@ -8,8 +8,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function index(){
-		// require_login();
-		
+		// require_login();		
 		$data['title'] = 'Administration';
 		
 		$this->load->view('admin/templates/header', $data);
@@ -137,5 +136,14 @@ class Admin extends CI_Controller {
 			echo "<p>INSRET INTO categories (name) VALUES ('WOMEN -> $line');</p>";
 			$this->category_model->add_category('WOMEN -> ' . $line);
 		}
+	}
+	
+	public function edit_content($name){
+		// about, company, location, sitemap contact can be editor here
+		$data=array();
+		$data['title']=$name;
+		$data['view_name']=$name;
+		$data['filename']="application/views/pages/".$name.'.php';
+		$this->load->view('admin/editor', $data);
 	}
 }
