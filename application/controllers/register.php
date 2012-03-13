@@ -20,7 +20,7 @@ class Register extends CI_Controller {
 		else {
 			$user = $this->user_model->insert_user();
 			$user = $this->user_model->get_user($user['email'], 'email');
-			print_r($user);
+			//print_r($user);
 			$session_items = array(
 									'id' => $user['id'],
 									'email' => $user['email']
