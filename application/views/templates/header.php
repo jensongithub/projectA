@@ -22,7 +22,7 @@
 			<li><a href='/cn'>簡</a></li>
 			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
-			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('index/logout', _('Logout')) ?></li>
+			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?></li>
 		</ul>
 	</div>
 	<div class='menu_l2'>

@@ -42,6 +42,7 @@ $route['default_controller'] = 'index';
 
 
 // URI like '/en/about' -> use controller 'about'
+$route['(en|zh|cn)/logout$'] = 'index/logout';
 $route['^(en|zh|cn)/(.+)$'] = "$2";
 
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
@@ -53,6 +54,8 @@ $route['news'] = 'news';
 
 // '/en' and '/zh' URIs -> use default controller
 $route['^(en|zh|cn)$'] = $route['default_controller'];
+
+
 
 $route['404_override'] = '';
 /* End of file routes.php */
