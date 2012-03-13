@@ -102,6 +102,25 @@ class User_model extends CI_Model {
 		
 		return FALSE;
 	}
+	
+	public function authenticate_user(){
+		$user['email'] = $this->input->post('email');
+		$user['pwd'] = md5($this->input->post('pwd'));
+		$now = gmdate('Y-m-d H:i:s', time() );
+		$user['role_id'] = 1;
+		$sql = "SELECT firstname, lastname, id, email, pwd, role_id FROM users WHERE email = ? ";		
+		$query = $this->db->query($sql, array($user['email'])); 
+		
+		//foreach ($query->result_array() as $row){}
+		$row = $query->result_array();
+		
+		if ($user['pwd']===$row[0]['pwd']){
+			$row[0]['is_login']=TRUE;
+			return $row[0];
+		}else{
+			return FALSE;
+		}
+	}
 }
 
 ?>

@@ -48,10 +48,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'mysql.s216.sureserver.com:3306';
-$db['default']['username'] = 'lnamysqluser';
-$db['default']['password'] = 'lnamysql3210';
-$db['default']['database'] = 'rhythmfan_lna_dev';
+$db['default']['hostname'] = '210.176.126.120:3306';
+$db['default']['username'] = 'root';
+$db['default']['password'] = 'lnacas120';
+$db['default']['database'] = 'prod';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

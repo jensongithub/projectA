@@ -405,15 +405,13 @@ class CI_Session {
 			$this->CI->db->delete($this->sess_table_name);
 		}
 
-<<<<<<< HEAD
-=======
 		// Custom code: kill all session and create a new
 		if (isset($this->userdata['session_id'])) {
 			$this->userdata['session_id'] = null;
 			$this->sess_create();
 		}
 
->>>>>>> 84a2d29be5c38f9f4a6db0b4d0002b65ca5fdc60
+
 		// Kill the cookie
 		setcookie(
 					$this->sess_cookie_name,
