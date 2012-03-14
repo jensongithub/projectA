@@ -1,9 +1,23 @@
 <?php
 class Common_model extends CI_Model {
-
+	var $lna_pos;
 	public function __construct()	{
 		parent::__construct();
 		//$this->load->database();
+	}
+	
+	public function test(){
+		echo "connecting...";
+
+		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
+		$this->lna_pos->select('count(1)')->from('erp.dbo.tbl_staff_info');
+ 
+        $query = $this->lna_pos->get();
+        if ($query->num_rows() === 1) {
+			// Do we have 1 result, as we expected? Return it as an array.
+			return $query->row_array();
+		}
+		return FALSE;
 	}
 	
 	public function logout(){

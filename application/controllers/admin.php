@@ -142,6 +142,8 @@ class Admin extends CI_Controller {
 		$data['title']=$name;
 		$data['view_name']=$name;
 		$data['filename']="application/views/pages/".$name.'.php';
+		$this->load->view('admin/templates/header', $data);
 		$this->load->view('admin/editor', $data);
+		$this->load->view('admin/templates/footer', $data);
 	}
 }

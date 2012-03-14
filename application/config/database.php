@@ -64,26 +64,22 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['lna_pos']['hostname'] = '192.168.1.203';
+$db['lna_pos']['hostname'] = '210.176.126.120';
 $db['lna_pos']['username'] = 'sa';
 $db['lna_pos']['password'] = 'xyz9007';
 $db['lna_pos']['database'] = 'erp';
-$db['lna_pos']['dbdriver'] = 'mssql';
+$db['lna_pos']['dbdriver'] = 'sqlsrv';
 $db['lna_pos']['dbprefix'] = '';
-$db['lna_pos']['pconnect'] = TRUE;
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
 $db['lna_pos']['db_debug'] = TRUE;
 $db['lna_pos']['cache_on'] = FALSE;
-$db['lna_pos']['cachedir'] = '';
-$db['lna_pos']['char_set'] = 'utf8';
-$db['lna_pos']['dbcollat'] = 'utf8_general_ci';
-$db['lna_pos']['swap_pre'] = '';
-$db['lna_pos']['autoinit'] = TRUE;
-$db['lna_pos']['stricton'] = FALSE;
 
-$db['production']['hostname'] = 'mysql.s216.sureserver.com:3306';
-$db['production']['username'] = 'lnamysqluser';
-$db['production']['password'] = 'lnamysql3210';
-$db['production']['database'] = 'rhythmfan_lna_dev';
+
+$db['production']['hostname'] = '210.176.126.120:3306';
+$db['production']['username'] = 'root';
+$db['production']['password'] = 'lnacas120';
+$db['production']['database'] = 'prod';
 $db['production']['dbdriver'] = 'mysql';
 $db['production']['dbprefix'] = '';
 $db['production']['pconnect'] = TRUE;
@@ -95,7 +91,6 @@ $db['production']['dbcollat'] = 'utf8_general_ci';
 $db['production']['swap_pre'] = '';
 $db['production']['autoinit'] = TRUE;
 $db['production']['stricton'] = FALSE;
-
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
