@@ -64,6 +64,22 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+$db['lna_pos']['hostname'] = '192.168.1.203';
+$db['lna_pos']['username'] = 'sa';
+$db['lna_pos']['password'] = 'xyz9007';
+$db['lna_pos']['database'] = 'erp';
+$db['lna_pos']['dbdriver'] = 'mssql';
+$db['lna_pos']['dbprefix'] = '';
+$db['lna_pos']['pconnect'] = TRUE;
+$db['lna_pos']['db_debug'] = TRUE;
+$db['lna_pos']['cache_on'] = FALSE;
+$db['lna_pos']['cachedir'] = '';
+$db['lna_pos']['char_set'] = 'utf8';
+$db['lna_pos']['dbcollat'] = 'utf8_general_ci';
+$db['lna_pos']['swap_pre'] = '';
+$db['lna_pos']['autoinit'] = TRUE;
+$db['lna_pos']['stricton'] = FALSE;
+
 $db['production']['hostname'] = 'mysql.s216.sureserver.com:3306';
 $db['production']['username'] = 'lnamysqluser';
 $db['production']['password'] = 'lnamysql3210';

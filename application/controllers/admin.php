@@ -127,14 +127,12 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/templates/footer', $data);
 	}
 	
-	public function read(){
-	
-		$lines = file('women.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-		// Loop through our array, show HTML source as HTML source; and line numbers too.
-		foreach ($lines as $line_num => $line) {
-			echo "<p>INSRET INTO categories (name) VALUES ('WOMEN -> $line');</p>";
-			$this->category_model->add_category('WOMEN -> ' . $line);
+	public function sql(){
+		$lna_pos = $this->load->database('lna_pos');
+		$lna_pos->get('tbl_pos_class_hdr');
+		$result = $lna_pos->result_array();
+		foreach( $result as $key => $value ){
+			echo "$key => $value";
 		}
 	}
 	
