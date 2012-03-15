@@ -4,6 +4,13 @@ html {
 	overflow-y: scroll;
 }
 
+body {
+background-image:url('/images/background.jpg');
+background-repeat:no-repeat;
+background-attachment:fixed;
+background-position:center; 
+}
+
 body,
 h1,
 h2,
@@ -152,6 +159,13 @@ pre {
 	margin-right:3em;
 }
 
+.section-header{
+	font-size:22px;
+	padding-top:.5em;
+	padding-bottom:.5em;
+	background-color:#de3;
+}
+
 .left-block .header,
 .right-block .header{
 	padding-top:1em;
@@ -174,7 +188,7 @@ pre {
 }
 
 .expando{
-	height:70%;
+	min-height:40em;
 }
 
 .footer_list{
