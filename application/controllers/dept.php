@@ -2,13 +2,16 @@
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
 class Dept extends CI_Controller {
+	var $data;
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
+		$this->data=array();
+		$this->data = array_merge($this->data, $this->session->all_userdata());
 	}
 
 	public function index(){
-
+		
 	}
 
 	public function accessories($cat='crewnecks'){
@@ -16,48 +19,48 @@ class Dept extends CI_Controller {
 		// $this->lang->load('women');
 		//$this->lang->lang();
 
-		$data['title'] = ucfirst('women');
-		$data['cat'] = ucfirst($cat);
+		$this->data['title'] = ucfirst('women');
+		$this->data['cat'] = ucfirst($cat);
 
 		switch($cat){
 			case 'cardigans':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
 				break;
 			case 'crewnecks':
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 			case 'sweaters':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/women', $data);
-		$this->load->view('templates/footer', $data);
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/women', $this->data);
+		$this->load->view('templates/footer', $this->data);
 	}
 
 	public function men($cat='cardigans'){
@@ -65,103 +68,103 @@ class Dept extends CI_Controller {
 		// $this->lang->load('women');
 		//$this->lang->lang();
 
-		$data['title'] = ucfirst('women');
-		$data['cat'] = ucfirst($cat);
+		$this->data['title'] = ucfirst('women');
+		$this->data['cat'] = ucfirst($cat);
 
 		switch($cat){
 			case 'cardigans':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
 				break;
 			case 'crewnecks':
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 			case 'sweaters':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/women', $data);
-		$this->load->view('templates/footer', $data);
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/women', $this->data);
+		$this->load->view('templates/footer', $this->data);
 	}
 
 	public function women($cat='sweaters'){
-		$data['title'] = ucfirst('women');
-		$data['cat'] = $cat;
+		$this->data['title'] = ucfirst('women');
+		$this->data['cat'] = $cat;
 
 		switch($cat){
 			case 'cardigans':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
 				break;
 			case 'crewnecks':
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 			case 'sweaters':
-				$data['products'][] = 'DSL420-2a.jpg';
-				$data['products'][] = 'IMG_2525a.jpg';
-				$data['products'][] = 'IMG_2559a.jpg';
-				$data['products'][] = 'DSL272-5a.jpg';
-				$data['products'][] = 'IMG_2511a.jpg';
-				$data['products'][] = 'DSL421-5a.jpg';
-				$data['products'][] = 'DSL424-1a.jpg';
-				$data['products'][] = 'DSL424-3a.jpg';
-				$data['products'][] = 'DSL433-1a.jpg';
-				$data['products'][] = 'DSL499-4a.jpg';
-				$data['products'][] = 'IMG_2500a.jpg';
-				$data['products'][] = 'IMG_2556a.jpg';
-				$data['products'][] = 'IMG_2533a.jpg';
-				$data['products'][] = 'IMG_2543a.jpg';
+				$this->data['products'][] = 'DSL420-2a.jpg';
+				$this->data['products'][] = 'IMG_2525a.jpg';
+				$this->data['products'][] = 'IMG_2559a.jpg';
+				$this->data['products'][] = 'DSL272-5a.jpg';
+				$this->data['products'][] = 'IMG_2511a.jpg';
+				$this->data['products'][] = 'DSL421-5a.jpg';
+				$this->data['products'][] = 'DSL424-1a.jpg';
+				$this->data['products'][] = 'DSL424-3a.jpg';
+				$this->data['products'][] = 'DSL433-1a.jpg';
+				$this->data['products'][] = 'DSL499-4a.jpg';
+				$this->data['products'][] = 'IMG_2500a.jpg';
+				$this->data['products'][] = 'IMG_2556a.jpg';
+				$this->data['products'][] = 'IMG_2533a.jpg';
+				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/women', $data);
-		$this->load->view('templates/footer', $data);
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/women', $this->data);
+		$this->load->view('templates/footer', $this->data);
 	}
 	
 	public function view($dept = '', $cat = '', $id = '') {
-		$data['title'] = ucfirst($dept) . ' | ' . ucfirst($cat) . ' | ' . $id;
-		$data['dept'] = $dept;
-		$data['cat'] = $cat;
-		$data['id'] = $id;
+		$this->data['title'] = ucfirst($dept) . ' | ' . ucfirst($cat) . ' | ' . $id;
+		$this->data['dept'] = $dept;
+		$this->data['cat'] = $cat;
+		$this->data['id'] = $id;
 		
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/view_product', $data);
-		$this->load->view('templates/footer', $data);
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/view_product', $this->data);
+		$this->load->view('templates/footer', $this->data);
 	}
 }

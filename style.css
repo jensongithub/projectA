@@ -9,6 +9,11 @@ background-image:url('/images/background.jpg');
 background-repeat:no-repeat;
 background-attachment:fixed;
 background-position:center; 
+-o-background-size: 100% 100%, auto;
+-moz-background-size: 100% 100%, auto;
+-webkit-background-size: 100% 100%, auto;
+background-size: 100% 100%, auto;
+
 }
 
 body,

@@ -2,15 +2,17 @@
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
 class Company extends CI_Controller {
+	var $data;
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
 	}
 
 	public function index(){
-		$data = array('title'=>'Company');
+		$this->data = array('title'=>'Company');
+		$this->data = array_merge($this->data, $this->session->all_userdata());
 		$lang = '_'.$this->lang->lang();
-		$this->load->view('templates/header', $data);
+		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/company'.$lang);
 		$this->load->view('templates/footer');
 	}
