@@ -24,13 +24,12 @@ class my_Lang extends CI_Lang {
     private $languages = array(
 		'en' => 'english',
 		'cn' => 'schinese',        
-        'zh' => 'tchinese'
+		'zh' => 'tchinese'
 		
     );
 
     // special URIs (not localized)
     private $special = array (
-        "admin"
     );
 
     // where to redirect if no language in URI
