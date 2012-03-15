@@ -70,8 +70,8 @@ $db['lna_pos']['password'] = 'xyz9007';
 $db['lna_pos']['database'] = 'erp';
 $db['lna_pos']['dbdriver'] = 'sqlsrv';
 $db['lna_pos']['dbprefix'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['lna_pos']['char_set'] = 'utf8';
+$db['lna_pos']['dbcollat'] = 'utf8_general_ci';
 $db['lna_pos']['db_debug'] = TRUE;
 $db['lna_pos']['cache_on'] = FALSE;
 

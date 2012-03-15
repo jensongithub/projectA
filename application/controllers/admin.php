@@ -1,7 +1,7 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Admins extends CI_Controller {
+class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
@@ -149,6 +149,8 @@ class Admins extends CI_Controller {
 	}
 	
 	public function submit_content($name){
-		
+		$lang = '_'.$this->lang->lang();
+		$data['filename']='application/views/pages/'.$name.$lang.'.php';
+		file_put_contents($data['filename'], $this->input->post('elm1'));
 	}
 }
