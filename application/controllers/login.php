@@ -8,6 +8,7 @@ class Login extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation', 'session');
+		$this->data=array();
 		$this->data = array_merge($this->data, $this->session->all_userdata());
 	}
 
