@@ -1,5 +1,5 @@
 <div id="content" class='container'>
-	<div class="content">
+	<div class="content expando">
 		<div class="container">
 			<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>
 				<?php echo validation_errors(); ?>
@@ -66,6 +66,7 @@
 					}
 				</style>
 				<!--?php echo _('Username'); ?-->
+				<div class='section-header'><?php echo _('Registration'); ?></div>
 				<table>
 					<tr>
 						<td><label for='email' class='form-label'><?php echo _('Email'); ?></label></td>
