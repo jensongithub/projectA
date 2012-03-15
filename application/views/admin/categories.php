@@ -1,4 +1,3 @@
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <?php echo js('jquery-validation-1.9.0/jquery.validate.min.js'); ?>
 <?php echo css('css/admin/categories.css') ?>
 

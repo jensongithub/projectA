@@ -1,41 +1,42 @@
 <div id="content" class='container'>
 	<div class="content">
+	
+		<script type='text/javascript'>
+		</script>
+			
 		<div id="cat-menu">
 			<div class=''>
-				<h4><?php _('women'); ?></h4>
-				<p><a href=''>SALES</a></p>
-				<p><a href=''>TOPS</a></p>
-				<p><a href=''>Tees & Knit</a></p>
-				<p><a href=''>Dress</a></p>
-				<p><a href=''>Cashmere</a></p>
-				<div class=''>
-					<p><?php echo anchor('dept/women/sweaters', 'Sweaters'); ?></p>
-					<div class='category-level'>
-						<p><?php echo anchor('dept/women/cardigans', 'Cardigans'); ?></p>
-						<p><a href=''>Vests</a></p>
-						<p><a href=''>Crewnecks & V-necks</a></p>
-						<p><a href=''>Shawl Collars & Henlexs</a></p>
-						<p><a href=''>Turlenecks</a></p>
-						<p><a href=''>Cables</a></p>
-					</div>
-				</div>
-				<p><a href=''>Trousers</a></p>
-				<p><a href=''>Denmin Trousers</a></p>
-				<p><a href=''>Inner Wear</a></p>
+				<h4><?php echo _('WOMEN'); ?></h4>
+				<?php
+				foreach( $menu as $item ){
+					$item_name = explode(' -> ', $item['name']);
+					echo "<div>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+				}
+				?>
 			</div>
 		</div>
 
 		<div id='cat-main' class="container">
 			<div class="category-head">
-				<h3><?php echo ucfirst($cat); ?></h3>
+				<h3><?php echo ucfirst($cat['name']); ?></h3>
 				<span><?php if( isset($path) ) echo $path[0]; ?></span>
 			</div>
 			<?php
 				foreach( $products as $item ) {
+					$item_name = explode('.', $item['name']);
 			?>
 			<div class="product-thumbnail">
-				<?php echo anchor("dept/women/$cat/view/$item", img("web-11-11-2011/WOMEN/$item")); ?>
-				<span>Product name</span><br />
+				<?php
+				if( isset($item['cat']) ) {
+					if( file_exists( "images/products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG" ) )
+						echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG"));
+				}
+				else{
+					if( file_exists( "images/products/${cat['name']}/${item['name']}-F.JPG" ) )
+						echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['name']}-F.JPG"));
+				}
+				?>
+				<span><?php echo $item['name'] ?></span><br />
 				<span>$Price</span><br />
 			</div>
 			<?php

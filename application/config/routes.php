@@ -40,10 +40,12 @@
 
 $route['default_controller'] = 'index';
 
+$route['^(en|zh|cn)/dept/(.+)/(.+)/view/(.+)$'] = 'dept/view/$2/$3/$4';
 
 // URI like '/en/about' -> use controller 'about'
 $route['(en|zh|cn)/logout$'] = 'index/logout';
 $route['^(en|zh|cn)/(.+)$'] = "$2";
+
 
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
 $route['categories/(:any)'] = 'categories/view/$1';
