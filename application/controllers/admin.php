@@ -4,7 +4,7 @@ if (! defined("BASEPATH")) exit("No direct script access allowed");
 class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper('html');
+		$this->load->helper(array('html','form','url'));		
 	}
 
 	public function index(){
@@ -88,8 +88,6 @@ class Admin extends CI_Controller {
 	public function edit_products(){
 		// require_login();
 		
-		$this->load->helper(array('form'));
-		
 		if( $this->input->post('upload') == '1' ){
 			$config['upload_path'] = 'uploads/';
 			$config['allowed_types'] = 'xls';
@@ -149,8 +147,12 @@ class Admin extends CI_Controller {
 	}
 	
 	public function submit_content($name){
+		$this->load->helper(array('html','form','url'));
 		$lang = '_'.$this->lang->lang();
-		$data['filename']='application/views/pages/'.$name.$lang.'.php';
-		file_put_contents($data['filename'], $this->input->post('elm1'));
+		$data['filename']='application/views/pages/'.$name.$lang.'.php';		
+		if(file_exists($data['filename'])===TRUE){
+			file_put_contents($data['filename'], $this->input->post('elm1'));
+		}
+		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}
 }

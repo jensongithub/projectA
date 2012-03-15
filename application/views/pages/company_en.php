@@ -1,45 +1,50 @@
-<div id="content" class='container'>
-	<div class='section'>
-		<a href="#" id='contact'><?php echo _('Contact'); ?></a>
-	<div>電郵 info@casimira.com.hk</div>
-	<div>電話 39739211</div>
+<div id="content" class="container">
+<div class="section">
+<div>this is english</div>
+<div>電郵 info@casimira.com.hk</div>
+<div>電話 39739211</div>
 </div>
-<div class='section'>
-	<a href="#" id='location'><?php echo _('Location'); ?></a>
-	<table name='location'>
-		<thead>
-			<tr>
-				<th>分店</th>
-				<th>地址</th>
-				<th>電話</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>尖沙咀店</td><td>九龍尖沙咀加連威老道27號嘉榮大廈地下A鋪</td><td>23327006</td>
-			</tr>
-			<tr>
-				<td>太古店</td><td>康怡廣場(南座)吉之島1樓女裝部104A</td><td>29410469</td>
-			</tr>
-			<tr>
-				<td>黃埔店</td><td>黃埔吉之島地庫B6-10</td><td>34881638</td>
-			</tr>
-			<tr>
-				<td>屯門店</td><td>屯門市廣場吉之島1期1樓L330D</td><td>34883198</td>
-			</tr>
-			<tr>
-				<td>九龍灣店</td><td>MEGA BOX 吉之島 L117</td><td>34883178</td>
-			</tr>
-			<tr>
-				<td>元朗店</td><td>千色CITISTORE 3樓女裝部C18</td><td>24703880</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="section">
+<table>
+<thead>
+<tr><th>分店</th><th>地址</th><th>電話</th></tr>
+</thead>
+<tbody>
+<tr>
+<td>尖沙咀店</td>
+<td>九龍尖沙咀加連威老道27號嘉榮大廈地下A鋪</td>
+<td>23327006</td>
+</tr>
+<tr>
+<td>太古店</td>
+<td>康怡廣場(南座)吉之島1樓女裝部104A</td>
+<td>29410469</td>
+</tr>
+<tr>
+<td>黃埔店</td>
+<td>黃埔吉之島地庫B6-10</td>
+<td>34881638</td>
+</tr>
+<tr>
+<td>屯門店</td>
+<td>屯門市廣場吉之島1期1樓L330D</td>
+<td>34883198</td>
+</tr>
+<tr>
+<td>九龍灣店</td>
+<td>MEGA BOX 吉之島 L117</td>
+<td>34883178</td>
+</tr>
+<tr>
+<td>元朗店</td>
+<td>千色CITISTORE 3樓女裝部C18</td>
+<td>24703880</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class='section'>
-	<a href='#' id='howtoorder'><?php echo _('How to Order'); ?></a>
-	<pre>
-<b>如何訂購</b>
+<div class="section">
+<pre><strong>如何訂購</strong>
 如何在Casimira網上商店購物
 
 購物方法輕鬆方便，只需幾個簡單步驟：
@@ -52,23 +57,23 @@
 
 某特別情況下，系統或會錯誤列出某些缺貨或不存在的產品、顏色或尺碼選擇，假如以上情況出現，我們將保留取消有關訂單的權利。
 
-<b>收藏清單</b>
+<strong>收藏清單</strong>
 
 假如您希望稍後購買某件產品，您可以將該產品從「購物袋」移到「收藏清單」當中，讓您日後再購物時更容易找回心儀的選擇。
 
-<b>訂單狀態</b>
+<strong>訂單狀態</strong>
 
 如欲查看目前的訂單狀態，請登入帳戶並選擇「我的訂單」，點擊有關的訂單編號以檢視訂單詳情。
 
-<b>缺貨產品</b>
+<strong>缺貨產品</strong>
 
 假如您所訂購的產品目前缺貨，我們將會在訂單中取消該項目並通知您。您毋須為尚未付運的產品付款。
 
-<b>多個送貨地址</b>
+<strong>多個送貨地址</strong>
 
 每張訂單只限輸入一個送貨地址。假如您想將不同產品運送至不同地址，請分開為多張訂單。為了讓您日後購物倍添方便，系統會自動儲存所有已輸入的地址於「我的帳戶」中的送貨地址一欄。
 
-<b>付款方法</b>
+<strong>付款方法</strong>
 
 我們接受以下信用卡：
 
@@ -76,18 +81,15 @@
 	-萬事達卡(MasterCard)
 	-美國運通卡 (American Express)
 
-<b>貨幣</b>
+<strong>貨幣</strong>
 
 所有產品價錢均以您所選擇的付款貨幣顯示。您可以在網頁頂部選擇顯示為港元(HKD)或美元(USD)。
 
 		</pre>
-	</div>
-
-	<div class='section'>
-		<a href='#' id='terms'><?php echo _('Terms'); ?></a>
-		<pre>
+</div>
+<div class="section">
 <h3>使用條款</h3>
-
+<pre>
 歡迎使用由Casimira企業有限公司(「Casimira」) 營運的www.casimira.com.hk (「本網站」)。請您仔細閱讀規管您使用本網站及／或站內資料的使用條款。
 
 於整個本網站中，「我們」指Casimira。
@@ -140,7 +142,7 @@
 
 8. 私隱政策
 
-    我們尊重您的私隱，並致力於保護您的個人資料。詳情請參閱該<a href='#privacy'>聲明</a>。
+    我們尊重您的私隱，並致力於保護您的個人資料。詳情請參閱該<a href="#privacy">聲明</a>。
 
 9.  完整協議
 
@@ -166,11 +168,9 @@
 
     倘您對本網站有任何查詢，請電郵至onlinecs@casimira.com。我們會在可行情況下盡量即時回應您的每項查詢，但我們不會就任何延誤回應或不回應承擔責任及／或法律責任。
 	</pre>
-	</div>
-	<div class='section'>
-		<a href='#' id='privacy'><?php echo _('Privacy'); ?></a>
-		<pre>
-私隱政策
+</div>
+<div class="section">
+<pre>私隱政策
 個人資料（私隱）政策聲明（「聲明」）
 
     收集政策及目的
@@ -235,7 +235,5 @@
 
     Casimira有限公司
 		</pre>
-	</div>
-
-
+</div>
 </div>

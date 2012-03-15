@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -17,8 +17,8 @@
 
 			<?php echo ($this->common_model->is_login()===FALSE) ? '': '<li>Hello, '.$firstname. '</li>';?>
 			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
-			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">�c</span>'); ?></li>
-			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">²</span>'); ?></li>
+			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
+			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
 			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
 			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?>
