@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -5,7 +6,6 @@
 	<?php echo css('style.css'); ?>
 </head>
 <body>
-
 <div id='header'>
 	<div class='menu_lang'>
 		<ul>
@@ -14,6 +14,9 @@
 	</div>
 	<div class='menu_l1'>
 		<ul>
+			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
+			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">Ác</span>'); ?></li>
+			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">Â²</span>'); ?></li>
 			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
 			<li><?php echo anchor('login', _('Login')); ?></li>

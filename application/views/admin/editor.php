@@ -35,11 +35,11 @@
 </script>
 
 <div id='content' class='container'>
-	<div class='content'>
-		<form method="post" action="admin/edit_content/<?php echo $view_name;?>">
-			<h3>Edit <?php echo $view_name; ?></h3>
+	<div class='content expando'>
+		<form method="post" action="admin/submit_content/<?php echo $view_name;?>">
+			<h2>Edit <?php echo $view_name; ?></h2>
 			<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
-			<textarea id="elm1" name="elm1" rows="15" cols="80" style="width: 80%">
+			<textarea id="elm1" name="elm1" rows="30" cols="110">
 			<?php
 				echo file_get_contents($filename);
 			?>

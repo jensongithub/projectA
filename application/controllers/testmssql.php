@@ -15,6 +15,6 @@ class Testmssql extends CI_Controller {
 		$result = $this->common_model->test();
 		print_r($result);
 
-		$this->load->view('templates/footer');
+		$this->load->view('admin/templates/footer');
 	}
 }

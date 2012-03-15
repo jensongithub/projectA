@@ -9,9 +9,9 @@ class Company extends CI_Controller {
 
 	public function index(){
 		$data = array('title'=>'Company');
+		$lang = '_'.$this->lang->lang();
 		$this->load->view('templates/header', $data);
-		$this->load->view("pages/company");
-		$this->load->view("templates/footer");
+		$this->load->view('pages/company'.$lang);
+		$this->load->view('templates/footer');
 	}
-
 }
