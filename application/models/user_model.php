@@ -17,11 +17,11 @@ class User_model extends CI_Model {
 	 */
 	public function get_user($key = '', $field = 'id') {
 		if ($key === '') {
-			$query = $this->db->get('user');
+			$query = $this->db->get('users');
 			return $query->result_array();
 		}
 		else {
-			$query = $this->db->get_where( 'user', array($field => $key) );
+			$query = $this->db->get_where( 'users', array($field => $key) );
 			return $query->row_array();
 		}
 	}
@@ -43,7 +43,7 @@ class User_model extends CI_Model {
 			$user['firstname'] = $this->input->post('firstname');
 			$user['lastname'] = $this->input->post('lastname');
 			$user['email'] = $this->input->post('email');
-			$user['pwd'] = md5($this->input->post('pwd'));
+			$user['pwd'] = $this->input->post('pwd');
 			$user['phone'] = $this->input->post('phone');
 			$user['gender'] = $this->input->post('gender');
 			
