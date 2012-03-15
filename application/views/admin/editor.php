@@ -34,9 +34,8 @@
 	});
 </script>
 
-<div id='content' class='container'>
-	<div class='content expando'>
-		<form method="post" action="admin/submit_content/<?php echo $view_name;?>">
+
+		<form method='POST' name='content' action="<?php echo site_url().$this->lang->lang();?>/admin/submit_content/<?php echo $view_name;?>">
 			<h2>Edit <?php echo $view_name; ?></h2>
 			<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
 			<textarea id="elm1" name="elm1" rows="30" cols="110">
@@ -45,11 +44,12 @@
 			?>
 			</textarea>
 			<br />
+			<input type="hidden" name="testdata" value="got the value" />
 			<input type="submit" name="save" value="Submit" />
 			<input type="reset" name="reset" value="Reset" />
 		</form>
 	</div>
-</div>
+
 <script type="text/javascript">
 if (document.location.protocol == 'file:') {
 	alert("The examples might not work properly on the local file system due to security settings in your browser. Please use a real webserver.");

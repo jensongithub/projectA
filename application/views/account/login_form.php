@@ -1,10 +1,11 @@
 <div id="content" class='container'>
-	<div class="expando">
+	<div class="content expando">
+		<div class="container">
 		<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>
 		<?php echo validation_errors(); ?>
 		<?php if( $this->input->post('submit') ) echo "</div>"; ?>
 		
-		<h3><?php echo _("Sign In / Create Account");?></h3>
+		<div class='section-header'><?php echo _("Sign In / Create Account");?></div>
 		<div class='left-block'>
 			<div class='header'><?php echo _("Existing Customers");?></div>
 			<form method="POST" name='login_form' action="login">

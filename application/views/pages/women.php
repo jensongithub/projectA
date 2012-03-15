@@ -10,7 +10,7 @@
 				<?php
 				foreach( $menu as $item ){
 					$item_name = explode(' -> ', $item['name']);
-					echo "<div>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+					echo "<div class='menu-item level-" . (count( explode('.', $item['level']) ) - 1) . "'>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
 				}
 				?>
 			</div>

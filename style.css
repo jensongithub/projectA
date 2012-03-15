@@ -4,6 +4,18 @@ html {
 	overflow-y: scroll;
 }
 
+body {
+background-image:url('/images/background.jpg');
+background-repeat:no-repeat;
+background-attachment:fixed;
+background-position:center; 
+-o-background-size: 100% 100%, auto;
+-moz-background-size: 100% 100%, auto;
+-webkit-background-size: 100% 100%, auto;
+background-size: 100% 100%, auto;
+
+}
+
 body,
 h1,
 h2,
@@ -152,6 +164,13 @@ pre {
 	margin-right:3em;
 }
 
+.section-header{
+	font-size:22px;
+	padding-top:.5em;
+	padding-bottom:.5em;
+	background-color:#de3;
+}
+
 .left-block .header,
 .right-block .header{
 	padding-top:1em;
@@ -174,7 +193,7 @@ pre {
 }
 
 .expando{
-	height:70%;
+	min-height:40em;
 }
 
 .footer_list{
@@ -579,6 +598,24 @@ h2 {
 	float: right;
 	font-size: 1.2em;
 	width: 25px;
+}
+
+.level-0 {
+	font-size: 0.95em;
+}
+
+.level-1 {
+	font-size: 0.9em;
+	margin-left: 20px;
+}
+
+.level-2 {
+	font-size: 0.8em;
+	margin-left: 40px;
+}
+
+.menu-item {
+	
 }
 
 .product-thumbnail {

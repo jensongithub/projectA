@@ -13,6 +13,15 @@ class Menu_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function get_submenu($level = '') {
+		$this->db->order_by("level", "asc");
+		$this->db->join('categories', 'categories.id = navigations.cat_id', 'right');
+		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.text_zh, navigations.text_cn, navigations.path, navigations.level');
+		$this->db->where("level like '${level}%'");
+		$query = $this->db->get('navigations');
+		return $query->result_array();
+	}
+	
 	public function get_menu_item($id = "") {
 		if ($id === "") {
 			return FALSE;

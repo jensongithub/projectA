@@ -135,7 +135,7 @@ class Admin extends CI_Controller {
 			echo "$key => $value";
 		}
 	}
-	
+		
 	public function edit_content($name){
 		// about, company, location, sitemap contact can be editor here
 		$data=array();
@@ -149,8 +149,12 @@ class Admin extends CI_Controller {
 	}
 	
 	public function submit_content($name){
+		$this->load->helper(array('html','form','url'));
 		$lang = '_'.$this->lang->lang();
-		$data['filename']='application/views/pages/'.$name.$lang.'.php';
-		file_put_contents($data['filename'], $this->input->post('elm1'));
+		$data['filename']='application/views/pages/'.$name.$lang.'.php';		
+		if(file_exists($data['filename'])===TRUE){
+			file_put_contents($data['filename'], $this->input->post('elm1'));
+		}
+		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}
 }
