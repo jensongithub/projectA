@@ -8,7 +8,7 @@ class Product_model extends CI_Model {
 	public function get_menu() {
 		$this->db->order_by("level", "asc");
 		$this->db->join('categories', 'categories.id = navigations.cat_id', 'right');
-		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.path, navigations.level');
+		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.text_zh, navigations.text_cn, navigations.path, navigations.level');
 		$query = $this->db->get('navigations');
 		return $query->result_array();
 	}
