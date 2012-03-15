@@ -4,7 +4,7 @@ if (! defined("BASEPATH")) exit("No direct script access allowed");
 class Admin extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper(array('html','form','url'));		
+		$this->load->helper('html');
 	}
 
 	public function index(){
@@ -88,6 +88,8 @@ class Admin extends CI_Controller {
 	public function edit_products(){
 		// require_login();
 		
+		$this->load->helper(array('form'));
+		
 		if( $this->input->post('upload') == '1' ){
 			$config['upload_path'] = 'uploads/';
 			$config['allowed_types'] = 'xls';
@@ -133,7 +135,7 @@ class Admin extends CI_Controller {
 			echo "$key => $value";
 		}
 	}
-	
+		
 	public function edit_content($name){
 		// about, company, location, sitemap contact can be editor here
 		$data=array();
