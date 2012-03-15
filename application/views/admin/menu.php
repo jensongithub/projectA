@@ -37,6 +37,8 @@
 				$('#cat_id').val(holder.id);
 				$('#cat_name').val(holder.name);
 				$('#text').val(holder.text);
+				$('#text_zh').val(holder.text_zh);
+				$('#text_cn').val(holder.text_cn);
 				$('#path').val(holder.path);
 				$('#level').val(holder.level);			
 			});
@@ -44,12 +46,14 @@
 			$('#btnSubmit').click(function(){
 				var cat_id = $('#cat_id').val();
 				var text = $('#text').val();
+				var text_zh = $('#text_zh').val();
+				var text_cn = $('#text_cn').val();
 				var path = $('#path').val();
 				var level = $('#level').val();
 				$.ajax({
 					type: "POST",
 					url: "/en/worker/update_menu",
-					data: "cat_id=" + cat_id + "&text=" + text + "&path=" + path + "&level=" + level
+					data: "cat_id=" + cat_id + "&text=" + text + "&text_zh=" + text_zh + "&text_cn=" + text_cn + "&path=" + path + "&level=" + level
 				}).done(function( msg ) {
 					$('#msg-panel').html("Update: " + msg);
 					
@@ -80,25 +84,91 @@
 				event.stopPropagation();
 				event.stopImmediatePropagation();
 			});
+			
+			$("#t-menu > li").click(function(e){
+				switch(e.target.id){
+					case "t-en":
+						//change status &amp;amp;amp; style menu
+						$("#t-en").addClass("t-active");
+						$("#t-zh").removeClass("t-active");
+						$("#t-cn").removeClass("t-active");
+						//display selected division, hide others
+						$("#tab-en").fadeIn(200);
+						$("#tab-zh").css("display", "none");
+						$("#tab-cn").css("display", "none");
+						$('#text').select();
+						break;
+					case "t-zh":
+						//change status &amp;amp;amp; style menu
+						$("#t-en").removeClass("t-active");
+						$("#t-zh").addClass("t-active");
+						$("#t-cn").removeClass("t-active");
+						//display selected division, hide others
+						$("#tab-zh").fadeIn(200);
+						$("#tab-en").css("display", "none");
+						$("#tab-cn").css("display", "none");
+						$('#text_zh').select();
+						break;
+					case "t-cn":
+						//change status &amp;amp;amp; style menu
+						$("#t-en").removeClass("t-active");
+						$("#t-zh").removeClass("t-active");
+						$("#t-cn").addClass("t-active");
+						//display selected division, hide others
+						$("#tab-cn").fadeIn(200);
+						$("#tab-en").css("display", "none");
+						$("#tab-zh").css("display", "none");
+						$('#text_cn').select();
+						break;
+				}
+				//alert(e.target.id);
+				return false;
+			});
 		});
 		
 	</script>
 </div>
 
 <div id='forms-panel'>
-	<div id='msg-panel'></div>
+	<div id='msg-panel-holder'>
+		<div id='msg-panel'></div>
+	</div>
 		
 	<form id='menu-edit-form' action='edit_menu' method='post' class='form'>
 		<input type='hidden' id='cat_id' name='cat_id' value='<?php echo set_value('cat_id'); ?>' />
 		<h3>Edit menu item</h3>
 		<p><?php echo _('Menu item') ?></p>
-		<p><input id='cat_name' name='cat_name' readonly='readonly' size='50' /></p>
-		<p><label for='text'><?php echo _('Display text') ?></label></p>
-		<p><input id='text' name='text' size='50' value='<?php if( validation_errors() != "" ) echo set_value('text'); ?>' /></p>
+		<p><input id='cat_name' name='cat_name' readonly='readonly' size='50' /></p>	
+		
 		<p><label for='path'><?php echo _('Path to the photo folder') ?></label></p>
 		<p><input id='path' name='path' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path'); ?>' /></p>
 		<p><label for='level'><?php echo _('Display level') ?></label></p>
 		<p><input id='level' name='level' size='50' value='<?php if( validation_errors() != "" ) echo set_value('level'); ?>' /></p>
-		<p><input id='btnSubmit' type='submit' value='<?php echo _('Submit') ?>' /></p>
+		
+		<div id="tabs">
+			<ul id='t-menu'>
+				<li id='t-en' class='t-active'><?php echo _('English') ?></li>
+				<li id='t-zh'><?php echo _('Trad. Chinese') ?></li>
+				<li id='t-cn'><?php echo _('Simp. Chinese') ?></li>
+			</ul>
+			<div class='clear'></div>
+			
+			<div class='tab-content'>
+				<div id="tab-en">
+					<p><label for='text'><?php echo _('Display text') ?></label></p>
+					<p><input id='text' name='text' size='50' value='' /></p>
+				</div>
+				<div id="tab-zh">
+					<p><label for='text_zh'><?php echo _('Display text') ?></label></p>
+					<p><input id='text_zh' name='text' size='50' value='' /></p>
+				</div>
+				<div id="tab-cn">
+					<p><label for='text_cn'><?php echo _('Display text') ?></label></p>
+					<p><input id='text_cn' name='text' size='50' value='' /></p>
+				</div>
+			</div>
+		</div>
+		
+		<p><input id='btnSubmit' type='submit' value='<?php echo _('Submit') ?>' /></p>		
 	</form>
 </div>

@@ -33,6 +33,44 @@
 	padding: 5px;
 }
 
+#msg-panel-holder {
+	height: 45px;
+}
+
+#t-menu li {
+	-moz-border-radius: 5px 10px 0 0;
+	border-radius: 5px 10px 0 0;
+	border: 1px solid #CCC;
+	border-bottom: 1px solid #BBB;
+	background-color: #DDD;
+	cursor: pointer;
+	float: left;
+	margin-right: 1px;
+	margin-bottom: -1px;
+	padding: 3px;
+}
+
+#t-menu .t-active {
+	background-color: #FFF;
+	border-bottom: 1px solid #FFF;
+}
+
+#tab-cn {
+	display: none;
+}
+
+#tab-en {
+	display: block;
+}
+
+#tab-zh {
+	display: none;
+}
+
+#tabs {
+	margin: 5px 0;
+}
+
 .error {
 	background-color: #FCC;
 	border: 2px solid #B33;
@@ -73,4 +111,9 @@
 	background-color: #CFC;
 	border: 2px solid #3B3;
 	color: #3B3;
+}
+
+.tab-content {
+	border: 1px solid #CCC;
+	padding: 5px;
 }

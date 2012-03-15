@@ -8,7 +8,7 @@ class Menu_model extends CI_Model {
 	public function get_menu() {
 		$this->db->order_by("level", "asc");
 		$this->db->join('categories', 'categories.id = navigations.cat_id', 'right');
-		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.path, navigations.level');
+		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.text_zh, navigations.text_cn, navigations.path, navigations.level');
 		$query = $this->db->get('navigations');
 		return $query->result_array();
 	}
@@ -31,7 +31,7 @@ class Menu_model extends CI_Model {
 	}
 	
 	public function edit_menu_item($menu = FALSE) {
-		if( $menu == FALSE || $menu['cat_id'] == '' || $menu['text'] == '' )
+		if( $menu == FALSE || $menu['cat_id'] == '' || $menu['text'] == '' || $menu['text_zh'] == '' || $menu['text_cn'] == '' )
 			return FALSE;
 
 		$this->db->where('cat_id', $menu['cat_id']);
