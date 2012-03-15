@@ -41,8 +41,8 @@
 	-moz-border-radius: 5px 10px 0 0;
 	border-radius: 5px 10px 0 0;
 	border: 1px solid #CCC;
-	border-bottom: 0;
-	background-color: #CCC;
+	border-bottom: 1px solid #BBB;
+	background-color: #DDD;
 	cursor: pointer;
 	float: left;
 	margin-right: 1px;
@@ -52,6 +52,7 @@
 
 #t-menu .t-active {
 	background-color: #FFF;
+	border-bottom: 1px solid #FFF;
 }
 
 #tab-cn {

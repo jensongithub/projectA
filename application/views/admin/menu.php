@@ -96,6 +96,7 @@
 						$("#tab-en").fadeIn(200);
 						$("#tab-zh").css("display", "none");
 						$("#tab-cn").css("display", "none");
+						$('#text').select();
 						break;
 					case "t-zh":
 						//change status &amp;amp;amp; style menu
@@ -106,6 +107,7 @@
 						$("#tab-zh").fadeIn(200);
 						$("#tab-en").css("display", "none");
 						$("#tab-cn").css("display", "none");
+						$('#text_zh').select();
 						break;
 					case "t-cn":
 						//change status &amp;amp;amp; style menu
@@ -116,6 +118,7 @@
 						$("#tab-cn").fadeIn(200);
 						$("#tab-en").css("display", "none");
 						$("#tab-zh").css("display", "none");
+						$('#text_cn').select();
 						break;
 				}
 				//alert(e.target.id);
