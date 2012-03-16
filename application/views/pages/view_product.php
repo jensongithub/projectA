@@ -1,19 +1,25 @@
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <div id="content" class='container'>
 	<div class="content">
 		<div class="container">
 			<div id='product-image'>
 				<div id='showcase'>
 					<?php
-					$attr = array( 'id' => 'showcase-stage', 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-normal');
+					$files = array();
+					$files[] = "products/${category['name']}/$id-F.JPG";
+					$files[] = "products/${category['name']}/$id-B.JPG";
+					$files[] = "products/${category['name']}/$id-D1.JPG";
+					$files[] = "products/${category['name']}/$id-D2.JPG";
+					$list = array();
+					
+					$attr = array( 'id' => 'showcase-stage', 'src' => $files[0], 'class' => 'showcase-normal');
 					echo img($attr);
-
-					$list = array(
-								img( array( 'src' => "web-11-11-2011/WOMEN/$id", 'class' => 'showcase-thumbnail') ),
-								img( array( 'src' => 'web-11-11-2011/WOMEN/IMG_2525a.jpg', 'class' => 'showcase-thumbnail') ),
-								img( array( 'src' => 'web-11-11-2011/WOMEN/IMG_2559a.jpg', 'class' => 'showcase-thumbnail') ),
-								img( array( 'src' => 'web-11-11-2011/WOMEN/DSL421-5a.jpg', 'class' => 'showcase-thumbnail') )
-					);
+					
+					foreach( $files as $file ){
+						if( file_exists( "images/$file" ) )
+						$list[] = img( array( 'src' => $file, 'class' => 'showcase-thumbnail') );
+					}
+					
+					
 
 					$attr = array(
 										'id' => 'showcase-backstage'
@@ -44,9 +50,7 @@
 			<div id='product-text'>
 				<?php
 				$list = array(
-							anchor('dept/' . $dept, _( ucfirst($dept) )),
-							' > ',
-							anchor('dept/' . $dept . '/' . $cat, _( ucfirst($cat) )),
+							anchor('dept/' . $dept . '/' . $category['id'], _( ucfirst($cat) )),
 							' > ',
 							$id
 				);

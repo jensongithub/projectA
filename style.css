@@ -600,6 +600,24 @@ h2 {
 	width: 25px;
 }
 
+.level-0 {
+	font-size: 0.95em;
+}
+
+.level-1 {
+	font-size: 0.9em;
+	margin-left: 20px;
+}
+
+.level-2 {
+	font-size: 0.8em;
+	margin-left: 40px;
+}
+
+.menu-item {
+	
+}
+
 .product-thumbnail {
 	border-top: 2px solid #FFF;
 	border-left: 1px solid #FFF;
