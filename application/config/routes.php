@@ -48,8 +48,8 @@ $route['^(en|zh|cn)/(.+)$'] = "$2";
 //$route['^en/pages/(.+)$'] = "pages/view/$1";
 $route['categories/(:any)'] = 'categories/view/$1';
 $route['categories'] = 'categories';
-$route['news/(:any)'] = 'news/view/$1';
-$route['news'] = 'news';
+//$route['news/(:any)'] = 'news/view/$1';
+//$route['news'] = 'news';
 //$route['(:any)'] = 'pages/view/$1';
 
 // '/en' and '/zh' URIs -> use default controller

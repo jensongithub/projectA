@@ -5,7 +5,18 @@ class News extends CI_Controller {
 		parent::__construct();
 		$this->load->model('news_model');
 	}
-
+	
+	
+	public function index(){
+		$data = array('title'=>'News');
+		$data = array_merge($data, $this->session->all_userdata());
+		$lang = '_'.$this->lang->lang();
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/news'.$lang);
+		$this->load->view('templates/footer');
+	}
+	
+	/*
 	public function index()	{
 		$this->data['news'] = $this->news_model->get_news();
 		$this->data['title'] = 'News archive';
@@ -28,4 +39,5 @@ class News extends CI_Controller {
 		$this->load->view('news/view', $this->data);
 		$this->load->view('templates/footer');
 	}
+	*/
 }

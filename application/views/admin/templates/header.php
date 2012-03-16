@@ -19,7 +19,7 @@
 			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
-			<li><a href='http://facebook.com/casimira'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
+			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
 			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?>
 		</ul>
@@ -29,6 +29,7 @@
 		<ul>
 			<li><?php echo anchor('admin/', _('Dashboard')); ?></li>
 			<li><?php echo anchor('admin/edit_content/company', _('Company')); ?></li>
+			<li><?php echo anchor('admin/edit_content/news', _('News')); ?></li>
 			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
 			<li><?php echo anchor('admin/edit_menu', _('Menu')); ?></li>
 			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
