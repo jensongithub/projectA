@@ -350,14 +350,14 @@ h2 {
 
 #showcase-backstage {
 	float: left;
+	margin-left: 5px;
 	width: 100px;
 	height: 448px;
 }
 
 #showcase-backstage li {
 	margin: 5px auto 10px auto;
-	width: 85px;
-	height: 100px;
+	width: 100px;
 }
 
 #showcase-stage {
@@ -403,7 +403,7 @@ h2 {
 
 .showcase-normal {
 	width: 380px;
-	height: 450px;
+	height: 570px;
 }
 
 .showcase-enlarged {
@@ -430,8 +430,8 @@ h2 {
 }
 
 .similar-thumbnail img {
-	width: 85px;
-	height: 100px;
+	width: 90px;
+	height: 130px;
 }
 
 .showcase-thumbnail {
@@ -439,8 +439,8 @@ h2 {
 	-webkit-box-shadow: 1px 1px 2px #CCC;
 	box-shadow: 1px 1px 2px #CCC;
 	cursor: pointer;
-	width: 85px;
-	height: 100px;
+	width: 90px;
+	height: 130px;
 }
 
 .showcase-thumbnail:hover {
@@ -605,13 +605,14 @@ h2 {
 }
 
 .level-1 {
-	font-size: 0.9em;
-	margin-left: 20px;
+	font-size: 0.95em;
+	font-weight: bold;
+	margin-left: 0px;
 }
 
 .level-2 {
-	font-size: 0.8em;
-	margin-left: 40px;
+	font-size: 0.9em;
+	margin-left: 20px;
 }
 
 .menu-item {
@@ -627,7 +628,7 @@ h2 {
 	margin: 10px 5px;
 	text-align: center;
 	width: 175px;
-	height: 265px;
+	height: 315px;
 }
 
 .product-thumbnail:hover {
@@ -639,7 +640,7 @@ h2 {
 
 .product-thumbnail img {
 	width: 175px;
-	height: 200px;
+	height: 250px;
 }
 
 .theme-default #slider {
