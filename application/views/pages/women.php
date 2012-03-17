@@ -10,7 +10,11 @@
 				<?php
 				foreach( $menu as $item ){
 					$item_name = explode(' -> ', $item['name']);
-					echo "<div class='menu-item level-" . (count( explode('.', $item['level']) ) - 1) . "'>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+					$level = count( explode('.', $item['level']) ) - 1;
+					if( $level == 1 )
+						echo "<div class='menu-item level-$level'>+ " . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+					else if( $level > 1 )
+						echo "<div class='menu-item level-$level'>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
 				}
 				?>
 			</div>
