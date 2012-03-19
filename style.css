@@ -117,26 +117,26 @@ pre {
 }
 
 .menu_lang,
-.menu_l1,
-.menu_l2 {
+.menu_l1{
 	text-align:right;
+}
+.menu_l2 {
+	text-align:center;	
+	line-height:2.5em;
 }
 
 .menu_lang  li,
-.menu_l1 li,
-.menu_l2  li {
+.menu_l1 li
+{
 	display: inline;	
-	margin-right: auto;
+	padding-right: auto;
 	padding-left:1em;
 }
 
 .menu_l2  li {
-	padding-left:2em;
-}
-
-.menu_l2 ul {
-	text-align:center;
-	line-height:2.5em;
+	display: inline;
+	padding-left: 2em;
+	padding-right: 3em;
 }
 
 .menu_l1 a,
@@ -157,8 +157,8 @@ pre {
 background-image:url('/images/dot.png');
 background-repeat:no-repeat;
 background-position: right;
-padding-right: 3em;
-padding-left: 1em;
+padding-right: 0em;
+padding-left: 0em;
 display: block;
 /*line-height: 80px;*/
 text-decoration: none;
