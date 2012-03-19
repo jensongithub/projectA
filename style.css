@@ -106,35 +106,30 @@ pre {
 	height:30px;
 }
 
-.menu_l1 {
-	background:#501100;
-}
-
-.menu_l2 {
-	/*margin-bottom:3em;*/
-	padding-bottom:1em;
-	background:#FFF;
-}
-
 .menu_lang,
 .menu_l1{
 	text-align:right;
+	background:#501100;
 }
+
+
 .menu_l2 {
-	text-align:center;	
+	padding-bottom:1em;
+	background:#FFF;
+	text-align:center;
 	line-height:2.5em;
 }
 
 .menu_lang  li,
-.menu_l1 li
+.menu_l1 li,
+.menu_l2  li 
 {
 	display: inline;	
 	padding-right: auto;
 	padding-left:1em;
 }
 
-.menu_l2  li {
-	display: inline;
+.menu_l2  li {	
 	padding-left: 2em;
 	padding-right: 3em;
 }
@@ -145,12 +140,19 @@ pre {
 .menu_l2 li{
 	font-family: Arial;
 	font-weight: bold;
-	font-size:16;
+	font-size:16px;
 	color:#fff;
 }
+
+.menu_l1 a,
+.menu_l1 li{
+	font-size:14px;
+}
+
+
 .menu_l2 a,
 .menu_l2 li{
-	color:#501100;
+	color:#501100;	
 }
 
 .divider{
@@ -609,9 +611,19 @@ h2 {
 	padding: 2px;
 }
 
+.form td:first-child{
+	width:150px;
+}
+
+
 .form-label {
-	display: inline-block;
-	width: 200px;
+	/*display: inline-block;
+	width: 100px;
+	*/
+}
+
+.form_indent{
+	margin-left:2em;
 }
 
 .hr {

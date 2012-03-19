@@ -67,7 +67,7 @@
 				</style>
 				<!--?php echo _('Username'); ?-->
 				<div class='section-header'><?php echo _('Registration'); ?></div>
-				<table>
+				<table style='width:100%;'>
 					<tr>
 						<td><label for='email' class='form-label'><?php echo _('Email'); ?></label></td>
 						<td><input id='email' name='email' type='email' class='required' value='<?php echo set_value('email'); ?>' /></td>
@@ -95,11 +95,27 @@
 					<tr>
 						<td><label for='' class='form-label'><?php echo _('Gender'); ?></label></td>
 						<td>
-						<input id='gender1' name='gender' type='radio' class='required' value='M' <?php echo set_radio('gender', 'M'); ?> />
-						<label for='gender1'><?php echo _('male'); ?></label> 
-						<input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> />
-						<label for='gender2'> <?php echo _('female'); ?></label>
-						<label for='gender' class='error'>Please select your gender</label></td>
+							<input id='gender1' name='gender' type='radio' class='required' value='M' <?php echo set_radio('gender', 'M'); ?> />
+							<label for='gender1'><?php echo _('male'); ?></label> 
+							<input id='gender2' name='gender' type='radio' value='F' <?php echo set_radio('gender', 'F'); ?> />
+							<label for='gender2'> <?php echo _('female'); ?></label>
+							<label for='gender' class='error'>Please select your gender</label>
+						</td>
+					</tr>
+					<tr>
+						<td colSpan=2>
+							<div class='form_indent'>
+								<input class="checkbox" type="checkbox" name="accept_email"  value="true" id="accept_email"/>
+								<label for ='accept_email' style="">
+								   <?php echo _("I would like to receive email newsletters and other email based offers relating to casimira's products and services"); ?>
+								</label>
+								<br/>
+								<input class="checkbox" type="checkbox" name="read_declaration"  value="true" id="read_declaration"/>
+								<label for='read_declaration' style="">
+								   <?php echo sprintf("%s %s %s %s", _('I accept the'), "<a href=''>"._('Terms of Use').'</a>', '&', "<a href=''>"._('Privacy Policy').'</a>'); ?>
+								</label>
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<td><input id='submit' name='submit' type='submit' value='<?php echo _('submit'); ?>' /></td>
