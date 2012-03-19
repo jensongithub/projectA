@@ -15,7 +15,7 @@
 	</div>	
 	<div class='menu_l1'>
 		<ul>
-			<?php echo ($this->common_model->is_login()===FALSE) ? '': '<li>Hello, '.$firstname. '</li>';?>
+			<?php echo ($this->common_model->is_login()===FALSE) ? '': '<li>'.anchor('account', "Hello, $firstname").'</li>';?>
 			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
