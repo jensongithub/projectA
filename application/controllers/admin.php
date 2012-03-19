@@ -2,19 +2,22 @@
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
 class Admin extends CI_Controller {
+	var $data;
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
+		$this->data = array();
+		$this->data = array_merge($this->data, $this->session->all_userdata());
 	}
 
 	public function index(){
 		// require_login();		
-		$data['title'] = 'Administration';
+		$this->data['title'] = 'Administration';
 		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/dashboard', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/dashboard', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function edit_categories(){
@@ -22,8 +25,8 @@ class Admin extends CI_Controller {
 		
 		$this->load->model('category_model');
 		
-		$data['title'] = 'Edit categories';
-		$data['action'] = '';
+		$this->data['title'] = 'Edit categories';
+		$this->data['action'] = '';
 		
 		$this->load->library('form_validation');
 		
@@ -35,7 +38,7 @@ class Admin extends CI_Controller {
 				$this->category_model->add_category( $this->input->post('catname-a') );
 			}
 			else{
-				$data['action'] = 'add';
+				$this->data['action'] = 'add';
 			}
 		}
 		else if( $this->input->post('action') == 'edit' ){
@@ -48,16 +51,16 @@ class Admin extends CI_Controller {
 				$this->category_model->edit_category( $this->input->post('catid'), $this->input->post('catname-e') );
 			}
 			else{
-				$data['action'] = 'edit';
+				$this->data['action'] = 'edit';
 			}
 		}
 		
-		$data['categories'] = $this->category_model->get_categories();
+		$this->data['categories'] = $this->category_model->get_categories();
 		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/categories', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/categories', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function edit_menu(){
@@ -66,23 +69,23 @@ class Admin extends CI_Controller {
 		$this->load->model('category_model');
 		$this->load->model('menu_model');
 		
-		$data['title'] = 'Edit Menu';
+		$this->data['title'] = 'Edit Menu';
 		$this->load->library('form_validation');
 		$this->load->helper('json');
 		
-		$data['menu'] = $this->menu_model->get_menu();
+		$this->data['menu'] = $this->menu_model->get_menu();
 		$i = 1;
-		foreach( $data['menu'] as $menu ){
-			$data['menu_json']['mi' . $i] = $menu;
+		foreach( $this->data['menu'] as $menu ){
+			$this->data['menu_json']['mi' . $i] = $menu;
 			$i++;
 		}
-		$data['menu_json'] = json_encode($data['menu_json']);
-		$data['categories'] = $this->category_model->get_categories();
+		$this->data['menu_json'] = json_encode($this->data['menu_json']);
+		$this->data['categories'] = $this->category_model->get_categories();
 		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/menu', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/menu', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function edit_products(){
@@ -106,8 +109,8 @@ class Admin extends CI_Controller {
 				$this->load->model('product_model');
 				
 				$this->excel_reader->setOutputEncoding('CP950');
-				$data = array('upload_data' => $this->upload->data());
-				$this->excel_reader->read( $data['upload_data']['full_path'] );
+				$this->data = array('upload_data' => $this->upload->data());
+				$this->excel_reader->read( $this->data['upload_data']['full_path'] );
 				
 				$sheets = $this->excel_reader->sheets;
 				$ns = count( $sheets );
@@ -119,12 +122,12 @@ class Admin extends CI_Controller {
 			}
 		}
 		
-		$data['title'] = 'Edit products';
+		$this->data['title'] = 'Edit products';
 		
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/templates/menu', $data);
-		$this->load->view('admin/products', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/products', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function sql(){
@@ -138,22 +141,21 @@ class Admin extends CI_Controller {
 		
 	public function edit_content($name){
 		// about, company, location, sitemap contact can be editor here
-		$data=array();
 		$lang = '_'.$this->lang->lang();
-		$data['title']=$name;
-		$data['view_name']=$name;
-		$data['filename']='application/views/pages/'.$name.$lang.'.php';
-		$this->load->view('admin/templates/header', $data);
-		$this->load->view('admin/editor', $data);
-		$this->load->view('admin/templates/footer', $data);
+		$this->data['title']=$name;
+		$this->data['view_name']=$name;
+		$this->data['filename']='application/views/pages/'.$name.$lang.'.php';
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/editor', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function submit_content($name){
 		$this->load->helper(array('html','form','url'));
 		$lang = '_'.$this->lang->lang();
-		$data['filename']='application/views/pages/'.$name.$lang.'.php';		
-		if(file_exists($data['filename'])===TRUE){
-			file_put_contents($data['filename'], $this->input->post('elm1'));
+		$this->data['filename']='application/views/pages/'.$name.$lang.'.php';		
+		if(file_exists($this->data['filename'])===TRUE){
+			file_put_contents($this->data['filename'], $this->input->post('elm1'));
 		}
 		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}

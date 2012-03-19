@@ -29,14 +29,20 @@
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
 			<li><?php echo anchor('admin/', _('Dashboard')); ?></li>
-			<li><?php echo anchor('admin/edit_content/company', _('Company')); ?></li>
-			<li><?php echo anchor('admin/edit_content/news', _('News')); ?></li>
 			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
 			<li><?php echo anchor('admin/edit_menu', _('Menu')); ?></li>
-			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
-			<li><?php echo anchor('admin/', _('Location')); ?></li>
-			<li><?php echo anchor('admin/', _('Contact us')); ?></li>
+			<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
+			
 		</ul>
+		<ul>
+			<li><?php echo anchor('sales', _('Sales')); ?></li>
+			<li><?php echo anchor('admin/edit_content/company', _('About us')); ?></li>
+			<li><?php echo anchor('admin/edit_content/news', _('News')); ?></li>			
+			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
+			<li><?php echo anchor('admin/edit_content/info', _('Location')); ?></li>
+		</ul>
+
+		
 	</div>
 </div>
 

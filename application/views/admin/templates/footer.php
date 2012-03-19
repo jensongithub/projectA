@@ -1,15 +1,12 @@
-	</div>
-</div>
-
 <div id="footer">
 	<div class='footer_list'>
 		<div class='block'>
 			<ul>
 				<li class='footer_head'><?php echo _("Customer Services");?></li>
-				<li><?php echo anchor('company#howtoorder', _('How to Order')); ?></li>
-				<li><?php echo anchor('company#delivery', _('Delivery')); ?></li>
-				<li><?php echo anchor('company#returns', _('Goods Return and Change')); ?></li>
-				<li><?php echo anchor('company#contact', _('Contact Us')); ?></li>
+				<li><?php echo anchor('admin/edit_content/howtoorder', _('How to Order')); ?></li>
+				<li><?php echo anchor('admin/edit_content/delivery', _('Delivery')); ?></li>
+				<li><?php echo anchor('admin/edit_content/returns', _('Goods Return and Change')); ?></li>
+				<li><?php echo anchor('admin/edit_content/info', _('Contact Us')); ?></li>
 			</ul>
 		</div>
 		<div class='block'>
@@ -32,16 +29,14 @@
 		<div class='block'>
 			<ul>
 				<li class='footer_head'><?php echo _("Others");?></li>
-				<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
-				<li><?php echo anchor('company#terms', _('Disclaimer and Terms')); ?></li>
-				<li><?php echo anchor('company#privacy', _('Privacy and Policies')); ?></li>
+				<li><?php echo anchor('admin/edit_content/sitemap', _('Sitemap')); ?></li>
+				<li><?php echo anchor('admin/edit_content/terms', _('Disclaimer and Terms')); ?></li>
+				<li><?php echo anchor('admin/edit_content/privacy', _('Privacy and Policies')); ?></li>
 			</ul>
 		</div>
 	</div>
 	<div class='footer_script'><strong><?php echo _("Casimira &copy; 2012");?></strong></div>
 </div>
-
-
 
 </body>
 </html>
