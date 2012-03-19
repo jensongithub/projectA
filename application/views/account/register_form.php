@@ -36,7 +36,8 @@
 								phone: {
 									digits: true
 								},
-								gender: "required"
+								gender: "required",
+								read_declaration: "required"
 							},
 							messages: {
 								email: "Please enter a valid email address",
