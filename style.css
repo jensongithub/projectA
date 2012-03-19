@@ -96,8 +96,8 @@ pre {
 
 .fb_logo{
 	margin-top:0.5em;
-	width:30px;
-	height:30px;
+	width:22px;
+	height:22px;
 }
 
 .cart{
@@ -110,6 +110,11 @@ pre {
 	background:#501100;
 }
 
+.menu_l2 {
+	/*margin-bottom:3em;*/
+	padding-bottom:1em;
+	background:#FFF;
+}
 
 .menu_lang,
 .menu_l1,
@@ -117,20 +122,21 @@ pre {
 	text-align:right;
 }
 
-.menu_l2 {
-	margin-bottom:3em;
+.menu_lang  li,
+.menu_l1 li,
+.menu_l2  li {
+	display: inline;	
+	margin-right: auto;
+	padding-left:1em;
 }
 
-.menu_lang ul li,
-.menu_l1 ul li,
-.menu_l2 ul li {
-	display: inline;
-	margin-left: 1em;
-	margin-right: auto;
+.menu_l2  li {
+	padding-left:2em;
 }
 
 .menu_l2 ul {
-	line-height:3em;
+	text-align:center;
+	line-height:2.5em;
 }
 
 .menu_l1 a,
@@ -145,6 +151,24 @@ pre {
 .menu_l2 a,
 .menu_l2 li{
 	color:#501100;
+}
+
+.divider{
+background-image:url('/images/dot.png');
+background-repeat:no-repeat;
+background-position: right;
+padding-right: 3em;
+padding-left: 1em;
+display: block;
+/*line-height: 80px;*/
+text-decoration: none;
+font-family: Georgia, "Times New Roman", Times, serif;
+/*font-size: 21px;*/
+color: #371C1C;
+}
+
+.sub_menu_l2{	
+	border-top:3px dashed #371C1C;
 }
 
 .left-block,

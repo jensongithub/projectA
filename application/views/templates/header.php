@@ -27,14 +27,16 @@
 	<div class='menu_l2'>
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li><?php echo anchor('company', _('The Company')); ?></li>
-			<li><?php echo anchor('news', _('News')); ?></li>
-			<li><?php echo anchor('dept/women', _('Women')); ?></li>
-			<li><?php echo anchor('dept/men', _('Men')); ?></li>
-			<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
+			<li class='divider'><?php echo anchor('dept/women', _('Lady')); ?></li>
+			<li class='divider'><?php echo anchor('dept/men', _('Men')); ?></li>		
+			<li class='divider'><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
-			<li><?php echo anchor('company#location', _('Location')); ?></li>
-			<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>
+		</ul>
+		<ul class='sub_menu_l2'>
+			<li class='divider'><?php echo anchor('aboutus', _('About us')); ?></li>
+			<li class='divider'><?php echo anchor('news', _('News')); ?></li>
+			<li class='divider'><?php echo anchor('company#location', _('Location')); ?></li>
+			<li class='divider'><?php echo anchor('sitemap', _('Sitemap')); ?></li>		
 			<li><?php echo anchor('contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
