@@ -1,7 +1,7 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Terms extends CI_Controller {
+class Returns extends CI_Controller {
 	var $data;
 	public function __construct(){
 		parent::__construct();
@@ -9,11 +9,11 @@ class Terms extends CI_Controller {
 	}
 
 	public function index(){
-		$this->data = array('title'=>'Privacy');
+		$this->data = array('title'=>'Goods Return');
 		$this->data = array_merge($this->data, $this->session->all_userdata());
 		$lang = '_'.$this->lang->lang();
 		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/terms'.$lang);
+		$this->load->view('pages/returns'.$lang);
 		$this->load->view('templates/footer');
 	}
 }

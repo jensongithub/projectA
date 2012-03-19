@@ -33,11 +33,11 @@
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
 		</ul>
 		<ul class='sub_menu_l2'>
-			<li class='divider'><?php echo anchor('aboutus', _('About us')); ?></li>
+			<li class='divider'><?php echo anchor('company', _('About us')); ?></li>
 			<li class='divider'><?php echo anchor('news', _('News')); ?></li>
-			<li class='divider'><?php echo anchor('company#location', _('Location')); ?></li>
+			<li class='divider'><?php echo anchor('info#location', _('Location')); ?></li>
 			<li class='divider'><?php echo anchor('sitemap', _('Sitemap')); ?></li>		
-			<li><?php echo anchor('contact', _('Contact us')); ?></li>
+			<li><?php echo anchor('info#contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>
