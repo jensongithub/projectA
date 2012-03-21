@@ -16,25 +16,27 @@ class Category_model extends CI_Model {
 		return $query->row_array();
 	}
 		
-	public function add_category($cat = "") {
+	public function add_category($cat = "", $path = "") {
 		if( $cat == "" )
 			return FALSE;
 		
 		$now = date( 'Y-m-d H:i:s', time() );
 		$category['name'] = $cat;
+		$category['path'] = $path;
 		$category['created_time'] = $now;
 		$category['modified_time'] = $now;
 		$this->db->insert('categories', $category);
 		return $category;
 	}
 	
-	public function edit_category($catid = '', $name = '') {
-		if( $catid == '' || $name == '' )
+	public function edit_category($catid = '', $data = '') {
+		if( $catid == '' || $data == '' )
 			return FALSE;
 		
 		$now = date( 'Y-m-d H:i:s', time() );
-		$category['name'] = $name;
 		$category['modified_time'] = $now;
+		foreach( $data as $key => $value )
+			$category[$key] = $value;
 
 		$this->db->where('id', $catid);
 		return $this->db->update('categories', $category);

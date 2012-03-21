@@ -18,7 +18,6 @@ class Worker extends CI_Controller {
 		$item['text'] = $this->input->post('text');
 		$item['text_zh'] = $this->input->post('text_zh');
 		$item['text_cn'] = $this->input->post('text_cn');
-		$item['path'] = $this->input->post('path');
 		$item['level'] = $this->input->post('level');
 		if( !$this->menu_model->get_menu_item($item['cat_id']) ){
 			if( $this->menu_model->add_menu_item($item) )

@@ -37,12 +37,5 @@ $config = array(
 			'label' => 'lang:gender',
 			'rules' => 'required'
 		)
-	),
-	'admin/edit_categories' => array(
-		array(
-			'field' => 'catname',
-			'label' => 'lang:catname',
-			'rules' => 'required|is_unique[categories.name]'
-		)
 	)
 );

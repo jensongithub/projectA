@@ -11,6 +11,12 @@ class Product_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function get_products_in_category( $cat = '' ) {
+		$this->db->select("*")->from("products")->order_by("priority DESC, created_time DESC");
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
 	public function get_menu_item($id = "") {
 		if ($id === "") {
 			return FALSE;
