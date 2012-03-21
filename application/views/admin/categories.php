@@ -3,19 +3,25 @@
 
 <div id='categories-list-panel'>
 	<select id='categories-list' size='10'>
-		<?php foreach( $categories as $cat ){ ?>
-		<option value='<?php echo $cat['id'] ?>'><?php echo $cat['name'] ?></option>
-		<?php } ?>
+		<?php 
+		$i = 1;
+		foreach( $categories as $cat ){ ?>
+		<option id='<?php echo "cat$i" ?>' value='<?php echo $cat['id'] ?>'><?php echo $cat['name'] ?></option>
+		<?php $i++; } ?>
 	</select>
 	
 	<script type='text/javascript'>
 		var action = '<?php echo $action ?>';
+		var cat = <?php echo $cat_json ?>;
+		var holder;
 		
 		$(document).ready(function(){
 			$('#categories-list').change(function(){
-				$('#ori-catname').val( $(this).find("option:selected").text() );
-				$('#catid').val( $(this).val() );
-				$('#catname-e').val( $(this).find("option:selected").text() );
+				holder = cat[$(this).find("option:selected").attr('id')];
+				$('#ori-catname').val( holder.name );
+				$('#catid').val( holder.id );
+				$('#catname-e').val(holder.name );
+				$('#path-e').val( holder.path );
 				$('#category-edit-form').click();
 				$('#catname-e').focus();
 				$('#catname-e').select();
@@ -58,6 +64,8 @@
 		<h3>Add new category</h3>
 		<p><label for='catname-a'><?php echo _('Category name') ?></label></p>
 		<p><input id='catname-a' name='catname-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-a'); ?>' /></p>
+		<p><label for='path-a'><?php echo _('Path') ?></label></p>
+		<p><input id='path-a' name='path-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-a'); ?>' /></p>
 		<p><input type='submit' value='<?php echo _('Submit') ?>' /></p>
 	</form>
 	
@@ -69,6 +77,8 @@
 		<p><input id='ori-catname' name='ori-catname' size='50' value='<?php if( validation_errors() != "" ) echo set_value('ori-catname'); ?>' /></p>
 		<p><label for='catname-e'><?php echo _('New category name') ?></label></p>
 		<p><input id='catname-e' name='catname-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-e'); ?>' /></p>
+		<p><label for='path-e'><?php echo _('Path') ?></label></p>
+		<p><input id='path-e' name='path-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-e'); ?>' /></p>
 		<p><input type='submit' value='<?php echo _('Submit') ?>' /></p>
 	</form>
 </div>
