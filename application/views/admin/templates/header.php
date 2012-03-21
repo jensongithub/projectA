@@ -35,8 +35,8 @@
 			
 		</ul>
 		<ul>
-			<li><?php echo anchor('sales', _('Sales')); ?></li>
 			<li><?php echo anchor('admin/edit_content/company', _('About us')); ?></li>
+			<li><?php echo anchor('sales', _('Sales')); ?></li>
 			<li><?php echo anchor('admin/edit_content/news', _('News')); ?></li>			
 			<li><?php echo anchor('admin/edit_products', _('Products')); ?></li>
 			<li><?php echo anchor('admin/edit_content/info', _('Location')); ?></li>
