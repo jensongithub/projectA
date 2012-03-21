@@ -56,6 +56,12 @@ class Admin extends CI_Controller {
 		}
 		
 		$this->data['categories'] = $this->category_model->get_categories();
+		$i = 1;
+		foreach( $this->data['categories'] as $category ){
+			$this->data['cat_json']['cat' . $i] = $category;
+			$i++;
+		}
+		$this->data['cat_json'] = json_encode($this->data['cat_json']);
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -121,6 +127,9 @@ class Admin extends CI_Controller {
 				$this->product_model->add_product_in_excel_sheets( $sheets );
 			}
 		}
+		
+		$this->load->model('product_model');
+		$this->data['products'] = $this->product_model->get_products();
 		
 		$this->data['title'] = 'Edit products';
 		

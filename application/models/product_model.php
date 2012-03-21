@@ -5,11 +5,9 @@ class Product_model extends CI_Model {
 		$this->load->database();
 	}
 	
-	public function get_menu() {
-		$this->db->order_by("level", "asc");
-		$this->db->join('categories', 'categories.id = navigations.cat_id', 'right');
-		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.text_zh, navigations.text_cn, navigations.path, navigations.level');
-		$query = $this->db->get('navigations');
+	public function get_products() {
+		$this->db->select("*")->from("products")->order_by("priority DESC, created_time DESC");
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 	

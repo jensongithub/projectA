@@ -1,3 +1,6 @@
+	</div>
+</div>
+
 <div id="footer">
 	<div class='footer_list'>
 		<div class='block'>
