@@ -27,7 +27,7 @@
 	<div class='menu_l2'>
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li class='divider'><?php echo anchor('dept/women', _('Lady')); ?></li>
+			<li class='divider'><?php echo anchor('dept/browse/women/sales', _('Lady')); ?></li>
 			<li class='divider'><?php echo anchor('dept/men', _('Men')); ?></li>		
 			<li class='divider'><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>

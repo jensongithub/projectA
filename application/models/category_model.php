@@ -16,9 +16,11 @@ class Category_model extends CI_Model {
 		return $query->row_array();
 	}
 	
-	public function get_categories_by_name($cat = "") {
+	public function get_categories_by_name($cat = "", $exact = FALSE) {
 		$cat = strtolower($cat);
-		$result = $this->db->query("SELECT * FROM categories WHERE lower(name) LIKE '%$cat%'");
+		if( $exact == FALSE )
+			$cat = "%$cat%";
+		$result = $this->db->query("SELECT * FROM categories WHERE lower(name) LIKE '$cat'");
 		
 		if( $result->num_rows() > 1 )
 			return $result->result_array();

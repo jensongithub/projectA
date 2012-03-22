@@ -9,12 +9,12 @@
 				<h4><?php echo _('WOMEN'); ?></h4>
 				<?php
 				foreach( $menu as $item ){
-					$item_name = explode(' -> ', $item['name']);
+					$item_name = explode('/', $item['name']);
 					$level = count( explode('.', $item['level']) ) - 1;
 					if( $level == 1 )
-						echo "<div class='menu-item level-$level'>+ " . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>+ " . anchor('dept/browse/' . str_replace('&', '%26', $item['name']), $item['text']) . "</div>";
 					else if( $level > 1 )
-						echo "<div class='menu-item level-$level'>" . anchor('dept/women/' . $item['id'], $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>" . anchor('dept/browse/' . str_replace('&', '%26', $item['name']), $item['text']) . "</div>";
 				}
 				?>
 			</div>
@@ -31,9 +31,9 @@
 			?>
 			<div class="product-thumbnail">
 				<?php
-					echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/$path/${item['image']}"));
+					echo anchor( str_replace('&', '%26', "dept/view/$cat/" . $item['id']), img("products/$path/${item['image']}"));
 				?>
-				<hr style='color: #DDD; margin: 5px 10px' />
+				<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />
 				<span><?php echo $item['id'] ?></span><br />
 				<span>$<?php echo $item['price'] ?></span><br />
 			</div>

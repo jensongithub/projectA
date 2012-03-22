@@ -17,6 +17,12 @@ class Product_model extends CI_Model {
 		return $result->result_array();
 	}
 	
+	public function get_products_color( $pid = '' ) {
+		$this->db->select("product_color.color")->from("products, product_color")->where("products.id = '$pid' AND products.id = product_color.pro_id");
+		$result = $this->db->get();
+		return $result->result_array();
+	}
+	
 	public function move_product_to_cat( $pid = '', $cid = '' ) {
 		if( $pid == '' || $cid == '' )
 			return FALSE;

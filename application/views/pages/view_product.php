@@ -1,3 +1,38 @@
+<script type='text/javascript'>
+var pid = '<?php echo $id ?>';
+var colors = <?php echo $colors_json ?>;
+var path = '<?php echo "$path/" ?>';
+var holder = pid + colors.c0.color;
+</script>
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('.product-color > img').click(function(){
+			holder = pid + $(this).attr('alt');
+			var prefix = path + holder;
+			$('#product-name').html( holder );
+			$('#img0').attr('src', prefix + '-F.JPG');
+			$('#img1').attr('src', prefix + '-B.JPG');
+			$('#img2').attr('src', prefix + '-D1.JPG');
+			$('#img3').attr('src', prefix + '-D2.JPG');
+			$('#showcase-stage').attr('src', prefix + '-F.JPG');
+		});
+		
+		$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
+		
+		$('#mask').click(function(){
+			$(this).css('display', 'none');
+		});
+	});
+	
+	function loadSizeChart(){
+		var mask = $('#mask');
+		mask.css('top', 0);
+		mask.css('left', 0);
+		mask.css('display', 'block');
+		$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
+	}
+</script>
+
 <div id="content" class='container'>
 	<div class="content">
 		<div class="container">
@@ -5,18 +40,18 @@
 				<div id='showcase'>
 					<?php
 					$files = array();
-					$files[] = "products/${category['name']}/$id-F.JPG";
-					$files[] = "products/${category['name']}/$id-B.JPG";
-					$files[] = "products/${category['name']}/$id-D1.JPG";
-					$files[] = "products/${category['name']}/$id-D2.JPG";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-F.JPG";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-B.JPG";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D1.JPG";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D2.JPG";
 					$list = array();
 					
 					$attr = array( 'id' => 'showcase-stage', 'src' => $files[0], 'class' => 'showcase-normal');
 					echo img($attr);
 					
-					foreach( $files as $file ){
+					foreach( $files as $key => $file ){
 						if( file_exists( "images/$file" ) )
-						$list[] = img( array( 'src' => $file, 'class' => 'showcase-thumbnail') );
+							$list[] = img( array( 'id' => "img$key", 'src' => $file, 'class' => 'showcase-thumbnail') );
 					}
 					
 					
@@ -50,20 +85,20 @@
 			<div id='product-text'>
 				<?php
 				$list = array(
-							anchor('dept/' . $dept . '/' . $category['id'], _( ucfirst($cat) )),
+							anchor(str_replace('&', '%26', 'dept/browse/' . $cat . '/'), _( ucfirst($cat) )),
 							' > ',
 							$id
 				);
 
 				$attr = array(
-									'id'    => 'product-path'
+							'id' => 'product-path'
 				);
 
 				echo ul($list, $attr);
 				?>
 				<div class='clear'></div>
 
-				<div class='product-name'><?php echo $id; ?></div>
+				<div id='product-name' class='product-name'><?php echo $id.$colors[0]['color']; ?></div>
 
 				<div id='product-description'>
 					<div style='margin-bottom: 30px;'>
@@ -82,30 +117,45 @@
 				<div id='product-options'>
 					<div style='margin-bottom: 30px;'>
 						<h4>Colour:</h4>
-						<span id="selected-color">Beige</span>
 						<ul>
 							<?php
-							foreach( array('Beige', 'Black', 'DarkBlue', 'Red') as $color ) {
-								echo "<li class='product-color' title='$color' style='background-color: $color'></li>";
+							foreach( $colors as $color ) {
+								echo "<li class='product-color' title='${color['color']}' style='background-color: $color'>";
+								echo img( array( 'src' => "products/$cat/".$id.$color['color'].'-F.JPG', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
+								echo "</li>";
 							}
 							?>
-						</ul>
-						<script type='text/javascript'>
-							$('.product-color').click(function(){
-								$('#selected-color').html($(this).attr('title'));
-								$('.product-color').removeClass('selected');
-								$(this).addClass('selected');
-							});
-						</script>
+						</ul>						
 					</div>
+					<div class='clear'></div>
 
 					<div>
 						<h4>Size:</h4>
-						<span id="selected-size">34 - 46 <a href='#'>Size Chart</a></span>
+						<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
+</div>
+
+<style>
+#mask {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #333;
+	opacity: 0.5;
+}
+
+#size-chart-holder {
+	position: fixed;
+	margin: auto auto auto auto;
+	width: 500px;
+	height: 400px;
+}
+</style>
+<div id='mask'>
+<div id='size-chart-holder'>
+</div>
 </div>

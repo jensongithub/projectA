@@ -149,18 +149,20 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function browse($dept, $cat, $sub){
+	public function browse($dept = '', $cat = '', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
 		$this->load->helper( 'file' );
 		
 		$browse = "$dept/$cat";
 		if( $sub != '' )
 			$browse .= "/$sub";
-		echo $browse;
+		$browse = urldecode($browse);
+		//echo $browse;
 		
-		$this->data['category'] = $this->category_model->get_categories_by_name($browse);
+		$this->data['category'] = $this->category_model->get_categories_by_name($browse, TRUE);
 		if( $this->data['category'] == FALSE ){
 			$this->data['error'] = "No such category";
+			echo $this->data['error'];
 		}
 		$this->data['title'] = ucfirst($this->data['category']['name']);
 		$this->data['dept'] = $dept;
@@ -174,6 +176,7 @@ class Dept extends CI_Controller {
 		$file_count = count( $files );
 		$i = 0; $j = 0;
 		
+		//echo "<br/>file count = $file_count; product count = $product_count<br/>";
 		while( $i < $product_count ){
 			$prefix = substr($files[$j], 0, 6);
 			if( substr($files[$j], 12) == '-F.JPG' ){
@@ -200,38 +203,36 @@ class Dept extends CI_Controller {
 				if( $j >= $file_count )
 					break;
 			}
+			//echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
 		}
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
 		$this->load->view('templates/footer', $this->data);
 	}
-	
-	public function route($dept, $cat, $sub){
-		$this->load->model('category_model');
-		$browse = "$dept/$cat";
+
+	public function view($dept = '', $cat = '', $sub = '', $id = '') {
+		$this->load->model( array('category_model', 'product_model') );
+		
+		$view = "$dept/$cat";
 		if( $sub != '' )
-			$browse .= "/$sub";
-		echo $browse;
+			$view .= "/$sub";
+		$view = urldecode($view);
+		echo $view;
 		
-		$this->data['category'] = $this->category_model->get_categories_by_name($browse);
-		print_r($this->data['category']);
-		$this->data['title'] = ucfirst($this->data['category']['name']);
-		$this->data['dept'] = $dept;
-		$this->data['cat'] = $this->data['category']['name'];
-		
-		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/view_product', $this->data);
-		$this->load->view('templates/footer', $this->data);
-	}
-	
-	public function view($dept = '', $cat = '', $id = '') {
-		$this->load->model('category_model');
-		$this->data['category'] = $this->category_model->get_categories($cat);
-		$this->data['title'] = ucfirst($this->data['category']['name']) . ' | ' . $id;
+		$this->data['category'] = $this->category_model->get_categories_by_name($view, TRUE);
+		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
+		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
 		$this->data['id'] = $id;
+		
+		$this->data['colors'] = $this->product_model->get_products_color($id);
+		$this->load->helper('json');
+		foreach( $this->data['colors'] as $key => $color ){
+			$this->data['colors_json']["c$key"] = $color;
+		}
+		$this->data['colors_json'] = json_encode($this->data['colors_json']);
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);
