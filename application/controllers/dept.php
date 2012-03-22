@@ -149,6 +149,65 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
+	public function browse($dept, $cat, $sub){
+		$this->load->model( array('category_model', 'menu_model', 'product_model') );
+		$this->load->helper( 'file' );
+		
+		$browse = "$dept/$cat";
+		if( $sub != '' )
+			$browse .= "/$sub";
+		echo $browse;
+		
+		$this->data['category'] = $this->category_model->get_categories_by_name($browse);
+		if( $this->data['category'] == FALSE ){
+			$this->data['error'] = "No such category";
+		}
+		$this->data['title'] = ucfirst($this->data['category']['name']);
+		$this->data['dept'] = $dept;
+		$this->data['cat'] = $this->data['category']['name'];
+		
+		$this->data['menu'] = $this->menu_model->get_submenu('1');
+		$this->data['products'] = $this->product_model->get_products_in_category( $this->data['category']['id'], 'id ASC' );
+		$product_count = count( $this->data['products'] );
+		
+		$files = get_filenames($this->config->item('image_dir') . 'products/' . $browse);
+		$file_count = count( $files );
+		$i = 0; $j = 0;
+		
+		while( $i < $product_count ){
+			var $prefix = substr($files[$j], 0, 6);
+			if( $j < $file_count && substr($files[$j], 12) == '-F.JPG' && $prefix == $this->data['products'][$i]['id'] ){
+				echo $this->data['products'][$i]['id'];
+			}
+			else{
+				$j++;
+			}
+			$i++;
+		}
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/women', $this->data);
+		$this->load->view('templates/footer', $this->data);
+	}
+	
+	public function route($dept, $cat, $sub){
+		$this->load->model('category_model');
+		$browse = "$dept/$cat";
+		if( $sub != '' )
+			$browse .= "/$sub";
+		echo $browse;
+		
+		$this->data['category'] = $this->category_model->get_categories_by_name($browse);
+		print_r($this->data['category']);
+		$this->data['title'] = ucfirst($this->data['category']['name']);
+		$this->data['dept'] = $dept;
+		$this->data['cat'] = $this->data['category']['name'];
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/view_product', $this->data);
+		$this->load->view('templates/footer', $this->data);
+	}
+	
 	public function view($dept = '', $cat = '', $id = '') {
 		$this->load->model('category_model');
 		$this->data['category'] = $this->category_model->get_categories($cat);

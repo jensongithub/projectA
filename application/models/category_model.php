@@ -15,7 +15,18 @@ class Category_model extends CI_Model {
 		$query = $this->db->get_where('categories', array('id' => $id));
 		return $query->row_array();
 	}
+	
+	public function get_categories_by_name($cat = "") {
+		$cat = strtolower($cat);
+		$result = $this->db->query("SELECT * FROM categories WHERE lower(name) LIKE '%$cat%'");
 		
+		if( $result->num_rows() > 1 )
+			return $result->result_array();
+		else if( $result->num_rows() == 1 )
+			return $result->row_array();
+		return FALSE;
+	}
+	
 	public function add_category($cat = "", $path = "") {
 		if( $cat == "" )
 			return FALSE;

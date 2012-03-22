@@ -22,22 +22,17 @@
 
 		<div id='cat-main' class="container">
 			<div class="category-head">
-				<h3><?php echo ucfirst($cat['name']); ?></h3>
-				<span><?php if( isset($path) ) echo $path[0]; ?></span>
+				<h3><?php echo ucfirst($cat); ?></h3>
 			</div>
 			<?php
+				$path = $category['path'];
 				foreach( $products as $item ) {
-					$item_name = explode('.', $item['name']);
 			?>
 			<div class="product-thumbnail">
 				<?php
-				if( isset($item['cat']) ) {
-					if( file_exists( "images/products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG" ) )
-						echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG"));
-				}
-				else{
-					if( file_exists( "images/products/${cat['name']}/${item['name']}-F.JPG" ) )
-						echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['name']}-F.JPG"));
+				echo "/images/products/$path/${item['id']}-F.JPG";
+				if( file_exists( "/images/products/$path/${item['id']}-F.JPG" ) ){
+					echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG"));
 				}
 				?>
 				<span><?php echo $item['name'] ?></span><br />

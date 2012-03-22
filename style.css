@@ -656,22 +656,18 @@ h2 {
 }
 
 .product-thumbnail {
-	border-top: 2px solid #FFF;
-	border-left: 1px solid #FFF;
-	border-bottom: 1px solid #E0E0E0;
-	border-right: 1px solid #FFF;
+	border: 1px solid #E0E0E0;
 	float: left;
 	margin: 10px 5px;
 	text-align: center;
 	width: 175px;
-	height: 315px;
+	height: 300px;
 }
 
 .product-thumbnail:hover {
-	border-top: 1px solid #EEE;
-	border-left: 1px solid #DDD;
-	border-bottom: 2px solid #CCC;
-	border-right: 1px solid #DDD;
+	-moz-box-shadow: 1px 1px 3px #777;
+	-webkit-box-shadow: 1px 1px 3px #777;
+	box-shadow: 1px 1px 3px #777;
 }
 
 .product-thumbnail img {
