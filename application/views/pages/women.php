@@ -25,21 +25,21 @@
 				<h3><?php echo ucfirst($cat); ?></h3>
 			</div>
 			<?php
-				$path = $category['path'];
-				foreach( $products as $item ) {
+			$path = $category['path'];
+			foreach( $products as $item ) {
+				if( isset($item['image']) && file_exists( "images/products/$path/${item['image']}" ) ){
 			?>
 			<div class="product-thumbnail">
 				<?php
-				echo "/images/products/$path/${item['id']}-F.JPG";
-				if( file_exists( "/images/products/$path/${item['id']}-F.JPG" ) ){
-					echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/${cat['name']}/${item['cat']}/${item['name']}-F.JPG"));
-				}
+					echo anchor("dept/WOMEN/${cat['id']}/view/" . $item_name[0], img("products/$path/${item['image']}"));
 				?>
-				<span><?php echo $item['name'] ?></span><br />
-				<span>$Price</span><br />
+				<hr style='color: #DDD; margin: 5px 10px' />
+				<span><?php echo $item['id'] ?></span><br />
+				<span>$<?php echo $item['price'] ?></span><br />
 			</div>
 			<?php
 				}
+			}
 			?>
 		</div>
 	</div>

@@ -671,6 +671,7 @@ h2 {
 }
 
 .product-thumbnail img {
+	margin-bottom: 5px;
 	width: 175px;
 	height: 235px;
 }

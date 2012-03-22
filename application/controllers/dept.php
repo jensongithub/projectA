@@ -175,14 +175,31 @@ class Dept extends CI_Controller {
 		$i = 0; $j = 0;
 		
 		while( $i < $product_count ){
-			var $prefix = substr($files[$j], 0, 6);
-			if( $j < $file_count && substr($files[$j], 12) == '-F.JPG' && $prefix == $this->data['products'][$i]['id'] ){
-				echo $this->data['products'][$i]['id'];
+			$prefix = substr($files[$j], 0, 6);
+			if( substr($files[$j], 12) == '-F.JPG' ){
+				if( $prefix > $this->data['products'][$i]['id'] ){
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
+				else if( $prefix < $this->data['products'][$i]['id'] ){
+					$j++;
+					if( $j >= $file_count )
+						break;
+				}
+				else{
+					//echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+					$this->data['products'][$i]['image'] = $files[$j];
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
 			}
 			else{
 				$j++;
+				if( $j >= $file_count )
+					break;
 			}
-			$i++;
 		}
 		
 		$this->load->view('templates/header', $this->data);
