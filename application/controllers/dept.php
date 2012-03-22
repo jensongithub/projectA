@@ -172,7 +172,7 @@ class Dept extends CI_Controller {
 		$this->data['products'] = $this->product_model->get_products_in_category( $this->data['category']['id'], 'id ASC' );
 		$product_count = count( $this->data['products'] );
 		
-		$files = get_filenames($this->config->item('image_dir') . 'products/' . $browse);
+		$files = get_filenames($this->config->item('image_dir') . 'products/' . $this->data['category']['path']);
 		$file_count = count( $files );
 		$i = 0; $j = 0;
 		
@@ -191,7 +191,7 @@ class Dept extends CI_Controller {
 						break;
 				}
 				else{
-					//echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+					echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
 					$this->data['products'][$i]['image'] = $files[$j];
 					$i++;
 					if( $i >= $product_count )
@@ -203,7 +203,7 @@ class Dept extends CI_Controller {
 				if( $j >= $file_count )
 					break;
 			}
-			//echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+			echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
 		}
 		
 		$this->load->view('templates/header', $this->data);
