@@ -218,7 +218,7 @@ class Dept extends CI_Controller {
 		if( $sub != '' )
 			$view .= "/$sub";
 		$view = urldecode($view);
-		echo $view;
+		//echo $view;
 		
 		$this->data['category'] = $this->category_model->get_categories_by_name($view, TRUE);
 		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
@@ -233,6 +233,23 @@ class Dept extends CI_Controller {
 			$this->data['colors_json']["c$key"] = $color;
 		}
 		$this->data['colors_json'] = json_encode($this->data['colors_json']);
+		
+		$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
+		$i = 0;
+		$this->data['sim_pro'] = array();
+		foreach( $sims as $sim ){
+			if( $i < 4 && $sim['id'] != $id ){
+				$colors = $this->product_model->get_products_color($sim['id']);
+				foreach( $colors as $color ){
+					if( file_exists('images/products/' . $this->data['category']['path'] . '/' . $sim['id'] . $color['color'] . '-F.JPG') ){
+						$this->data['sim_pro'][$i] = $sim;
+						$this->data['sim_pro'][$i]['color'] = $color['color'];
+						$i++;
+						break;
+					}
+				}
+			}
+		}
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);

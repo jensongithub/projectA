@@ -131,7 +131,7 @@ pre {
 
 .menu_l2  li {	
 	padding-left: 2em;
-	padding-right: 3em;
+	padding-right: 2em;
 }
 
 .menu_l1 a,
@@ -394,7 +394,7 @@ h2 {
 	float: left;
 	margin: 10px 0;
 	width: 485px;
-	height: 160px;
+	height: 200px;
 }
 
 .color-thumbnail {
@@ -406,6 +406,7 @@ h2 {
 	background-color: #CCC;
 	cursor: pointer;
 	float: left;
+	font-size: 6pt;
 	margin: 5px 0px 10px 0;
 	width: 40px;
 	height: 40px;
@@ -439,20 +440,19 @@ h2 {
 	font-size: 0.8em;
 	margin: 0px 5px;
 	text-align: center;
-	width: 85px;
-	height: 160px;
+	width: 100px;
+	height: 180px;
 }
 
 .similar-thumbnail:hover {
-	-moz-box-shadow: 1px 1px 2px #999;
-	-webkit-box-shadow: 1px 1px 2px #999;
-	box-shadow: 1px 1px 2px #999;
-	border-top: 1px solid #FFF;
+	-moz-box-shadow: 1px 1px 6px #999;
+	-webkit-box-shadow: 1px 1px 6px #999;
+	box-shadow: 1px 1px 6px #999;
 }
 
 .similar-thumbnail img {
-	width: 90px;
-	height: 130px;
+	width: 96px;
+	height: 128px;
 }
 
 .showcase-enlarged {

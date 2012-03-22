@@ -71,11 +71,11 @@ var holder = pid + colors.c0.color;
 				<div id='similar-products'>
 					<h3><?php echo _('Similar Products'); ?></h3>
 					<ul>
-						<?php foreach( array('IMG_2533a.jpg', 'IMG_2543a.jpg', 'DSL424-1a.jpg', 'DSL424-3a.jpg') as $product) { ?>
+						<?php foreach( $sim_pro as $product) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor("dept/women/$cat/view/$product", img("web-11-11-2011/WOMEN/$product") ); ?>
-							<span>Product name</span><br />
-							<span>$Price</span><br />
+							<?php echo anchor(str_replace('&', '%26', "dept/view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F.JPG") ); ?>
+							<span><?php echo $product['id'] ?></span><br />
+							<span>$<?php echo $product['price'] ?></span><br />
 						</li>
 						<?php } ?>
 					</ul>
@@ -120,7 +120,7 @@ var holder = pid + colors.c0.color;
 						<ul>
 							<?php
 							foreach( $colors as $color ) {
-								echo "<li class='product-color' title='${color['color']}' style='background-color: $color'>";
+								echo "<li class='product-color' title='${color['color']}'>";
 								echo img( array( 'src' => "products/$cat/".$id.$color['color'].'-F.JPG', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
 								echo "</li>";
 							}
