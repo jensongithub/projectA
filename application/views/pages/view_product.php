@@ -3,35 +3,179 @@ var pid = '<?php echo $id ?>';
 var colors = <?php echo $colors_json ?>;
 var path = '<?php echo "$path/" ?>';
 var holder = pid + colors.c0.color;
+
+var imgTesting;
+var showcaseSize = { width: 350, height: 470 };
+var pos;
+var zoomPanelSize = { width: 350, height: 470 };
+var zoomAreaSize = { width: 0, height: 0 };
+var imgSize = { width: 0, height: 0 };
+var wRatio, hRatio;
 </script>
 <script type='text/javascript'>
-	$(document).ready(function(){
-		$('.product-color > img').click(function(){
-			holder = pid + $(this).attr('alt');
-			var prefix = path + holder;
-			$('#product-name').html( holder );
-			$('#img0').attr('src', prefix + '-F.JPG');
-			$('#img1').attr('src', prefix + '-B.JPG');
-			$('#img2').attr('src', prefix + '-D1.JPG');
-			$('#img3').attr('src', prefix + '-D2.JPG');
-			$('#showcase-stage').attr('src', prefix + '-F.JPG');
-		});
-		
-		$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
-		
-		$('#mask').click(function(){
-			$(this).css('display', 'none');
-		});
+function CreateDelegate(contextObject, delegateMethod){
+	return function() {
+		return delegateMethod.apply(contextObject, arguments);
+	}
+}
+
+function imgTesting_onload() {
+	imgSize.width = this.width;
+	imgSize.height = this.height;
+	wRatio = this.width / zoomPanelSize.width;
+	hRatio = this.height / zoomPanelSize.height;
+	zoomAreaSize.width = zoomPanelSize.width / wRatio;
+	zoomAreaSize.height = zoomPanelSize.height / hRatio;
+	$('.zoom-area').css('width', zoomAreaSize.width);
+	$('.zoom-area').css('height', zoomAreaSize.height);
+}
+
+function setZoomRatio(src){
+	imgTesting = new Image();
+	imgTesting.src = src;
+	imgTesting.onload = CreateDelegate(imgTesting, imgTesting_onload);
+}
+
+$(document).ready(function($){
+	$('.product-color > img').click(function(){
+		holder = pid + $(this).attr('alt');
+		var prefix = path + holder;
+		$('#product-name').html( holder );
+		$('#img0').attr('src', prefix + '-F.JPG');
+		$('#img1').attr('src', prefix + '-B.JPG');
+		$('#img2').attr('src', prefix + '-D1.JPG');
+		$('#img3').attr('src', prefix + '-D2.JPG');
+		$('#showcase-img').attr('src', prefix + '-F.JPG');
 	});
 	
-	function loadSizeChart(){
-		var mask = $('#mask');
-		mask.css('top', 0);
-		mask.css('left', 0);
-		mask.css('display', 'block');
-		$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
+	$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
+	
+	$('#mask').click(function(){
+		$(this).css('display', 'none');
+	});
+	
+	initZoom();
+	//initMagnifier();
+	initThumbnailEvent();
+});
+
+function initZoom() {
+	var p = $('.zoom-panel'); // zoom panel
+	var z = $('.zoom-in'); // zoom image
+	var a = $('.zoom-area'); // zoom area
+	pos = getPosition(document.getElementById('showcase-img'));
+	p.css('left', (360 + pos.left) + 'px');
+	p.css('top', pos.top + 'px');
+	//alert('top: ' + p.css('top') + '\nleft: ' + p.css('left'));
+	
+	z.attr('src', $('#showcase-img').attr('src'));
+	wRatio = $('#showcase-img').width();
+	setZoomRatio($('#showcase-img').attr('src'));
+	$('#showcase-stage').mouseenter(function(){
+		p.css('display', 'block');
+		a.css('display', 'block');
+	});
+	$('#showcase-stage').mouseleave(function(){
+		p.css('display', 'none');
+		a.css('display', 'none');
+	});
+
+	$('.showcase-thumbnail').bind('click.zoom', function(){
+		z.attr('src', $(this).attr('src'));
+		setZoomRatio($(this).attr('src'));
+	});
+	
+	$('#showcase-stage').mousemove(function(e){
+		var newX = (e.pageX - pos.left) * -wRatio + (zoomPanelSize.width / 2);
+		var newY = (e.pageY - pos.top) * -hRatio + (zoomPanelSize.height / 2);
+		
+		if( newX < ( -imgSize.width + zoomPanelSize.width) )
+			newX = -imgSize.width + zoomPanelSize.width;
+		else if( newX > 0 )
+			newX = 0;
+
+		if( newY < ( -imgSize.height + zoomPanelSize.height) )
+			newY = -imgSize.height + zoomPanelSize.height;
+		else if( newY > 0 )
+			newY = 0;
+
+		var aX = e.pageX - pos.left - zoomAreaSize.width/2;
+		var aY = e.pageY - pos.top - zoomAreaSize.height/2;
+		$('#i1').val(aX);
+		$('#i2').val(aY);
+
+		if( aX > ( showcaseSize.width - zoomAreaSize.width) )
+			aX = showcaseSize.width - zoomAreaSize.width;
+		else if( aX < 0 )
+			aX = 0;
+
+		if( aY > ( showcaseSize.height - zoomAreaSize.height) )
+			aY = showcaseSize.height - zoomAreaSize.height;
+		else if( aY < 0 )
+			aY = 0;
+
+		a.css('left', pos.left + aX);
+		a.css('top', pos.top + aY);
+		
+		z.css('top', newY);
+		z.css('left', newX);
+	});
+	
+	$('.product-color > img').bind('click.zoom', function(){
+		z.attr('src', $(this).attr('src'));
+		setZoomRatio($(this).attr('src'));
+	});
+}
+
+function initThumbnailEvent(){
+	$('.showcase-thumbnail').click(function(){
+		$('#showcase-img').attr('src', $(this).attr('src'));
+	});
+}
+
+function initMagnifier(){
+	var mag = $('#magnifier');
+	var pos = getPosition(document.getElementById('showcase-img'));
+	mag.css('left', pos.left + 'px');
+	mag.css('top', pos.top + 'px');
+	mag.css('display', 'inline');
+	mag.click(function(){
+		//$('#showcase-img').addimagezoom();
+	});
+}
+
+function getPosition(obj){
+	var topValue = 0, leftValue = 0;
+	while (obj) {
+		leftValue += obj.offsetLeft;
+		topValue += obj.offsetTop;
+		obj = obj.offsetParent;
 	}
+	return {
+		left: leftValue,
+		top: topValue
+	};
+}
+
+function loadSizeChart(){
+	var mask = $('#mask');
+	mask.css('top', 0);
+	mask.css('left', 0);
+	mask.css('display', 'block');
+	$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
+}
 </script>
+<style type="text/css">
+.magnifyarea{ /* CSS to add shadow to magnified image. Optional */
+box-shadow: 5px 5px 7px #818181;
+-webkit-box-shadow: 5px 5px 7px #818181;
+-moz-box-shadow: 5px 5px 7px #818181;
+filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY=5, positive=true);
+background: white;
+}
+</style>
+
+<?php echo js('featuredimagezoomer/featuredimagezoomer.js') ?>
 
 <div id="content" class='container'>
 	<div class="content">
@@ -46,9 +190,10 @@ var holder = pid + colors.c0.color;
 					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D2.JPG";
 					$list = array();
 					
-					$attr = array( 'id' => 'showcase-stage', 'src' => $files[0], 'class' => 'showcase-normal');
-					echo img($attr);
+					$attr = array( 'id' => 'showcase-img', 'src' => $files[0], 'class' => 'showcase-normal');
 					
+					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
+
 					foreach( $files as $key => $file ){
 						if( file_exists( "images/$file" ) )
 							$list[] = img( array( 'id' => "img$key", 'src' => $file, 'class' => 'showcase-thumbnail') );
@@ -62,11 +207,9 @@ var holder = pid + colors.c0.color;
 
 					echo ul($list, $attr);
 					?>
-					<script type='text/javascript'>
-						$('.showcase-thumbnail').click(function(){
-							$('#showcase-stage').attr('src', $(this).attr('src'));
-						});
-					</script>
+					<div class='zoom-panel'>
+						<img class='zoom-in' />
+					</div>
 				</div>
 				<div id='similar-products'>
 					<h3><?php echo _('Similar Products'); ?></h3>

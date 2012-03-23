@@ -28,8 +28,8 @@
 		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
 			<li class='divider'><?php echo anchor('dept/browse/women/sales', _('Lady')); ?></li>
-			<li class='divider'><?php echo anchor('dept/men', _('Men')); ?></li>		
-			<li class='divider'><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
+			<li class='divider'><?php echo anchor('', _('Men')); ?></li>		
+			<li class='divider'><?php echo anchor('', _('Accessories')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
 		</ul>
 		<ul class='sub_menu_l2'>

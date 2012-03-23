@@ -338,6 +338,15 @@ h2 {
 /***********************************
  * Page specific - product
  */
+
+#magnifier {
+	cursor: pointer;
+	display: none;
+	margin: auto;
+	opacity: 0.7;
+	position: absolute;
+}
+
 #product-description {
 	float: left;
 	width: 200px;
@@ -387,7 +396,14 @@ h2 {
 }
 
 #showcase-stage {
+	border: 1px solid #CCC;
+	cursor: url("images/magnifier.png");
 	float: left;
+	width: 350px;
+	height: 470px;
+}
+
+#showcase-img {
 }
 
 #similar-products {
@@ -479,6 +495,31 @@ h2 {
 	box-shadow: 1px 1px 5px #999;
 }
 
+.zoom-area {
+	background-color: #AAA;
+	border: 2px solid #FFF;
+	cursor: url(/images/magnifier.png);
+	display: none;
+	opacity: 0.6;
+	position: absolute;
+	text-align: center;
+}
+
+.zoom-in {
+	position: relative;
+}
+
+.zoom-panel {
+	-moz-box-shadow: 1px 1px 11px #333;
+	-webkit-box-shadow: 1px 1px 11px #333;
+	box-shadow: 1px 1px 11px #333;
+	background-color: #EEE;
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	width: 350px;
+	height: 470px;
+}
 
 /***********************************
  * id section
