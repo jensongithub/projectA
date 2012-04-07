@@ -35,7 +35,7 @@ class Admin extends CI_Controller {
 			$this->form_validation->set_message('required', '%s cannot be empty');
 			$this->form_validation->set_message('is_unique', '%s already exist');
 			if( $this->form_validation->run() == TRUE ) {
-				$this->category_model->add_category( $this->input->post('catname-a') );
+				$this->category_model->add_category( $this->input->post('catname-a'), $this->input->post('path-a') );
 			}
 			else{
 				$this->data['action'] = 'add';
@@ -43,12 +43,14 @@ class Admin extends CI_Controller {
 		}
 		else if( $this->input->post('action') == 'edit' ){
 			$this->form_validation->set_rules('ori-catname', 'Original category name', 'min_length[1]');
-			$this->form_validation->set_rules('catname-e', 'Category name', 'trim|required|is_unique[categories.name]');
+			$this->form_validation->set_rules('catname-e', 'Category name', 'trim|required');
+			$this->form_validation->set_rules('path-e', 'Path', 'trim|required');
 			$this->form_validation->set_rules('catid', 'Category ID', 'trim|required|integer');
 			$this->form_validation->set_message('required', '%s cannot be empty');
 			$this->form_validation->set_message('is_unique', '%s already exist');
 			if( $this->form_validation->run() == TRUE ) {
-				$this->category_model->edit_category( $this->input->post('catid'), $this->input->post('catname-e') );
+				$columns = array( 'name' => $this->input->post('catname-e'), 'path' => $this->input->post('path-e') );
+				$this->category_model->edit_category( $this->input->post('catid'), $columns);
 			}
 			else{
 				$this->data['action'] = 'edit';
@@ -98,6 +100,8 @@ class Admin extends CI_Controller {
 		// require_login();
 		
 		$this->load->helper(array('form'));
+		$this->load->model('product_model');
+		$this->load->model('category_model');
 		
 		if( $this->input->post('upload') == '1' ){
 			$config['upload_path'] = 'uploads/';
@@ -112,7 +116,6 @@ class Admin extends CI_Controller {
 			}
 			else {
 				$this->load->library('Excel_reader');
-				$this->load->model('product_model');
 				
 				$this->excel_reader->setOutputEncoding('CP950');
 				$this->data = array('upload_data' => $this->upload->data());
@@ -127,9 +130,23 @@ class Admin extends CI_Controller {
 				$this->product_model->add_product_in_excel_sheets( $sheets );
 			}
 		}
+		else if( $this->input->post('move') == '1' ){
+			$cid = $this->input->post('cid');
+			$pids = $this->input->post('pid');
+			$total = count($pids);
+			$this->data['success_count'] = 0;
+			$this->data['fail_count'] = 0;
+			foreach($pids as $pid){
+				if( $this->product_model->move_product_to_cat($pid, $cid) === TRUE)
+					$this->data['success_count']++;
+				else
+					$this->data['fail_count']++;
+			}
+		}
 		
-		$this->load->model('product_model');
 		$this->data['products'] = $this->product_model->get_products();
+		
+		$this->data['categories'] = $this->category_model->get_categories();
 		
 		$this->data['title'] = 'Edit products';
 		

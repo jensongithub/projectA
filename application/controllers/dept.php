@@ -149,13 +149,107 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function view($dept = '', $cat = '', $id = '') {
-		$this->load->model('category_model');
-		$this->data['category'] = $this->category_model->get_categories($cat);
-		$this->data['title'] = ucfirst($this->data['category']['name']) . ' | ' . $id;
+	public function browse($dept = '', $cat = '', $sub = ''){
+		$this->load->model( array('category_model', 'menu_model', 'product_model') );
+		$this->load->helper( 'file' );
+		
+		$browse = "$dept/$cat";
+		if( $sub != '' )
+			$browse .= "/$sub";
+		$browse = urldecode($browse);
+		//echo $browse;
+		
+		$this->data['category'] = $this->category_model->get_categories_by_name($browse, TRUE);
+		if( $this->data['category'] == FALSE ){
+			$this->data['error'] = "No such category";
+			echo $this->data['error'];
+		}
+		$this->data['title'] = ucfirst($this->data['category']['name']);
+		$this->data['dept'] = $dept;
+		$this->data['cat'] = $this->data['category']['name'];
+		
+		$this->data['menu'] = $this->menu_model->get_submenu('1');
+		$this->data['products'] = $this->product_model->get_products_in_category( $this->data['category']['id'], 'id ASC' );
+		$product_count = count( $this->data['products'] );
+		
+		$files = get_filenames($this->config->item('image_dir') . 'products/' . $this->data['category']['path']);
+		$file_count = count( $files );
+		$i = 0; $j = 0;
+		
+		//echo "<br/>file count = $file_count; product count = $product_count<br/>";
+		while( $i < $product_count ){
+			$prefix = substr($files[$j], 0, 6);
+			if( substr($files[$j], 12) == '-F.JPG' ){
+				if( $prefix > $this->data['products'][$i]['id'] ){
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
+				else if( $prefix < $this->data['products'][$i]['id'] ){
+					$j++;
+					if( $j >= $file_count )
+						break;
+				}
+				else{
+					//echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+					$this->data['products'][$i]['image'] = $files[$j];
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
+			}
+			else{
+				$j++;
+				if( $j >= $file_count )
+					break;
+			}
+			//echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+		}
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('pages/women', $this->data);
+		$this->load->view('templates/footer', $this->data);
+	}
+
+	public function view($dept = '', $cat = '', $sub = '', $id = '') {
+		$this->load->model( array('category_model', 'product_model') );
+		
+		$view = "$dept/$cat";
+		if( $sub != '' )
+			$view .= "/$sub";
+		$view = urldecode($view);
+		//echo $view;
+		
+		$this->data['category'] = $this->category_model->get_categories_by_name($view, TRUE);
+		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
+		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
 		$this->data['id'] = $id;
+		
+		$this->data['colors'] = $this->product_model->get_products_color($id);
+		$this->load->helper('json');
+		foreach( $this->data['colors'] as $key => $color ){
+			$this->data['colors_json']["c$key"] = $color;
+		}
+		$this->data['colors_json'] = json_encode($this->data['colors_json']);
+		
+		$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
+		$i = 0;
+		$this->data['sim_pro'] = array();
+		foreach( $sims as $sim ){
+			if( $i < 4 && $sim['id'] != $id ){
+				$colors = $this->product_model->get_products_color($sim['id']);
+				foreach( $colors as $color ){
+					if( file_exists('images/products/' . $this->data['category']['path'] . '/' . $sim['id'] . $color['color'] . '-F.JPG') ){
+						$this->data['sim_pro'][$i] = $sim;
+						$this->data['sim_pro'][$i]['color'] = $color['color'];
+						$i++;
+						break;
+					}
+				}
+			}
+		}
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);

@@ -38,7 +38,6 @@
 				$('#text').val(holder.text);
 				$('#text_zh').val(holder.text_zh);
 				$('#text_cn').val(holder.text_cn);
-				$('#path').val(holder.path);
 				$('#level').val(holder.level);			
 			});
 
@@ -47,12 +46,11 @@
 				var text = $('#text').val();
 				var text_zh = $('#text_zh').val();
 				var text_cn = $('#text_cn').val();
-				var path = $('#path').val();
 				var level = $('#level').val();
 				$.ajax({
 					type: "POST",
 					url: "/en/worker/update_menu",
-					data: "cat_id=" + cat_id + "&text=" + text + "&text_zh=" + text_zh + "&text_cn=" + text_cn + "&path=" + path + "&level=" + level
+					data: "cat_id=" + cat_id + "&text=" + text + "&text_zh=" + text_zh + "&text_cn=" + text_cn + "&level=" + level
 				}).done(function( msg ) {
 					$('#msg-panel').html("Update: " + msg);
 					
@@ -62,7 +60,6 @@
 						$('#msg-panel').show();
 						setTimeout( function(){ $('#msg-panel').fadeOut(1200) }, 2000);
 						holder.text = text;
-						holder.path = path;
 						holder.level = level;
 						if( level != '' )
 							$('#cat' + cat_id).removeClass('inactive');
@@ -139,8 +136,6 @@
 		<p><?php echo _('Menu item') ?></p>
 		<p><input id='cat_name' name='cat_name' readonly='readonly' size='50' /></p>	
 		
-		<p><label for='path'><?php echo _('Path to the photo folder') ?></label></p>
-		<p><input id='path' name='path' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path'); ?>' /></p>
 		<p><label for='level'><?php echo _('Display level') ?></label></p>
 		<p><input id='level' name='level' size='50' value='<?php if( validation_errors() != "" ) echo set_value('level'); ?>' /></p>
 		

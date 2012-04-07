@@ -6,20 +6,32 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_products() {
-		$this->db->select("*")->from("products")->order_by("priority DESC, created_time DESC");
-		$query = $this->db->get();
-		return $query->result_array();
+		//$result = $this->db->query("SELECT products.*, categories.id AS cat_id, categories.name AS cat_name, categories.path FROM products, product_category, categories WHERE products.id = product_category.pro_id AND product_category.cat_id=categories.id ORDER BY priority DESC, created_time DESC");
+		$result = $this->db->query("SELECT products.*, categories.id AS cat_id, categories.name AS cat_name, categories.path FROM products LEFT JOIN (product_category, categories) ON (products.id = product_category.pro_id AND product_category.cat_id=categories.id) ORDER BY priority DESC, created_time DESC");
+		return $result->result_array();
 	}
 	
-	public function get_menu_item($id = "") {
-		if ($id === "") {
+	public function get_products_in_category( $cid = '', $order_by = "priority DESC, created_time DESC") {
+		$this->db->select("products.*")->from("products, product_category")->where("products.id = product_category.pro_id AND product_category.cat_id = $cid")->order_by($order_by);
+		$result = $this->db->get();
+		return $result->result_array();
+	}
+	
+	public function get_products_color( $pid = '' ) {
+		$this->db->select("product_color.color")->from("products, product_color")->where("products.id = '$pid' AND products.id = product_color.pro_id");
+		$result = $this->db->get();
+		return $result->result_array();
+	}
+	
+	public function move_product_to_cat( $pid = '', $cid = '' ) {
+		if( $pid == '' || $cid == '' )
 			return FALSE;
-		}
 		
-		$query = $this->db->get_where('navigations', array('cat_id' => $id));
-		return $query->row_array();
+		$query = "INSERT INTO product_category (pro_id, cat_id) VALUES ( ?, ?) ON DUPLICATE KEY UPDATE cat_id=?";
+		$this->db->query($query, array($pid, $cid, $cid));
+		return TRUE;
 	}
-	
+		
 	public function add_product_in_excel_sheets($sheets = FALSE) {
 		if( $sheets == FALSE )
 			return FALSE;
@@ -41,14 +53,6 @@ class Product_model extends CI_Model {
 			echo "<br/>";
 		}
 		return 0;
-	}
-	
-	public function edit_menu_item($menu = FALSE) {
-		if( $menu == FALSE || $menu['cat_id'] == '' || $menu['text'] == '' )
-			return FALSE;
-
-		$this->db->where('cat_id', $menu['cat_id']);
-		return $this->db->update('navigations', $menu);
 	}
 }
 
