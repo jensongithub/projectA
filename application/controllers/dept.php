@@ -179,7 +179,8 @@ class Dept extends CI_Controller {
 		//echo "<br/>file count = $file_count; product count = $product_count<br/>";
 		while( $i < $product_count ){
 			$prefix = substr($files[$j], 0, 6);
-			if( substr($files[$j], 12) == '-F.JPG' ){
+			$postfix = substr($files[$j], 12);
+			if( $postfix == '-F_s.jpg' ){
 				if( $prefix > $this->data['products'][$i]['id'] ){
 					$i++;
 					if( $i >= $product_count )
@@ -241,7 +242,8 @@ class Dept extends CI_Controller {
 			if( $i < 4 && $sim['id'] != $id ){
 				$colors = $this->product_model->get_products_color($sim['id']);
 				foreach( $colors as $color ){
-					if( file_exists('images/products/' . $this->data['category']['path'] . '/' . $sim['id'] . $color['color'] . '-F.JPG') ){
+					$file = 'images/products/' . $this->data['category']['path'] . '/' . $sim['id'] . $color['color'];
+					if( file_exists($file . '-F_s.jpg') || file_exists($file . '-F.jpg') ){
 						$this->data['sim_pro'][$i] = $sim;
 						$this->data['sim_pro'][$i]['color'] = $color['color'];
 						$i++;

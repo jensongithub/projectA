@@ -11,6 +11,10 @@ var zoomPanelSize = { width: 350, height: 470 };
 var zoomAreaSize = { width: 0, height: 0 };
 var imgSize = { width: 0, height: 0 };
 var wRatio, hRatio;
+var boundX = ( -imgSize.width + zoomPanelSize.width );
+var boundY = ( -imgSize.height + zoomPanelSize.height );
+var offsetW = zoomPanelSize.width / 2;
+var offsetH = (zoomPanelSize.height / 2);
 </script>
 <script type='text/javascript'>
 function CreateDelegate(contextObject, delegateMethod){
@@ -28,6 +32,10 @@ function imgTesting_onload() {
 	zoomAreaSize.height = zoomPanelSize.height / hRatio;
 	$('.zoom-area').css('width', zoomAreaSize.width);
 	$('.zoom-area').css('height', zoomAreaSize.height);
+	boundX = ( -imgSize.width + zoomPanelSize.width );
+	boundY = ( -imgSize.height + zoomPanelSize.height );
+	offsetW = zoomPanelSize.width / 2;
+	offsetH = (zoomPanelSize.height / 2);
 }
 
 function setZoomRatio(src){
@@ -41,11 +49,11 @@ $(document).ready(function($){
 		holder = pid + $(this).attr('alt');
 		var prefix = path + holder;
 		$('#product-name').html( holder );
-		$('#img0').attr('src', prefix + '-F.JPG');
-		$('#img1').attr('src', prefix + '-B.JPG');
-		$('#img2').attr('src', prefix + '-D1.JPG');
-		$('#img3').attr('src', prefix + '-D2.JPG');
-		$('#showcase-img').attr('src', prefix + '-F.JPG');
+		$('#img0').attr('src', prefix + '-F_s.jpg');
+		$('#img1').attr('src', prefix + '-B_s.jpg');
+		$('#img2').attr('src', prefix + '-D1_s.jpg');
+		$('#img3').attr('src', prefix + '-D2_s.jpg');
+		$('#showcase-img').attr('src', prefix + '-F.jpg');
 	});
 	
 	$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
@@ -63,14 +71,16 @@ function initZoom() {
 	var p = $('.zoom-panel'); // zoom panel
 	var z = $('.zoom-in'); // zoom image
 	var a = $('.zoom-area'); // zoom area
+	var s = $('#showcase-img'); // showcase image
+	
 	pos = getPosition(document.getElementById('showcase-img'));
 	p.css('left', (360 + pos.left) + 'px');
 	p.css('top', pos.top + 'px');
 	//alert('top: ' + p.css('top') + '\nleft: ' + p.css('left'));
 	
-	z.attr('src', $('#showcase-img').attr('src'));
-	wRatio = $('#showcase-img').width();
-	setZoomRatio($('#showcase-img').attr('src'));
+	z.attr('src', s.attr('src'));
+	wRatio = s.width();
+	setZoomRatio( s.attr('src') );
 	$('#showcase-stage').mouseenter(function(){
 		p.css('display', 'block');
 		a.css('display', 'block');
@@ -81,21 +91,21 @@ function initZoom() {
 	});
 
 	$('.showcase-thumbnail').bind('click.zoom', function(){
-		z.attr('src', $(this).attr('src'));
-		setZoomRatio($(this).attr('src'));
+		z.attr('src', $(this).attr('src').replace("_s", ''));
+		setZoomRatio(z.attr('src'));
 	});
 	
 	$('#showcase-stage').mousemove(function(e){
-		var newX = (e.pageX - pos.left) * -wRatio + (zoomPanelSize.width / 2);
-		var newY = (e.pageY - pos.top) * -hRatio + (zoomPanelSize.height / 2);
+		var newX = (e.pageX - pos.left) * -wRatio + offsetW;
+		var newY = (e.pageY - pos.top) * -hRatio + offsetH;
 		
-		if( newX < ( -imgSize.width + zoomPanelSize.width) )
-			newX = -imgSize.width + zoomPanelSize.width;
+		if( newX < boundX )
+			newX = boundX;
 		else if( newX > 0 )
 			newX = 0;
 
-		if( newY < ( -imgSize.height + zoomPanelSize.height) )
-			newY = -imgSize.height + zoomPanelSize.height;
+		if( newY < boundY )
+			newY = boundY;
 		else if( newY > 0 )
 			newY = 0;
 
@@ -122,14 +132,14 @@ function initZoom() {
 	});
 	
 	$('.product-color > img').bind('click.zoom', function(){
-		z.attr('src', $(this).attr('src'));
-		setZoomRatio($(this).attr('src'));
+		z.attr('src', $(this).attr('src').replace("_s", ''));
+		setZoomRatio(z.attr('src'));
 	});
 }
 
 function initThumbnailEvent(){
 	$('.showcase-thumbnail').click(function(){
-		$('#showcase-img').attr('src', $(this).attr('src'));
+		$('#showcase-img').attr('src', $(this).attr('src').replace("_s", '') );
 	});
 }
 
@@ -175,8 +185,6 @@ background: white;
 }
 </style>
 
-<?php echo js('featuredimagezoomer/featuredimagezoomer.js') ?>
-
 <div id="content" class='container'>
 	<div class="content">
 		<div class="container">
@@ -184,13 +192,13 @@ background: white;
 				<div id='showcase'>
 					<?php
 					$files = array();
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-F.JPG";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-B.JPG";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D1.JPG";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D2.JPG";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-F_s.jpg";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-B_s.jpg";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D1_s.jpg";
+					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D2_s.jpg";
 					$list = array();
 					
-					$attr = array( 'id' => 'showcase-img', 'src' => $files[0], 'class' => 'showcase-normal');
+					$attr = array( 'id' => 'showcase-img', 'src' => "products/$cat/$id" . $colors[0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
 					
 					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
@@ -216,7 +224,7 @@ background: white;
 					<ul>
 						<?php foreach( $sim_pro as $product) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "dept/view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F.JPG") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "dept/view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
 							<span><?php echo $product['id'] ?></span><br />
 							<span>$<?php echo $product['price'] ?></span><br />
 						</li>
@@ -264,7 +272,7 @@ background: white;
 							<?php
 							foreach( $colors as $color ) {
 								echo "<li class='product-color' title='${color['color']}'>";
-								echo img( array( 'src' => "products/$cat/".$id.$color['color'].'-F.JPG', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
+								echo img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
 								echo "</li>";
 							}
 							?>

@@ -21,7 +21,7 @@
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
 			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
-			<li><a href='cart'><img class='fb_logo' src='/images/cart.png' /></a></li>
+			<li><a href='cart'><img class='fb_logo' src='/images/cart_s.png' /></a></li>
 			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?>
 		</ul>
 	</div>

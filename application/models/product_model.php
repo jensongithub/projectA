@@ -27,8 +27,16 @@ class Product_model extends CI_Model {
 		if( $pid == '' || $cid == '' )
 			return FALSE;
 		
-		$query = "INSERT INTO product_category (pro_id, cat_id) VALUES ( ?, ?) ON DUPLICATE KEY UPDATE cat_id=?";
-		$this->db->query($query, array($pid, $cid, $cid));
+		$query = "SELECT cat_id FROM product_category WHERE pro_id = ?";
+		$result = $this->db->query($query, array($pid));
+		if ($result->num_rows() > 0) {
+			$query = "UPDATE product_category SET cat_id = ? WHERE pro_id = ?";
+			$this->db->query($query, array($cid, $pid));
+		}
+		else{
+			$query = "INSERT INTO product_category (pro_id, cat_id) VALUES ( ?, ?)";
+			$this->db->query($query, array($pid, $cid));
+		}
 		return TRUE;
 	}
 		

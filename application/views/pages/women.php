@@ -34,7 +34,7 @@
 					echo anchor( str_replace('&', '%26', "dept/view/$cat/" . $item['id']), img("products/$path/${item['image']}"));
 				?>
 				<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />
-				<span><?php echo $item['id'] ?></span><br />
+				<span><?php echo anchor( str_replace('&', '%26', "dept/view/$cat/" . $item['id']), $item['id'] ) ?></span><br />
 				<span>$<?php echo $item['price'] ?></span><br />
 			</div>
 			<?php
