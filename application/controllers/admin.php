@@ -14,6 +14,7 @@ class Admin extends CI_Controller {
 		// require_login();		
 		$this->data['title'] = 'Administration';
 		
+		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/dashboard', $this->data);
@@ -100,9 +101,11 @@ class Admin extends CI_Controller {
 		// require_login();
 		
 		$this->load->helper(array('form'));
-		$this->load->model('product_model');
-		$this->load->model('category_model');
+		$this->load->model( array('product_model', 'category_model') );
 		
+		$this->load->library('big2gb');
+		echo $this->big2gb->chg_utfcode('繁體中文 - 萬國碼');
+
 		if( $this->input->post('upload') == '1' ){
 			$config['upload_path'] = 'uploads/';
 			$config['allowed_types'] = 'xls';

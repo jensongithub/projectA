@@ -503,6 +503,7 @@ h2 {
 	opacity: 0.6;
 	position: absolute;
 	text-align: center;
+	filter:alpha(opacity=50); /* IE */
 }
 
 .zoom-in {
