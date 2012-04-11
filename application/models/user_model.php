@@ -26,6 +26,15 @@ class User_model extends CI_Model {
 		}
 	}
 	
+	private function _generate_activation_code(){
+		$arr = str_split('ABCDEFGHI012345JKLMNOP0QRSTUVWXYZ6789'); // get all the characters into an array
+		shuffle($arr); // randomize the array
+		$arr = array_slice($arr, 0, 8); // get the first eight (random) characters out
+		$str = implode('', $arr); // smush them back into a string
+		return $str;
+	}
+	
+	
 	/********************************
 	 * Insert a new user into the database
 	 *
@@ -43,9 +52,11 @@ class User_model extends CI_Model {
 			$user['firstname'] = $this->input->post('firstname');
 			$user['lastname'] = $this->input->post('lastname');
 			$user['email'] = $this->input->post('email');
-			$user['pwd'] = $this->input->post('pwd');
+			$user['pwd'] = md5($this->input->post('pwd'));
+			$user['activate_code'] = $this->_generate_activation_code();
 			$user['phone'] = $this->input->post('phone');
 			$user['gender'] = $this->input->post('gender');
+			
 			
 			$now = date( 'Y-m-d H:i:s', time() );
 			$user['created_time'] = $now;
@@ -83,19 +94,11 @@ class User_model extends CI_Model {
 		$this->db->where('id', $id);
 		
 		if ( $user === FALSE ) {
-			$user['firstname'] = $this->input->post('firstname');
-			$user['lastname'] = $this->input->post('lastname');
-			$user['email'] = $this->input->post('email');
 			$user['pwd'] = md5($this->input->post('pwd'));
 			$user['phone'] = $this->input->post('phone');
-			$user['gender'] = $this->input->post('gender');
-			
+						
 			$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
-			$user['role_id'] = 1;
-			$this->db->update('users', $user);
-			return $user;
-		}
-		else if ( is_array($user) ) {
+			
 			$this->db->update('users', $user);
 			return $user;
 		}
@@ -104,21 +107,54 @@ class User_model extends CI_Model {
 	}
 	
 	public function authenticate_user(){
-		$user['email'] = $this->input->post('email');
-		$user['pwd'] = md5($this->input->post('pwd'));
+		$login['email'] = $this->input->post('email');
+		$login['pwd'] = md5($this->input->post('pwd'));
 		$now = gmdate('Y-m-d H:i:s', time() );
-		$user['role_id'] = 1;
-		$sql = "SELECT firstname, lastname, id, email, pwd, role_id FROM users WHERE email = ? ";		
-		$query = $this->db->query($sql, array($user['email'])); 
 		
-		//foreach ($query->result_array() as $row){}
-		$row = $query->result_array();
+		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id FROM users WHERE email = ? ";		
+		$query = $this->db->query($sql, array($login['email'])); 
 		
-		if ($user['pwd']===$row[0]['pwd']){
-			$row[0]['is_login']=TRUE;
-			return $row[0];
+		list($user) = $query->result_array();
+		
+		if ($query->num_rows()>0){
+			if ($user['pwd']===$login['pwd']){
+				$user['is_login']=TRUE;
+				$this->session->set_userdata($user);
+				return $user;
+			}
 		}else{
 			return FALSE;
+		}
+	}
+	
+	public function activate_user($email, $activate_code){
+		$is_valid = FALSE;
+		$this->db->where('email', $email);		
+		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code FROM users WHERE email = ? and activate_date is NULL";
+		$query = $this->db->query($sql, array($email)); 
+		
+		list($user) = $query->result_array();
+		
+		if ($query->num_rows()>0){
+			if ($user['activate_code'] === $activate_code ) {
+				$user['activate_date'] = date( 'Y-m-d H:i:s', time() );
+				$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
+				
+				$this->db->where('email', $email);
+				$this->db->update('users', array('activate_date'=>$user['activate_date'], 
+												 'modified_time'=>$user['modified_time']
+												));
+				
+				$user['is_login'] = TRUE;
+				$this->session->set_userdata($user);
+				redirect('index');
+				$is_valid = TRUE;
+				//return $user;
+			}
+		}
+		
+		if($is_valid===FALSE){
+			redirect(site_url().'login');
 		}
 	}
 }

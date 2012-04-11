@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/';
+$config['base_url']	= 'http://lna.localhost/';
 //$config['base_url']	= 'http://210.176.126.120:81/';
 
 /*
@@ -130,7 +130,7 @@ $config['enable_hooks'] = FALSE;
 | http://codeigniter.com/user_guide/general/creating_libraries.html
 |
 */
-$config['subclass_prefix'] = 'my_';
+$config['subclass_prefix'] = 'My_';
 
 
 /*

@@ -27,8 +27,7 @@ class Login extends CI_Controller {
 				$this->load->view('account/login_form', $this->data);
 			}
 			else{
-				$this->session->set_userdata($user);
-				$nextPage = $this->input->post('nextPage') =='' ? 'index': $this->input->post('nextPage');
+				//$nextPage = $this->input->post('nextPage') =='' ? 'index': $this->input->post('nextPage');
 				redirect('index');
 			}
 		}

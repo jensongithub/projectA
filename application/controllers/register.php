@@ -1,9 +1,11 @@
 <?php
 class Register extends CI_Controller {
-	
+	var $data=array();
 	public function __construct()	{
 		parent::__construct();
 		$this->load->model('user_model');
+		$this->load->library('email');
+		$this->data = array_merge($this->data, $this->session->all_userdata());
 	}
 
 	public function index()	{
@@ -14,26 +16,37 @@ class Register extends CI_Controller {
 		$this->load->library('form_validation', 'session');
 		
 		$this->load->view('templates/header', $data);
-		if($this->form_validation->run() == FALSE) {
+		if($this->form_validation->run() === FALSE) {
 			$this->load->view('account/register_form', $data);
 		}
 		else {
 			$user = $this->user_model->insert_user();
 			$user = $this->user_model->get_user($user['email'], 'email');
+			//$user = array('id'=>22, 'email'=>'davidrobinson91@hotmail.com', 'firstname'=>'j', 'lastname'=>'c', 'password'=>'1111111','phone'=>'23232','gender'=>'M');
+			$user['raw_password'] =$this->input->post('pwd');			
+			
+			$message = $this->load->view('account/new_user_activation', array('user'=>$user), true);
+			//echo $message;
+			//exit();
+			$this->email->send_activate_mail($user, "Casimira New Account Activation", $message);
 			//print_r($user);
 			$session_items = array(
 									'id' => $user['id'],
-									'email' => $user['email']
+									'email' => $user['email'],
+									'firstname' => $user['firstname'],
+									'lastname' => $user['lastname'],
+									'phone' => $user['phone'],
+									'gender' => $user['gender']
 								);
 			$this->session->set_userdata($session_items);
-			$this->load->view('account/register_finish', $data);
+			
+			$this->load->view('account/register_finish', $this->data);
 		}
 		$this->load->view('templates/footer');
 	}
 	
-	public function test() {
-		$data['title'] = 'Register';
-		$this->load->view('templates/header', $data);
-		echo $this->lang->lang();
+	public function activate($email, $activate_code) {
+		$this->user_model->activate_user(rawurldecode($email), $activate_code);
 	}
+	
 }
