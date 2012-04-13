@@ -39,28 +39,90 @@ class Product_model extends CI_Model {
 		}
 		return TRUE;
 	}
-		
+
 	public function add_product_in_excel_sheets($sheets = FALSE) {
 		if( $sheets == FALSE )
 			return FALSE;
 
+		$cols = array( '', 'id', 'price', 'discount', 'description_en', 'description_zh', 'priority', 'components', 'status');
+		$success_count = 0;
+		$fail_count = 0;
+		$fail_log = array();
+		
 		foreach( $sheets as $key => $sheet){
-			echo "<br/>";
-			echo $sheets[$key]['name'] . ": ";
-			echo "<br/>";
-			for ($i = 1; $i <= $sheets[$key]['numRows']; $i++) {
-				echo "Line $i: {";
-				for ($j = 1; $j <= $sheets[$key]['numCols']; $j++) {
-					if( isset($sheets[$key]['cells'][$i]) && isset($sheets[$key]['cells'][$i][$j]) )
-						echo "\"".iconv("big5", "utf-8", $sheets[$key]['cells'][$i][$j])."\", ";
-					else
-						echo "\"\", ";
+			// for each row
+			for ($i = 1; $i <= $sheet['numRows']; $i++) {
+				if( !isset($sheet['cells'][$i]) || !isset($sheet['cells'][$i][1]) || strpos($sheet['cells'][$i][1], '#') === 0 || $sheet['cells'][$i][1] == '' )
+					continue;
+
+				$query = "UPDATE products SET "
+				. "price = ?2, discount = ?3, description_en = ?4, description_zh = ?5, priority = ?6, components = ?7, status = ?8 "
+				. "WHERE id = ?";
+				$data = array();
+				$style_code = $sheet['cells'][$i][1];
+				
+				// for each column
+				for ($j = 2; $j <= 8; $j++) {
+					if( ! isset($sheet['cells'][$i][$j]) || $sheet['cells'][$i][$j] == '' ){
+						$query = str_replace( "?$j", $cols[$j], $query );
+						continue;
+					}
+					else{
+						if( $cols[$j] == "description_zh" )
+							$data[] = iconv("big5", "utf-8", $sheet['cells'][$i][$j] );
+						else if( $cols[$j] == "components" ){
+							$com_list = array();
+							$items = explode(",", $sheet['cells'][$i][$j]);
+							foreach($items as $item){
+								$t = explode(" ", preg_replace("(\s+)", " ", trim($item)) );
+								$com_list[$t[0]] = $t[1];
+							}
+							$data[] = json_encode( $com_list );
+						}
+						else
+							$data[] = $sheet['cells'][$i][$j];
+					}
 				}
-				echo "}<br />\n";
+				
+				// fill in the id and prepare the update query
+				//$data[] = $style_code;
+				$data[] = 'A';
+				$query = preg_replace( "(\?\d+)", "?", $query);
+
+				$result = $this->db->query($query, $data);
+				if( $result ) {
+					$success_count++;
+				}
+				else{
+					$fail_count++;
+					$fail_log[] = $style_code;
+				}
 			}
-			echo "<br/>";
 		}
-		return 0;
+		
+		// return an array to notify the result
+		return array( "success" => $success_count, "fail" => $fail_count, "fail_log" => $fail_log );
+	}
+	
+	public function handle_products_excel($upload_data = FALSE){
+		if( ! is_array($upload_data) )
+			return FALSE;
+
+		// setup the excel reader
+		$this->excel_reader_2_21->setOutputEncoding('CP950');
+		$this->excel_reader_2_21->setStoreExtendedInfo(FALSE);
+		
+		$this->excel_reader_2_21->read( $upload_data['full_path'] );
+
+		$sheets = $this->excel_reader_2_21->sheets;
+		
+		// add the sheet name to each sheet
+		$ns = count( $sheets );
+		for($i = 0; $i < $ns; $i++){
+			$sheets[$i]['name'] = $this->excel_reader_2_21->boundsheets[$i]['name'];
+		}
+		
+		return $this->product_model->add_product_in_excel_sheets( $sheets );
 	}
 }
 

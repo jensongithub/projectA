@@ -21,31 +21,37 @@
 
 class big2gb {
 	var $file_dir;
+	var $charset;
+	var $str1;
 	
 	function __construct(){
 		$this->file_dir = dirname(__FILE__);
+		$this->charset = 'gb';
+		$this->set_charset($this->charset);
 	}
 	
-	// charset can be big5 or gb
-	function chg_utfcode($str,$charset='gb'){
+	function set_charset($charset = 'gb'){	
 		if ($charset=='gb'){
 			$fd = fopen($this->file_dir."/big2gb.map",'r');
-			$str1 = fread($fd,filesize($this->file_dir."/big2gb.map"));
+			$this->str1 = fread($fd,filesize($this->file_dir."/big2gb.map"));
 		}
 		else{
 			$fd = fopen($this->file_dir."/gb2big.map",'r');
-			$str1 = fread($fd,filesize($this->file_dir."/gb2big.map"));
+			$this->str1 = fread($fd,filesize($this->file_dir."/gb2big.map"));
 		}
 		fclose($fd);
-		
+	}
+	
+	// charset can be big5 or gb
+	function chg_utfcode($str){
 		// convert to unicode and map code
 		$chg_utf = array();
-		for ($i=0;$i<strlen($str1);$i=$i+4){
-			$ch1=ord(substr($str1,$i,1))*256;
-			$ch2=ord(substr($str1,$i+1,1));
+		for ($i=0;$i<strlen($this->str1);$i=$i+4){
+			$ch1=ord(substr($this->str1,$i,1))*256;
+			$ch2=ord(substr($this->str1,$i+1,1));
 			$ch1=$ch1+$ch2;
-			$ch3=ord(substr($str1,$i+2,1))*256;
-			$ch4=ord(substr($str1,$i+3,1));
+			$ch3=ord(substr($this->str1,$i+2,1))*256;
+			$ch4=ord(substr($this->str1,$i+3,1));
 			$ch3=$ch3+$ch4;
 			$chg_utf[$ch1]=$ch3;
 		}
