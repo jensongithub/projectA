@@ -17,6 +17,38 @@ class Product_model extends CI_Model {
 		return $result->result_array();
 	}
 	
+	public function get_products_for_listing($dept = '', $cat = '', $sub = ''){
+		$this->load->helper( 'file' );
+
+		$q_dept = "SELECT * FROM products pro, product_category pc, categories cat, navigations nav WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND text = ? ";
+		$q_sub = "";
+		
+		$q_dept = "SELECT level FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND text = ? ";
+		$q_cat = "SELECT nav.level FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND text = ? AND nav.level LIKE CONCAT(q_dept.level, '%') ";
+
+		if( $sub != "" ){
+			$q_sub = "SELECT cat.id FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND text = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+		}
+		else{
+			$q_sub = "SELECT cat.id FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+		}
+		
+		// real
+		$q_pro = "SELECT pro.* FROM products pro, product_category pc WHERE pro.id = pc.pro_id AND pc.cat_id IN ($q_sub) ORDER BY id";
+		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
+		echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
+		
+		$products = $result->result_array();
+		
+		foreach ($products as $key => $row) {
+			$priority[$key]  = $row['priority'];
+			$created_time[$key] = $row['created_time'];
+		}
+		array_multisort( $created_time, SORT_DESC, $priority, SORT_ASC, $products);
+		
+		return $result->result_array();
+	}
+	
 	public function get_products_color( $pid = '' ) {
 		$this->db->select("product_color.color")->from("products, product_color")->where("products.id = '$pid' AND products.id = product_color.pro_id");
 		$result = $this->db->get();
