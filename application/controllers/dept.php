@@ -149,7 +149,7 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function browse($dept = '', $cat = '', $sub = ''){
+	public function browse($dept = 'sales', $cat = '', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
 		$this->load->helper( 'file' );
 		
