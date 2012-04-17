@@ -20,36 +20,84 @@ class Common_model extends CI_Model {
 		return FALSE;
 	}
 	
-	public function load_products_to_web_store( $date_barrier = '2011-01-01 00:00:00' ){
-		$product = 'erp.dbo.tbl_pos_item_mstr';
-		$price = 'erp.dbo.tbl_pos_item_price';
+	public function load_color(){
+		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
+
+		$query = "SELECT color_code, short_name, e_full_name, c_full_name, status ";
+		$query .= "FROM tbl_pos_color_mstr ";
+		$query .= "ORDER BY short_name, color_code ";
+		
+		$query = $this->lna_pos->query( $query );
+		
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+		return FALSE;
+	}
+	
+	/*********************
+	* This function will return the stock of the product(s) which the products' barcode LIKE '[barcode]'
+	* If barcode is not provided, this will return the stock of all the products
+	*/
+	public function check_stock($barcode = '%'){
+		$tb_product = 'erp.dbo.tbl_pos_item_mstr';
+		$tb_stock = 'erp.dbo.tbl_wh_stk_tx';
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
-		
-		$this->lna_pos->select("$product.item_code, style_no, color_code, size_code, short_desc, status, $product.created_date, $price.selling_price")->from("$product, $price")->where("$product.item_code = $price.item_code AND $product.created_date > '$data_barier'")->order_by("$product.item_code", "asc");
 
-		$query = $this->lna_pos->get();
+		$query = "SELECT items.item_code, (SUM(CASE WHEN trans_type='A' OR trans_type='I' THEN trans_qty ELSE 0 END) - SUM(CASE WHEN trans_type <> 'A' AND trans_type <> 'I' THEN trans_qty ELSE 0 END)) AS 'sum' ";
+		$query .= "FROM $tb_product items, $tb_stock stock ";
+		$query .= "WHERE items.barcode_no = stock.barcode_no AND ISNULL(stock.rec_status, '') <> 'D' AND items.barcode_no LIKE ? ";
+		$query .= "GROUP BY items.item_code ";
+		$query .= "ORDER BY items.item_code ";
+
+		$query = $this->lna_pos->query( $query, array($barcode) );
+		//echo "<p>" . $this->lna_pos->last_query() . "</p>";
+		//var_dump($query->num_rows());
 		
-		var_dump($query->num_rows());
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+		return FALSE;
+	}
+	
+	/*********************
+	* Load the product list from POS to web store, which is created after the date specified
+	* If the date is not provided, all products will be loaded.
+	*/
+	public function load_products_to_web_store($date_filter = FALSE){
+		$tb_product = 'erp.dbo.tbl_pos_item_mstr';
+		$tb_price = 'erp.dbo.tbl_pos_item_price';
+		
+		$date_filter = '2012-01-01';
+		
+		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
+
+		$query = "SELECT items.item_code, style_no, color_code, size_code, short_desc, items.created_date, price.selling_price ";
+		$query .= "FROM $tb_product items, $tb_price price ";
+		$query .= "WHERE items.item_code = price.item_code AND DATEDIFF(DAY, CONVERT(DATETIME, ?, 103), items.created_date) >= 0 ";
+		$query .= "ORDER BY items.item_code ";
+
+		$query = $this->lna_pos->query( $query, array($date_filter) );
 		
 		if ($query->num_rows() > 0) {
 			$pos_products = $query->result_array();
 			
 			$this->load->database();
-			$query1 = "INSERT INTO products (id, name, price, status) VALUES ( ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
-			$query2 = "INSERT INTO product_color (pro_id, color) VALUES ( ?, ?) ON DUPLICATE KEY UPDATE color=color";
-			$i = 0;
+			$query1 = "INSERT INTO products (id, name, price, discount, status) VALUES ( ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
+			$query2 = "INSERT INTO product_color_size (pro_id, color, size) VALUES ( ?, ?, ?) ON DUPLICATE KEY UPDATE size=size";
+			//$i = 0;
 			
 			foreach( $pos_products as $product ){
-				$this->db->query($query1, array($product['style_no'], $product['short_desc'], $product['selling_price'], $product['status']));
-				$this->db->query($query2, array($product['style_no'], $product['color_code']));
-				$i++;
+				$this->db->query($query1, array($product['style_no'], $product['short_desc'], $product['selling_price'], $product['selling_price'], 'N'));
+				$this->db->query($query2, array($product['style_no'], $product['color_code'], $product['size_code']));
+				//$i++;
 			}
-			echo "<p>$i row(s) inserted</p>";
-			
-			// Do we have 1 result, as we expected? Return it as an array.
+			//echo "<p>$i record(s) loaded</p>";
+		
 			return $query->result_array();
 		}
+		return FALSE;
 	}
 	
 	public function get_product_list( $where = "created_date > '2012-02-01 00:00:00'" ) {

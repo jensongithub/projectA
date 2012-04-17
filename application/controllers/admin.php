@@ -104,8 +104,8 @@ class Admin extends CI_Controller {
 		$this->load->model( array('product_model', 'category_model') );
 		
 		$this->load->library('big2gb');
-		echo $this->big2gb->chg_utfcode('繁體中文 - 萬國碼');
-
+		echo $this->big2gb->chg_utfcode('繁體中文 - 萬國碼<br/>');
+		
 		if( $this->input->post('upload') == '1' ){
 			$config['upload_path'] = 'uploads/';
 			$config['allowed_types'] = 'xls';
@@ -113,24 +113,13 @@ class Admin extends CI_Controller {
 
 			$this->load->library('upload', $config);
 		
-			if ( ! $this->upload->do_upload()) {
-				$error = array('error' => $this->upload->display_errors());
-				$this->load->view('admin/edit_products', $error);
+			if ( ! $this->upload->do_upload()) { // upload failed
+				$this->data['error'] = $this->upload->display_errors();
 			}
 			else {
-				$this->load->library('Excel_reader');
-				
-				$this->excel_reader->setOutputEncoding('CP950');
-				$this->data = array('upload_data' => $this->upload->data());
-				$this->excel_reader->read( $this->data['upload_data']['full_path'] );
-				
-				$sheets = $this->excel_reader->sheets;
-				$ns = count( $sheets );
-				for($i = 0; $i < $ns; $i++){
-					$sheets[$i]['name'] = $this->excel_reader->boundsheets[$i]['name'];
-				}
-				
-				$this->product_model->add_product_in_excel_sheets( $sheets );
+				$this->load->library('Excel_reader_2_21');
+				$result = $this->product_model->handle_products_excel( $this->upload->data() );
+				print_r($result);
 			}
 		}
 		else if( $this->input->post('move') == '1' ){

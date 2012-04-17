@@ -14,7 +14,7 @@
 		<div class='block'>
 			<ul>
 				<li class='footer_head'><?php echo _("Online Shop");?></li>
-				<li><?php echo anchor('dept/women', _('Ladies')); ?></li>
+				<li><?php echo anchor('dept/ladies', _('Ladies')); ?></li>
 				<li><?php echo anchor('dept/men', _('Men')); ?></li>
 				<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
 				<li><?php echo anchor('sales', _('Sales')); ?></li>

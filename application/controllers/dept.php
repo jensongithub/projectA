@@ -149,9 +149,8 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function browse($dept = '', $cat = '', $sub = ''){
+	public function browse($dept = 'women', $cat = 'sales', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
-		$this->load->helper( 'file' );
 		
 		$browse = "$dept/$cat";
 		if( $sub != '' )
@@ -169,14 +168,14 @@ class Dept extends CI_Controller {
 		$this->data['cat'] = $this->data['category']['name'];
 		
 		$this->data['menu'] = $this->menu_model->get_submenu('1');
-		$this->data['products'] = $this->product_model->get_products_in_category( $this->data['category']['id'], 'id ASC' );
+		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
 		$product_count = count( $this->data['products'] );
 		
 		$files = get_filenames($this->config->item('image_dir') . 'products/' . $this->data['category']['path']);
 		$file_count = count( $files );
 		$i = 0; $j = 0;
 		
-		//echo "<br/>file count = $file_count; product count = $product_count<br/>";
+		echo "<br/>file count = $file_count; product count = $product_count<br/>";
 		while( $i < $product_count ){
 			$prefix = substr($files[$j], 0, 6);
 			$postfix = substr($files[$j], 12);
@@ -192,7 +191,7 @@ class Dept extends CI_Controller {
 						break;
 				}
 				else{
-					//echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+					echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
 					$this->data['products'][$i]['image'] = $files[$j];
 					$i++;
 					if( $i >= $product_count )
@@ -204,7 +203,7 @@ class Dept extends CI_Controller {
 				if( $j >= $file_count )
 					break;
 			}
-			//echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+			echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
 		}
 		
 		$this->load->view('templates/header', $this->data);

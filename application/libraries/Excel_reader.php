@@ -260,7 +260,7 @@ class Excel_reader {
 		$this->_ole = new OLERead();
 		$this->setUTFEncoder('iconv');
 		
-		$_defaultFormat = SPREADSHEET_EXCEL_READER_DEF_NUM_FORMAT;
+		$this->_defaultFormat = SPREADSHEET_EXCEL_READER_DEF_NUM_FORMAT;
 	}
 
     // }}}
