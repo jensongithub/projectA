@@ -5,7 +5,7 @@ html {
 }
 
 body {
-background-image:url('/images/background.jpg');
+/*background-image:url('/images/background.jpg');*/
 background-repeat:no-repeat;
 background-attachment:fixed;
 background-position:center; 
@@ -43,7 +43,7 @@ th,
 td {
 	margin: 0;
 	padding: 0;
-	font-size:16px;
+	/*font-size:16px;*/
 }
 
 body,
@@ -112,12 +112,24 @@ pre {
 	background:#501100;
 }
 
+.menu_l1{
+	background-color:rgb(176, 128,71);
+}
+
+
 
 .menu_l2 {
 	padding-bottom:1em;
 	background:#FFF;
 	text-align:center;
-	line-height:2.5em;
+	line-height:2.5em;	
+}
+
+#footer,
+#footer  a:link,
+.menu_l2 a:link
+{
+	color:rgb(176, 128,71);
 }
 
 .menu_lang  li,
@@ -129,15 +141,14 @@ pre {
 	padding-left:1em;
 }
 
+
 .menu_l2  li {	
-	padding-left: 2em;
-	padding-right: 2em;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 .menu_l1 a,
-.menu_l1 li,
-.menu_l2 a,
-.menu_l2 li{
+.menu_l1 li{
 	font-family: Arial;
 	font-weight: bold;
 	font-size:16px;
@@ -147,30 +158,6 @@ pre {
 .menu_l1 a,
 .menu_l1 li{
 	font-size:14px;
-}
-
-
-.menu_l2 a,
-.menu_l2 li{
-	color:#501100;	
-}
-
-.divider{
-background-image:url('/images/dot.png');
-background-repeat:no-repeat;
-background-position: right;
-padding-right: 0em;
-padding-left: 0em;
-display: block;
-/*line-height: 80px;*/
-text-decoration: none;
-font-family: Georgia, "Times New Roman", Times, serif;
-/*font-size: 21px;*/
-color: #371C1C;
-}
-
-.sub_menu_l2{	
-	border-top:3px dashed #371C1C;
 }
 
 .left-block,
@@ -222,9 +209,11 @@ color: #371C1C;
 	min-height:40em;
 }
 
+
 .footer_list{
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 25%;
+	margin-right: auto;	
+	font-size:x-small;
 }
 
 .footer_list:after{
@@ -239,14 +228,15 @@ color: #371C1C;
 .footer_list .block{
 	position: relative;
 	float: left;
-	width: 25%;
+	padding-right:4em;
+	
 }
 
 .footer_head{
-	font-size: 18;
-	color: #565656;
-	width: 80%;
-	border-bottom: 1px solid #565656;
+	
+	padding-bottom:0.5em;
+	font-size:12px;
+	/*border-bottom: 1px solid #565656;*/
 }
 
 .footer_script{
@@ -310,6 +300,8 @@ body {
 	margin-right: auto;
 	width: 950px;
 }
+
+
 
 .section{
 	margin-bottom:2em;
@@ -577,7 +569,7 @@ h2 {
 }
 
 #slider-container {
-	height: 470px;
+	height: 500px;
 	margin-bottom: 30px;
 }
 

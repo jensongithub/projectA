@@ -1,5 +1,5 @@
 <?php
-class Register extends CI_Controller {
+class Forgotten extends CI_Controller {
 	var $data=array();
 	public function __construct()	{
 		parent::__construct();
@@ -21,15 +21,14 @@ class Register extends CI_Controller {
 		}
 		else {
 			$user = $this->user_model->insert_user();
-			$user = $this->user_model->get_user($user['email'], 'email');
-			//$user = array('id'=>22, 'email'=>'davidrobinson91@hotmail.com', 'firstname'=>'j', 'lastname'=>'c', 'password'=>'1111111','phone'=>'23232','gender'=>'M');
+			$user = $this->user_model->get_user($user['email'], 'email');			
 			$user['raw_password'] =$this->input->post('pwd');			
 			
-			$message = $this->load->view('account/mail_new_user_activation', array('user'=>$user), true);
+			$message = $this->load->view('account/mail_forgotten', array('user'=>$user), true);
 			//echo $message;
 			//exit();
-			$this->email->send_activate_mail($user, "Casimira New Account Activation", $message);
-			//print_r($user);
+			$this->email->send_activate_mail($user, "Casimira New Password", $message);
+			
 			$session_items = array(
 									'id' => $user['id'],
 									'email' => $user['email'],
