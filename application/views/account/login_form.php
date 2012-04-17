@@ -1,6 +1,5 @@
 <div id="content" class='container'>
-	<div class="content expando">
-		<div class="container">
+	<div class="content expando">		
 		<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>
 		<?php echo validation_errors(); ?>
 		<?php if( $this->input->post('submit') ) echo "</div>"; ?>
@@ -30,7 +29,6 @@
 					<li>› <?php echo _("Advance notice on latest promotions");?></li>
 				</ul>
 				<center><a class='reg-btn' href='register'><?php echo _("Register");?></a></center>
-			</p>
 		</div>
 	</div>
 </div>
