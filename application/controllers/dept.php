@@ -151,7 +151,7 @@ class Dept extends CI_Controller {
 	
 	public function browse($dept = 'women', $cat = 'sales', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
-		
+		echo "dept: $dept + cat: $cat + sub: $sub<br/>";
 		$browse = "$dept/$cat";
 		if( $sub != '' )
 			$browse .= "/$sub";
@@ -171,6 +171,7 @@ class Dept extends CI_Controller {
 		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
 		$product_count = count( $this->data['products'] );
 		
+		echo "<p>Searching " . $this->config->item('image_dir') . 'products/' . $this->data['category']['path'] . "</p>";
 		$files = get_filenames($this->config->item('image_dir') . 'products/' . $this->data['category']['path']);
 		$file_count = count( $files );
 		$i = 0; $j = 0;
@@ -181,6 +182,7 @@ class Dept extends CI_Controller {
 			$postfix = substr($files[$j], 12);
 			if( $postfix == '-F_s.jpg' ){
 				if( $prefix > $this->data['products'][$i]['id'] ){
+					unset($this->data['products'][$i]);
 					$i++;
 					if( $i >= $product_count )
 						break;
@@ -204,6 +206,11 @@ class Dept extends CI_Controller {
 					break;
 			}
 			echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
+		}
+		
+		foreach( $this->data['products'] as $key => $product ){
+			echo "<br/>";
+			print_r($product);
 		}
 		
 		$this->load->view('templates/header', $this->data);

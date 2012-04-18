@@ -34,19 +34,21 @@ class Product_model extends CI_Model {
 		}
 		
 		// real
-		$q_pro = "SELECT pro.* FROM products pro, product_category pc WHERE pro.id = pc.pro_id AND pc.cat_id IN ($q_sub) ORDER BY id";
+		$q_pro = "SELECT pro.*, pc.cat_id FROM products pro, product_category pc WHERE pro.id = pc.pro_id AND pc.cat_id IN ($q_sub) ORDER BY id";
 		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
 		echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
 		
-		$products = $result->result_array();
-		
-		foreach ($products as $key => $row) {
-			$priority[$key]  = $row['priority'];
-			$created_time[$key] = $row['created_time'];
+		if( $result->num_rows() > 0){
+			$products = $result->result_array();
+			foreach ($products as $key => $row) {
+				$priority[$key]  = $row['priority'];
+				$created_time[$key] = $row['created_time'];
+			}
+			array_multisort( $created_time, SORT_DESC, $priority, SORT_ASC, $products);
+			return $products;
 		}
-		array_multisort( $created_time, SORT_DESC, $priority, SORT_ASC, $products);
 		
-		return $result->result_array();
+		return array();
 	}
 	
 	public function get_products_color( $pid = '' ) {
