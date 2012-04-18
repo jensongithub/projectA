@@ -7,7 +7,7 @@
 	<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 <body>
-<div id='header'>
+<div>
 	<div class='menu_lang'>
 		<ul>
 
@@ -24,20 +24,21 @@
 			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?></li>
 		</ul>
 	</div>
+	<!--div class='menu_l2'>
+		<?php echo anchor( '/', img(array('src' => 'logo.jpg', 'class' => 'logo') ) ); ?>
+	</div-->
+	<div><center><?php echo anchor( '/', img(array('src' => 'logo.jpg') ) ); ?></center></div>
 	<div class='menu_l2'>
-		<?php echo anchor( '/', img(array('src' => 'logo.png', 'class' => 'logo') ) ); ?>
 		<ul>
-			<li class='divider'><?php echo anchor('browse/women/sales', _('Ladies')); ?></li>
-			<li class='divider'><?php echo anchor('', _('Men')); ?></li>		
-			<li class='divider'><?php echo anchor('', _('Accessories')); ?></li>
-			<li><?php echo anchor('sales', _('Sales')); ?></li>
-		</ul>
-		<ul class='sub_menu_l2'>
-			<li class='divider'><?php echo anchor('company', _('About Us')); ?></li>
-			<li class='divider'><?php echo anchor('news', _('News')); ?></li>
-			<li class='divider'><?php echo anchor('info#location', _('Location')); ?></li>
-			<li class='divider'><?php echo anchor('#', _('Product Care')); ?></li>		
-			<li><?php echo anchor('info#contact', _('Contact Us')); ?></li>
+			<li><?php echo anchor('company', _('About us')); ?> / </li>			
+			<li><?php echo anchor('browse/women/sales', _('Ladies')); ?> / </li>
+			<li><?php echo anchor('', _('Men')); ?> / </li>
+			<li><?php echo anchor('', _('Accessories')); ?> / </li>
+			<li><?php echo anchor('sales', _('Sales')); ?> / </li>
+			<li><?php echo anchor('news', _('News')); ?> / </li>
+			<li><?php echo anchor('info#location', _('Location')); ?> / </li>
+			<li><?php echo anchor('product_care', _('Product Care')); ?> / </li>
+			<li><?php echo anchor('info#contact', _('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>

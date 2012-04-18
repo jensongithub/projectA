@@ -224,7 +224,7 @@ background: white;
 					<ul>
 						<?php foreach( $sim_pro as $product) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "dept/view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
 							<span><?php echo $product['id'] ?></span><br />
 							<span>$<?php echo $product['price'] ?></span><br />
 						</li>
@@ -236,7 +236,7 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array(
-							anchor(str_replace('&', '%26', 'dept/browse/' . $cat . '/'), _( ucfirst($cat) )),
+							anchor(str_replace('&', '%26', 'browse/' . $cat . '/'), _( ucfirst($cat) )),
 							' > ',
 							$id
 				);

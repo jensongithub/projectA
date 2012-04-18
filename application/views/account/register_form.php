@@ -1,6 +1,6 @@
 <div id="content" class='container'>
 	<div class="content expando">
-		<div class="container">
+	
 			<?php if( $this->input->post('submit') ) echo "<div class='error-panel'>"; ?>
 				<?php echo validation_errors(); ?>
 			<?php if( $this->input->post('submit') ) echo "</div>"; ?>
@@ -123,6 +123,6 @@
 					</tr>
 				</table>
 			</form>
-		</div>
+		
 	</div>
 </div>

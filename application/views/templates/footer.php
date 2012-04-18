@@ -37,7 +37,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class='footer_script'><strong><?php echo _("Casimira &copy; 2012");?></strong></div>
+	<div class='footer_script'><?php echo _("Casimira &copy; 2012");?></div>
 </div>
 
 </body>
