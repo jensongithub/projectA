@@ -13,8 +13,8 @@ class Product extends CI_Controller {
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
-		$this->load->library('form_validation', 'session',"paypalExCheckout");
-		$this->
+		$this->load->library('form_validation', 'session');
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/product', $this->data);
 		$this->load->view('templates/footer');
