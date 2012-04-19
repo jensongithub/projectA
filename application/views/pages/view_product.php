@@ -7,7 +7,7 @@ var holder = pid + colors.c0.color;
 var imgTesting;
 var showcaseSize = { width: 350, height: 470 };
 var pos;
-var zoomPanelSize = { width: 350, height: 470 };
+var zoomPanelSize = { width: 560, height: 470 };
 var zoomAreaSize = { width: 0, height: 0 };
 var imgSize = { width: 0, height: 0 };
 var wRatio, hRatio;
@@ -62,7 +62,7 @@ $(document).ready(function($){
 		$(this).css('display', 'none');
 	});
 	
-	//initZoom();
+	initZoom();
 	//initMagnifier();
 	initThumbnailEvent();
 });
@@ -73,6 +73,8 @@ function initZoom() {
 	var a = $('.zoom-area'); // zoom area
 	var s = $('#showcase-img'); // showcase image
 	
+	p.css('width', zoomPanelSize.width);
+	p.css('height', zoomPanelSize.height);
 	pos = getPosition(document.getElementById('showcase-img'));
 	p.css('left', (360 + pos.left) + 'px');
 	p.css('top', pos.top + 'px');
@@ -82,6 +84,9 @@ function initZoom() {
 	wRatio = s.width();
 	setZoomRatio( s.attr('src') );
 	$('#showcase-stage').mouseenter(function(){
+		pos = getPosition(document.getElementById('showcase-img'));
+		p.css('left', (360 + pos.left) + 'px');
+		p.css('top', pos.top + 'px');
 		p.css('display', 'block');
 		a.css('display', 'block');
 	});
@@ -224,7 +229,7 @@ background: white;
 					<ul>
 						<?php foreach( $sim_pro as $product) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${product['id']}"), img("products/${category['path']}/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
 							<span><?php echo $product['id'] ?></span><br />
 							<span>$<?php echo $product['price'] ?></span><br />
 						</li>
@@ -274,7 +279,7 @@ background: white;
 							<?php
 							foreach( $colors as $color ) {
 								echo "<li class='product-color' title='${color['color']}'>";
-								echo img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
+								echo img( array( 'src' => "products/${category['path']}/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
 								echo "</li>";
 							}
 							?>

@@ -198,23 +198,9 @@ class Dept extends CI_Controller {
 		}
 		$this->data['colors_json'] = json_encode($this->data['colors_json']);
 		
-		$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
-		$i = 0;
-		$this->data['sim_pro'] = array();
-		foreach( $sims as $sim ){
-			if( $i < 4 && $sim['id'] != $id ){
-				$colors = $this->product_model->get_products_color($sim['id']);
-				foreach( $colors as $color ){
-					$file = 'images/products/' . $this->data['category']['path'] . '/' . $sim['id'] . $color['color'];
-					if( file_exists($file . '-F_s.jpg') || file_exists($file . '-F.jpg') ){
-						$this->data['sim_pro'][$i] = $sim;
-						$this->data['sim_pro'][$i]['color'] = $color['color'];
-						$i++;
-						break;
-					}
-				}
-			}
-		}
+		// get similar products
+		$this->data['sim_pro'] = $this->product_model->get_similar_products($this->data['id'], $this->data['category']['id'], 4);
+		//$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);

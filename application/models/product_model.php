@@ -108,6 +108,45 @@ class Product_model extends CI_Model {
 		return $products;
 	}
 	
+	public function get_similar_products($id = FALSE, $cat_id = FALSE, $num = 1){
+		$query = "SELECT COUNT(*) AS 'count' FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND pc.cat_id = ?";
+		$count = $this->db->query($query, $cat_id)->row_array();
+		$max = $count['count'] - 2;
+		
+		$products = array();
+		$temp = array();
+		$rand = 0;
+		
+		if( $max <= $num - 1 ){
+			$query = "SELECT * FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? ORDER BY rand()";
+			$products = $this->db->query($query, array($id, $cat_id, $rand))->result_array();
+		}
+		
+		while( count($products) < $num ){
+			while( TRUE ){
+				$rand = rand(0, $max);
+				if( ! isset($temp[$rand]) )
+					break;
+			}
+			$temp[$rand] = 1;
+			$query = "SELECT * FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? LIMIT ?, 1";
+			$products[] = $this->db->query($query, array($id, $cat_id, $rand))->row_array();
+		}
+		
+		$i = 0;
+		$sim_pro = array();
+		foreach( $products as $sim ){
+			$colors = $this->get_products_color($sim['id']);
+			foreach( $colors as $color ){
+				$sim_pro[$i] = $sim;
+				$sim_pro[$i]['color'] = $color['color'];
+				$i++;
+				break;
+			}
+		}
+		return($sim_pro);
+	}
+	
 	public function get_products_color( $pid = '' ) {
 		$this->db->select("product_color.color")->from("products, product_color")->where("products.id = '$pid' AND products.id = product_color.pro_id");
 		$result = $this->db->get();
