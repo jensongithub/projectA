@@ -177,19 +177,19 @@ class Dept extends CI_Controller {
 
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
 		$this->load->model( array('category_model', 'product_model') );
-		
-		$view = "$dept/$cat";
-		if( $sub != '' )
-			$view .= "/$sub";
-		$view = urldecode($view);
-		//echo $view;
-		
-		$this->data['category'] = $this->category_model->get_categories_by_name($view, TRUE);
+		$dept = urldecode($dept);
+		$cat = urldecode($cat);
+		$sub = urldecode($sub);
+
+		$this->data['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
+		print_r($this->data['c_path']);
+		$this->data['category'] = $this->data['c_path'][count($this->data['c_path'])-1];
 		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
 		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
 		$this->data['id'] = $id;
+		$this->data['product'] = $this->product_model->get_product_by_id($id);
 		
 		$this->data['colors'] = $this->product_model->get_products_color($id);
 		$this->load->helper('json');
