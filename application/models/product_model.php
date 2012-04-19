@@ -20,33 +20,86 @@ class Product_model extends CI_Model {
 	public function get_products_for_listing($dept = '', $cat = '', $sub = ''){
 		$this->load->helper( 'file' );
 
-		$q_dept = "SELECT * FROM products pro, product_category pc, categories cat, navigations nav WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND text = ? ";
 		$q_sub = "";
 		
-		$q_dept = "SELECT level FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND text = ? ";
-		$q_cat = "SELECT nav.level FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND text = ? AND nav.level LIKE CONCAT(q_dept.level, '%') ";
+		$q_dept = "SELECT level, text FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.text = ? ";
+		$q_cat = "SELECT nav.level, CONCAT(q_dept.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND nav.text = ? AND nav.level LIKE CONCAT(q_dept.level, '%') ";
 
 		if( $sub != "" ){
-			$q_sub = "SELECT cat.id FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND text = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+			$q_sub = "SELECT cat.id, CONCAT(q_cat.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.text = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		else{
-			$q_sub = "SELECT cat.id FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+			$q_sub = "SELECT cat.id, CONCAT(q_cat.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		
 		// real
-		$q_pro = "SELECT pro.* FROM products pro, product_category pc WHERE pro.id = pc.pro_id AND pc.cat_id IN ($q_sub) ORDER BY id";
+		$q_pro = "SELECT pro.id, pro.name, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY id";
 		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
-		echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
+		//echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
 		
+		$product_count = $result->num_rows();
+
+		// if no result, return empty array
+		if( $product_count <= 0 )
+			return array();
+		
+		// if has at least 1 record, post-process
 		$products = $result->result_array();
-		
 		foreach ($products as $key => $row) {
 			$priority[$key]  = $row['priority'];
 			$created_time[$key] = $row['created_time'];
 		}
 		array_multisort( $created_time, SORT_DESC, $priority, SORT_ASC, $products);
+	
+		echo "<p>product_model.php: Searching " . $this->config->item('image_dir') . 'products/' . "</p>";
+		$files = get_filenames($this->config->item('image_dir') . 'products/');
+		$file_count = count( $files );
+		$i = 0; $j = 0;
 		
-		return $result->result_array();
+		// match the image file with the products
+		$match_count = 0;
+		echo "<br/>file count = $file_count; product count = $product_count<br/>";
+		while( $i < $product_count ){
+			$prefix = substr($files[$j], 0, 6);
+			$postfix = substr($files[$j], 12);
+			if( $postfix == '-F_s.jpg' ){
+				if( $prefix > $products[$i]['id'] ){
+					unset($products[$i]);
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
+				else if( $prefix < $products[$i]['id'] ){
+					$j++;
+					if( $j >= $file_count )
+						break;
+				}
+				else{
+					//echo '* ' . $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
+					$products[$i]['image'] = $files[$j];
+					$match_count++;
+					$i++;
+					if( $i >= $product_count )
+						break;
+				}
+			}
+			else{
+				$j++;
+				if( $j >= $file_count )
+					break;
+			}
+			//echo $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
+		}
+		echo "<p>$match_count match(es)</p>";
+		
+		/*
+		foreach( $products as $key => $product ){
+			echo "<br/>";
+			print_r($product);
+		}
+		*/
+
+		return $products;
 	}
 	
 	public function get_products_color( $pid = '' ) {

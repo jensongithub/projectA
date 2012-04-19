@@ -43,6 +43,7 @@ $route['default_controller'] = 'index';
 $route['^(en|zh|cn)/browse/(.+)/(.+)/(.+)$'] = 'dept/browse/$2/$3/$4';
 $route['^(en|zh|cn)/browse/(.+)/(.+)$'] = 'dept/browse/$2/$3';
 $route['^(en|zh|cn)/view/(.+)/(.+)/(.+)/(.+)$'] = 'dept/view/$2/$3/$4/$5';
+$route['^(en|zh|cn)/view/(.+)/(.+)/(.+)$'] = 'dept/view/$2/$3/$4';
 
 // URI like '/en/about' -> use controller 'about'
 $route['(en|zh|cn)/logout$'] = 'index/logout';

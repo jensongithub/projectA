@@ -31,7 +31,7 @@
 	<div class='menu_l2'>
 		<ul>
 			<li><?php echo anchor('company', _('About us')); ?> / </li>			
-			<li><?php echo anchor('dept/browse/women/sales', _('Ladies')); ?> / </li>
+			<li><?php echo anchor('browse/women/sales', _('Ladies')); ?> / </li>
 			<li><?php echo anchor('', _('Men')); ?> / </li>
 			<li><?php echo anchor('', _('Accessories')); ?> / </li>
 			<li><?php echo anchor('sales', _('Sales')); ?> / </li>
@@ -39,7 +39,8 @@
 			<li><?php echo anchor('info#location', _('Location')); ?> / </li>
 			<li><?php echo anchor('product_care', _('Product Care')); ?> / </li>
 			<li><?php echo anchor('info#contact', _('Contact us')); ?></li>
-		</ul></div>
+		</ul>
+	</div>
 </div>
 <div id="content" class="container">
 	<div class="container">

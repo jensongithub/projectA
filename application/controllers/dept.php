@@ -151,60 +151,20 @@ class Dept extends CI_Controller {
 	
 	public function browse($dept = 'women', $cat = 'sales', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
+		echo "dept: $dept + cat: $cat + sub: $sub<br/>";
 		
-		$browse = "$dept/$cat";
-		if( $sub != '' )
-			$browse .= "/$sub";
-		$browse = urldecode($browse);
-		//echo $browse;
-		
-		$this->data['category'] = $this->category_model->get_categories_by_name($browse, TRUE);
-		if( $this->data['category'] == FALSE ){
+		$this->data['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
+		if( $this->data['path'] == FALSE ){
 			$this->data['error'] = "No such category";
-			echo $this->data['error'];
+			echo $this->data['error'] . ": " . $browse;
 		}
-		$this->data['title'] = ucfirst($this->data['category']['name']);
-		$this->data['dept'] = $dept;
-		$this->data['cat'] = $this->data['category']['name'];
+		
+		for( $i = 0; isset($this->data['path'][$i]); $i++);
+		$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
+		$this->data['title'] = ucfirst($this->data['cat']);
 		
 		$this->data['menu'] = $this->menu_model->get_submenu('1');
 		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
-		$product_count = count( $this->data['products'] );
-		
-		$files = get_filenames($this->config->item('image_dir') . 'products/' . $this->data['category']['path']);
-		$file_count = count( $files );
-		$i = 0; $j = 0;
-		
-		echo "<br/>file count = $file_count; product count = $product_count<br/>";
-		while( $i < $product_count ){
-			$prefix = substr($files[$j], 0, 6);
-			$postfix = substr($files[$j], 12);
-			if( $postfix == '-F_s.jpg' ){
-				if( $prefix > $this->data['products'][$i]['id'] ){
-					$i++;
-					if( $i >= $product_count )
-						break;
-				}
-				else if( $prefix < $this->data['products'][$i]['id'] ){
-					$j++;
-					if( $j >= $file_count )
-						break;
-				}
-				else{
-					echo '* ' . $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
-					$this->data['products'][$i]['image'] = $files[$j];
-					$i++;
-					if( $i >= $product_count )
-						break;
-				}
-			}
-			else{
-				$j++;
-				if( $j >= $file_count )
-					break;
-			}
-			echo $this->data['products'][$i]['id'] . " <===> " . $files[$j] . '<br />';
-		}
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
