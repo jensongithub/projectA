@@ -151,18 +151,22 @@ class Dept extends CI_Controller {
 	
 	public function browse($dept = 'women', $cat = 'sales', $sub = ''){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
-		echo "dept: $dept + cat: $cat + sub: $sub<br/>";
+		$dept = urldecode($dept);
+		$cat = urldecode($cat);
+		$sub = urldecode($sub);
 		
 		$this->data['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 		if( $this->data['path'] == FALSE ){
-			$this->data['error'] = "No such category";
-			echo $this->data['error'] . ": " . $browse;
+			$this->data['error'] = "No such category: $dept/$cat/$sub";
+			$this->data['title'] = $this->data['error'];
+			$this->data['path'] = array();
 		}
-		
-		for( $i = 0; isset($this->data['path'][$i]); $i++);
-		$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
-		$this->data['title'] = ucfirst($this->data['cat']);
-		
+		else{
+			for( $i = 0; isset($this->data['path'][$i]); $i++);
+			$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
+			$this->data['title'] = ucfirst($this->data['cat']);
+		}
+
 		$this->data['menu'] = $this->menu_model->get_submenu('1');
 		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
 		

@@ -19,7 +19,17 @@ class Menu_model extends CI_Model {
 		$this->db->select('categories.name, categories.id, navigations.cat_id, navigations.text, navigations.text_zh, navigations.text_cn, navigations.level');
 		$this->db->where("level like '${level}%'");
 		$query = $this->db->get('navigations');
-		return $query->result_array();
+		$result = $query->result_array();
+		
+		$temp = array();
+		$temp[$result[0]['level']] = $result[0]['text'];
+		$result[0]['c_path'] = $result[0]['text'];
+		for( $i = 1; $i < count($result); $i++){
+			$mi = $result[$i];
+			$temp[$mi['level']] = $temp[substr( $mi['level'], 0, strrpos($mi['level'], '.' ) )] . '/' . $mi['text'];
+			$result[$i]['c_path'] = $temp[$mi['level']];
+		}
+		return $result;
 	}
 	
 	public function get_menu_item($id = "") {

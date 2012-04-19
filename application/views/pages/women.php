@@ -9,18 +9,22 @@
 				<h4><?php echo _('WOMEN'); ?></h4>
 				<?php
 				foreach( $menu as $item ){
-					$item_name = explode('/', $item['name']);
 					$level = count( explode('.', $item['level']) ) - 1;
 					if( $level == 1 )
-						echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['name']), $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text']) . "</div>";
 					else if( $level > 1 )
-						echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['name']), $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text']) . "</div>";
 				}
 				?>
 			</div>
 		</div>
 
 		<div id='cat-main' class="container">
+			<?php if( isset( $error ) ){ ?>
+			<div class='error'>
+				<?php echo $error; ?>
+			</div>
+			<?php } ?>
 			<div class="category-head">
 				<h3>
 				<?php 
