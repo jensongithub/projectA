@@ -179,6 +179,39 @@ function loadSizeChart(){
 	mask.css('display', 'block');
 	$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
 }
+
+var shop_cart = {
+	list:[],
+	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';}
+}
+
+
+$(function(){	
+	var _item = new shop_cart.item;
+	$('a[class=item_size]').click(function(){
+		_item.size=$(this).attr('value');
+	});
+	
+	$('a[class=item_color]').click(function(){
+		_item.color=$(this).attr('value');
+	});
+	
+	$('a[class=add_item]').click(function(){		
+		_item.id=$(this).attr('value');
+		_item.quantity=$('input[class=item_quantity]').val();
+		if (_item.size==''){ 
+			alert("Please enter size");
+		}else if (_item.color==''){ 
+			alert("Please enter color");
+		}else if (_item.quantity==''){
+			alert("Please enter quantity");
+		}
+		else{
+			shop_cart.list.push(_item);
+			_item = new shop_cart.item;
+		}
+	});
+});
 </script>
 <style type="text/css">
 .magnifyarea{ /* CSS to add shadow to magnified image. Optional */
@@ -258,7 +291,7 @@ background: white;
 
 				<div id='product-name' class='product-name'><?php echo $id.$colors[0]['color']; ?></div>
 
-				<div id='product-description'>
+				<div id='_product-description'>
 					<div style='margin-bottom: 30px;'>
 						<h4><?php echo _('Description'); ?></h4>
 						<p>Short, loose-fitting purl-knit jumper in marled textured yarn with 3/4-length sleeves. </p>
@@ -273,25 +306,37 @@ background: white;
 				</div>
 
 				<div id='product-options'>
-					<div style='margin-bottom: 30px;'>
-						<h4>Colour:</h4>
-						<ul>
-							<?php
-							foreach( $colors as $color ) {
-								echo "<li class='product-color' title='${color['color']}'>";
-								echo img( array( 'src' => "products/${category['path']}/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") );
-								echo "</li>";
-							}
-							?>
-						</ul>						
-					</div>
-					<div class='clear'></div>
-
 					<div>
-						<h4>Size:</h4>
-						<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span>
+						<div style='margin-top:1em;'>
+							<h4>Colour:</h4>
+							<ul>
+								<?php
+								foreach( $colors as $color ) {
+									echo "<li class='product-color' title='${color['color']}'>";
+									echo "<a href='javascript:void(0)' class='item_color' value='${color['color']}'>".img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
+									echo "</li>";
+								}
+								?>
+							</ul>
+						</div>
+						<div class='clear'></div>
+						<div style='margin-top:1em;'>
+							<label>Size:</label>
+							<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
+							<a href='javascript:void(0);' class='item_size' value='S'>S</a>
+							<a href='javascript:void(0);' class='item_size' value='M'>M</a>
+							<a href='javascript:void(0);' class='item_size' value='L'>L</a>
+							<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+						</div>
+						
+						<div style='margin-top:1em;'>
+							<label>Quantity</label>
+							<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/>
+						</div>
+						
+						<span><a href=''>Buy</a></span><span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a></span>
 					</div>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>
