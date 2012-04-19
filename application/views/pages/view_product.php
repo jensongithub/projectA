@@ -62,7 +62,7 @@ $(document).ready(function($){
 		$(this).css('display', 'none');
 	});
 	
-	initZoom();
+	//initZoom();
 	//initMagnifier();
 	initThumbnailEvent();
 });
@@ -236,10 +236,12 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array(
-							anchor(str_replace('&', '%26', 'browse/' . $cat . '/'), _( ucfirst($cat) )),
-							' > ',
-							$id
 				);
+				foreach( $c_path as $item ){
+					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( ucfirst($item['text']) ) );
+					$list[] = ' > ';
+				}
+				$list[] = $id;
 
 				$attr = array(
 							'id' => 'product-path'

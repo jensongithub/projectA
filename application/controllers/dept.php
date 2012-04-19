@@ -182,7 +182,7 @@ class Dept extends CI_Controller {
 		$sub = urldecode($sub);
 
 		$this->data['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
-		print_r($this->data['c_path']);
+		//print_r($this->data['c_path']);
 		$this->data['category'] = $this->data['c_path'][count($this->data['c_path'])-1];
 		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
 		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
