@@ -27,47 +27,34 @@ class checkout extends CI_Controller {
 		$this->load->library('paypal_lib');
 	}
 	
-	public function index()	{
+	public function index($payment_gateway)	{
 		$data['title'] = 'Product Catalog';
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
 		$this->load->library('form_validation', 'session');
-				
-		//$this->form();		
+		
+		//$this->form();
 		
 		$this->load->view('templates/header', $data);
-		$data['paypal_url'] = $this->paypal_lib->paypal_url;
-		$data['alipay_url'] = "alipay.com";//$this->paypal_lib->paypal_url
 		$this->load->view("pages/product", $data);
-		
 		$this->load->view('templates/footer');
-	}	
-	
-	function form()
-	{		
-		$this->paypal_lib->add_field('business', 'PAYPAL@EMAIL.COM');
-	    $this->paypal_lib->add_field('return', site_url('paypal/success'));
-	    $this->paypal_lib->add_field('cancel_return', site_url('paypal/cancel'));
-	    $this->paypal_lib->add_field('notify_url', site_url('paypal/ipn')); // <-- IPN url
-	    $this->paypal_lib->add_field('custom', '1234567890'); // <-- Verify return
+	}
 
-	    $this->paypal_lib->add_field('item_name', 'Paypal Test Transaction');
-	    $this->paypal_lib->add_field('item_number', '6941');
-	    $this->paypal_lib->add_field('amount', '197');
-		$this->paypal_lib->add_field('quantity', '197');
-
-		// if you want an image button use this:
-		$this->paypal_lib->image('button_03.gif');
-		
-		// otherwise, don't write anything or (if you want to 
-		// change the default button text), write this:
-		// $this->paypal_lib->button('Click to Pay!');
-		
-	    $data['paypal_form'] = $this->paypal_lib->paypal_form();
+	function paypal(){
+		$data['payment_gateway'] = 'paypal';
+		$data['paypal_url'] = $this->paypal_lib->paypal_url;
+		$this->load->view('templates/header', $data);
+		$this->load->view("pages/product", $data);
+		$this->load->view('templates/footer');
+	}
 	
-		$this->load->view('paypal/form', $data);
-        
+	function alipay(){
+		$data['payment_gateway'] = 'alipay';
+		$data['alipay_url'] = "alipay.com";//$this->paypal_lib->paypal_url
+		$this->load->view('templates/header', $data);
+		$this->load->view("pages/product", $data);
+		$this->load->view('templates/footer');
 	}
 
 	function auto_form()

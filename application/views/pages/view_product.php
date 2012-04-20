@@ -177,9 +177,27 @@ function loadSizeChart(){
 
 var shop_cart = {
 	list:[],
-	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';}
+	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';},
+	save:function(each_item){
+		//alert(each_item);
+		$.ajax({
+			type: "POST",
+			url: "http://lna.localhost/zh/cart/add/",			
+			data: "item="+$.toJSON(each_item),
+			dataType: "text",
+			success: function (data, textStatus, jqXHR) {
+				//var obj = jQuery.parseJSON(jqXHR.responseText);
+				alert("status: "+textStatus+"\n Response Text"+jqXHR.responseText);				
+			},
+			/*error: function (data, textStatus, jqXHR) { 
+				notify(textStatus); 
+			},*/
+			error:function(xhr,err){
+				alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n Response Text"+xhr.responseText);
+			}
+		});
+	}
 }
-
 
 $(function(){	
 	var _item = new shop_cart.item;
@@ -190,8 +208,10 @@ $(function(){
 	$('a[class=item_color]').click(function(){
 		_item.color=$(this).attr('value');
 	});
+		
+	$('a[class=add_item]').click(function(){ add_item.call($(this));});
 	
-	$('a[class=add_item]').click(function(){		
+	var add_item = function(){
 		_item.id=$(this).attr('value');
 		_item.quantity=$('input[class=item_quantity]').val();
 		if (_item.size==''){ 
@@ -202,11 +222,24 @@ $(function(){
 			alert("Please enter quantity");
 		}
 		else{
-			shop_cart.list.push(_item);
+			//shop_cart.list.push(_item);
+			var serialize = _item.toSource();
+			shop_cart.save(_item.toSource().substring(1,serialize.length-1));
 			_item = new shop_cart.item;
 		}
-	});
+	}
 });
+
+function paypal_checkout(){ 
+	$('a[class=add_item]').click();
+	window.location.href='http://lna.localhost/checkout/paypal';
+}
+	
+function alipay_checkout(){ 
+	$('a[class=add_item]').click();
+	window.location.href='http://lna.localhost/checkout/alipay';
+}
+
 </script>
 <style type="text/css">
 .magnifyarea{ /* CSS to add shadow to magnified image. Optional */
@@ -322,7 +355,13 @@ background: white;
 							<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/>
 						</div>
 						
-						<span><a href=''>Buy</a></span><span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a></span>
+						<div style='margin-top:1em;'>
+							<span>
+								<input type='image' name='button' onclick ='paypal_checkout();' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+								<input type='image' name='button' onclick ='alipay_checkout();' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+								<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a>
+							</span>
+						</div>
 					</div>
 				</div>				
 			</div>
@@ -350,3 +389,4 @@ background: white;
 <div id='size-chart-holder'>
 </div>
 </div>
+<script type='text/javascript' src="/js/jquery.json-2.3.min"></script>
