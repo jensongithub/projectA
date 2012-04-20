@@ -24,10 +24,7 @@
 			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?></li>
 		</ul>
 	</div>
-	<!--div class='menu_l2'>
-		<?php echo anchor( '/', img(array('src' => 'logo.jpg', 'class' => 'logo') ) ); ?>
-	</div-->
-	<div><center><?php echo anchor( '/', img(array('src' => 'logo.jpg') ) ); ?></center></div>
+	<div><a href="/"><img class='logo' src="/images/logo.png" alt=""/></a></div>
 	<div class='menu_l2'>
 		<ul>
 			<li><?php echo anchor('company', _('About us')); ?> / </li>			
