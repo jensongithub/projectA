@@ -14,8 +14,7 @@ class cart extends CI_Controller {
 
 		//$_item = json_decode($item);
 		$_item = json_decode($item);
-		var_dump($_item);
-		exit();
+		
 		$data = $this->session->all_userdata();
 		
 		if (!isset($data['cart'])){
@@ -25,8 +24,7 @@ class cart extends CI_Controller {
 			array_push($data['cart'], $_item);
 		}
 		$this->session->set_userdata($data);
-		var_dump($this->session->all_userdata());
-		exit();		
+		echo $item;
 	}
 	
 	public function del($item){

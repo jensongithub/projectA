@@ -191,14 +191,13 @@ var shop_cart = {
 			data: "item="+$.toJSON(each_item),
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
-				//var obj = jQuery.parseJSON(jqXHR.responseText);
-				alert("status: "+textStatus+"\n Response Text"+jqXHR.responseText);				
+				var obj = jQuery.parseJSON(jqXHR.responseText);
+				shop_cart.list.push(obj);
+				$('span[class=cart_counter]').html("("+shop_cart.list.length+")");
+				//alert("status: "+textStatus+"\n Response Text"+jqXHR.responseText);				
 			},
-			/*error: function (data, textStatus, jqXHR) { 
-				notify(textStatus); 
-			},*/
 			error:function(xhr,err){
-				alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n Response Text"+xhr.responseText);
+				//alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n Response Text"+xhr.responseText);
 			}
 		});
 	}
@@ -228,8 +227,7 @@ $(function(){
 		}
 		else{
 			//shop_cart.list.push(_item);
-			var serialize = _item.toSource();
-			shop_cart.save(_item.toSource().substring(1,serialize.length-1));
+			shop_cart.save(_item);
 			_item = new shop_cart.item;
 		}
 	}
@@ -334,47 +332,41 @@ background: white;
 						<h4><?php echo _('Details'); ?></h4>
 						<p>69% acrylic, 18% polyamide, 13% cotton. Machine wash at 40˚ </p>
 					</div>
-					<div style='margin-top:1em;'><label>Quantity</label> <input style='width:3em;' type='text' name='qty'/>Pieces</div>
-					<span><a href='#'>Buy</a></span><span style='margin-left:2em;'><a href='#'>Add to Basket</a></span>
-				</div>
-
-				<div id='product-options'>
-					<div>
-						<div style='margin-top:1em;'>
-							<h4>Colour:</h4>
-							<ul>
-								<?php
-								foreach( $colors as $color ) {
-									echo "<li class='product-color' title='${color['color']}'>";
-									echo "<a href='javascript:void(0)' class='item_color' value='${color['color']}'>".img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
-									echo "</li>";
-								}
-								?>
-							</ul>
-						</div>
-						<div class='clear'></div>
-						<div style='margin-top:1em;'>
-							<label>Size:</label>
-							<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
-							<a href='javascript:void(0);' class='item_size' value='S'>S</a>
-							<a href='javascript:void(0);' class='item_size' value='M'>M</a>
-							<a href='javascript:void(0);' class='item_size' value='L'>L</a>
-							<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
-						</div>
-						
-						<div style='margin-top:1em;'>
-							<label>Quantity</label>
-							<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/>
-						</div>
-						
-						<div style='margin-top:1em;'>
-							<span>
-								<input type='image' name='button' onclick ='paypal_checkout();' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-								<input type='image' name='button' onclick ='alipay_checkout();' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
-								<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a>
-							</span>
-						</div>
+			
+					<div style='margin-top:1em;'>
+						<h4>Colour:</h4>
+						<ul>
+							<?php
+							foreach( $colors as $color ) {
+								echo "<li class='product-color' title='${color['color']}'>";
+								echo "<a href='javascript:void(0)' class='item_color' value='${color['color']}'>".img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
+								echo "</li>";
+							}
+							?>
+						</ul>
 					</div>
+					<div class='clear'></div>
+					<div style='margin-top:1em;'>
+						<h4>Size:<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
+						</h4>
+						<a href='javascript:void(0);' class='item_size' value='S'>S</a>
+						<a href='javascript:void(0);' class='item_size' value='M'>M</a>
+						<a href='javascript:void(0);' class='item_size' value='L'>L</a>
+						<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+					</div>
+					
+					<div style='margin-top:1em;'>
+						<h4>Quantity:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
+					</div>
+					
+					<div style='margin-top:1em;'>
+						<span>
+							<input type='image' name='button' onclick ='paypal_checkout();' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+							<input type='image' name='button' onclick ='alipay_checkout();' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a>
+						</span>
+					</div>
+					
 				</div>				
 			</div>
 		</div>
