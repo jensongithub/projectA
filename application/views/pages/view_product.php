@@ -7,7 +7,7 @@ var holder = pid + colors.c0.color;
 var imgTesting;
 var showcaseSize = { width: 350, height: 470 };
 var pos;
-var zoomPanelSize = { width: 350, height: 470 };
+var zoomPanelSize = { width: 560, height: 470 };
 var zoomAreaSize = { width: 0, height: 0 };
 var imgSize = { width: 0, height: 0 };
 var wRatio, hRatio;
@@ -73,6 +73,8 @@ function initZoom() {
 	var a = $('.zoom-area'); // zoom area
 	var s = $('#showcase-img'); // showcase image
 	
+	p.css('width', zoomPanelSize.width);
+	p.css('height', zoomPanelSize.height);
 	pos = getPosition(document.getElementById('showcase-img'));
 	p.css('left', (360 + pos.left) + 'px');
 	p.css('top', pos.top + 'px');
@@ -82,6 +84,9 @@ function initZoom() {
 	wRatio = s.width();
 	setZoomRatio( s.attr('src') );
 	$('#showcase-stage').mouseenter(function(){
+		pos = getPosition(document.getElementById('showcase-img'));
+		p.css('left', (360 + pos.left) + 'px');
+		p.css('top', pos.top + 'px');
 		p.css('display', 'block');
 		a.css('display', 'block');
 	});
@@ -290,7 +295,7 @@ background: white;
 					<ul>
 						<?php foreach( $sim_pro as $product) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/$cat/${product['id']}"), img("products/$cat/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${product['id']}"), img("products/${category['path']}/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
 							<span><?php echo $product['id'] ?></span><br />
 							<span>$<?php echo $product['price'] ?></span><br />
 						</li>
@@ -302,10 +307,12 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array(
-							anchor(str_replace('&', '%26', 'browse/' . $cat . '/'), _( ucfirst($cat) )),
-							' > ',
-							$id
 				);
+				foreach( $c_path as $item ){
+					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( ucfirst($item['text']) ) );
+					$list[] = ' > ';
+				}
+				$list[] = $id;
 
 				$attr = array(
 							'id' => 'product-path'
@@ -327,6 +334,11 @@ background: white;
 						<h4><?php echo _('Details'); ?></h4>
 						<p>69% acrylic, 18% polyamide, 13% cotton. Machine wash at 40˚ </p>
 					</div>
+					<div style='margin-top:1em;'><label>Quantity</label> <input style='width:3em;' type='text' name='qty'/>Pieces</div>
+					<span><a href='#'>Buy</a></span><span style='margin-left:2em;'><a href='#'>Add to Basket</a></span>
+				</div>
+
+				<div id='product-options'>
 					<div>
 						<div style='margin-top:1em;'>
 							<h4>Colour:</h4>
