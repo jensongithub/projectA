@@ -14,7 +14,7 @@
 				<div class='row'>
 					<label><?php echo _("Password");?></label><input type='password' name='pwd' />
 				</div>
-				<div><a href=''><?php echo _("Forgotten Password");?></a></div>
+				<div><a href='account/forgotten'><?php echo _("Forgotten Password");?></a></div>
 				<div><input type='submit' value='Submit' /><input type='button' value='Reset' /></div>
 			</form>
 		</div>

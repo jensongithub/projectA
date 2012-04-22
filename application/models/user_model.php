@@ -95,15 +95,13 @@ class User_model extends CI_Model {
 		
 		if ( $user === FALSE ) {
 			$user['pwd'] = md5($this->input->post('pwd'));
-			$user['phone'] = $this->input->post('phone');
-						
-			$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
-			
-			$this->db->update('users', $user);
-			return $user;
+			$user['phone'] = $this->input->post('phone');			
 		}
+		$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
+		$q = $this->db->update('users', $user);
 		
-		return FALSE;
+		
+		return $user;
 	}
 	
 	public function authenticate_user(){
@@ -116,8 +114,29 @@ class User_model extends CI_Model {
 		
 		list($user) = $query->result_array();
 		
-		if ($query->num_rows()>0){
+		if ($query->num_rows()===1){
 			if ($user['pwd']===$login['pwd']){
+				$user['is_login']=TRUE;
+				$this->session->set_userdata($user);
+				return $user;
+			}
+		}else{
+			return FALSE;
+		}
+	}
+	
+	public function authenticate_user_by_email($email, $activate_code){
+	
+		$login['email'] = $email;		
+		$now = gmdate('Y-m-d H:i:s', time() );
+		
+		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code FROM users WHERE email = ? ";		
+		$query = $this->db->query($sql, array($login['email'])); 
+		
+		list($user) = $query->result_array();
+
+		if ($query->num_rows()===1){
+			if ($user['activate_code'] === $activate_code ) {
 				$user['is_login']=TRUE;
 				$this->session->set_userdata($user);
 				return $user;
@@ -129,7 +148,6 @@ class User_model extends CI_Model {
 	
 	public function activate_user($email, $activate_code){
 		$is_valid = FALSE;
-		$this->db->where('email', $email);		
 		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code FROM users WHERE email = ? and activate_date is NULL";
 		$query = $this->db->query($sql, array($email)); 
 		
@@ -156,6 +174,16 @@ class User_model extends CI_Model {
 		if($is_valid===FALSE){
 			redirect(site_url().'login');
 		}
+	}
+	
+	public function reset_password_by_email($email){
+		$user['pwd'] = NULL;
+		$user['activate_code'] = $this->_generate_activation_code();
+		$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
+		$this->db->where('email', $email);
+		$this->db->update('users', $user);
+		
+		return $user['activate_code'];
 	}
 }
 

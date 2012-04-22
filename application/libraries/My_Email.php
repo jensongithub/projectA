@@ -52,13 +52,14 @@ class MY_Email extends CI_Email {
 	}
 	
 	
-	public function send_forgotten_pwd_mail($user, $subject, $message) {
+	public function send_forgotten_mail($user, $subject, $message) {
 		/**
 		 * send a link for user to go to reset password page
-		 **/
+		 
 		if ($user["id"] <= 0) {
 			return false;
 		}
+		**/
 		
 		$to = $user["email"];
 
