@@ -6,18 +6,19 @@ class Register extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->library('email');
 		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index()	{
-		$data['title'] = 'Register';
+		$this->data['title'] = 'Register';
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
 		$this->load->library('form_validation', 'session');
 		
-		$this->load->view('templates/header', $data);
+		$this->load->view('templates/header', $this->data);
 		if($this->form_validation->run() === FALSE) {
-			$this->load->view('account/register_form', $data);
+			$this->load->view('account/register_form', $this->data);
 		}
 		else {
 			$user = $this->user_model->insert_user();

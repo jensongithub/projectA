@@ -192,8 +192,10 @@ var shop_cart = {
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				var obj = jQuery.parseJSON(jqXHR.responseText);
-				shop_cart.list.push(obj);
-				$('span[class=cart_counter]').html("("+shop_cart.list.length+")");
+				if (obj.cart_item!=''){
+					shop_cart.list.push(obj.cart_item);
+				}
+				$('span[class=cart_counter]').html("("+obj.cart_counter+")");
 				//alert("status: "+textStatus+"\n Response Text"+jqXHR.responseText);				
 			},
 			error:function(xhr,err){
@@ -389,8 +391,5 @@ background: white;
 	height: 400px;
 }
 </style>
-<div id='mask'>
-<div id='size-chart-holder'>
-</div>
-</div>
+<div id='mask'><div id='size-chart-holder'></div></div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>

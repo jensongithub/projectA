@@ -23,37 +23,39 @@ class checkout extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->library('email');
 		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 		$this->load->helper(array('form'));
 		$this->load->library('paypal_lib');
 	}
 	
 	public function index($payment_gateway)	{
-		$data['title'] = 'Product Catalog';
+		$this->data['title'] = 'Product Catalog';
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
 		$this->load->library('form_validation', 'session');
 		
 		//$this->form();
-		
-		$this->load->view('templates/header', $data);
-		$this->load->view("pages/product", $data);
+		$this->load->view('templates/header', $this->data);
+		$this->load->view("pages/product", $this->data);
 		$this->load->view('templates/footer');
 	}
 
 	function paypal(){
-		$data['payment_gateway'] = 'paypal';
-		$data['paypal_url'] = $this->paypal_lib->paypal_url;
-		$this->load->view('templates/header', $data);
-		$this->load->view("pages/product", $data);
+		$this->data['payment_gateway'] = 'paypal';
+		$this->data['paypal_url'] = $this->paypal_lib->paypal_url;
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view("pages/product", $this->data);
 		$this->load->view('templates/footer');
 	}
 	
 	function alipay(){
-		$data['payment_gateway'] = 'alipay';
-		$data['alipay_url'] = "alipay.com";//$this->paypal_lib->paypal_url
-		$this->load->view('templates/header', $data);
-		$this->load->view("pages/product", $data);
+		$this->data['payment_gateway'] = 'alipay';
+		$this->data['alipay_url'] = "alipay.com";//$this->paypal_lib->paypal_url
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view("pages/product", $this->data);
 		$this->load->view('templates/footer');
 	}
 
@@ -91,8 +93,8 @@ class checkout extends CI_Controller {
 		// order based on a database (which can be modified with the IPN code 
 		// below).
 
-		$data['pp_info'] = $this->input->post();
-		$this->load->view('paypal/success', $data);
+		$this->data['pp_info'] = $this->input->post();
+		$this->load->view('paypal/success', $this->data);
 	}
 	
 	function paypal_ipn()

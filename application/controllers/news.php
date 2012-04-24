@@ -1,15 +1,16 @@
 <?php
 class News extends CI_Controller {
-	var $data;
+	var $data =array();
 	public function __construct()	{
 		parent::__construct();
 		$this->load->model('news_model');
+		$data = array('title'=>'News');
+		$data = array_merge($data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 	
 	
 	public function index(){
-		$data = array('title'=>'News');
-		$data = array_merge($data, $this->session->all_userdata());
 		$lang = '_'.$this->lang->lang();
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/news'.$lang);

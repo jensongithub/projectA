@@ -12,6 +12,8 @@ class Company extends CI_Controller {
 	public function index(){
 		$this->data = array('title'=>'Company');
 		$lang = '_'.$this->lang->lang();
+		
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/company'.$lang);
 		$this->load->view('templates/footer');

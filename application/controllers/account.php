@@ -8,6 +8,7 @@ class Account extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->library('email');
 		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index()	{

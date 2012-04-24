@@ -8,6 +8,7 @@ class Dept extends CI_Controller {
 		$this->load->helper('html');
 		$this->data=array();
 		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index(){
@@ -58,6 +59,7 @@ class Dept extends CI_Controller {
 				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
+
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
 		$this->load->view('templates/footer', $this->data);
@@ -107,6 +109,8 @@ class Dept extends CI_Controller {
 				$this->data['products'][] = 'IMG_2543a.jpg';
 				break;
 		}
+		
+		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
 		$this->load->view('templates/footer', $this->data);

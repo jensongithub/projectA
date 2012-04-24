@@ -12,9 +12,18 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_product_by_id($id = ''){
-		$query = "SELECT * FROM products WHERE id = ?";
-		$result = $this->db->query($query, $id);
-		return $result->row_array();
+		if (is_array($id)){
+			$id_list = implode("','", $id);
+			
+			$query = $this->db->select("*")->from("products")->where("products.id in ('$id_list')");
+			$result = $this->db->get();
+			return $result->result_array();
+		}else{
+			$query = "SELECT * FROM products WHERE id = ?";
+			$result = $this->db->query($query, $id);
+			
+			return $result->row_array();
+		}
 	}
 	
 	public function get_products_in_category( $cid = '', $order_by = "priority DESC, created_time DESC") {

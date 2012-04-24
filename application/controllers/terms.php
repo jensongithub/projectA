@@ -6,11 +6,12 @@ class Terms extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
+		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index(){
 		$this->data = array('title'=>'Privacy');
-		$this->data = array_merge($this->data, $this->session->all_userdata());
 		$lang = '_'.$this->lang->lang();
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/terms'.$lang);

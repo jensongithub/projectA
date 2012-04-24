@@ -8,12 +8,12 @@ class Admin extends CI_Controller {
 		$this->load->helper('html');
 		$this->data = array();
 		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index(){
 		// require_login();		
 		$this->data['title'] = 'Administration';
-		
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -137,7 +137,6 @@ class Admin extends CI_Controller {
 		}
 		
 		$this->data['products'] = $this->product_model->get_products();
-		
 		$this->data['categories'] = $this->category_model->get_categories();
 		
 		$this->data['title'] = 'Edit products';
@@ -163,6 +162,7 @@ class Admin extends CI_Controller {
 		$this->data['title']=$name;
 		$this->data['view_name']=$name;
 		$this->data['filename']='application/views/pages/'.$name.$lang.'.php';
+		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/editor', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
