@@ -1,6 +1,7 @@
 
 var shop_cart = {
 	/*list:[],*/
+	total:0,
 	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';},
 	save: function(each_item){
 		//alert(each_item);
@@ -16,6 +17,7 @@ var shop_cart = {
 				}*/
 				var cart_val = "("+obj.cart_counter+")";
 				if (obj.cart_counter==0){ cart_val = ""; }
+				shop_cart.total = obj.cart_counter;
 				$('span[class=cart_counter]').html(cart_val);
 			},
 			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");}
@@ -34,6 +36,7 @@ var shop_cart = {
 				}*/
 				var cart_val = "("+obj.cart_counter+")";
 				if (obj.cart_counter==0){ cart_val = ""; }
+				shop_cart.total = obj.cart_counter;
 				$('span[class=cart_counter]').html(cart_val);
 				
 			},

@@ -193,16 +193,21 @@ function initCartOperations(){
 		shop_cart.cur_item.color=$(this).attr('value');
 
 	});		
-	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});		
+	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});
 }
 
-function paypal_checkout(){ 
-	$('a[class=add_item]').click();
+function paypal_checkout(){
+	if(shop_cart.total>0 && shop_cart.cur_item.quantity!=''&& shop_cart.cur_item.size!=''&& shop_cart.cur_item.color!=''){
+		$('a[class=add_item]').click();
+	}
+	
 	window.location.href='http://lna.localhost/checkout/paypal';
 }
 	
 function alipay_checkout(){ 
-	$('a[class=add_item]').click();
+	if(shop_cart.total>0 && shop_cart.cur_item.quantity!=''&& shop_cart.cur_item.size!=''&& shop_cart.cur_item.color!=''){
+		$('a[class=add_item]').click();
+	}
 	window.location.href='http://lna.localhost/checkout/alipay';
 }
 

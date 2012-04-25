@@ -12,22 +12,7 @@ class cart extends CI_Controller {
 	public function index(){
 		$this->load->model("product_model");				
 		
-		$item_id = array();
-		foreach($this->data['cart'] as $each_item){
-			$item_id[] = $each_item['id'];
-		}
-		
-		//get unit price by item code		 
-		$product_details = $this->product_model->get_product_by_id($item_id);
-		 
-		foreach($this->data['cart'] as $key=>$each_item){
-			foreach ($product_details as $each_product){
-				if ($each_product['id'] === $each_item['id']){
-					$this->data['cart'][$key]['price'] = $each_product['price'];
-					$this->data['cart'][$key]['discount'] = $each_product['discount'];
-				}
-			}
-		}
+		$this->product_model->get_cart_item_price();
 		
 		$this->session->set_userdata($this->data);
 	

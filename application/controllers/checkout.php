@@ -33,7 +33,19 @@ class checkout extends CI_Controller {
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
-		$this->load->library('form_validation', 'session');
+		$this->load->library('form_validation');
+		
+		$this->load->model('product_model');
+		$product_details = $this->product_model->get_cart_item_price();
+		
+		foreach($this->data['cart'] as $key=>$each_item){
+			foreach ($product_details as $each_product){
+				if ($each_product['id'] === $each_item['id']){
+					$this->data['cart'][$key]['price'] = $each_product['price'];
+					$this->data['cart'][$key]['discount'] = $each_product['discount'];
+				}
+			}
+		}
 		
 		//$this->form();
 		$this->load->view('templates/header', $this->data);
@@ -43,16 +55,29 @@ class checkout extends CI_Controller {
 
 	function paypal(){
 		$this->data['payment_gateway'] = 'paypal';
-		$this->data['paypal_url'] = $this->paypal_lib->paypal_url;
+		$this->data['payment_url'] = $this->paypal_lib->paypal_url;
 		
 		$this->load->view('templates/header', $this->data);
+		$this->load->model('product_model');
+		//$cart_items = array(array("name"=>"basketball", "id"=>"0011", "amount"=>600, "qty"=>3),array("name"=>"football", "id"=>"0021", "amount"=>1200, "qty"=>1));
+		$product_details = $this->product_model->get_cart_item_price();
+		
+		foreach($this->data['cart'] as $key=>$each_item){
+			foreach ($product_details as $each_product){
+				if ($each_product['id'] === $each_item['id']){
+					$this->data['cart'][$key]['price'] = $each_product['price'];
+					$this->data['cart'][$key]['discount'] = $each_product['discount'];
+				}
+			}
+		}
+		
 		$this->load->view("pages/product", $this->data);
 		$this->load->view('templates/footer');
 	}
 	
 	function alipay(){
 		$this->data['payment_gateway'] = 'alipay';
-		$this->data['alipay_url'] = "alipay.com";//$this->paypal_lib->paypal_url
+		$this->data['payment_url'] = "alipay.com";//$this->paypal_lib->paypal_url
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view("pages/product", $this->data);

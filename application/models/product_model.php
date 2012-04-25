@@ -26,6 +26,17 @@ class Product_model extends CI_Model {
 		}
 	}
 	
+	public function get_cart_item_price(){
+		$item_id = array();
+		foreach($this->data['cart'] as $each_item){
+			$item_id[] = $each_item['id'];
+		}
+		
+		//get unit price by item code		 
+		$product_details = $this->get_product_by_id($item_id);
+		 
+		return $product_details;
+	}
 	public function get_products_in_category( $cid = '', $order_by = "priority DESC, created_time DESC") {
 		$this->db->select("products.*")->from("products, product_category")->where("products.id = product_category.pro_id AND product_category.cat_id = $cid")->order_by($order_by);
 		$result = $this->db->get();

@@ -98,4 +98,15 @@ class Account extends CI_Controller {
 		}
 		$this->load->view('templates/footer');
 	}
+	
+	public function warning($message){
+		$this->load->view('templates/header', $this->data);
+		if ($message === "activation"){
+			$this->load->view('account/warn_activation', $this->data);
+		}else if ($message === "expired"){ 
+			$this->load->view('account/warn_expired', $this->data);
+		}
+		
+		$this->load->view('templates/footer');
+	}
 }

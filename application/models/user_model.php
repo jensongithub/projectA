@@ -109,7 +109,7 @@ class User_model extends CI_Model {
 		$login['pwd'] = md5($this->input->post('pwd'));
 		$now = gmdate('Y-m-d H:i:s', time() );
 		
-		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id FROM users WHERE email = ? ";		
+		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code, activate_date FROM users WHERE email = ? ";		
 		$query = $this->db->query($sql, array($login['email'])); 
 		
 		list($user) = $query->result_array();
@@ -125,6 +125,10 @@ class User_model extends CI_Model {
 		}
 	}
 	
+	/********************
+	 * User for forgotten password. When user click forgotten password, email and auto-generated activation code are sent to user email.
+	 * User click the link provided in the email and call this function.
+	 */
 	public function authenticate_user_by_email($email, $activate_code){
 	
 		$login['email'] = $email;		
@@ -146,6 +150,11 @@ class User_model extends CI_Model {
 		}
 	}
 	
+	
+	/********************
+	 * Called when the user click the activation link in the email after registeration.
+	 * User click the link provided in the email and call this function.
+	 */
 	public function activate_user($email, $activate_code){
 		$is_valid = FALSE;
 		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code FROM users WHERE email = ? and activate_date is NULL";
@@ -176,6 +185,10 @@ class User_model extends CI_Model {
 		}
 	}
 	
+	/********************
+	 * User for forgotten password. When user click forgotten password. The user are directed to reset password page.
+	 * User click the link provided in the email and call this function.
+	 */
 	public function reset_password_by_email($email){
 		$user['pwd'] = NULL;
 		$user['activate_code'] = $this->_generate_activation_code();
@@ -184,6 +197,21 @@ class User_model extends CI_Model {
 		$this->db->update('users', $user);
 		
 		return $user['activate_code'];
+	}
+	
+	public function require_login($role_id){
+		$this->data = $this->session->all_userdata();
+		if (isset($this->data['is_login']) && $this->data['is_login']===TRUE){
+			// do nothing
+			if ($this->data['role_id']!==$role_id){
+				redirect(site_url().$this->lang->lang()."/login");
+			}else{
+				// redirect back to the previous page
+				redirect();
+			}
+		}else{			
+			redirect(site_url().$this->lang->lang()."/login");
+		}
 	}
 }
 
