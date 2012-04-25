@@ -180,59 +180,19 @@ function loadSizeChart(){
 	$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
 }
 
-var shop_cart = {
-	list:[],
-	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';},
-	save:function(each_item){
-		//alert(each_item);
-		$.ajax({
-			type: "POST",
-			url: "http://lna.localhost/zh/cart/add/",			
-			data: "item="+$.toJSON(each_item),
-			dataType: "text",
-			success: function (data, textStatus, jqXHR) {
-				var obj = jQuery.parseJSON(jqXHR.responseText);
-				if (obj.cart_item!=''){
-					shop_cart.list.push(obj.cart_item);
-				}
-				$('span[class=cart_counter]').html("("+obj.cart_counter+")");
-				//alert("status: "+textStatus+"\n Response Text"+jqXHR.responseText);				
-			},
-			error:function(xhr,err){
-				//alert("readyState: "+xhr.readyState+"\nstatus: "+xhr.status+"\n Response Text"+xhr.responseText);
-			}
-		});
-	}
-}
 
-$(function(){	
-	var _item = new shop_cart.item;
+$(function(){
+	shop_cart.cur_item = new shop_cart.item;
 	$('a[class=item_size]').click(function(){
-		_item.size=$(this).attr('value');
+		shop_cart.cur_item.size=$(this).attr('value');
 	});
 	
 	$('a[class=item_color]').click(function(){
-		_item.color=$(this).attr('value');
+		shop_cart.cur_item.color=$(this).attr('value');
 	});
 		
-	$('a[class=add_item]').click(function(){ add_item.call($(this));});
+	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});	
 	
-	var add_item = function(){
-		_item.id=$(this).attr('value');
-		_item.quantity=$('input[class=item_quantity]').val();
-		if (_item.size==''){ 
-			alert("Please enter size");
-		}else if (_item.color==''){ 
-			alert("Please enter color");
-		}else if (_item.quantity==''){
-			alert("Please enter quantity");
-		}
-		else{
-			//shop_cart.list.push(_item);
-			shop_cart.save(_item);
-			_item = new shop_cart.item;
-		}
-	}
 });
 
 function paypal_checkout(){ 
@@ -278,8 +238,6 @@ background: white;
 							$list[] = img( array( 'id' => "img$key", 'src' => $file, 'class' => 'showcase-thumbnail') );
 					}
 					
-					
-
 					$attr = array(
 										'id' => 'showcase-backstage'
 					);

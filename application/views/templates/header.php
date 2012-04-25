@@ -5,6 +5,7 @@
 	<title><?php echo sprintf("Casimira - %s", _($title)); ?></title>
 	<?php echo css('style.css'); ?>
 	<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type='text/javascript' src='/js/cart.js'></script>
 </head>
 <body>
 <div>
