@@ -63,7 +63,7 @@
 				<tr>
 					<td><input type='checkbox' name='pid[]' value='<?php echo $product['id'] ?>' /></td>
 					<td><?php echo $product['cat_name'] ?></td>
-					<td><?php echo $product['id'] ?></td>
+					<td><?php echo anchor('admin/products/edit/' . $product['id'], $product['id']) ?></td>
 					<td><?php echo $product['name'] ?></td>
 					<td>$<?php echo $product['price'] ?></td>
 					<td>$<?php echo $product['discount'] ?></td>
