@@ -7,7 +7,7 @@ var holder = pid + colors.c0.color;
 var imgTesting;
 var showcaseSize = { width: 350, height: 470 };
 var pos;
-var zoomPanelSize = { width: 560, height: 470 };
+var zoomPanelSize = { width: 550, height: 470 };
 var zoomAreaSize = { width: 0, height: 0 };
 var imgSize = { width: 0, height: 0 };
 var wRatio, hRatio;
@@ -26,8 +26,8 @@ function CreateDelegate(contextObject, delegateMethod){
 function imgTesting_onload() {
 	imgSize.width = this.width;
 	imgSize.height = this.height;
-	wRatio = this.width / zoomPanelSize.width;
-	hRatio = this.height / zoomPanelSize.height;
+	wRatio = this.width / showcaseSize.width;
+	hRatio = this.height / showcaseSize.height;
 	zoomAreaSize.width = zoomPanelSize.width / wRatio;
 	zoomAreaSize.height = zoomPanelSize.height / hRatio;
 	$('.zoom-area').css('width', zoomAreaSize.width);
@@ -45,7 +45,7 @@ function setZoomRatio(src){
 }
 
 $(document).ready(function($){
-	$('.product-color > img').click(function(){
+	$('.item_color > img').bind("click.change", function(){
 		holder = pid + $(this).attr('alt');
 		var prefix = path + holder;
 		$('#product-name').html( holder );
@@ -65,6 +65,7 @@ $(document).ready(function($){
 	initZoom();
 	//initMagnifier();
 	initThumbnailEvent();
+	initCartOperations();
 });
 
 function initZoom() {
@@ -136,14 +137,14 @@ function initZoom() {
 		z.css('left', newX);
 	});
 	
-	$('.product-color > img').bind('click.zoom', function(){
+	$('.item_color > img').bind('click.zoom', function(){
 		z.attr('src', $(this).attr('src').replace("_s", ''));
 		setZoomRatio(z.attr('src'));
 	});
 }
 
 function initThumbnailEvent(){
-	$('.showcase-thumbnail').click(function(){
+	$('.showcase-thumbnail').bind("click.change", function(){
 		$('#showcase-img').attr('src', $(this).attr('src').replace("_s", '') );
 	});
 }
@@ -205,13 +206,13 @@ var shop_cart = {
 	}
 }
 
-$(function(){	
+function initCartOperations(){	
 	var _item = new shop_cart.item;
 	$('a[class=item_size]').click(function(){
 		_item.size=$(this).attr('value');
 	});
 	
-	$('a[class=item_color]').click(function(){
+	$('a[class=item_color]').bind("click.cart", function(){
 		_item.color=$(this).attr('value');
 	});
 		
@@ -233,7 +234,7 @@ $(function(){
 			_item = new shop_cart.item;
 		}
 	}
-});
+}
 
 function paypal_checkout(){ 
 	$('a[class=add_item]').click();

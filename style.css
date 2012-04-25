@@ -586,6 +586,14 @@ h2 {
 /***********************************
  * class section
  */
+.cat-showcase {
+	float: right;
+	margin: 10px 20px 12px 0px;
+	width: 360px;
+	height: 622px;
+	height: 300px;
+}
+
 .category-head {
 	text-align: center;
 }

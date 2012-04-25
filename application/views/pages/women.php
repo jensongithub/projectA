@@ -35,6 +35,12 @@
 				</h3>
 			</div>
 			<?php
+			if( $cat_showcase ){
+				$attr = array( 'src' => $cat_showcase, 'class' => 'cat-showcase' );
+				echo img($attr);
+			}
+			?>
+			<?php
 			foreach( $products as $item ) {
 				if( isset($item['image']) && file_exists( "images/products/${item['i_path']}/${item['image']}" ) ){
 			?>
