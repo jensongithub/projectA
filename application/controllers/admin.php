@@ -12,7 +12,7 @@ class Admin extends CI_Controller {
 	}
 
 	public function index(){
-		// require_login();		
+		// require_login();
 		$this->data['title'] = 'Administration';
 		
 		$this->load->view('admin/templates/header', $this->data);
@@ -97,7 +97,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
-	public function edit_products(){
+	public function products(){
 		// require_login();
 		
 		$this->load->helper(array('form'));
@@ -144,6 +144,18 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/products', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
+	}
+	
+	public function edit_products($id = ''){
+		$this->load->helper(array('form'));
+		$this->load->model( array('product_model', 'category_model') );
+		
+		$this->data['product'] = $this->product_model->get_product_by_id($id);
+		
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/edit_product', $this->data);		
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	

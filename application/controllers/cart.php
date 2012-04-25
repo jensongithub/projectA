@@ -75,10 +75,10 @@ class cart extends CI_Controller {
 		}
 		
 		$this->session->set_userdata($this->data);		
-		if ($is_same) $item="";
+		if ($is_same) $item='""';
 
 		echo <<<JSON
-{"cart_item":"$item", "cart_counter":$cart_counter, "success":"$ret"}
+{"cart_item":$item, "cart_counter":$cart_counter, "success":"$ret"}
 JSON;
 }
 	

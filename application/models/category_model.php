@@ -87,6 +87,14 @@ class Category_model extends CI_Model {
 		return $path;
 	}
 	
+	public function get_category_showcase($path = '') {
+		$path = 'products/' . $path . '/showcase.jpg';
+		if(file_exists('images/' . $path)){
+			return $path;
+		}
+		return FALSE;
+	}
+	
 	public function add_category($cat = "", $path = "") {
 		if( $cat == "" )
 			return FALSE;

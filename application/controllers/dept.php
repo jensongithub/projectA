@@ -168,9 +168,9 @@ class Dept extends CI_Controller {
 		else{
 			for( $i = 0; isset($this->data['path'][$i]); $i++);
 			$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
+			$this->data['cat_showcase'] = $this->category_model->get_category_showcase($this->data['path'][$i-1]['path']);
 			$this->data['title'] = ucfirst($this->data['cat']);
 		}
-
 		$this->data['menu'] = $this->menu_model->get_submenu('1');
 		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
 		
