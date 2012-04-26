@@ -50,6 +50,10 @@
 		color: #333;
 	}
 	
+	.short-input {
+		width: 80px;
+	}
+	
 	.radio {
 		margin: 5px 30px 5px 0;
 	}
@@ -59,6 +63,7 @@
 	}
 	
 	.field {
+		clear: both;
 		margin: 5px;
 	}
 	
@@ -106,11 +111,14 @@
 	}
 	</style>
 	<script type='text/javascript'>
+	var product = <?php echo json_encode($product) ?>;
+	
 	$(document).ready(function(){
 		initProductForm();
 	});
 	
 	function initProductForm(){
+		// number range
 		$('#priority-range').change(function(){
 			$('#priority').val($(this).val());
 		});
@@ -119,37 +127,77 @@
 			$('#price').val($(this).val());
 		});
 		
-		$('#discount-range').change(function(){
-			$('#discount').val($(this).val());
+		$('#price').change(function(){
+			$('#discount').val( Math.ceil( parseInt($('#discount-range').val()) * parseFloat($(this).val()) / 100 ) );
 		});
+		$('#price').keyup(function(){
+			$('#discount').val( Math.ceil( parseInt($('#discount-range').val()) * parseFloat($(this).val()) / 100 ) );
+		});
+		$('#price').keypress(function(){
+			$('#discount').val( Math.ceil( parseInt($('#discount-range').val()) * parseFloat($(this).val()) / 100 ) );
+		});
+		
+		$('#discount-range').change(function(){
+			$('#discount').val( Math.ceil( parseInt($(this).val()) * parseFloat($('#price').val()) / 100 ) );
+		});
+		$('#discount-range').keyup(function(){
+			$('#discount').val( Math.ceil( parseInt($(this).val()) * parseFloat($('#price').val()) / 100 ) );
+		});
+		$('#discount-range').keypress(function(){
+			$('#discount').val( Math.ceil( parseInt($(this).val()) * parseFloat($('#price').val()) / 100 ) );
+		});
+		
+		$('#discount').change(function(){
+			$('#discount-range').val( Math.ceil( parseInt($(this).val()) / parseFloat($('#price').val()) * 100 ) );
+		});
+		$('#discount').keyup(function(){
+			$('#discount-range').val( Math.ceil( parseInt($(this).val()) / parseFloat($('#price').val()) * 100 ) );
+		});
+		$('#discount').keypress(function(){
+			$('#discount-range').val( Math.ceil( parseInt($(this).val()) / parseFloat($('#price').val()) * 100 ) );
+		});
+		
+		// status radio
+		$("input[type='radio'][value='" + product.status + "']").attr('checked', 'checked');
+	}
+	
+	function updatePrice(){
+		
 	}
 	</script>
-	<form id='product-form'>
+	<form id='product-form' method='post'>
+		<input type='hidden' name='action' value='edit' />
+
 		<div class='field'>
 			<label for='id' class='label'>Product code</label>
 			<input id='id' name='id' class='input' readonly='readonly' value='<?php echo $product['id'] ?>' />
 		</div>
 		<div class='field'>
-			<label for='name' class='label'>Product name</label>
-			<input id='name' name='name' class='input' value='<?php echo $product['name'] ?>' />
+			<label for='name_en' class='label'>Product name</label>
+			<input id='name_en' name='name_en' class='input' value='<?php echo $product['name_en'] ?>' />
 			<p class='hint'>Product name</p>
 		</div>
 		<div class='field'>
+			<label for='name_zh' class='label'>Product name (Chinese)</label>
+			<input id='name_zh' name='name_zh' class='input' value='<?php echo $product['name_zh'] ?>' />
+			<p class='hint'>Product name in Chinese</p>
+		</div>
+		<div class='field'>
 			<label for='priority' class='label'>Priority</label>
-			<input id='priority' name='priority' type='number' min='1' max='99' maxlength='2' value='<?php echo $product['priority'] ?>' />
-			<input id='priority-range' type='range' min='1' max='99' class='input' value='<?php echo $product['priority'] ?>' />
+			<input id='priority' name='priority' type='number' min='1' max='99' maxlength='2' class='short-input' value='<?php echo $product['priority'] ?>' />
+			<!--<input id='priority-range' type='range' min='1' max='99' class='input' value='<?php echo $product['priority'] ?>' />-->
 			<p class='hint'>Display priority, the higher priority shows first.</p>
 		</div>
 		<div class='field'>
 			<label for='price' class='label'>Price</label>
-			<input id='price' name='price' type='number' min='0' max='9999' maxlength='5' value='<?php echo $product['price'] ?>' /> HKD
-			<input id='price-range' type='range' min='0' max='9999' class='input' value='<?php echo $product['price'] ?>' />
+			HK$ <input id='price' name='price' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $product['price'] ?>' />
+			<!--<input id='price-range' type='range' min='0' max='9999' class='input' value='<?php echo $product['price'] ?>' />-->
 			<p class='hint'>Product price</p>
 		</div>
 		<div class='field'>
 			<label for='discount' class='label'>Discount</label>
-			<input id='discount' name='discount' type='number' min='0' max='9999' maxlength='5' value='<?php echo $product['discount'] ?>' /> HKD
-			<input id='discount-range' type='range' min='0' max='100' class='input' value='<?php echo $product['discount'] ?>' />
+			HK$ <input id='discount' name='discount' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $product['discount'] ?>' /> 
+			<input id='discount-range' type='number' min='0' max='100' class='short-input' value='100' /> %
 			<p class='hint'>Price after discount</p>
 		</div>
 		<div class='field'>
@@ -160,10 +208,10 @@
 		<div class='field'>
 			<label for='status' class='label'>Status</label>
 			<p style='padding: 5px;'>
-				<label class='radio'><input type='radio' value='A' /> A</label>
-				<label class='radio'><input type='radio' value='S' /> S</label>
-				<label class='radio'><input type='radio' value='F' /> F</label>
-				<label class='radio'><input type='radio' value='N' /> N</label>
+				<label class='radio'><input name='status' type='radio' value='A' /> A</label>
+				<label class='radio'><input name='status' type='radio' value='S' /> S</label>
+				<label class='radio'><input name='status' type='radio' value='F' /> F</label>
+				<label class='radio'><input name='status' type='radio' value='N' /> N</label>
 			</p>
 			<p class='hint'>Product status ( A: Available, S: On Sales, F: Off Shelf, N: Not Available )</p>
 		</div>
@@ -182,6 +230,6 @@
 			<p class='hint'>Product description in Chinese</p>
 		</div>
 		
-		<input type="submit" name="Submit"  class="button" value="Submit" />
+		<input type="submit" class="button" value="Submit" />
 	</form>
 </div>

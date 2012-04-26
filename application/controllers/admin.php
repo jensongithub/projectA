@@ -154,7 +154,11 @@ class Admin extends CI_Controller {
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );
 		
+		if( $this->input->post('action') == 'edit' )
+			$this->product_model->edit_product( $this->input->post() );
+
 		$this->data['product'] = $this->product_model->get_product_by_id($id);
+		$this->data['title'] = "$id | Edit products";
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
