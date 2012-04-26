@@ -113,13 +113,13 @@ class User_model extends CI_Model {
 		$query = $this->db->query($sql, array($login['email'])); 
 		
 		list($user) = $query->result_array();
-		
 		if ($query->num_rows()===1){
 			if ($user['pwd']===$login['pwd']){
 				$user['is_login']=TRUE;
 				$this->session->set_userdata($user);
 				return $user;
 			}
+			return FALSE;
 		}else{
 			return FALSE;
 		}
@@ -203,13 +203,10 @@ class User_model extends CI_Model {
 		$this->data = $this->session->all_userdata();
 		if (isset($this->data['is_login']) && $this->data['is_login']===TRUE){
 			// do nothing
-			if ($this->data['role_id']!==$role_id){
+			if ($this->data['role_id'] != $role_id){
 				redirect(site_url().$this->lang->lang()."/login");
-			}else{
-				// redirect back to the previous page
-				redirect();
 			}
-		}else{			
+		}else{
 			redirect(site_url().$this->lang->lang()."/login");
 		}
 	}
