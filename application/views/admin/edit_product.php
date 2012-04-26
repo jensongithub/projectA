@@ -1,6 +1,7 @@
 <?php
 	if( isset($product) ){
 		print_r($product);
+		echo strlen($product['description_en']);
 	}
 ?>
 <div>
@@ -24,11 +25,10 @@
 	}
 	
 	.label {
-		font-family: Arial, Verdana;
 		text-shadow: 2px 2px 2px #ccc;
 		display: block;
 		float: left;
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: bold;
 		margin-right:10px;
 		text-align: right;
@@ -37,8 +37,8 @@
 	}
 	
 	textarea {
-		height: 80px;
 		resize: none;
+		height: 80px;
 	}
 	
 	.input {
@@ -159,6 +159,18 @@
 		
 		// status radio
 		$("input[type='radio'][value='" + product.status + "']").attr('checked', 'checked');
+		
+		// components
+		$('#components').keyup(function(){
+			$.ajax({
+				url: "<?php echo site_url() . "worker/get_components/" ?>" + $(this).val()
+			}).done(function(data){
+				var json = eval("json = " + data);
+				$.each(json, function(i, item){
+					$('#description_zh').append(item.id);
+				});
+			});
+		});
 	}
 	
 	function updatePrice(){
@@ -217,16 +229,12 @@
 		</div>
 		<div class='field'>
 			<label for='description_en' class='label'>Description</label>
-			<textarea id='description_en' name='description_en' class='input' >
-				<?php echo $product['description_en'] ?>
-			</textarea>
+			<textarea id='description_en' name='description_en' class='input' ><?php echo $product['description_en'] ?></textarea>
 			<p class='hint'>Product description</p>
 		</div>
 		<div class='field'>
 			<label for='description_zh' class='label'>Description (Chinese)</label>
-			<textarea id='description_zh' name='description_zh' class='input'>
-				<?php echo $product['description_zh'] ?>
-			</textarea>
+			<textarea id='description_zh' name='description_zh' class='input'><?php echo $product['description_zh'] ?></textarea>
 			<p class='hint'>Product description in Chinese</p>
 		</div>
 		

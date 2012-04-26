@@ -32,4 +32,10 @@ class Worker extends CI_Controller {
 				echo 'FAIL';
 		}
 	}
+	
+	public function get_components($needle = ''){
+		$this->load->model('component_model');
+		$data = $this->component_model->search_by_name($needle);
+		echo json_encode($data);
+	}
 }
