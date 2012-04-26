@@ -23,12 +23,12 @@ class Login extends CI_Controller {
 			$this->load->view('account/login_form', $this->data);
 		}
 		else {
+			$user = array();
 			if (($user=$this->user_model->authenticate_user())===FALSE){
 				$this->load->view('account/login_form', $this->data);
 			}
 			else{
 				//$nextPage = $this->input->post('nextPage') =='' ? 'index': $this->input->post('nextPage');
-				
 				if (empty($user['activate_date'])){
 					redirect("account/warning/activation");
 				}else{
