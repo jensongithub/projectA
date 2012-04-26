@@ -4,7 +4,6 @@ var shop_cart = {
 	total:0,
 	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';},
 	save: function(each_item){
-		//alert(each_item);
 		$.ajax({
 			type: "POST",
 			url: "http://lna.localhost/zh/cart/add/",			
@@ -20,7 +19,8 @@ var shop_cart = {
 				shop_cart.total = obj.cart_counter;
 				$('span[class=cart_counter]').html(cart_val);
 			},
-			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");}
+			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
+			async:false
 		});
 	},
 	remove: function(each_item, item_id){
@@ -40,7 +40,8 @@ var shop_cart = {
 				$('span[class=cart_counter]').html(cart_val);
 				
 			},
-			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");}
+			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
+			async:false
 		});
 	},
 	cur_item:[],
@@ -61,5 +62,20 @@ var shop_cart = {
 	},
 	del_item: function(){
 		shop_cart.remove($(this).attr("value"));
+	},
+	payment_gateway: function(){
+		$.ajax({
+			type: "POST",
+			url: "http://lna.localhost/zh/checkout/payment/",
+			data: "pg="+$("input[name=pg]").val(),
+			dataType: "text",
+			success: function (data, textStatus, jqXHR) {
+				//var obj = jQuery.parseJSON(jqXHR.responseText);
+				$('div[class=payment_gateway]').append(jqXHR.responseText);
+				$('form[name=order_form]').submit();
+			},
+			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
+			async:false
+		});
 	}
 };
