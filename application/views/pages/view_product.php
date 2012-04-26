@@ -196,20 +196,14 @@ function initCartOperations(){
 	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});
 }
 
-function paypal_checkout(){
+function checkout(pg){
 	if(shop_cart.total>0 && shop_cart.cur_item.quantity!=''&& shop_cart.cur_item.size!=''&& shop_cart.cur_item.color!=''){
 		$('a[class=add_item]').click();
 	}
-	
-	window.location.href='http://lna.localhost/checkout/paypal';
+	$("input[name=pg]").val(pg);
+	shop_cart.payment_gateway();
 }
-	
-function alipay_checkout(){ 
-	if(shop_cart.total>0 && shop_cart.cur_item.quantity!=''&& shop_cart.cur_item.size!=''&& shop_cart.cur_item.color!=''){
-		$('a[class=add_item]').click();
-	}
-	window.location.href='http://lna.localhost/checkout/alipay';
-}
+
 
 </script>
 <style type="text/css">
@@ -221,7 +215,6 @@ filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY
 background: white;
 }
 </style>
-
 <div id="content" class='container'>
 	<div class="content">
 		<div class="container">
@@ -325,14 +318,14 @@ background: white;
 						<h4>Quantity:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
 					</div>
 					
-					<div style='margin-top:1em;'>
+					<div style='margin-top:1em;' class="payment_gateway">
 						<span>
-							<input type='image' name='button' onclick ='paypal_checkout();' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-							<input type='image' name='button' onclick ='alipay_checkout();' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+							<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+							<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
 							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a>
+							<input type="hidden" name="pg" value=""/>
 						</span>
 					</div>
-					
 				</div>				
 			</div>
 		</div>

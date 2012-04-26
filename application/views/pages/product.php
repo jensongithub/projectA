@@ -27,13 +27,6 @@
 		<input type="hidden" name="cancel_return" value="http://lna.localhost/cancel_return">
 		<input type="hidden" name="notify_url" value="http://lna.localhost/paypal/paypal_ipn">
 	</form>
-	<p>
-	We are bringing you to Paypal. Please do not close the browser.
-	</p>
-	<script type="text/javascript">
-		document.forms["order_form"].action='<?php echo $payment_url?>'; 
-		document.forms["order_form"].submit();
-	</script>
 <?php }else if($payment_gateway==="alipay"){ ?>
 
 

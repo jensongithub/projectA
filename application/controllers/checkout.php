@@ -28,15 +28,13 @@ class checkout extends CI_Controller {
 		$this->load->library('paypal_lib');
 	}
 	
-	public function index($payment_gateway)	{
+	public function index()	{
 		$this->data['title'] = 'Product Catalog';
-		
-		$this->load->helper( array('form') );
-		//$this->lang->load('register');
+		$this->load->helper( array('form') );		
 		$this->load->library('form_validation');
 		
 		$this->load->model('product_model');
-		$product_details = $this->product_model->get_cart_item_price();
+		$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
 		
 		foreach($this->data['cart'] as $key=>$each_item){
 			foreach ($product_details as $each_product){
@@ -46,21 +44,35 @@ class checkout extends CI_Controller {
 				}
 			}
 		}
-		
-		//$this->form();
+
 		$this->load->view('templates/header', $this->data);
 		$this->load->view("pages/product", $this->data);
 		$this->load->view('templates/footer');
 	}
 
+	function payment(){
+		$this->load->helper( array('form') );
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');
+		
+		if($this->form_validation->run() == TRUE) {
+			if ($this->input->post("pg")==="0"){
+				$this->paypal();
+			}else if ($this->input->post("pg")==="1"){
+				$this->alipay();
+			}
+		}else{
+			echo "";
+		}
+	}
+	
 	function paypal(){
 		$this->data['payment_gateway'] = 'paypal';
 		$this->data['payment_url'] = $this->paypal_lib->paypal_url;
 		
-		$this->load->view('templates/header', $this->data);
 		$this->load->model('product_model');
 		//$cart_items = array(array("name"=>"basketball", "id"=>"0011", "amount"=>600, "qty"=>3),array("name"=>"football", "id"=>"0021", "amount"=>1200, "qty"=>1));
-		$product_details = $this->product_model->get_cart_item_price();
+		$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
 		
 		foreach($this->data['cart'] as $key=>$each_item){
 			foreach ($product_details as $each_product){
@@ -70,9 +82,44 @@ class checkout extends CI_Controller {
 				}
 			}
 		}
+		echo $this->load->view("pages/product", $this->data, true);
+		/*
+		$fields = array(
+			'cmd'=>urlencode("_cart"),
+			'upload'=>urlencode("1"),
+			'business'=>urlencode("Casimira"),
+			'currency_code'=>urlencode("Casimira"),
+			'lc'=>urlencode("US"),
+			'rm'=>urlencode("2"),
+			'shipping_1'=>urlencode("Shipping address 111"),
+			'return'=>urlencode(site_url().$this->lang->lang()."/cart-details"),
+			'cancel_return'=>urlencode(site_url().$this->lang->lang()."/cancel_return"),
+			'notify_url'=>urlencode(site_url().$this->lang->lang()."/paypal/paypal_ipn")
+		);		
 		
-		$this->load->view("pages/product", $this->data);
-		$this->load->view('templates/footer');
+		foreach($this->data['cart'] as $key=>$each_item){
+			$fields["item_name_".$key] = $each_item['id'].$each_item['color'].$each_item['size'];
+			$fields["item_number_".$key] = $each_item['id'];
+			$fields["amount"] = $each_item['price']-$each_item['discount'];
+			$fields["quantity_".$key] = $each_item['quantity'];
+		}
+		
+		//url-ify the data for the POST
+		$fields_string="";
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		rtrim($fields_string,'&');
+
+		//open connection
+		$ch = curl_init();
+
+		//set the url, number of POST vars, POST data
+		curl_setopt($ch,CURLOPT_URL, $this->data['payment_url']);
+		curl_setopt($ch,CURLOPT_POST,count($fields));
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+
+		//execute post
+		$result = curl_exec($ch);
+		*/
 	}
 	
 	function alipay(){

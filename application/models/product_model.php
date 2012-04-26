@@ -26,9 +26,9 @@ class Product_model extends CI_Model {
 		}
 	}
 	
-	public function get_cart_item_price(){
+	public function get_cart_item_price($cart){
 		$item_id = array();
-		foreach($this->data['cart'] as $each_item){
+		foreach($cart as $each_item){
 			$item_id[] = $each_item['id'];
 		}
 		
