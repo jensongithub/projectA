@@ -274,6 +274,13 @@ class Product_model extends CI_Model {
 		
 		return $this->product_model->add_product_in_excel_sheets( $sheets );
 	}
+	
+	public function edit_product($detail = FALSE){
+		print_r($detail);
+		$query = "UPDATE products SET name_en = ?, name_zh = ?, price = ?, discount = ?, priority = ?, description_en = ?, description_zh = ?, components = ?, status = ? WHERE id = ?";
+		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
+		echo "<p>" . $this->db->last_query() . "</p>";
+	}
 }
 
 ?>
