@@ -43,7 +43,7 @@ class Product_model extends CI_Model {
 		return $result->result_array();
 	}
 	
-	public function get_products_for_listing($dept = '', $cat = '', $sub = ''){
+	public function get_products_for_listing($dept = '', $cat = '', $sub = '', $offset = 0, $count = 20){
 		$this->load->helper( 'file' );
 
 		$q_sub = "";
@@ -59,24 +59,30 @@ class Product_model extends CI_Model {
 		}
 		
 		// real
-		$q_pro = "SELECT pro.id, pro.name, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY id";
+		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY priority DESC, created_time DESC";
 		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
 		//echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
 		
 		$product_count = $result->num_rows();
 
+		//echo "Product count = $product_count";
 		// if no result, return empty array
 		if( $product_count <= 0 )
 			return array();
 		
 		// if has at least 1 record, post-process
 		$products = $result->result_array();
+		$ret = array();
+		for( $i = $offset; count($ret) < $count && $i < $product_count; $i++ ){
+			$ret[] = $products[$i];
+		}
+		/*
 		foreach ($products as $key => $row) {
 			$priority[$key]  = $row['priority'];
 			$created_time[$key] = $row['created_time'];
 		}
 		array_multisort( $created_time, SORT_DESC, $priority, SORT_ASC, $products);
-	
+
 		echo "<p>product_model.php: Searching " . $this->config->item('image_dir') . 'products/' . "</p>";
 		$files = get_filenames($this->config->item('image_dir') . 'products/');
 		$file_count = count( $files );
@@ -101,7 +107,7 @@ class Product_model extends CI_Model {
 						break;
 				}
 				else{
-					//echo '* ' . $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
+					echo '* ' . $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
 					$products[$i]['image'] = $files[$j];
 					$match_count++;
 					$i++;
@@ -114,9 +120,10 @@ class Product_model extends CI_Model {
 				if( $j >= $file_count )
 					break;
 			}
-			//echo $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
+			echo $products[$i]['id'] . " <===> " . $files[$j] . '<br />';
 		}
 		echo "<p>$match_count match(es)</p>";
+		*/
 		
 		/*
 		foreach( $products as $key => $product ){
@@ -125,7 +132,7 @@ class Product_model extends CI_Model {
 		}
 		*/
 
-		return $products;
+		return $ret;
 	}
 	
 	public function get_similar_products($id = FALSE, $cat_id = FALSE, $num = 1){
@@ -200,6 +207,10 @@ class Product_model extends CI_Model {
 		$fail_log = array();
 		
 		foreach( $sheets as $key => $sheet){
+			$cat_id = explode(' -', $sheet['name']);
+			$cat_id = $cat_id[0];
+			//echo "<p>Handling category $cat_id</p>";
+			
 			// for each row
 			for ($i = 1; $i <= $sheet['numRows']; $i++) {
 				if( !isset($sheet['cells'][$i]) || !isset($sheet['cells'][$i][1]) || strpos($sheet['cells'][$i][1], '#') === 0 || $sheet['cells'][$i][1] == '' )
@@ -235,13 +246,14 @@ class Product_model extends CI_Model {
 				}
 				
 				// fill in the id and prepare the update query
-				//$data[] = $style_code;
-				$data[] = 'A';
+				$data[] = $style_code;
 				$query = preg_replace( "(\?\d+)", "?", $query);
 
 				$result = $this->db->query($query, $data);
 				if( $result ) {
 					$success_count++;
+					$query = "INSERT INTO product_category VALUES ( ?, ? )";
+					$this->db->query( $query, array( $style_code, $cat_id ) );
 				}
 				else{
 					$fail_count++;

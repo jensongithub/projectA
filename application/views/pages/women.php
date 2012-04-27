@@ -33,29 +33,45 @@
 				}
 				?>
 				</h3>
+				<div class='page-nav'>
+					<?php
+					if( isset($prev) ) echo anchor($url . $prev, "<div class='prev-page'>&lt; " . _('Previous page') . "</div>");
+					if( isset($next) ) echo anchor($url . $next, "<div class='next-page'>" . _('Next page') . " &gt;</div>");
+					?>
+				</div>
 			</div>
-			<?php
-			if( $cat_showcase ){
-				$attr = array( 'src' => $cat_showcase, 'class' => 'cat-showcase' );
-				echo img($attr);
-			}
-			?>
-			<?php
-			foreach( $products as $item ) {
-				if( isset($item['image']) && file_exists( "images/products/${item['i_path']}/${item['image']}" ) ){
-			?>
-			<div class="product-thumbnail">
+			
+			<div>
 				<?php
-					echo anchor( str_replace('&', '%26', "view/${item['c_path']}/" . $item['id']), img("products/${item['i_path']}/${item['image']}"));
-				?>
-				<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />
-				<span><?php echo anchor( str_replace('&', '%26', "view/$cat/" . $item['id']), $item['id'] ) ?></span><br />
-				<span>$<?php echo $item['price'] ?></span><br />
-			</div>
-			<?php
+				if( isset( $cat_showcase ) && $cat_showcase ){
+					$attr = array( 'src' => $cat_showcase, 'class' => 'cat-showcase' );
+					echo img($attr);
 				}
-			}
-			?>
+				?>
+				<?php
+				foreach( $products as $item ) {
+					//if( isset($item['front_img']) && file_exists( "images/products/${item['i_path']}/${item['front_img']}" ) ){
+				?>
+				<div class="product-thumbnail">
+					<?php
+						echo anchor( str_replace('&', '%26', "view/${item['c_path']}/" . $item['id']), img( array( 'src' => "products/${item['i_path']}/${item['front_img']}", 'class' => 'thumbnail-img') ));
+					?>
+					<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />
+					<span><?php echo anchor( str_replace('&', '%26', "view/$cat/" . $item['id']), $item['id'] ) ?></span><br />
+					<span>$<?php echo $item['price'] ?></span><br />
+				</div>
+				<?php
+					//}
+				}
+				?>
+			</div>
+			
+			<div class='page-nav'>
+				<?php
+				if( isset($prev) ) echo anchor($url . $prev, "<div class='prev-page'>&lt; " . _('Previous page') . "</div>");
+				if( isset($next) ) echo anchor($url . $next, "<div class='next-page'>" . _('Next page') . " &gt;</div>");
+				?>
+			</div>
 		</div>
 	</div>
 </div>

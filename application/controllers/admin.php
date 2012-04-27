@@ -110,20 +110,6 @@ class Admin extends CI_Controller {
 		echo $this->zh2cn->convert('繁體中文 - 萬國碼<br/>');
 		
 		if( $this->input->post('upload') == '1' ){
-			$config['upload_path'] = 'uploads/';
-			$config['allowed_types'] = 'xls';
-			$config['max_size']	= '1024';
-
-			$this->load->library('upload', $config);
-		
-			if ( ! $this->upload->do_upload()) { // upload failed
-				$this->data['error'] = $this->upload->display_errors();
-			}
-			else {
-				$this->load->library('Excel_reader_2_21');
-				$result = $this->product_model->handle_products_excel( $this->upload->data() );
-				print_r($result);
-			}
 		}
 		else if( $this->input->post('move') == '1' ){
 			$cid = $this->input->post('cid');
@@ -148,6 +134,25 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/products', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
+	}
+	
+	public function upload_products(){
+		$this->load->model( array('product_model') );
+
+		$config['upload_path'] = 'uploads/';
+		$config['allowed_types'] = 'xls';
+		$config['max_size']	= '1024';
+
+		$this->load->library('upload', $config);
+	
+		if ( ! $this->upload->do_upload()) { // upload failed
+			$this->data['error'] = $this->upload->display_errors();
+		}
+		else {
+			$this->load->library('Excel_reader_2_21');
+			$result = $this->product_model->handle_products_excel( $this->upload->data() );
+			print_r($result);
+		}
 	}
 	
 	public function edit_products($id = ''){

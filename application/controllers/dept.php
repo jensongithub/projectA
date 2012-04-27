@@ -153,12 +153,22 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function browse($dept = 'women', $cat = 'sales', $sub = ''){
+	public function browse($dept = 'women', $cat = 'sales', $sub = '', $page = 1){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
+		$this->load->helper( 'url' );
+
 		$dept = urldecode($dept);
 		$cat = urldecode($cat);
+		if( is_numeric($sub) ){
+			$page = $sub;
+			$sub = '';
+		}
 		$sub = urldecode($sub);
-		
+		$url = preg_replace( '/(\d+)$/', "", current_url());
+		$url = preg_replace( '/\/$/', "", $url) . '/';
+		$this->data['url'] = $url;
+		$offset = 0;
+		$count = 16;
 		$this->data['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 		if( $this->data['path'] == FALSE ){
 			$this->data['error'] = "No such category: $dept/$cat/$sub";
@@ -169,10 +179,31 @@ class Dept extends CI_Controller {
 			for( $i = 0; isset($this->data['path'][$i]); $i++);
 			$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
 			$this->data['cat_showcase'] = $this->category_model->get_category_showcase($this->data['path'][$i-1]['path']);
+			//echo "thumbnail: " . (isset($this->data['cat_showcase'])?'Y':'N');
+			
+			if( $page > 1 ){
+				if( $this->data['cat_showcase'] ){
+					$offset = 14 + ($page - 2) * $count;
+					unset( $this->data['cat_showcase'] );
+				}
+				else{
+					$offset = ($page - 1) * $count;
+				}
+				$this->data['prev'] = ($page - 1);
+			}
+			else if( $this->data['cat_showcase'] ){
+				$count = 14;
+			}
+			
+			if( $offset + $count < $this->category_model->get_number_of_products($this->data['path'][$i-1]['id']) )
+				$this->data['next'] = ($page + 1);
+			
 			$this->data['title'] = ucfirst($this->data['cat']);
 		}
 		$this->data['menu'] = $this->menu_model->get_submenu('1');
-		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub );
+
+		//echo "<br/>page: $page, offset: $offset, count: $count";
+		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub, $offset, $count );
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);

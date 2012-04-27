@@ -172,18 +172,18 @@ class Paypal_Lib {
 	function validate_ipn()
 	{
 		// parse the paypal URL
-		$url_parsed = parse_url($this->paypal_url);		  
+		$url_parsed = parse_url($this->paypal_url);  
 
 		// generate the post string from the _POST vars aswell as load the
 		// _POST vars into an arry so we can play with them from the calling
 		// script.
-		$post_string = '';	 
+		$post_string = '';
 		if ($this->CI->input->post())
 		{
 			foreach ($this->CI->input->post() as $field=>$value)
 			{ 
 				$this->ipn_data[$field] = $value;
-				$post_string .= $field.'='.urlencode(stripslashes($value)).'&'; 
+				$post_string .= $field.'='.urlencode(stripslashes($value)).'&';
 			}
 		}
 		
