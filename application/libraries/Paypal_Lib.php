@@ -169,10 +169,125 @@ class Paypal_Lib {
 		return $str;
 	}
 	
-	function validate_ipn()
+	
+	
+	function validate_ipn(){
+		// read the post from paypal and add 'cmd'
+		$is_valid = FALSE;
+		$req = 'cmd=_notify-validate';
+		if(function_exists('get_magic_quotes_gpc'))
+		{
+		  $get_magic_quotes_exits = true;
+		}
+
+		// handle escape characters, which depends on setting of magic quotes
+		foreach ($_POST as $key => $value)
+		{
+		  if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1)
+		  {
+			$value = urlencode(stripslashes($value));
+		  }
+		  else
+		  {
+			$value = urlencode($value);
+		  }
+		  $req .= "&$key=$value";
+		}
+
+		$header="";
+		// post back to paypal to validate
+		$header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
+		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
+		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+
+		// here you can use ssl, or not
+		// $fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
+		$fp = fsockopen ('www.sandbox.paypal.com', 80, $errno, $errstr, 30);
+
+		// process validation from paypal
+		// TODO: This sample does not test the http response code.
+		// All HTTP response codes must be handles or you should use an HTTP
+		// library, such as cUrl.
+
+		if (!$fp)
+		{
+		  // HTTP ERROR
+		  $this->log_result("HTTP ERROR");
+		}
+		else
+		{
+		  // NO HTTP ERROR
+		  fputs ($fp, $header . $req);
+		  while (!feof($fp))
+		  {
+			$res = fgets ($fp, 1024);
+			if (strcmp ($res, "VERIFIED") == 0)
+			{
+				// get variables from the paypal post to us
+				// see these pages for possible variables:
+				// https://developer.paypal.com/us/cgi-bin/devscr
+				// https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=develo...
+
+				// payment info
+
+				
+				
+				/*
+				$payment_status = $_POST['payment_status'];
+				$payment_amount = $_POST['mc_gross'];
+				$payment_currency = $_POST['mc_currency'];
+				$txn_id = $_POST['txn_id'];
+
+				// product info
+				$item_name = $_POST['item_name'];
+				$item_number = $_POST['item_number'];
+
+				// buyer info
+				$payer_email = $_POST['payer_email'];
+				$first_name = $_POST['first_name'];
+				$last_name = $_POST['last_name'];
+				$address_city = $_POST['address_city'];
+				$address_state = $_POST['address_state'];
+				$address_country = $_POST['address_country'];
+
+				// receiver_email, that's our email address
+				$receiver_email = $_POST['receiver_email'];
+				*/
+				
+				// put your actual email address here
+				
+
+				// if all these conditions are true, send the email
+				// note: should also verify that $txn_id was not used before
+				
+				$is_valid = TRUE;
+			}
+			else if (strcmp ($res, "INVALID") == 0)
+			{
+				// false
+			}
+			 
+			if ($this->CI->input->post())
+			{
+				foreach ($this->CI->input->post() as $field=>$value)
+				{ 
+					$this->ipn_data[$field] = $value;
+					$post_string .= $field.'='.urlencode(stripslashes($value)).'&'; 
+				}
+			}
+				
+		  }
+		}
+		fclose ($fp);
+		
+		return $is_valid;
+	}
+	
+	function _validate_ipn()
 	{
 		// parse the paypal URL
-		$url_parsed = parse_url($this->paypal_url);		  
+		$url_parsed = parse_url($this->paypal_url);
+		
 
 		// generate the post string from the _POST vars aswell as load the
 		// _POST vars into an arry so we can play with them from the calling
@@ -190,13 +305,14 @@ class Paypal_Lib {
 		$post_string.="cmd=_notify-validate"; // append ipn command
 
 		// open the connection to paypal
-		$fp = fsockopen($url_parsed['host'],"80",$err_num,$err_str,30); 
+		$fp = fsockopen("https://www.sandbox.paypal.com",443,$err_num,$err_str,30); 
 		if(!$fp)
 		{
 			// could not open the connection.  If loggin is on, the error message
 			// will be in the log.
 			$this->last_error = "fsockopen error no. $errnum: $errstr";
-			$this->log_ipn_results(false);		 
+			$this->log_results($this->last_error);
+			$this->log_ipn_results(false);
 			return false;
 		} 
 		else
@@ -214,9 +330,12 @@ class Paypal_Lib {
 				$this->ipn_response .= fgets($fp, 1024); 
 
 			fclose($fp); // close connection
+			$this->log_results("ELSE POST");
 		}
 
-		if (eregi("VERIFIED",$this->ipn_response))
+		
+		$this->log_results($this->ipn_response);
+		if (preg_match("/VERIFIED/i",$this->ipn_response))
 		{
 			// Valid IPN transaction.
 			$this->log_ipn_results(true);
@@ -230,7 +349,34 @@ class Paypal_Lib {
 			return false;
 		}
 	}
+	
+	function log_results($data) 
+	{
+		if (!$this->ipn_log) return;  // is logging turned off?
 
+		/*
+		// Timestamp
+		$text = '['.date('m/d/Y g:i A').'] - '; 
+
+		// Success or failure being logged?
+		if ($success) $text .= "SUCCESS!\n";
+		else $text .= 'FAIL: '.$this->last_error."\n";
+
+		// Log the POST variables
+		$text .= "IPN POST Vars from Paypal:\n";
+		foreach ($this->ipn_data as $key=>$value)
+			$text .= "$key=$value, ";
+
+		// Log the response from the paypal server
+		$text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
+
+		// Write to log*/
+		$fp=fopen($this->ipn_log_file,'a');
+		fwrite($fp, $data . "\n\n"); 
+
+		fclose($fp);  // close file
+	}
+	
 	function log_ipn_results($success) 
 	{
 		if (!$this->ipn_log) return;  // is logging turned off?

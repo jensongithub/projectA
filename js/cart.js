@@ -71,11 +71,15 @@ var shop_cart = {
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				//var obj = jQuery.parseJSON(jqXHR.responseText);
-				$('div[class=payment_gateway]').append(jqXHR.responseText);
-				$('form[name=order_form]').submit();
+				alert(jqXHR.responseText);
+				if (jqXHR.responseText!=""){
+					$('div[class=payment_gateway]').append(jqXHR.responseText);
+					$('form[name=order_form]').submit();
+				}
 			},
 			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
 			async:false
 		});
+		
 	}
 };

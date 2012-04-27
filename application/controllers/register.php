@@ -27,7 +27,8 @@ class Register extends CI_Controller {
 			$user['raw_password'] =$this->input->post('pwd');			
 			
 			$message = $this->load->view('account/mail_new_user_activation', array('user'=>$user), true);			
-			$this->email->send_activate_mail($user, "Casimira New Account Activation", $message);			
+			$this->email->send_activate_mail($user, "Casimira New Account Activation", $message);
+			
 			$session_items = array(
 									'id' => $user['id'],
 									'email' => $user['email'],

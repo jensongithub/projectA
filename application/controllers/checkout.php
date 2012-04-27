@@ -56,10 +56,14 @@ class checkout extends CI_Controller {
 		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');
 		
 		if($this->form_validation->run() == TRUE) {
-			if ($this->input->post("pg")==="0"){
-				$this->paypal();
-			}else if ($this->input->post("pg")==="1"){
-				$this->alipay();
+			if (count($this->data['cart'])>0){
+				if ($this->input->post("pg")==="0"){
+					$this->paypal();
+				}else if ($this->input->post("pg")==="1"){
+					$this->alipay();
+				}
+			}else{
+				echo "";
 			}
 		}else{
 			echo "";
@@ -68,6 +72,7 @@ class checkout extends CI_Controller {
 	
 	function paypal(){
 		$this->data['payment_gateway'] = 'paypal';
+		$this->data['paypal_id'] = 'jendro_1334808935_biz@gmail.com';
 		$this->data['payment_url'] = $this->paypal_lib->paypal_url;
 		
 		$this->load->model('product_model');
@@ -166,7 +171,7 @@ class checkout extends CI_Controller {
 		// below).
 
 		$this->data['pp_info'] = $this->input->post();
-		$this->load->view('paypal/success', $this->data);
+		$this->load->view('cart/success', $this->data);
 	}
 	
 	function paypal_ipn()
@@ -182,25 +187,41 @@ class checkout extends CI_Controller {
 		// in the ipn_data() array.
  
 		// For this example, we'll just email ourselves ALL the data.
-		$to    = 'YOUR@EMAIL.COM';    //  your email
-
+		$to    = 'davidrobinson91@hotmail.com';    //  your email
+		
 		if ($this->paypal_lib->validate_ipn()) 
 		{
+			//$this->paypal_lib->ipn_data['payer_email'] = $to;
 			$body  = 'An instant payment notification was successfully received from ';
 			$body .= $this->paypal_lib->ipn_data['payer_email'] . ' on '.date('m/d/Y') . ' at ' . date('g:i A') . "\n\n";
 			$body .= " Details:\n";
-
-			foreach ($this->paypal_lib->ipn_data as $key=>$value)
-				$body .= "\n$key: $value";
-	
+			
+			if (($this->paypal_lib->ipn_data['payment_status'] == 'Completed') /*&&
+				($this->paypal_lib->ipn_data['receiver_email'] == $our_email) &&
+				($this->paypal_lib->ipn_data['payment_amount'] == $amount_they_should_have_paid ) &&
+				($this->paypal_lib->ipn_data['payment_currency'] == "USD")*/)
+				{
+					foreach ($this->paypal_lib->ipn_data as $key=>$value){
+						$body .= "\n$key: $value";
+					}
+					$subject = "Live-VALID IPN";
+				}
+			
 			// load email lib and email results
 			$this->load->library('email');
+						
 			$this->email->to($to);
 			$this->email->from($this->paypal_lib->ipn_data['payer_email'], $this->paypal_lib->ipn_data['payer_name']);
-			$this->email->subject('CI paypal_lib IPN (Received Payment)');
+			$this->email->subject($subject);
 			$this->email->message($body);	
 			$this->email->send();
+		}else{
+			foreach ($this->paypal_lib->ipn_data as $key=>$value){
+				$body .= "\n$key: $value";
+			}
+			$this->paypal_lib->log_results("ERRER");
 		}
+		$this->paypal_lib->log_results(print_r($this->paypal_lib->ipn_data));
 	}
 }
 ?>
