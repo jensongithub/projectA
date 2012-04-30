@@ -69,7 +69,7 @@ class Common_model extends CI_Model {
 		$tb_product = 'erp.dbo.tbl_pos_item_mstr';
 		$tb_price = 'erp.dbo.tbl_pos_item_price';
 		
-		$date_filter = '2012-01-01';
+		$date_filter = '2011-01-01';
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
 
@@ -84,12 +84,12 @@ class Common_model extends CI_Model {
 			$pos_products = $query->result_array();
 			
 			$this->load->database();
-			$query1 = "INSERT INTO products (id, name, price, discount, status) VALUES ( ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
+			$query1 = "INSERT INTO products (id, name_zh, front_img, price, discount, status) VALUES ( ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
 			$query2 = "INSERT INTO product_color_size (pro_id, color, size) VALUES ( ?, ?, ?) ON DUPLICATE KEY UPDATE size=size";
 			//$i = 0;
 			
 			foreach( $pos_products as $product ){
-				$this->db->query($query1, array($product['style_no'], $product['short_desc'], $product['selling_price'], $product['selling_price'], 'N'));
+				$this->db->query($query1, array($product['style_no'], $product['short_desc'], $product['style_no'] . $product['color_code'] . '-F_s.jpg', $product['selling_price'], $product['selling_price'], 'N'));
 				$this->db->query($query2, array($product['style_no'], $product['color_code'], $product['size_code']));
 				//$i++;
 			}

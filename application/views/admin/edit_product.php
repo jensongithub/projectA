@@ -51,7 +51,16 @@
 	}
 	
 	.short-input {
-		width: 80px;
+		width: 70px;
+	}
+	
+	.comp-selection {
+		font-family: Arial, Verdana;
+		font-size: 15px;
+		padding: 2px;
+		border: 1px solid #b9bdc1;
+		width: 200px;
+		color: #333;
 	}
 	
 	.radio {
@@ -107,7 +116,16 @@
 		-moz-box-shadow: inset 0 1px 0 0 #aec3e5;
 		-webkit-box-shadow: inset 0 1px 0 0 #aec3e5;
 		box-shadow: inset 0 1px 0 0 #aec3e5;
-
+	}
+	
+	.clickable {
+		cursor: pointer;
+	}
+	
+	#add-button {
+		padding-left: 5px;
+		width: 15px;
+		height: 15px;
 	}
 	</style>
 	<script type='text/javascript'>
@@ -161,20 +179,41 @@
 		$("input[type='radio'][value='" + product.status + "']").attr('checked', 'checked');
 		
 		// components
-		$('#components').keyup(function(){
+		$('#comp-search-field').keyup(function(){
 			$.ajax({
 				url: "<?php echo site_url() . "worker/get_components/" ?>" + $(this).val()
 			}).done(function(data){
 				var json = eval("json = " + data);
+				$('#description_zh').html('');
 				$.each(json, function(i, item){
-					$('#description_zh').append(item.id);
+					$('#description_zh').append(item.id + "\n");
 				});
 			});
 		});
+		
+		$('#add-button').click(function(){
+			var comp = $('.comp-item:last').clone();
+			comp.children('input[type=number]').val(0);
+			comp.children('img').click(function(){
+				comp.remove();
+			});
+			$('#components-list').append( comp );
+		});
+		
+		searchComponents();
 	}
 	
-	function updatePrice(){
-		
+	function searchComponents(){
+		$.ajax({
+			url: "<?php echo site_url() . "worker/get_components/" ?>"
+		}).done(function(data){
+			var json = eval("json = " + data);
+			var selection = $('.comp-selection');
+			$.each(json, function(i, item){
+				selection.append("<option value='" + item.id + "'>" + item.name_en + " | " + item.name_zh + "</option>");
+			});
+			
+		});
 	}
 	</script>
 	<form id='product-form' method='post'>
@@ -213,8 +252,21 @@
 			<p class='hint'>Price after discount</p>
 		</div>
 		<div class='field'>
-			<label for='components' class='label'>Components</label>
-			<input id='components' name='components' class='input' value='<?php echo $product['components'] ?>' />
+			<table>
+				<tr>
+					<td style='vertical-align: top'>
+						<label class='label'>Components<span class='clickable'><?php echo img( array( 'src' => 'plus.png', 'id' => 'add-button') ) ?></span></label>
+					</td>
+					<td id='components-list'>
+						<div class='comp-item'>
+							<select name='components[]' class='comp-selection'>
+							</select>
+							<input type='number' id='' min='1' max='100' class='short-input' />
+							<?php echo img( array( 'src' => 'cross.png', 'id' => 'add-button', 'class' => 'clickable') ) ?>
+						</div>
+					</td>
+				</tr>
+			</table>
 			<p class='hint'>The components of the product</p>
 		</div>
 		<div class='field'>
@@ -240,4 +292,8 @@
 		
 		<input type="submit" class="button" value="Submit" />
 	</form>
+	
+	<div id='comp-search-form'>
+		<input id='comp-search-field' class='input' />
+	</div>
 </div>

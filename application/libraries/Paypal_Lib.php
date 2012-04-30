@@ -169,8 +169,6 @@ class Paypal_Lib {
 		return $str;
 	}
 	
-	
-	
 	public function validate_ipn(){
 		// read the post from paypal and add 'cmd'
 		$is_valid = FALSE;
@@ -190,9 +188,9 @@ class Paypal_Lib {
 		  
 		if (!$fp) {  
 			// HTTP ERROR  
-		} else {  
+		} else {
 			fputs ($fp, $header . $req);  
-			while (!feof($fp)) {  
+			while (!feof($fp)) {
 				$res = fgets ($fp, 1024); 
 			
 				$this->log_results($res);
@@ -205,6 +203,7 @@ class Paypal_Lib {
 					// PAYMENT INVALID & INVESTIGATE MANUALY!  
 					$this->log_results("FAIL".$res);
 				}
+
 			}
 		}
 		fclose ($fp);

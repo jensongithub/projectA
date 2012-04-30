@@ -3,7 +3,7 @@
 <?php if( isset($success_count) ) echo "<div class='success'>" . _("$success_count record(s) has been modified.") . "</div>" ?>
 
 <div id='batch_upload'>
-	<?php echo form_open_multipart('admin/edit_products');?>
+	<?php echo form_open_multipart('admin/products/upload');?>
 	<h2><?php echo _('Add products in excel file') ?></h2>
 	<input type="hidden" name="upload" value="1" />
 	<input type="file" name="userfile" size="20" />
@@ -64,7 +64,7 @@
 					<td><input type='checkbox' name='pid[]' value='<?php echo $product['id'] ?>' /></td>
 					<td><?php echo $product['cat_name'] ?></td>
 					<td><?php echo anchor('admin/products/edit/' . $product['id'], $product['id']) ?></td>
-					<td><?php echo $product['name'] ?></td>
+					<td><?php echo $product['name_zh'] ?></td>
 					<td>$<?php echo $product['price'] ?></td>
 					<td>$<?php echo $product['discount'] ?></td>
 					<td><?php echo $product['status'] ?></td>

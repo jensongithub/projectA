@@ -250,11 +250,11 @@ background: white;
 				<div id='similar-products'>
 					<h3><?php echo _('Similar Products'); ?></h3>
 					<ul>
-						<?php foreach( $sim_pro as $product) { ?>
+						<?php foreach( $sim_pro as $prod) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${product['id']}"), img("products/${category['path']}/${product['id']}" . $product['color'] . "-F_s.jpg") ); ?>
-							<span><?php echo $product['id'] ?></span><br />
-							<span>$<?php echo $product['price'] ?></span><br />
+							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), img("products/${category['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
+							<span><?php echo $prod['id'] ?></span><br />
+							<span>$<?php echo $prod['price'] ?></span><br />
 						</li>
 						<?php } ?>
 					</ul>
@@ -284,14 +284,20 @@ background: white;
 				<div id='_product-description'>
 					<div style='margin-bottom: 30px;'>
 						<h4><?php echo _('Description'); ?></h4>
-						<p>Short, loose-fitting purl-knit jumper in marled textured yarn with 3/4-length sleeves. </p>
+						<p><?php echo $product['description_en'] ?></p>
 					</div>
 
 					<div>
 						<h4><?php echo _('Details'); ?></h4>
-						<p>69% acrylic, 18% polyamide, 13% cotton. Machine wash at 40˚ </p>
+						<div>
+						<?php
+						foreach( $product['comp_list'] as $comp ){
+							echo "<p>" . $comp['percentage'] . " % " . $comp['name_en'] . "</p>";
+						}
+						?>
+						</div>
 					</div>
-			
+
 					<div style='margin-top:1em;'>
 						<h4>Colour:</h4>
 						<ul>

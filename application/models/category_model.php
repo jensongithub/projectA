@@ -95,6 +95,15 @@ class Category_model extends CI_Model {
 		return FALSE;
 	}
 	
+	public function get_number_of_products($cat_id = 0){
+		$cat_q = "SELECT level FROM navigations WHERE cat_id = ?";
+		$sub_q = "SELECT id FROM categories c, navigations n, ($cat_q) cq WHERE c.id = n.cat_id AND n.level LIKE CONCAT(cq.level, '%')";
+		$query = "SELECT COUNT(*) AS num FROM products p, product_category pc WHERE p.id = pc.pro_id AND pc.cat_id IN ($sub_q)";
+		$result = $this->db->query( $query, $cat_id );
+		$result = $result->row_array();
+		return $result['num'];
+	}
+	
 	public function add_category($cat = "", $path = "") {
 		if( $cat == "" )
 			return FALSE;
