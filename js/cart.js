@@ -71,7 +71,6 @@ var shop_cart = {
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				//var obj = jQuery.parseJSON(jqXHR.responseText);
-				alert(jqXHR.responseText);
 				if (jqXHR.responseText!=""){
 					$('div[class=payment_gateway]').append(jqXHR.responseText);
 					$('form[name=order_form]').submit();

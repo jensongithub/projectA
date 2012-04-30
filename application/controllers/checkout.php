@@ -188,7 +188,7 @@ class checkout extends CI_Controller {
  
 		// For this example, we'll just email ourselves ALL the data.
 		$to    = 'davidrobinson91@hotmail.com';    //  your email
-		
+		$this->paypal_lib->log_results("ENTERED");
 		if ($this->paypal_lib->validate_ipn()) 
 		{
 			//$this->paypal_lib->ipn_data['payer_email'] = $to;
@@ -215,13 +215,16 @@ class checkout extends CI_Controller {
 			$this->email->subject($subject);
 			$this->email->message($body);	
 			$this->email->send();
+			echo "OKOK";
 		}else{
 			foreach ($this->paypal_lib->ipn_data as $key=>$value){
 				$body .= "\n$key: $value";
 			}
 			$this->paypal_lib->log_results("ERRER");
+			echo "EERR";
 		}
-		$this->paypal_lib->log_results(print_r($this->paypal_lib->ipn_data));
+		print_r($this->paypal_lib->ipn_data);
+		$this->paypal_lib->log_results("dfdg");
 	}
 }
 ?>

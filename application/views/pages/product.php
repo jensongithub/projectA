@@ -25,7 +25,7 @@
 		<input type="hidden" name="shipping_1" value="<?php echo $shipping; ?>">
 		<input type="hidden" name="return" value="http://lna.localhost/zh/checkout/success">
 		<input type="hidden" name="cancel_return" value="http://lna.localhost/zh/cancel_return">
-		<input type="hidden" name="notify_url" value="http://lna.localhost/zh/checkout/paypal_ipn">
+		<input type="hidden" name="notify_url" value="http://210.176.126.120:81/ipn.php">
 	</form>
 <?php }else if($payment_gateway==="alipay"){ ?>
 
