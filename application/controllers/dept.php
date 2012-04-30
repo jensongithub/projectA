@@ -211,7 +211,7 @@ class Dept extends CI_Controller {
 	}
 
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
-		$this->load->model( array('category_model', 'product_model') );
+		$this->load->model( array('category_model', 'product_model', 'component_model') );
 		$dept = urldecode($dept);
 		$cat = urldecode($cat);
 		$sub = urldecode($sub);
@@ -224,8 +224,8 @@ class Dept extends CI_Controller {
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
 		$this->data['id'] = $id;
-		$this->data['product'] = $this->product_model->get_product_by_id($id);
 		
+		$this->data['product'] = $this->product_model->get_product_by_id($id);
 		$this->data['colors'] = $this->product_model->get_products_color($id);
 		$this->load->helper('json');
 		foreach( $this->data['colors'] as $key => $color ){
@@ -233,6 +233,8 @@ class Dept extends CI_Controller {
 		}
 		$this->data['colors_json'] = json_encode($this->data['colors_json']);
 		
+		$this->data['product']['comp_list'] = $this->component_model->get_components_from_json( json_decode($this->data['product']['components']) );
+
 		// get similar products
 		$this->data['sim_pro'] = $this->product_model->get_similar_products($this->data['id'], $this->data['category']['id'], 4);
 		//$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
