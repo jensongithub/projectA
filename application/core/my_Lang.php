@@ -15,41 +15,39 @@ load the MX_Loader class */
 
 class my_Lang extends CI_Lang {
 
+	/**************************************************
+	configuration
+	***************************************************/
 
-    /**************************************************
-     configuration
-    ***************************************************/
-
-    // languages
-    private $languages = array(
+	// languages
+	private $languages = array(
 		'en' => 'english',
-		'cn' => 'schinese',        
+		'cn' => 'schinese',
 		'zh' => 'tchinese'
-		
-    );
+	);
 
-    // special URIs (not localized)
-    private $special = array (
-    );
+	// special URIs (not localized)
+	private $special = array (
+	);
 
-    // where to redirect if no language in URI
-    private $uri;
-    private $default_uri;
-    private $lang_code;
+	// where to redirect if no language in URI
+	private $uri;
+	private $default_uri;
+	private $lang_code;
 
-    /**************************************************/
+	/**************************************************/
 
 	function __construct()
-    {
+	{
 		global $CFG;
-        global $URI;
-        global $RTR;
+		global $URI;
+		global $RTR;
 
-        $this->uri = $URI->uri_string();
-        $this->default_uri = $RTR->default_controller;
-        $uri_segment = $this->get_uri_lang($this->uri);
+		$this->uri = $URI->uri_string();
+		$this->default_uri = $RTR->default_controller;
+		$uri_segment = $this->get_uri_lang($this->uri);
 		$this->lang_code = $uri_segment['lang'] ;
-        $url_ok = false;
+		$url_ok = false;
 	
         if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))		
         {	
