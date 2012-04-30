@@ -54,35 +54,35 @@ class Category_model extends CI_Model {
 			return FALSE;
 
 		$path = array();
-		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND text LIKE ?";
+		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND text_en LIKE ?";
 		$result = $this->db->query($query, $dept);
 		if( $result->num_rows() <= 0 )
 			return FALSE;
 
 		$path[0] = $result->row_array();
-		$path[0]['c_path'] = $path[0]['text'];
+		$path[0]['c_path'] = $path[0]['text_en'];
 		
 		if( $cat == '' )
 			return $path;
 
-		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text LIKE ?";
+		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text_en LIKE ?";
 		$result = $this->db->query($query, array($path[0]['level'] . '%', $cat) );
 		if( $result->num_rows() <= 0 )
 			return FALSE;
 		
 		$path[1] = $result->row_array();
-		$path[1]['c_path'] = $path[0]['c_path'] . '/' . $path[1]['text'];
+		$path[1]['c_path'] = $path[0]['c_path'] . '/' . $path[1]['text_en'];
 
 		if( $sub == '' )
 			return $path;
 
-		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text LIKE ?";
+		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text_en LIKE ?";
 		$result = $this->db->query($query, array($path[1]['level'] . '%', $sub) );
 		if( $result->num_rows() <= 0 )
 			return FALSE;
 		
 		$path[2] = $result->row_array();
-		$path[2]['c_path'] = $path[1]['c_path'] . '/' . $path[2]['text'];
+		$path[2]['c_path'] = $path[1]['c_path'] . '/' . $path[2]['text_en'];
 		
 		return $path;
 	}

@@ -265,7 +265,7 @@ background: white;
 				<?php
 				$list = array();
 				foreach( $c_path as $item ){
-					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( ucfirst($item['text']) ) );
+					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( ucfirst($item['text_en']) ) );
 					$list[] = ' > ';
 				}
 				$list[] = $id;

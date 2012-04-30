@@ -11,9 +11,9 @@
 				foreach( $menu as $item ){
 					$level = count( explode('.', $item['level']) ) - 1;
 					if( $level == 1 )
-						echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_en']) . "</div>";
 					else if( $level > 1 )
-						echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text']) . "</div>";
+						echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_en']) . "</div>";
 				}
 				?>
 			</div>
@@ -29,7 +29,7 @@
 				<h3>
 				<?php 
 				foreach($path as $item){
-					echo anchor( 'browse/' . $item['c_path'], $item['text'] ) . ' / ';
+					echo anchor( 'browse/' . $item['c_path'], $item['text_en'] ) . ' / ';
 				}
 				?>
 				</h3>
