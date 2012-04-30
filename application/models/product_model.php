@@ -236,7 +236,7 @@ class Product_model extends CI_Model {
 							$items = explode(",", $sheet['cells'][$i][$j]);
 							foreach($items as $item){
 								$t = explode(" ", preg_replace("(\s+)", " ", trim($item)) );
-								$com_list[$t[0]] = $t[1];
+								$com_list[$t[1]] = $t[0];
 							}
 							$data[] = json_encode( $com_list );
 						}

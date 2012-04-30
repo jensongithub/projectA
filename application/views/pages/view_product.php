@@ -263,8 +263,7 @@ background: white;
 
 			<div id='product-text'>
 				<?php
-				$list = array(
-				);
+				$list = array();
 				foreach( $c_path as $item ){
 					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( ucfirst($item['text']) ) );
 					$list[] = ' > ';
@@ -291,9 +290,10 @@ background: white;
 						<h4><?php echo _('Details'); ?></h4>
 						<div>
 						<?php
-						foreach( $product['comp_list'] as $comp ){
-							echo "<p>" . $comp['percentage'] . " % " . $comp['name_en'] . "</p>";
-						}
+						if( $product['comp_list'] )
+							foreach( $product['comp_list'] as $comp ){
+								echo "<p>" . $comp['percentage'] . " % " . $comp['name_en'] . "</p>";
+							}
 						?>
 						</div>
 					</div>
