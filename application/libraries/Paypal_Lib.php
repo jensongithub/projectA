@@ -172,41 +172,47 @@ class Paypal_Lib {
 	public function validate_ipn(){
 		// read the post from paypal and add 'cmd'
 		$is_valid = FALSE;
+	
+		$test=TRUE;
+		// Choose url
+		if($test)
+			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+		else
+			$url = 'https://www.paypal.com/cgi-bin/webscr';
+	
+		// Set up request to PayPal
+		$request = curl_init();
+		curl_setopt_array($request, array
+		(
+			CURLOPT_URL => $url,
+			CURLOPT_POST => TRUE,
+			CURLOPT_POSTFIELDS => http_build_query(array('cmd' => '_notify-validate') + $this->input->post()),
+			CURLOPT_RETURNTRANSFER => TRUE,
+			CURLOPT_HEADER => FALSE
+			/*,
+			CURLOPT_SSL_VERIFYPEER => TRUE,
+			CURLOPT_CAINFO => 'cacert.pem',
+			*/
+		));
 
-	    $req = 'cmd=_notify-validate';  
-		foreach ($_POST as $key => $value) {  
-		$value = urlencode(stripslashes($value));  
-		$req .= "&$key=$value";  
-		}  
-		// post back to PayPal system to validate  
-		$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";  
-		$header .= "Content-Type: application/x-www-form-urlencoded\r\n";  
-		$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";  
-		  
-		$fp = fsockopen ('ssl://www.sandbox.paypal.com', 443, $errno, $errstr, 30);
-		//$fp = fsockopen ('ssl://www.paypal.com', 443, $errno, $errstr, 30);
-		  
-		if (!$fp) {  
-			// HTTP ERROR  
-		} else {
-			fputs ($fp, $header . $req);  
-			while (!feof($fp)) {
-				$res = fgets ($fp, 1024); 
+		// Execute request and get response and status code
+		$response = curl_exec($request);
+		$status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
+
+		// Close connection
+		curl_close($request);
+
+		if($status == 200 && $response == 'VERIFIED')
+		{
 			
-				$this->log_results($res);
-				if (preg_match("/VERIFIED/i", $res)){
-					// PAYMENT VALIDATED & VERIFIED!					
-					$this->log_results("OKOK".$res);
-					$is_valid = TRUE;
-				}	  
-				else if (preg_match("/INVALID/i", $res)){
-					// PAYMENT INVALID & INVESTIGATE MANUALY!  
-					$this->log_results("FAIL".$res);
-				}
-
-			}
+			$this->log_results("OKOK".$res);
+			$is_valid = TRUE;
 		}
-		fclose ($fp);
+		else
+		{
+			$this->log_results("FAIL".$res);
+		}		
+	    
 		return $is_valid;
 	}
 	

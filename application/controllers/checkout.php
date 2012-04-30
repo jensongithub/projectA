@@ -136,20 +136,7 @@ class checkout extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	function auto_form()
-	{
-		$this->paypal_lib->add_field('business', 'PAYPAL@EMAIL.COM');
-	    $this->paypal_lib->add_field('return', site_url('paypal/success'));
-	    $this->paypal_lib->add_field('cancel_return', site_url('paypal/cancel'));
-	    $this->paypal_lib->add_field('notify_url', site_url('paypal/ipn')); // <-- IPN url
-	    $this->paypal_lib->add_field('custom', '1234567890'); // <-- Verify return
-
-	    $this->paypal_lib->add_field('item_name', 'Paypal Test Transaction');
-	    $this->paypal_lib->add_field('item_number', '6941');
-	    $this->paypal_lib->add_field('amount', '197');
-
-	    $this->paypal_lib->paypal_auto_form();
-	}
+	
 
 	function cancel()
 	{
@@ -172,6 +159,10 @@ class checkout extends CI_Controller {
 
 		$this->data['pp_info'] = $this->input->post();
 		$this->load->view('cart/success', $this->data);
+		
+		
+		$this->load->model("order_model");
+		$this->order_model->insert_order($this->input->post());
 	}
 	
 	function paypal_ipn()
@@ -188,7 +179,7 @@ class checkout extends CI_Controller {
  
 		// For this example, we'll just email ourselves ALL the data.
 		$to    = 'davidrobinson91@hotmail.com';    //  your email
-		$this->paypal_lib->log_results("ENTERED");
+		
 		if ($this->paypal_lib->validate_ipn()) 
 		{
 			//$this->paypal_lib->ipn_data['payer_email'] = $to;
@@ -206,6 +197,9 @@ class checkout extends CI_Controller {
 					}
 					$subject = "Live-VALID IPN";
 				}
+			
+				//insert data to the database
+				
 			
 			// load email lib and email results
 			$this->load->library('email');
