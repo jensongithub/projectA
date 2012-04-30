@@ -1,3 +1,4 @@
+<?php echo css('css/products.css') ?>
 <script type='text/javascript'>
 var pid = '<?php echo $id ?>';
 var colors = <?php echo $colors_json ?>;
@@ -48,7 +49,7 @@ $(document).ready(function($){
 	$('.item_color > img').bind("click.change", function(){
 		holder = pid + $(this).attr('alt');
 		var prefix = path + holder;
-		$('#product-name').html( holder );
+		$('.product-name').html( holder );
 		$('#img0').attr('src', prefix + '-F_s.jpg');
 		$('#img1').attr('src', prefix + '-B_s.jpg');
 		$('#img2').attr('src', prefix + '-D1_s.jpg');
@@ -253,8 +254,13 @@ background: white;
 						<?php foreach( $sim_pro as $prod) { ?>
 						<li class="similar-thumbnail">
 							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), img("products/${category['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
-							<span><?php echo $prod['id'] ?></span><br />
-							<span>$<?php echo $prod['price'] ?></span><br />
+							<span><?php echo anchor( str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), $prod['id'] ) ?></span><br />
+							<?php if( $prod['discount'] < $prod['price'] ) { ?>
+								<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
+								<span style='color: #F00'>$<?php echo $prod['discount'] ?></span><br />
+							<?php } else { ?>
+								<span>$<?php echo $prod['price'] ?></span><br />
+							<?php } ?>
 						</li>
 						<?php } ?>
 					</ul>
@@ -265,7 +271,7 @@ background: white;
 				<?php
 				$list = array();
 				foreach( $c_path as $item ){
-					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( $item['text_' . $lang] ) );
+					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $lang] );
 					$list[] = ' > ';
 				}
 				$list[] = $id;
@@ -278,8 +284,11 @@ background: white;
 				?>
 				<div class='clear'></div>
 
-				<div id='product-name' class='product-name'><?php echo $id.$colors[0]['color']; ?></div>
-
+				<div class='product-title'>
+					<span class='product-name'><?php echo $id . $colors[0]['color']; ?></span>
+					<span class='product-discount'> $<?php echo $product['discount'] ?> </span>
+					<span class='product-price'> $<?php echo $product['price'] ?> </span>
+				</div>
 				<div id='_product-description'>
 					<div style='margin-bottom: 30px;'>
 						<h4><?php echo _('Description'); ?></h4>

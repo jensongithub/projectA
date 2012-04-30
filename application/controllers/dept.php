@@ -153,7 +153,7 @@ class Dept extends CI_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	public function browse($dept = 'women', $cat = 'sales', $sub = '', $page = 1){
+	public function browse($dept = 'ladies', $cat = 'sales', $sub = '', $page = 1){
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
 		$this->load->helper( 'url' );
 
@@ -171,17 +171,41 @@ class Dept extends CI_Controller {
 		$this->data['url'] = $url;
 		$offset = 0;
 		$count = 16;
+		
 		$this->data['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
+
+		if( isset($this->data['path'][0]) )
+			$this->data['menu'] = $this->menu_model->get_submenu($this->data['path'][0]['level']);
+
+		
+		// if category is not SALES
 		if( $this->data['path'] == FALSE ){
-			$this->data['error'] = "No such category: $dept/$cat/$sub";
+			$this->data['error'] = _("No such category") . ": $dept/$cat/$sub";
 			$this->data['title'] = $this->data['error'];
 			$this->data['path'] = array();
 		}
+		else if( strcasecmp( $cat, 'sales' ) == 0 ){
+			$product_count = 0;
+
+			if( $page > 1 ){
+				$offset = ($page - 1) * $count;
+				$this->data['prev'] = ($page - 1);
+			}
+
+			$this->data['products'] = $this->product_model->get_products_for_sales_listing( $this->data['path'][0]['level'], $offset, $count, $product_count );
+
+			if( $offset + $count < $product_count )
+				$this->data['next'] = ($page + 1);
+
+			$this->load->view('templates/header', $this->data);
+			$this->load->view('pages/women', $this->data);
+			$this->load->view('templates/footer', $this->data);
+			return;
+		}
 		else{
-			for( $i = 0; isset($this->data['path'][$i]); $i++);
-			$this->data['cat'] = $this->data['path'][$i-1]['c_path'];
-			$this->data['cat_showcase'] = $this->category_model->get_category_showcase($this->data['path'][$i-1]['path']);
-			//echo "thumbnail: " . (isset($this->data['cat_showcase'])?'Y':'N');
+			$product_count = 0;
+			$this->data['cat'] = $this->data['path'][count($this->data['path'])-1]['c_path'];
+			$this->data['cat_showcase'] = $this->category_model->get_category_showcase($this->data['path'][count($this->data['path'])-1]['path']);
 			
 			if( $page > 1 ){
 				if( $this->data['cat_showcase'] ){
@@ -196,16 +220,15 @@ class Dept extends CI_Controller {
 			else if( $this->data['cat_showcase'] ){
 				$count = 14;
 			}
-			
-			if( $offset + $count < $this->category_model->get_number_of_products($this->data['path'][$i-1]['id']) )
+
+			$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub, $offset, $count, $product_count );
+
+			if( $offset + $count < $product_count )
 				$this->data['next'] = ($page + 1);
 			
 			$this->data['title'] = ucfirst($this->data['cat']);
 		}
-		$this->data['menu'] = $this->menu_model->get_submenu('1');
 
-		//echo "<br/>page: $page, offset: $offset, count: $count";
-		$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub, $offset, $count );
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
@@ -222,14 +245,22 @@ class Dept extends CI_Controller {
 
 		$this->data['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 		//print_r($this->data['c_path']);
+		$this->data['id'] = $id;
+		
+		$this->data['product'] = $this->product_model->get_product_by_id($id, FALSE);
+		if( ! $this->data['product'] ){
+			$this->data['title'] = _('No such product') . ": $id";
+			$this->load->view('templates/header', $this->data);
+			$this->load->view('pages/no_product', $this->data);
+			$this->load->view('templates/footer', $this->data);
+			return;
+		}
+		
 		$this->data['category'] = $this->data['c_path'][count($this->data['c_path'])-1];
 		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
 		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
-		$this->data['id'] = $id;
-		
-		$this->data['product'] = $this->product_model->get_product_by_id($id);
 
 		$this->data['colors'] = $this->product_model->get_products_color($id);
 		$this->load->helper('json');
