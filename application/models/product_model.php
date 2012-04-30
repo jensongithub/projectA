@@ -48,18 +48,18 @@ class Product_model extends CI_Model {
 
 		$q_sub = "";
 		
-		$q_dept = "SELECT level, text FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.text = ? ";
-		$q_cat = "SELECT nav.level, CONCAT(q_dept.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND nav.text = ? AND nav.level LIKE CONCAT(q_dept.level, '%') ";
+		$q_dept = "SELECT level, text_en FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.text_en = ? ";
+		$q_cat = "SELECT nav.level, CONCAT(q_dept.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND nav.text_en = ? AND nav.level LIKE CONCAT(q_dept.level, '%') ";
 
 		if( $sub != "" ){
-			$q_sub = "SELECT cat.id, CONCAT(q_cat.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.text = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+			$q_sub = "SELECT cat.id, CONCAT(q_cat.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.text_en = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		else{
-			$q_sub = "SELECT cat.id, CONCAT(q_cat.text, '/', nav.text) AS text FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+			$q_sub = "SELECT cat.id, CONCAT(q_cat.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		
 		// real
-		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY priority DESC, created_time DESC";
+		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text_en AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY priority DESC, created_time DESC";
 		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
 		//echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
 		
