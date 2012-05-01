@@ -192,6 +192,7 @@ class Dept extends MY_Controller {
 			if( $offset + $count < $product_count )
 				$this->data['page']['next'] = ($page + 1);
 
+			$this->data['page']['title'] = $this->data['page']['path'][0]['text_' . $this->data['page']['lang']] . '/' . $this->data['page']['path'][1]['text_' . $this->data['page']['lang']];
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/women', $this->data);
 			$this->load->view('templates/footer', $this->data);
@@ -222,7 +223,7 @@ class Dept extends MY_Controller {
 			if( $offset + $count < $product_count )
 				$this->data['page']['next'] = ($page + 1);
 			
-			$this->data['page']['title'] = ucfirst($this->data['page']['cat']);
+			$this->data['page']['title'] = $this->data['page']['path'][0]['text_' . $this->data['page']['lang']] . '/' . $this->data['page']['path'][1]['text_' . $this->data['page']['lang']];
 		}
 		
 		$this->load->view('templates/header', $this->data);
@@ -254,7 +255,7 @@ class Dept extends MY_Controller {
 		
 		$this->data['page']['category'] = $this->data['page']['c_path'][count($this->data['page']['c_path'])-1];
 		$this->data['page']['path'] = base_url() . 'images/products/' . $this->data['page']['category']['path'];
-		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['name']);
+		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['text_en']);
 		$this->data['page']['dept'] = $dept;
 		$this->data['page']['cat'] = $this->data['page']['category']['name'];
 

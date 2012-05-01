@@ -50,8 +50,9 @@
 				}
 				?>
 				<?php
-				foreach( $page['products'] as $item ) {
-					//if( isset($item['front_img']) && file_exists( "images/products/${item['i_path']}/${item['front_img']}" ) ){
+				if( isset($page['products']) )
+					foreach( $page['products'] as $item ) {
+						//if( isset($item['front_img']) && file_exists( "images/products/${item['i_path']}/${item['front_img']}" ) ){
 				?>
 				<div class="product-thumbnail">
 					<?php
