@@ -219,9 +219,15 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_products_color( $pid = '' ) {
-		$this->db->select("product_color.color")->from("products, product_color")->where("products.id = '$pid' AND products.id = product_color.pro_id");
-		$result = $this->db->get();
+		$query = "SELECT DISTINCT pcs.color FROM product_color_size pcs WHERE pro_id = ?";
+		$result = $this->db->query( $query, $pid);
 		return $result->result_array();
+	}
+	
+	public function get_product_category( $pid = '' ) {
+		$query = "SELECT cat.* FROM products pro, categories cat, product_category pc WHERE pro.id = pc.pro_id AND cat.id = pc.cat_id AND pro.id = ?";
+		$result = $this->db->query( $query, $pid );
+		return $result->row_array();
 	}
 	
 	public function move_product_to_cat( $pid = '', $cid = '' ) {
@@ -333,8 +339,8 @@ class Product_model extends CI_Model {
 	
 	public function edit_product($detail = FALSE){
 		print_r($detail);
-		$query = "UPDATE products SET name_en = ?, name_zh = ?, price = ?, discount = ?, priority = ?, description_en = ?, description_zh = ?, components = ?, status = ? WHERE id = ?";
-		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
+		$query = "UPDATE products SET name_en = ?, name_zh = ?, price = ?, discount = ?, priority = ?, front_img = ?, description_en = ?, description_zh = ?, components = ?, status = ? WHERE id = ?";
+		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['front_img'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
 		echo "<p>" . $this->db->last_query() . "</p>";
 	}
 }

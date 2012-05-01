@@ -1,6 +1,6 @@
 <?php echo css('css/admin/products.css') ?>
 <?php if( isset($page['error']) ) echo $page['error'];?>
-<?php if( isset($page['success_count']) ) echo "<div class='success'>" . _("$page['success_count'] record(s) has been modified.") . "</div>" ?>
+<?php if( isset($page['success_count']) ) echo "<div class='success'>" . _("${page['success_count']} record(s) has been modified.") . "</div>" ?>
 
 <div id='batch_upload'>
 	<?php echo form_open_multipart('admin/products/upload');?>

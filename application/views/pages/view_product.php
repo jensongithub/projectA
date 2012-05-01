@@ -275,8 +275,11 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array();
-				foreach( $page['c_path'] as $item ){
-					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
+				foreach( $page['c_path'] as $key => $item ){
+					if( $key == 0 )
+						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']) . '/sales', $item['text_' . $page['lang']] );
+					else
+						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
 					$list[] = ' > ';
 				}
 				$list[] = $page['id'];
