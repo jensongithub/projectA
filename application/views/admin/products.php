@@ -1,6 +1,6 @@
 <?php echo css('css/admin/products.css') ?>
-<?php if( isset($error) ) echo $error;?>
-<?php if( isset($success_count) ) echo "<div class='success'>" . _("$success_count record(s) has been modified.") . "</div>" ?>
+<?php if( isset($page['error']) ) echo $page['error'];?>
+<?php if( isset($page['success_count']) ) echo "<div class='success'>" . _("$page['success_count'] record(s) has been modified.") . "</div>" ?>
 
 <div id='batch_upload'>
 	<?php echo form_open_multipart('admin/products/upload');?>
@@ -34,7 +34,7 @@
 			<div class='move'>
 				<label for=''><?php echo _('Move to') ?></label>
 				<select id='' name='cid'>
-					<?php foreach( $categories as $cat ){
+					<?php foreach( $page['categories'] as $cat ){
 						echo "<option value='${cat['id']}'>${cat['name']}</option>";
 					} ?>
 				</select>
@@ -58,7 +58,7 @@
 			
 			<tbody>
 				<?php
-				foreach( $products as $product ){
+				foreach( $page['products'] as $product ){
 				?>
 				<tr>
 					<td><input type='checkbox' name='pid[]' value='<?php echo $product['id'] ?>' /></td>

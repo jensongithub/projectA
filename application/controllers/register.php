@@ -1,20 +1,17 @@
 <?php
-class Register extends CI_Controller {
-	var $data=array();
+class Register extends My_Controller {
 	public function __construct()	{
 		parent::__construct();
 		$this->load->model('user_model');
-		$this->load->library('email');
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->load->library('email');	
 	}
 
 	public function index()	{
-		$this->data['title'] = 'Register';
+		$this->data['page_info']['title'] = 'Register';
 		
 		$this->load->helper( array('form') );
 		//$this->lang->load('register');
-		$this->load->library('form_validation', 'session');
+		$this->load->library('form_validation');
 		
 		$this->load->view('templates/header', $this->data);
 		if($this->form_validation->run() === FALSE) {
@@ -29,7 +26,7 @@ class Register extends CI_Controller {
 			$message = $this->load->view('account/mail_new_user_activation', array('user'=>$user), true);			
 			$this->email->send_activate_mail($user, "Casimira New Account Activation", $message);
 			
-			$session_items = array(
+			$_session_data = array(
 									'id' => $user['id'],
 									'email' => $user['email'],
 									'firstname' => $user['firstname'],
@@ -37,7 +34,11 @@ class Register extends CI_Controller {
 									'phone' => $user['phone'],
 									'gender' => $user['gender']
 								);
-			$this->session->set_userdata($session_items);
+			
+			$session_data = $this->session->all_userdata();
+			$session_data['user'] = $_session_data;
+			$this->session->set_userdata($session_data);
+			
 			
 			$this->load->view('account/register_finish', $this->data);
 		}

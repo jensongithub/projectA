@@ -1,7 +1,7 @@
 <script type='text/javascript'>
-var pid = '<?php echo $id ?>';
-var colors = <?php echo $colors_json ?>;
-var path = '<?php echo "$path/" ?>';
+var pid = '<?php echo $page['id'] ?>';
+var colors = <?php echo $page['colors_json'] ?>;
+var path = '<?php echo $page['path']."/" ?>';
 var holder = pid + colors.c0.color;
 
 var imgTesting;
@@ -197,11 +197,16 @@ function initCartOperations(){
 }
 
 function checkout(pg){
-	if(shop_cart.total>0 && shop_cart.cur_item.quantity!=''&& shop_cart.cur_item.size!=''&& shop_cart.cur_item.color!=''){
+	shop_cart.total = $("input[name=cl]").val();
+	
+	if (shop_cart.cur_item.size!='' || shop_cart.cur_item.color!='' || shop_cart.cur_item.size!=''){ 
 		$('a[class=add_item]').click();
 	}
-	$("input[name=pg]").val(pg);
-	shop_cart.payment_gateway();
+	
+	if(shop_cart.total>0 ){
+		$("input[name=pg]").val(pg);
+		shop_cart.payment_gateway();
+	}
 }
 
 
@@ -222,13 +227,13 @@ background: white;
 				<div id='showcase'>
 					<?php
 					$files = array();
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-F_s.jpg";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-B_s.jpg";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D1_s.jpg";
-					$files[] = "products/$cat/$id" . $colors[0]['color'] . "-D2_s.jpg";
+					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
+					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
+					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
+					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
 					$list = array();
 					
-					$attr = array( 'id' => 'showcase-img', 'src' => "products/$cat/$id" . $colors[0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
+					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
 					
 					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
@@ -250,9 +255,9 @@ background: white;
 				<div id='similar-products'>
 					<h3><?php echo _('Similar Products'); ?></h3>
 					<ul>
-						<?php foreach( $sim_pro as $prod) { ?>
+						<?php foreach( $page['sim_pro']as $prod) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), img("products/${category['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/{$page['category']['c_path']}/${prod['id']}"), img("products/{$page['category']['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
 							<span><?php echo $prod['id'] ?></span><br />
 							<span>$<?php echo $prod['price'] ?></span><br />
 						</li>
@@ -264,11 +269,11 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array();
-				foreach( $c_path as $item ){
-					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( $item['text_' . $lang] ) );
+				foreach( $page['c_path'] as $item ){
+					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), _( $item['text_' . $page['lang']] ) );
 					$list[] = ' > ';
 				}
-				$list[] = $id;
+				$list[] = $page['id'];
 
 				$attr = array(
 							'id' => 'product-path'
@@ -278,20 +283,20 @@ background: white;
 				?>
 				<div class='clear'></div>
 
-				<div id='product-name' class='product-name'><?php echo $id.$colors[0]['color']; ?></div>
+				<div id='product-name' class='product-name'><?php echo $page['id'].$page['colors'][0]['color']; ?></div>
 
 				<div id='_product-description'>
 					<div style='margin-bottom: 30px;'>
 						<h4><?php echo _('Description'); ?></h4>
-						<p><?php echo $product['description_' . $lang] ?></p>
+						<p><?php echo $page['product']['description_' . $page['lang']] ?></p>
 					</div>
 
 					<div>
 						<h4><?php echo _('Details'); ?></h4>
 						<div>
 						<?php
-						if( $product['comp_list'] )
-							foreach( $product['comp_list'] as $comp ){
+						if( $page['product']['comp_list'] )
+							foreach( $page['product']['comp_list'] as $comp ){
 								echo "<p>" . $comp['percentage'] . " % " . $comp['name_' . $lang] . "</p>";
 							}
 						?>
@@ -302,9 +307,9 @@ background: white;
 						<h4>Colour:</h4>
 						<ul>
 							<?php
-							foreach( $colors as $color ) {
+							foreach( $page['colors'] as $color ) {
 								echo "<li class='product-color' title='${color['color']}'>";
-								echo "<a href='javascript:void(0)' class='item_color' value='${color['color']}'>".img( array( 'src' => "products/$cat/".$id.$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
+								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['cat']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
 								echo "</li>";
 							}
 							?>
@@ -328,8 +333,9 @@ background: white;
 						<span>
 							<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
 							<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
-							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $product['id'] ?>'>Add to Cart</a>
+							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
 							<input type="hidden" name="pg" value=""/>
+							<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 						</span>
 					</div>
 				</div>				

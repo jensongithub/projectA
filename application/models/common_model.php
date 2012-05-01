@@ -117,15 +117,11 @@ class Common_model extends CI_Model {
 		return FALSE;
 	}
 
-	public function logout(){
-		$session_data = $this->session->all_userdata();
-		$this->session->unset_userdata('is_login');
-		$this->session->sess_destroy(); // session destroy with custom code!
-		redirect('index');
+	public function _generate_random_string($len=8){
+		$arr = str_split('abcdefghijklmnopqrstuvwxyzABCDEFGHI012345JKLMNOP0QRSTUVWXYZ6789'); // get all the characters into an array
+		shuffle($arr); // randomize the array
+		$arr = array_slice($arr, 0, $len); // get the first eight (random) characters out
+		$str = implode('', $arr); // smush them back into a string
+		return $str;
 	}
-	
-	public function is_login(){
-		$session_data = $this->session->all_userdata();
-		return isset($session_data['is_login']) && $session_data['is_login']===TRUE;
-	}	
 }

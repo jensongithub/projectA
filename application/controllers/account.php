@@ -1,18 +1,17 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Account extends CI_Controller {
-	var $data = array();
+class Account extends MY_Controller {
+	
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('user_model');
-		$this->load->library('email');
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->load->library('email');	
 	}
 
 	public function index()	{
-		$this->data['title'] = 'Account';
+		$this->set_page('title','Account');
+		
 		$this->load->library('form_validation', 'session');
 
 		$this->load->view('templates/header', $this->data);
@@ -20,9 +19,9 @@ class Account extends CI_Controller {
 			$this->load->view('account/info_form', $this->data);
 		}
 		else {
-			$user = $this->user_model->update_user($this->data['id']);
-			$user = $this->user_model->get_user($this->data['email'], 'email');
-			$session_items = array(
+			$user = $this->user_model->update_user($this->data['user']['id']);
+			$user = $this->user_model->get_user($this->data['user']['email'], 'email');
+			$_session_data = array(
 									'id' => $user['id'],
 									'email' => $user['email'],
 									'firstname' => $user['firstname'],
@@ -30,15 +29,20 @@ class Account extends CI_Controller {
 									'phone' => $user['phone']
 									
 								);
-			$this->session->set_userdata($session_items);
-			$this->data['success'] = TRUE;
+			
+			$session_data = $this->session->all_userdata();
+			$session_data['user'] = $_session_data;
+			$this->session->set_userdata($session_data);
+			
+			$this->data['page']['success'] = TRUE;
 			$this->load->view('account/info_form', $this->data);
 		}
 		$this->load->view('templates/footer');
 	}
 	
 	public function forgotten(){
-		$this->data['title'] = 'Forgotten';
+		$this->set_page('title','Forgotten');
+		
 		$this->load->library('form_validation', 'session');		
 		$this->form_validation->set_rules('email', 'Email', 'email|required');
 		
@@ -54,7 +58,7 @@ class Account extends CI_Controller {
 				$message = $this->load->view('account/mail_forgotten', array('user'=>$user), true);
 				$this->email->send_forgotten_mail($user, "Casimira User Reset Password", $message);
 			}
-			$this->data = $user;
+			$this->data['user'] = &$user;
 			$this->load->view('account/forgotten_redirect', $this->data);
 		}
 		$this->load->view('templates/footer');
@@ -64,7 +68,7 @@ class Account extends CI_Controller {
 		/**
 		 * reset password link
 		 */
-		$this->data['title'] = 'Forgotten';
+		$this->set_page('title','Forgotten');
 		$this->load->library('form_validation', 'session');		
 		$this->form_validation->set_rules('email', 'Email', 'email|required');
 		
@@ -72,7 +76,7 @@ class Account extends CI_Controller {
 		
 		$user=$this->user_model->authenticate_user_by_email(rawurldecode($email), $activate_code);
 		
-		$this->data = &$user;
+		$this->data['user'] = &$user;
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('account/reset_password_form');
 		$this->load->view('templates/footer');
@@ -86,14 +90,14 @@ class Account extends CI_Controller {
 		
 		if($this->form_validation->run()) {
 			$user=array();
-			$user['pwd'] = md5($this->input->post('pwd'));
+			$user['pwd'] = md5($this->input->post('pwd'));			
+			$user = $this->user_model->update_user($this->data['user']['id'], $user);
+			$this->data['user'] = $this->user_model->get_user($this->data['email'], 'email');
 			
-			$user = $this->user_model->update_user($this->data['id'], $user);			
+			$session_data = $this->session->all_userdata();
+			$this->data['user'] = array_merge($this->data['user'], $session_data['user']);
+			$this->data['page']['success'] = TRUE;
 			
-			$this->data = $this->user_model->get_user($this->data['email'], 'email');
-			
-			$this->data = array_merge($this->data, $this->session->all_userdata());
-			$this->data['success'] = TRUE;
 			$this->load->view('account/user_update_success', $this->data);
 		}
 		$this->load->view('templates/footer');

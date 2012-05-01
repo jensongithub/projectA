@@ -1,7 +1,7 @@
 <?php
-	if( isset($product) ){
-		print_r($product);
-		echo strlen($product['description_en']);
+	if( isset($page['product']) ){
+		print_r($page['product']);
+		echo strlen($page['product']['description_en']);
 	}
 ?>
 <div>
@@ -129,7 +129,7 @@
 	}
 	</style>
 	<script type='text/javascript'>
-	var product = <?php echo json_encode($product) ?>;
+	var product = <?php echo json_encode($page['product']) ?>;
 	
 	$(document).ready(function(){
 		initProductForm();
@@ -221,33 +221,33 @@
 
 		<div class='field'>
 			<label for='id' class='label'>Product code</label>
-			<input id='id' name='id' class='input' readonly='readonly' value='<?php echo $product['id'] ?>' />
+			<input id='id' name='id' class='input' readonly='readonly' value='<?php echo $page['product']['id'] ?>' />
 		</div>
 		<div class='field'>
 			<label for='name_en' class='label'>Product name</label>
-			<input id='name_en' name='name_en' class='input' value='<?php echo $product['name_en'] ?>' />
+			<input id='name_en' name='name_en' class='input' value='<?php echo $page['product']['name_en'] ?>' />
 			<p class='hint'>Product name</p>
 		</div>
 		<div class='field'>
 			<label for='name_zh' class='label'>Product name (Chinese)</label>
-			<input id='name_zh' name='name_zh' class='input' value='<?php echo $product['name_zh'] ?>' />
+			<input id='name_zh' name='name_zh' class='input' value='<?php echo $page['product']['name_zh'] ?>' />
 			<p class='hint'>Product name in Chinese</p>
 		</div>
 		<div class='field'>
 			<label for='priority' class='label'>Priority</label>
-			<input id='priority' name='priority' type='number' min='1' max='99' maxlength='2' class='short-input' value='<?php echo $product['priority'] ?>' />
-			<!--<input id='priority-range' type='range' min='1' max='99' class='input' value='<?php echo $product['priority'] ?>' />-->
+			<input id='priority' name='priority' type='number' min='1' max='99' maxlength='2' class='short-input' value='<?php echo $page['product']['priority'] ?>' />
+			<!--<input id='priority-range' type='range' min='1' max='99' class='input' value='<?php echo $page['product']['priority'] ?>' />-->
 			<p class='hint'>Display priority, the higher priority shows first.</p>
 		</div>
 		<div class='field'>
 			<label for='price' class='label'>Price</label>
-			HK$ <input id='price' name='price' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $product['price'] ?>' />
-			<!--<input id='price-range' type='range' min='0' max='9999' class='input' value='<?php echo $product['price'] ?>' />-->
+			HK$ <input id='price' name='price' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $page['product']['price'] ?>' />
+			<!--<input id='price-range' type='range' min='0' max='9999' class='input' value='<?php echo $page['product']['price'] ?>' />-->
 			<p class='hint'>Product price</p>
 		</div>
 		<div class='field'>
 			<label for='discount' class='label'>Discount</label>
-			HK$ <input id='discount' name='discount' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $product['discount'] ?>' /> 
+			HK$ <input id='discount' name='discount' type='number' min='0' max='9999' maxlength='5' class='short-input' value='<?php echo $page['product']['discount'] ?>' /> 
 			<input id='discount-range' type='number' min='0' max='100' class='short-input' value='100' /> %
 			<p class='hint'>Price after discount</p>
 		</div>
@@ -281,12 +281,12 @@
 		</div>
 		<div class='field'>
 			<label for='description_en' class='label'>Description</label>
-			<textarea id='description_en' name='description_en' class='input' ><?php echo $product['description_en'] ?></textarea>
+			<textarea id='description_en' name='description_en' class='input' ><?php echo $page['product']['description_en'] ?></textarea>
 			<p class='hint'>Product description</p>
 		</div>
 		<div class='field'>
 			<label for='description_zh' class='label'>Description (Chinese)</label>
-			<textarea id='description_zh' name='description_zh' class='input'><?php echo $product['description_zh'] ?></textarea>
+			<textarea id='description_zh' name='description_zh' class='input'><?php echo $page['product']['description_zh'] ?></textarea>
 			<p class='hint'>Product description in Chinese</p>
 		</div>
 		

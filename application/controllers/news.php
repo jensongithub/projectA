@@ -1,18 +1,14 @@
 <?php
-class News extends CI_Controller {
-	var $data =array();
-	public function __construct()	{
+class News extends MY_Controller {
+	public function __construct(){
 		parent::__construct();
 		$this->load->model('news_model');
-		$data = array('title'=>'News');
-		$data = array_merge($data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->set_page('title','News');
 	}
-	
 	
 	public function index(){
 		$lang = '_'.$this->lang->lang();
-		$this->load->view('templates/header', $data);
+		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/news'.$lang);
 		$this->load->view('templates/footer');
 	}

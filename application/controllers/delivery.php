@@ -1,14 +1,12 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Delivery extends CI_Controller {
-	var $data =array();
+class Delivery extends MY_Controller {
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
-		$this->data = array('title'=>'Delivery');
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->set_page('title', 'Delivery');
 	}
 
 	public function index(){		

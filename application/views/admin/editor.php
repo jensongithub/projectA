@@ -35,12 +35,12 @@
 </script>
 
 
-		<form method='POST' name='content' action="<?php echo site_url().$this->lang->lang();?>/admin/submit_content/<?php echo $view_name;?>">
-			<h2>Edit <?php echo $view_name; ?></h2>
+		<form method='POST' name='content' action="<?php echo site_url().$this->lang->lang();?>/admin/submit_content/<?php echo $page['view_name'];?>">
+			<h2>Edit <?php echo $page['view_name']; ?></h2>
 			<!-- Gets replaced with TinyMCE, remember HTML in a textarea should be encoded -->
 			<textarea id="elm1" name="elm1" rows="30" cols="110">
 			<?php
-				echo file_get_contents($filename);
+				echo file_get_contents($page['filename']);
 			?>
 			</textarea>
 			<br />

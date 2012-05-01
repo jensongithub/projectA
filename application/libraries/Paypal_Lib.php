@@ -270,7 +270,6 @@ class Paypal_Lib {
 		fclose($fp);  // close file
 	}
 
-
 	function dump() 
 	{
 		// Used for debugging, this function will output all the field/value pairs

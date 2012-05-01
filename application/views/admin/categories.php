@@ -5,14 +5,14 @@
 	<select id='categories-list' size='10'>
 		<?php 
 		$i = 1;
-		foreach( $categories as $cat ){ ?>
+		foreach( $page['categories'] as $cat ){ ?>
 		<option id='<?php echo "cat$i" ?>' value='<?php echo $cat['id'] ?>'><?php echo $cat['name'] ?></option>
 		<?php $i++; } ?>
 	</select>
 	
 	<script type='text/javascript'>
-		var action = '<?php echo $action ?>';
-		var cat = <?php echo $cat_json ?>;
+		var action = '<?php echo $page['action'] ?>';
+		var cat = <?php echo $page['cat_json'] ?>;
 		var holder;
 		
 		$(document).ready(function(){
