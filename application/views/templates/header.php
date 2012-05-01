@@ -6,6 +6,7 @@
 	<?php echo css('style.css'); ?>
 	<script type='text/javascript' src="/js/jquery.min.js"></script>
 	<script type='text/javascript' src='/js/cart.js'></script>
+	<script type='text/javascript' src="/js/common.js"></script>
 </head>
 <body>
 <div>

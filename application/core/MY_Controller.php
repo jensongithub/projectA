@@ -12,26 +12,16 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 		// get session data, load it the the global data for the whole page to use
 		
-		$session_data = $this->session->all_userdata();		
-		$this->data['user'] =array('is_login'=>FALSE);
-		$this->data['page']['lang'] = $this->lang->lang();
-		$this->data['user'] = isset($session_data['user']) ? array_merge($this->data['user'],$session_data['user']): array_merge($this->data['user'], $session_data);				
-		$this->data['page'] = isset($session_data['page']) ? array_merge($this->data['page'],$session_data['page']): array_merge($this->data['page'], $session_data);
+		$session_data = $this->session->all_userdata();
+		$this->data['user'] = array('is_login'=>FALSE);
+		$this->data['page'] = array('lang' =>$this->lang->lang());
+		$this->data['user'] = isset($session_data['user']) ? array_merge($this->data['user'],$session_data['user']): $this->data['user'];
+		$this->data['page'] = isset($session_data['page']) ? array_merge($this->data['page'],$session_data['page']): $this->data['page'];
 		$this->data['cart'] = isset($session_data['cart']) ? $session_data['cart']: array() ;
 		
 		$this->session->set_userdata($this->data);
 	}
-	
-	public function require_login($role_id){
-		if ($this->is_login()){
-			// do nothing
-			if ($this->data['user']['role_id'] != $role_id){
-				redirect(site_url().$this->lang->lang()."/login");
-			}
-		}else{
-			redirect(site_url().$this->lang->lang()."/login");
-		}
-	}
+
 	
 	public function set_page($attr, $value){
 		$this->data['page'][$attr] = $value;
@@ -60,5 +50,50 @@ class MY_Controller extends CI_Controller {
 	public function is_login(){
 		$session_data = $this->session->all_userdata();
 		return isset($session_data['user']['is_login']) && $session_data['user']['is_login']===TRUE;
-	}	
+	}
+
+	public function require_login($role_id=1,$next_page=""){
+		$this->load->helper( array('form') );
+		$this->load->library('form_validation');
+		
+		$is_valid = FALSE;
+		
+		$session_data = $this->session->all_userdata();
+		
+		if (isset($session_data['user']['is_login']) && $session_data['user']['is_login']===TRUE && 
+			($session_data['user']['role_id'] == $role_id || 
+			 $session_data['user']['role_id'] == ADMIN_ROLE)
+			)
+		{
+			$is_valid = TRUE;
+		}
+		
+		
+		if ($this->input->post('cli')==="js"){
+			$session_data['page']['next_page'] = $this->input->post('redirect');
+			$this->session->set_userdata($session_data);
+			
+			if ($is_valid){
+				echo <<<JS_SCRIPT
+				{"code":"200", "url":""}
+JS_SCRIPT;
+			}
+			else{
+				$url = site_url().$this->lang->lang()."/login";
+				echo <<<JS_SCRIPT
+					{"code":"-999", "url":"$url"}
+JS_SCRIPT;
+			}
+		}else{			
+			$session_data['page']['next_page'] = empty($next_page)? current_url(): $next_page;
+			$this->session->set_userdata($session_data);			
+
+			if ($is_valid){
+				if ($session_data['page']['next_page'] != current_url()) redirect($session_data['page']['next_page']);
+			}else{
+				redirect('login');
+			}
+		}
+	}
+	
 }

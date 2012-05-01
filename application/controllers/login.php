@@ -30,10 +30,16 @@ class Login extends MY_Controller {
 				if (empty($user['activate_date'])){
 					redirect("account/warning/activation");
 				}else{
-					redirect('index');
+					$page = $this->data = $this->session->userdata('page');
+					if (isset($page['next_page']) && !empty($page['next_page'])){
+						redirect($page['next_page']);
+					}else{
+						redirect('index');
+					}
 				}
 			}
 		}
 		$this->load->view('templates/footer');
 	}
+	
 }

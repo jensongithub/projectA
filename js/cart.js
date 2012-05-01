@@ -1,4 +1,3 @@
-
 var shop_cart = {
 	/*list:[],*/
 	total:0,
@@ -64,14 +63,12 @@ var shop_cart = {
 		shop_cart.remove($(this).attr("value"));
 	},
 	payment_gateway: function(){
-		
 		$.ajax({
 			type: "POST",
 			url: "http://lna.localhost/zh/checkout/payment/",
 			data: "pg="+$("input[name=pg]").val(),
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
-				//var obj = jQuery.parseJSON(jqXHR.responseText);
 				if (jqXHR.responseText!=""){
 					$('div[class=payment_gateway]').append(jqXHR.responseText);
 					$('form[name=order_form]').submit();
@@ -80,6 +77,5 @@ var shop_cart = {
 			error:function(xhr,err){ alert(err+"Please try again later or contact info@casimira.com.hk."); },
 			async:false
 		});
-		
 	}
 };

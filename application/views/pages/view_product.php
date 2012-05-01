@@ -198,15 +198,17 @@ function initCartOperations(){
 }
 
 function checkout(pg){
-	shop_cart.total = $("input[name=cl]").val();
-	
 	if (shop_cart.cur_item.size!='' || shop_cart.cur_item.color!='' || shop_cart.cur_item.quantity!=''){ 
 		$('a[class=add_item]').click();
 	}
-	
-	if(shop_cart.total>0 ){
-		$("input[name=pg]").val(pg);
-		shop_cart.payment_gateway();
+	var lobj = check_login();
+	if (lobj.code=="200"){
+		shop_cart.total = $("input[name=cl]").val();
+		
+		if(shop_cart.total>0 ){
+			$("input[name=pg]").val(pg);
+			shop_cart.payment_gateway();
+		}
 	}
 }
 

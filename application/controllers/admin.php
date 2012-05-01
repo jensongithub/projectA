@@ -6,8 +6,8 @@ class Admin extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
-		$this->load->model('user_model');
-		$this->require_login(1);
+		$this->load->model('user_model');		
+		$this->require_login(3);
 	}
 
 	public function index(){

@@ -15,22 +15,19 @@
  *
  */
 
-class checkout extends CI_Controller {
-	var $data=array();
+class checkout extends MY_Controller {
+	
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->library('email');
-		$this->data['cart']=array();
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = count($this->data['cart']);
 		$this->load->helper(array('form'));
 		$this->load->library('paypal_lib');
 	}
 	
 	public function index()	{
-		$this->data['title'] = 'Product Catalog';
+		$this->data['page']['title'] = 'Product Catalog';
 		$this->load->helper( array('form') );		
 		$this->load->library('form_validation');
 		
@@ -52,12 +49,10 @@ class checkout extends CI_Controller {
 	}
 
 	function payment(){
-		$this->load->model(array("order_model","common_model"));
+		$this->load->model(array("order_model"));
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');
-		
-		$this->common_model->require_login(3);
+		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');		
 		
 		if($this->form_validation->run() == TRUE) {
 			if (count($this->data['cart'])>0){
@@ -68,10 +63,10 @@ class checkout extends CI_Controller {
 					$this->alipay();
 				}
 			}else{
-				echo "";
+				echo "-999";
 			}
 		}else{
-			echo "";
+			echo "-999";
 		}
 	}
 	
@@ -108,8 +103,8 @@ class checkout extends CI_Controller {
 	}
 	
 	function alipay(){
-		$this->data['payment_gateway'] = 'alipay';
-		$this->data['payment_url'] = "alipay.com";//$this->paypal_lib->paypal_url
+		$this->data['payment']['gateway'] = 'alipay';
+		$this->data['payment']['payment_url'] = "alipay.com";//$this->paypal_lib->paypal_url
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view("pages/product", $this->data);
@@ -169,9 +164,11 @@ class checkout extends CI_Controller {
 				($this->input->post('payment_currency') == "USD")*/)
 			{
 				$this->order_model->update_paypal_order($uuid);
+				
 				$session_data = $this->data = $this->session->all_userdata();
+				// clear the cart data
 				$session_data['cart'] = array();
-				$this->data['cart'] = array();
+				$this->data['cart'] = array();				
 				$this->session->set_userdata($session_data);
 				
 				foreach ($this->input->post() as $key=>$value){
