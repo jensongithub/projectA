@@ -252,11 +252,11 @@ class Dept extends MY_Controller {
 			return;
 		}
 		
-		$this->data['page']['category'] = $this->data['c_path'][count($this->data['page']['c_path'])-1];
+		$this->data['page']['category'] = $this->data['page']['c_path'][count($this->data['page']['c_path'])-1];
 		$this->data['page']['path'] = base_url() . 'images/products/' . $this->data['page']['category']['path'];
 		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['name']);
 		$this->data['page']['dept'] = $dept;
-		$this->data['page']['cat'] = $this->data['category']['name'];
+		$this->data['page']['cat'] = $this->data['page']['category']['name'];
 
 		$this->data['page']['colors'] = $this->product_model->get_products_color($id);
 		$this->load->helper('json');

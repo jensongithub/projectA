@@ -258,8 +258,8 @@ background: white;
 					<ul>
 						<?php foreach( $page['sim_pro']as $prod) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), img("products/${category['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
-							<span><?php echo anchor( str_replace('&', '%26', "view/${category['c_path']}/${prod['id']}"), $prod['id'] ) ?></span><br />
+							<?php echo anchor(str_replace('&', '%26', "view/{$page['category']['c_path']}/${prod['id']}"), img("products/{$page['category']['path']}/${prod['id']}" . $prod['color'] . "-F_s.jpg") ); ?>
+							<span><?php echo anchor( str_replace('&', '%26', "view/{$page['category']['c_path']}/${prod['id']}"), $prod['id'] ) ?></span><br />
 							<?php if( $prod['discount'] < $prod['price'] ) { ?>
 								<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
 								<span style='color: #F00'>$<?php echo $prod['discount'] ?></span><br />
@@ -291,8 +291,8 @@ background: white;
 
 				<div class='product-title'>
 					<span class='product-name'><?php echo $page['id'] . $page['colors'][0]['color']; ?></span>
-					<span class='product-discount'> $<?php echo $product['discount'] ?> </span>
-					<span class='product-price'> $<?php echo $product['price'] ?> </span>
+					<span class='product-discount'> $<?php echo $page['product']['discount'] ?> </span>
+					<span class='product-price'> $<?php echo $page['product']['price'] ?> </span>
 				</div>
 
 				<div id='_product-description'>
@@ -307,7 +307,7 @@ background: white;
 						<?php
 						if( $page['product']['comp_list'] )
 							foreach( $page['product']['comp_list'] as $comp ){
-								echo "<p>" . $comp['percentage'] . " % " . $comp['name_' . $lang] . "</p>";
+								echo "<p>" . $comp['percentage'] . " % " . $comp['name_' . $page['lang']] . "</p>";
 							}
 						?>
 						</div>
