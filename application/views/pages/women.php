@@ -6,22 +6,23 @@
 			
 		<div id="cat-menu">
 			<div class=''>
-				<h4><?php echo $page['path'][0]['text_' . $page['lang']]; ?></h4>
+				<h4><?php if( isset($page['path'][0]) ) echo $page['path'][0]['text_' . $page['lang']]; ?></h4>
 				<?php
-				foreach( $page['menu'] as $item ){
-					$level = count( explode('.', $item['level']) ) - 1;
-					if( $level == 1 )
-						echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_' . $page['lang']]) . "</div>";
-					else if( $level > 1 )
-						echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_' . $page['lang']]) . "</div>";
-				}
+				if( isset($page['menu']) )
+					foreach( $page['menu'] as $item ){
+						$level = count( explode('.', $item['level']) ) - 1;
+						if( $level == 1 )
+							echo "<div class='menu-item level-$level'>+ " . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_' . $page['lang']]) . "</div>";
+						else if( $level > 1 )
+							echo "<div class='menu-item level-$level'>" . anchor('browse/' . str_replace('&', '%26', $item['c_path']), $item['text_' . $page['lang']]) . "</div>";
+					}
 				?>
 			</div>
 		</div>
 
 		<div id='cat-main' class="container">
-			<?php if( isset( $page['error'] ) ){ ?>
-			<div class='error'>
+		<?php if( isset( $page['error'] ) ){ ?>
+			<div class='error-panel'>
 				<?php echo $page['error']; ?>
 			</div>
 			<?php } ?>
@@ -56,9 +57,14 @@
 					<?php
 						echo anchor( str_replace('&', '%26', "view/${item['c_path']}/" . $item['id']), img( array( 'src' => "products/${item['i_path']}/${item['front_img']}", 'class' => 'thumbnail-img') ));
 					?>
-					<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />
-					<span><?php echo anchor( str_replace('&', '%26', "view/{$page['cat']}/" . $item['id']), $item['id'] ) ?></span><br />
-					<span>$<?php echo $item['price'] ?></span><br />
+					<!--<hr style='border-color: #501100; color: #501100; margin: 5px 10px' />-->
+					<span><?php echo anchor( str_replace('&', '%26', "view/${item['c_path']}/" . $item['id']), $item['id'] ) ?></span><br />
+					<?php if( $item['discount'] < $item['price'] ) { ?>
+						<span style='text-decoration: line-through;'> $<?php echo $item['price'] ?> </span><br />
+						<span class='discount-tag'>$<?php echo $item['discount'] ?></span><br />
+					<?php } else { ?>
+						<span>$<?php echo $item['price'] ?></span><br />
+					<?php } ?>
 				</div>
 				<?php
 					//}

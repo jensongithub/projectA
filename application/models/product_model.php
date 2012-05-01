@@ -11,15 +11,28 @@ class Product_model extends CI_Model {
 		return $result->result_array();
 	}
 	
-	public function get_product_by_id($id = ''){
+	/****************************************************************
+	* Get a product/ list of products by the given id
+	*
+	* Parameters:
+	* id				: a single product id / an array of product ids
+	*
+	* get_anyway	: set to FALSE if only want to get available products
+	*					  default = TRUE, only return the product no matter what the product status is
+	*/
+	public function get_product_by_id($id = '', $get_anyway = TRUE){
 		if (is_array($id)){
 			$id_list = implode("','", $id);
 			
-			$query = $this->db->select("*")->from("products")->where("products.id in ('$id_list')");
-			$result = $this->db->get();
+			$query = "SELECT * FROM products WHERE products.id in ('$id_list')";
+			if( ! $get_anyway )
+				$query .= " AND (products.status = 'A' OR products.status = 'S')";
+			$result = $this->db->query($query);
 			return $result->result_array();
 		}else{
 			$query = "SELECT * FROM products WHERE id = ?";
+			if( ! $get_anyway )
+				$query .= " AND (products.status = 'A' OR products.status = 'S')";
 			$result = $this->db->query($query, $id);
 			
 			return $result->row_array();
@@ -43,7 +56,7 @@ class Product_model extends CI_Model {
 		return $result->result_array();
 	}
 	
-	public function get_products_for_listing($dept = '', $cat = '', $sub = '', $offset = 0, $count = 20){
+	public function get_products_for_listing($dept = '', $cat = '', $sub = '', $offset = 0, $count = 20, &$product_count = 0){
 		$this->load->helper( 'file' );
 
 		$q_sub = "";
@@ -59,7 +72,7 @@ class Product_model extends CI_Model {
 		}
 		
 		// real
-		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text_en AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id ORDER BY priority DESC, created_time DESC";
+		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_sub.text_en AS c_path FROM products pro, product_category pc, categories cat, navigations nav, ($q_sub) q_sub WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND cat.id = nav.cat_id AND pc.cat_id = q_sub.id AND (pro.status = 'A' OR pro.status = 'S') ORDER BY priority DESC, created_time DESC, pro.id";
 		$result = $this->db->query($q_pro, array($dept, $cat, $sub) );
 		//echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
 		
@@ -131,6 +144,37 @@ class Product_model extends CI_Model {
 			print_r($product);
 		}
 		*/
+
+		return $ret;
+	}
+
+	public function get_products_for_sales_listing($dept_level = '', $offset = 0, $count = 20, &$product_count = 0){
+		$this->load->helper( 'file' );
+
+		$q_dept = "SELECT level, text_en FROM navigations nav WHERE nav.level LIKE '$dept_level%' ";
+		$q_cat = "SELECT nav.level, CONCAT(q_dept.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_dept.level, '.%') ";
+		$q_sub = "SELECT nav.cat_id AS id, CONCAT(q_cat.text_en, '/', nav.text_en) AS text_en FROM navigations nav, ($q_cat) q_cat WHERE nav.level LIKE CONCAT(q_cat.level, '.%') ";
+		
+		$q_fin = "($q_sub) UNION (SELECT cat.id, CONCAT(q_dept.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_dept) q_dept WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_dept.level, '.%') AND nav.level REGEXP '^[^\.+]\.[^\.+]$')";
+		
+		// real
+		$q_pro = "SELECT DISTINCT pro.id, pro.name_en, pro.name_zh, pro.front_img, pro.description_en, pro.description_zh, pro.priority, pro.price, pro.discount, pro.components, pro.status, pro.created_time, pc.cat_id, cat.path AS i_path, q_fin.text_en AS c_path FROM products pro, product_category pc, categories cat, ($q_fin) q_fin WHERE pro.id = pc.pro_id AND pc.cat_id = cat.id AND pc.cat_id = q_fin.id AND pro.status = 'S' ORDER BY priority DESC, created_time DESC, pro.id";
+		$result = $this->db->query($q_pro, $dept_level . '%' );
+		//echo "<p><br/>" . $this->db->last_query() . "<br/></p>";
+		
+		$product_count = $result->num_rows();
+
+		//echo "Product count = $product_count";
+		// if no result, return empty array
+		if( $product_count <= 0 )
+			return array();
+		
+		// if has at least 1 record, post-process
+		$products = $result->result_array();
+		$ret = array();
+		for( $i = $offset; count($ret) < $count && $i < $product_count; $i++ ){
+			$ret[] = $products[$i];
+		}
 
 		return $ret;
 	}

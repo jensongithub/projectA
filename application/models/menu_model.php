@@ -20,7 +20,7 @@ class Menu_model extends CI_Model {
 		$this->db->where("level like '${level}%'");
 		$query = $this->db->get('navigations');
 		$result = $query->result_array();
-		
+
 		$temp = array();
 		$temp[$result[0]['level']] = $result[0]['text_en'];
 		$result[0]['c_path'] = $result[0]['text_en'];

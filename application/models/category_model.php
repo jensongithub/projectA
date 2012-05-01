@@ -66,7 +66,7 @@ class Category_model extends CI_Model {
 			return $path;
 
 		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text_en LIKE ?";
-		$result = $this->db->query($query, array($path[0]['level'] . '%', $cat) );
+		$result = $this->db->query($query, array($path[0]['level'] . '.%', $cat) );
 		if( $result->num_rows() <= 0 )
 			return FALSE;
 		
@@ -77,7 +77,7 @@ class Category_model extends CI_Model {
 			return $path;
 
 		$query = "SELECT * FROM categories cat, navigations nav WHERE cat.id = nav.cat_id AND nav.level LIKE ? AND text_en LIKE ?";
-		$result = $this->db->query($query, array($path[1]['level'] . '%', $sub) );
+		$result = $this->db->query($query, array($path[1]['level'] . '.%', $sub) );
 		if( $result->num_rows() <= 0 )
 			return FALSE;
 		
