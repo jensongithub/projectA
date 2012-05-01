@@ -169,68 +169,81 @@ class Paypal_Lib {
 		return $str;
 	}
 	
-	function validate_ipn()
-	{
-		// parse the paypal URL
-		$url_parsed = parse_url($this->paypal_url);  
-
-		// generate the post string from the _POST vars aswell as load the
-		// _POST vars into an arry so we can play with them from the calling
-		// script.
-		$post_string = '';
-		if ($this->CI->input->post())
-		{
-			foreach ($this->CI->input->post() as $field=>$value)
-			{ 
-				$this->ipn_data[$field] = $value;
-				$post_string .= $field.'='.urlencode(stripslashes($value)).'&';
-			}
-		}
-		
-		$post_string.="cmd=_notify-validate"; // append ipn command
-
-		// open the connection to paypal
-		$fp = fsockopen($url_parsed['host'],"80",$err_num,$err_str,30); 
-		if(!$fp)
-		{
-			// could not open the connection.  If loggin is on, the error message
-			// will be in the log.
-			$this->last_error = "fsockopen error no. $errnum: $errstr";
-			$this->log_ipn_results(false);		 
-			return false;
-		} 
+	public function validate_ipn(){
+		// read the post from paypal and add 'cmd'
+		$is_valid = FALSE;
+	
+		$test=TRUE;
+		// Choose url
+		if($test)
+			$url = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 		else
-		{ 
-			// Post the data back to paypal
-			fputs($fp, "POST $url_parsed[path] HTTP/1.1\r\n"); 
-			fputs($fp, "Host: $url_parsed[host]\r\n"); 
-			fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n"); 
-			fputs($fp, "Content-length: ".strlen($post_string)."\r\n"); 
-			fputs($fp, "Connection: close\r\n\r\n"); 
-			fputs($fp, $post_string . "\r\n\r\n"); 
+			$url = 'https://www.paypal.com/cgi-bin/webscr';
+	
+		// Set up request to PayPal
+		$request = curl_init();
+		curl_setopt_array($request, array
+		(
+			CURLOPT_URL => $url,
+			CURLOPT_POST => TRUE,
+			CURLOPT_POSTFIELDS => http_build_query(array('cmd' => '_notify-validate') + $this->input->post()),
+			CURLOPT_RETURNTRANSFER => TRUE,
+			CURLOPT_HEADER => FALSE
+			/*,
+			CURLOPT_SSL_VERIFYPEER => TRUE,
+			CURLOPT_CAINFO => 'cacert.pem',
+			*/
+		));
 
-			// loop through the response from the server and append to variable
-			while(!feof($fp))
-				$this->ipn_response .= fgets($fp, 1024); 
+		// Execute request and get response and status code
+		$response = curl_exec($request);
+		$status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
-			fclose($fp); // close connection
-		}
+		// Close connection
+		curl_close($request);
 
-		if (eregi("VERIFIED",$this->ipn_response))
+		if($status == 200 && $response == 'VERIFIED')
 		{
-			// Valid IPN transaction.
-			$this->log_ipn_results(true);
-			return true;		 
-		} 
-		else 
-		{
-			// Invalid IPN transaction.  Check the log for details.
-			$this->last_error = 'IPN Validation Failed.';
-			$this->log_ipn_results(false);	
-			return false;
+			
+			$this->log_results("OKOK".$res);
+			$is_valid = TRUE;
 		}
+		else
+		{
+			$this->log_results("FAIL".$res);
+		}		
+	    
+		return $is_valid;
 	}
+	
+	
+	function log_results($data) 
+	{
+		if (!$this->ipn_log) return;  // is logging turned off?
 
+		/*
+		// Timestamp
+		$text = '['.date('m/d/Y g:i A').'] - '; 
+
+		// Success or failure being logged?
+		if ($success) $text .= "SUCCESS!\n";
+		else $text .= 'FAIL: '.$this->last_error."\n";
+
+		// Log the POST variables
+		$text .= "IPN POST Vars from Paypal:\n";
+		foreach ($this->ipn_data as $key=>$value)
+			$text .= "$key=$value, ";
+
+		// Log the response from the paypal server
+		$text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
+
+		// Write to log*/
+		$fp=fopen($this->ipn_log_file,'a');
+		fwrite($fp, $data . "\n\n"); 
+
+		fclose($fp);  // close file
+	}
+	
 	function log_ipn_results($success) 
 	{
 		if (!$this->ipn_log) return;  // is logging turned off?
@@ -256,7 +269,6 @@ class Paypal_Lib {
 
 		fclose($fp);  // close file
 	}
-
 
 	function dump() 
 	{

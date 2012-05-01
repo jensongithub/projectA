@@ -1,22 +1,18 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Admin extends CI_Controller {
-	var $data;
+class Admin extends MY_Controller {
+	
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
 		$this->load->model('user_model');
-		$this->data = array();
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
-		
-		$this->user_model->require_login(1);
+		$this->require_login(1);
 	}
 
 	public function index(){
 		// require_login();
-		$this->data['title'] = 'Administration';
+		$this->set_page('title','Administration');
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -29,8 +25,8 @@ class Admin extends CI_Controller {
 		
 		$this->load->model('category_model');
 		
-		$this->data['title'] = 'Edit categories';
-		$this->data['action'] = '';
+		$this->data['page']['title'] = 'Edit categories';
+		$this->data['page']['action'] = '';
 		
 		$this->load->library('form_validation');
 		
@@ -42,7 +38,7 @@ class Admin extends CI_Controller {
 				$this->category_model->add_category( $this->input->post('catname-a'), $this->input->post('path-a') );
 			}
 			else{
-				$this->data['action'] = 'add';
+				$this->data['page']['action'] = 'add';
 			}
 		}
 		else if( $this->input->post('action') == 'edit' ){
@@ -57,17 +53,17 @@ class Admin extends CI_Controller {
 				$this->category_model->edit_category( $this->input->post('catid'), $columns);
 			}
 			else{
-				$this->data['action'] = 'edit';
+				$this->data['page']['action'] = 'edit';
 			}
 		}
 		
-		$this->data['categories'] = $this->category_model->get_categories();
+		$this->data['page']['categories'] = $this->category_model->get_categories();
 		$i = 1;
-		foreach( $this->data['categories'] as $category ){
-			$this->data['cat_json']['cat' . $i] = $category;
+		foreach( $this->data['page']['categories'] as $category ){
+			$this->data['page']['cat_json']['cat' . $i] = $category;
 			$i++;
 		}
-		$this->data['cat_json'] = json_encode($this->data['cat_json']);
+		$this->data['page']['cat_json'] = json_encode($this->data['page']['cat_json']);
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -81,18 +77,18 @@ class Admin extends CI_Controller {
 		$this->load->model('category_model');
 		$this->load->model('menu_model');
 		
-		$this->data['title'] = 'Edit Menu';
+		$this->data['page']['title'] = 'Edit Menu';
 		$this->load->library('form_validation');
 		$this->load->helper('json');
 		
-		$this->data['menu'] = $this->menu_model->get_menu();
+		$this->data['page']['menu'] = $this->menu_model->get_menu();
 		$i = 1;
-		foreach( $this->data['menu'] as $menu ){
-			$this->data['menu_json']['mi' . $i] = $menu;
+		foreach( $this->data['page']['menu'] as $menu ){
+			$this->data['page']['menu_json']['mi' . $i] = $menu;
 			$i++;
 		}
-		$this->data['menu_json'] = json_encode($this->data['menu_json']);
-		$this->data['categories'] = $this->category_model->get_categories();
+		$this->data['page']['menu_json'] = json_encode($this->data['page']['menu_json']);
+		$this->data['page']['categories'] = $this->category_model->get_categories();
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -115,20 +111,20 @@ class Admin extends CI_Controller {
 			$cid = $this->input->post('cid');
 			$pids = $this->input->post('pid');
 			$total = count($pids);
-			$this->data['success_count'] = 0;
-			$this->data['fail_count'] = 0;
+			$this->data['page']['success_count'] = 0;
+			$this->data['page']['fail_count'] = 0;
 			foreach($pids as $pid){
 				if( $this->product_model->move_product_to_cat($pid, $cid) === TRUE)
-					$this->data['success_count']++;
+					$this->data['page']['success_count']++;
 				else
-					$this->data['fail_count']++;
+					$this->data['page']['fail_count']++;
 			}
 		}
 		
-		$this->data['products'] = $this->product_model->get_products();
-		$this->data['categories'] = $this->category_model->get_categories();
+		$this->data['page']['products'] = $this->product_model->get_products();
+		$this->data['page']['categories'] = $this->category_model->get_categories();
 		
-		$this->data['title'] = 'Edit products';
+		$this->data['page']['title'] = 'Edit products';
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -146,7 +142,7 @@ class Admin extends CI_Controller {
 		$this->load->library('upload', $config);
 	
 		if ( ! $this->upload->do_upload()) { // upload failed
-			$this->data['error'] = $this->upload->display_errors();
+			$this->data['page']['error'] = $this->upload->display_errors();
 		}
 		else {
 			$this->load->library('Excel_reader_2_21');
@@ -162,8 +158,8 @@ class Admin extends CI_Controller {
 		if( $this->input->post('action') == 'edit' )
 			$this->product_model->edit_product( $this->input->post() );
 
-		$this->data['product'] = $this->product_model->get_product_by_id($id);
-		$this->data['title'] = "$id | Edit products";
+		$this->data['page']['product'] = $this->product_model->get_product_by_id($id);
+		$this->data['page']['title'] = "$id | Edit products";
 
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -183,9 +179,9 @@ class Admin extends CI_Controller {
 	public function edit_content($name){
 		// about, company, location, sitemap contact can be editor here
 		$lang = '_'.$this->lang->lang();
-		$this->data['title']=$name;
-		$this->data['view_name']=$name;
-		$this->data['filename']='application/views/pages/'.$name.$lang.'.php';
+		$this->data['page']['title']=$name;
+		$this->data['page']['view_name']=$name;
+		$this->data['page']['filename']='application/views/pages/'.$name.$lang.'.php';
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/editor', $this->data);
@@ -195,9 +191,9 @@ class Admin extends CI_Controller {
 	public function submit_content($name){
 		$this->load->helper(array('html','form','url'));
 		$lang = '_'.$this->lang->lang();
-		$this->data['filename']='application/views/pages/'.$name.$lang.'.php';		
-		if(file_exists($this->data['filename'])===TRUE){
-			file_put_contents($this->data['filename'], $this->input->post('elm1'));
+		$this->data['page']['filename']='application/views/pages/'.$name.$lang.'.php';		
+		if(file_exists($this->data['page']['filename'])===TRUE){
+			file_put_contents($this->data['page']['filename'], $this->input->post('elm1'));
 		}
 		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}

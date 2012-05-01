@@ -50,7 +50,7 @@
 					}
 				</style>
 				<!--?php echo _('Username'); ?-->
-				<?php if (isset($success))
+				<?php if (isset($page['success']))
 					{ echo _('Update Successful'); 
 				}?>
 				<div class='section-header'><?php echo _('Update Profile'); ?></div>
@@ -61,15 +61,15 @@
 				<table style='width:100%;'>
 					<tr>
 						<td><label for='email' class='form-label'><?php echo _('Email'); ?></label></td>
-						<td><?php echo set_value('email',$email); ?></td>
+						<td><?php echo set_value('email',$user['email']); ?></td>
 					</tr>
 					<tr>
 						<td><label for='firstname' class='form-label'><?php echo _('First Name'); ?></label></td>
-						<td><?php echo set_value('firstname',$firstname); ?></td>
+						<td><?php echo set_value('firstname',$user['firstname']); ?></td>
 					</tr>
 					<tr>
 						<td><label for='lastname' class='form-label'><?php echo _('Last Name'); ?></label></td>
-						<td><?php echo set_value('lastname',$lastname); ?></td>
+						<td><?php echo set_value('lastname',$user['lastname']); ?></td>
 					</tr>
 					<tr>
 						<td><label for='pwd' class='form-label'><?php echo _('Password'); ?></label></td>
@@ -81,12 +81,12 @@
 					</tr>
 					<tr>
 						<td><label for='phone' class='form-label'><?php echo _('Phone'); ?></label></td>
-						<td><input id='phone' name='phone' value='<?php echo set_value('phone',$phone); ?>' /></td>
+						<td><input id='phone' name='phone' value='<?php echo set_value('phone',$user['phone']); ?>' /></td>
 					</tr>
 					<tr>
 						<td><label for='' class='form-label'><?php echo _('Gender'); ?></label></td>
 						<td>
-							<?php echo set_value('gender',$gender); ?>
+							<?php echo set_value('gender',$user['gender']); ?>
 						</td>
 					</tr>					
 					<tr>

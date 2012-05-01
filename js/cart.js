@@ -45,7 +45,7 @@ var shop_cart = {
 		});
 	},
 	cur_item:[],
-	add_item: function(){		
+	add_item: function(){
 		shop_cart.cur_item.id=$(this).attr('value');
 		shop_cart.cur_item.quantity=$('input[class=item_quantity]').val();
 		if (shop_cart.cur_item.size==''){ 
@@ -64,6 +64,7 @@ var shop_cart = {
 		shop_cart.remove($(this).attr("value"));
 	},
 	payment_gateway: function(){
+		
 		$.ajax({
 			type: "POST",
 			url: "http://lna.localhost/zh/checkout/payment/",
@@ -71,11 +72,14 @@ var shop_cart = {
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				//var obj = jQuery.parseJSON(jqXHR.responseText);
-				$('div[class=payment_gateway]').append(jqXHR.responseText);
-				$('form[name=order_form]').submit();
+				if (jqXHR.responseText!=""){
+					$('div[class=payment_gateway]').append(jqXHR.responseText);
+					$('form[name=order_form]').submit();
+				}
 			},
-			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
+			error:function(xhr,err){ alert(err+"Please try again later or contact info@casimira.com.hk."); },
 			async:false
 		});
+		
 	}
 };

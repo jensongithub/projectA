@@ -1,8 +1,10 @@
 <?php
 class User_model extends CI_Model {
-
+	var $CI;
 	public function __construct()	{
+		parent::__construct();
 		$this->load->database();
+		$this->CI =& get_instance();
 	}
 	
 	/********************************
@@ -26,13 +28,7 @@ class User_model extends CI_Model {
 		}
 	}
 	
-	private function _generate_activation_code(){
-		$arr = str_split('ABCDEFGHI012345JKLMNOP0QRSTUVWXYZ6789'); // get all the characters into an array
-		shuffle($arr); // randomize the array
-		$arr = array_slice($arr, 0, 8); // get the first eight (random) characters out
-		$str = implode('', $arr); // smush them back into a string
-		return $str;
-	}
+
 	
 	
 	/********************************
@@ -48,12 +44,13 @@ class User_model extends CI_Model {
 	 *				return false if error occurs
 	 */
 	public function insert_user($user = FALSE) {
+		$this->CI->load->model('common_model');
 		if ( $user === FALSE ) {
 			$user['firstname'] = $this->input->post('firstname');
 			$user['lastname'] = $this->input->post('lastname');
 			$user['email'] = $this->input->post('email');
 			$user['pwd'] = md5($this->input->post('pwd'));
-			$user['activate_code'] = $this->_generate_activation_code();
+			$user['activate_code'] = $this->common_model->_generate_random_string();
 			$user['phone'] = $this->input->post('phone');
 			$user['gender'] = $this->input->post('gender');
 			
@@ -116,7 +113,9 @@ class User_model extends CI_Model {
 		if ($query->num_rows()===1){
 			if ($user['pwd']===$login['pwd']){
 				$user['is_login']=TRUE;
-				$this->session->set_userdata($user);
+				$session_data = $this->session->all_userdata();
+				$session_data['user'] = $user;
+				$this->session->set_userdata($session_data);
 				return $user;
 			}
 			return FALSE;
@@ -142,7 +141,9 @@ class User_model extends CI_Model {
 		if ($query->num_rows()===1){
 			if ($user['activate_code'] === $activate_code ) {
 				$user['is_login']=TRUE;
-				$this->session->set_userdata($user);
+				$session_data = $this->session->all_userdata();
+				$session_data['user'] = $user;
+				$this->session->set_userdata($session_data);
 				return $user;
 			}
 		}else{
@@ -173,7 +174,9 @@ class User_model extends CI_Model {
 												));
 				
 				$user['is_login'] = TRUE;
-				$this->session->set_userdata($user);
+				$session_data = $this->session->all_userdata();
+				$session_data['user'] = $user;
+				$this->session->set_userdata($session_data);
 				redirect('index');
 				$is_valid = TRUE;
 				//return $user;
@@ -190,25 +193,15 @@ class User_model extends CI_Model {
 	 * User click the link provided in the email and call this function.
 	 */
 	public function reset_password_by_email($email){
+		$this->CI->load->model("common_model");
+		
 		$user['pwd'] = NULL;
-		$user['activate_code'] = $this->_generate_activation_code();
+		$user['activate_code'] = $this->common_model->_generate_random_string();
 		$user['modified_time'] = date( 'Y-m-d H:i:s', time() );
 		$this->db->where('email', $email);
 		$this->db->update('users', $user);
 		
 		return $user['activate_code'];
-	}
-	
-	public function require_login($role_id){
-		$this->data = $this->session->all_userdata();
-		if (isset($this->data['is_login']) && $this->data['is_login']===TRUE){
-			// do nothing
-			if ($this->data['role_id'] != $role_id){
-				redirect(site_url().$this->lang->lang()."/login");
-			}
-		}else{
-			redirect(site_url().$this->lang->lang()."/login");
-		}
 	}
 }
 

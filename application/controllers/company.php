@@ -1,19 +1,16 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Company extends CI_Controller {
-	var $data = array();
+class Company extends MY_Controller {
 	public function __construct(){
 		parent::__construct();
-		$this->load->helper('html');
-		$this->data = array_merge($this->data, $this->session->all_userdata());
+		$this->load->helper('html');	
 	}
 
 	public function index(){
-		$this->data = array('title'=>'Company');
-		$lang = '_'.$this->lang->lang();
+		$this->set_page('title','Company');
+		$lang = '_'.$this->lang->lang();		
 		
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/company'.$lang);
 		$this->load->view('templates/footer');

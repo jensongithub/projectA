@@ -2,9 +2,9 @@
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8">
-	<title><?php echo sprintf("Casimira - %s", _($title)); ?></title>
+	<title><?php echo sprintf("Casimira - %s", _($page['title'])); ?></title>
 	<?php echo css('style.css'); ?>
-	<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type='text/javascript' src="/js/jquery.min.js"></script>
 </head>
 <body>
 <div id='header'>
@@ -16,13 +16,13 @@
 	<div class='menu_l1'>
 		<ul>
 
-			<?php echo ($this->common_model->is_login()===FALSE) ? '': '<li>Hello, '.$firstname. '</li>';?>
+			<?php echo ($user['is_login']===FALSE) ? '': '<li>Hello, '.$user['firstname']. '</li>';?>
 			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
 			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<li><a href='cart'><img class='fb_logo' src='/images/cart_s.png' /></a></li>
-			<li><?php echo ($this->common_model->is_login()===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?>
+			<li><?php echo ($user['is_login']===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?>
 		</ul>
 	</div>
 	<div class='menu_l2'>

@@ -10,7 +10,7 @@
 	<div id='menu-preview'></div>
 	
 	<script type='text/javascript'>
-		var menu = <?php echo $menu_json ?>;
+		var menu = <?php echo $page['menu_json']?>;
 		var holder;
 		
 		function createMenuList(){

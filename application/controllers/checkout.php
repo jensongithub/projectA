@@ -22,8 +22,9 @@ class checkout extends CI_Controller {
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->library('email');
+		$this->data['cart']=array();
 		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->data['cart_counter'] = count($this->data['cart']);
 		$this->load->helper(array('form'));
 		$this->load->library('paypal_lib');
 	}
@@ -51,15 +52,23 @@ class checkout extends CI_Controller {
 	}
 
 	function payment(){
+		$this->load->model(array("order_model","common_model"));
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');
 		
+		$this->common_model->require_login(3);
+		
 		if($this->form_validation->run() == TRUE) {
-			if ($this->input->post("pg")==="0"){
-				$this->paypal();
-			}else if ($this->input->post("pg")==="1"){
-				$this->alipay();
+			if (count($this->data['cart'])>0){
+				if ($this->input->post("pg")==="0"){
+					// insert to database order					
+					$this->paypal();
+				}else if ($this->input->post("pg")==="1"){
+					$this->alipay();
+				}
+			}else{
+				echo "";
 			}
 		}else{
 			echo "";
@@ -67,13 +76,18 @@ class checkout extends CI_Controller {
 	}
 	
 	function paypal(){
-		$this->data['payment_gateway'] = 'paypal';
-		$this->data['payment_url'] = $this->paypal_lib->paypal_url;
+		$this->data['payment']=array();
+		
+		$this->data['payment']['gateway'] = 'paypal';
+		$this->data['payment']['paypal_id'] = 'jendro_1334808935_biz@gmail.com';
+		$this->data['payment']['payment_url'] = $this->paypal_lib->paypal_url;
+		
 		
 		$this->load->model('product_model');
-		//$cart_items = array(array("name"=>"basketball", "id"=>"0011", "amount"=>600, "qty"=>3),array("name"=>"football", "id"=>"0021", "amount"=>1200, "qty"=>1));
+		$this->load->model("order_model");
+
 		$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
-		
+
 		foreach($this->data['cart'] as $key=>$each_item){
 			foreach ($product_details as $each_product){
 				if ($each_product['id'] === $each_item['id']){
@@ -82,44 +96,15 @@ class checkout extends CI_Controller {
 				}
 			}
 		}
+		
+		$order_id = $this->order_model->insert_checkout_item($this->data['cart']);
+		
+		$this->data['payment']['success_url']= site_url().$this->lang->lang()."/checkout/success";
+		$this->data['payment']['cancel_url']= site_url().$this->lang->lang()."/checkout/cancel/$order_id";
+		$this->data['payment']['notify_url']= site_url().$this->lang->lang()."/checkout/paypal_ipn/$order_id";
+				
 		echo $this->load->view("pages/product", $this->data, true);
-		/*
-		$fields = array(
-			'cmd'=>urlencode("_cart"),
-			'upload'=>urlencode("1"),
-			'business'=>urlencode("Casimira"),
-			'currency_code'=>urlencode("Casimira"),
-			'lc'=>urlencode("US"),
-			'rm'=>urlencode("2"),
-			'shipping_1'=>urlencode("Shipping address 111"),
-			'return'=>urlencode(site_url().$this->lang->lang()."/cart-details"),
-			'cancel_return'=>urlencode(site_url().$this->lang->lang()."/cancel_return"),
-			'notify_url'=>urlencode(site_url().$this->lang->lang()."/paypal/paypal_ipn")
-		);		
 		
-		foreach($this->data['cart'] as $key=>$each_item){
-			$fields["item_name_".$key] = $each_item['id'].$each_item['color'].$each_item['size'];
-			$fields["item_number_".$key] = $each_item['id'];
-			$fields["amount"] = $each_item['price']-$each_item['discount'];
-			$fields["quantity_".$key] = $each_item['quantity'];
-		}
-		
-		//url-ify the data for the POST
-		$fields_string="";
-		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-		rtrim($fields_string,'&');
-
-		//open connection
-		$ch = curl_init();
-
-		//set the url, number of POST vars, POST data
-		curl_setopt($ch,CURLOPT_URL, $this->data['payment_url']);
-		curl_setopt($ch,CURLOPT_POST,count($fields));
-		curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-
-		//execute post
-		$result = curl_exec($ch);
-		*/
 	}
 	
 	function alipay(){
@@ -131,20 +116,7 @@ class checkout extends CI_Controller {
 		$this->load->view('templates/footer');
 	}
 
-	function auto_form()
-	{
-		$this->paypal_lib->add_field('business', 'PAYPAL@EMAIL.COM');
-	    $this->paypal_lib->add_field('return', site_url('paypal/success'));
-	    $this->paypal_lib->add_field('cancel_return', site_url('paypal/cancel'));
-	    $this->paypal_lib->add_field('notify_url', site_url('paypal/ipn')); // <-- IPN url
-	    $this->paypal_lib->add_field('custom', '1234567890'); // <-- Verify return
-
-	    $this->paypal_lib->add_field('item_name', 'Paypal Test Transaction');
-	    $this->paypal_lib->add_field('item_number', '6941');
-	    $this->paypal_lib->add_field('amount', '197');
-
-	    $this->paypal_lib->paypal_auto_form();
-	}
+	
 
 	function cancel()
 	{
@@ -166,10 +138,10 @@ class checkout extends CI_Controller {
 		// below).
 
 		$this->data['pp_info'] = $this->input->post();
-		$this->load->view('paypal/success', $this->data);
+		$this->load->view('cart/success', $this->data);
 	}
 	
-	function paypal_ipn()
+	function paypal_ipn($uuid)
 	{
 		// Payment has been received and IPN is verified.  This is where you
 		// update your database to activate or process the order, or setup
@@ -182,24 +154,44 @@ class checkout extends CI_Controller {
 		// in the ipn_data() array.
  
 		// For this example, we'll just email ourselves ALL the data.
-		$to    = 'YOUR@EMAIL.COM';    //  your email
-
+		$to    = 'davidrobinson91@hotmail.com';    //  your email
+		
 		if ($this->paypal_lib->validate_ipn()) 
 		{
+			//$this->paypal_lib->ipn_data['payer_email'] = $to;
 			$body  = 'An instant payment notification was successfully received from ';
-			$body .= $this->paypal_lib->ipn_data['payer_email'] . ' on '.date('m/d/Y') . ' at ' . date('g:i A') . "\n\n";
+			$body .= $this->input->post('payer_email') . ' on '.date('m/d/Y') . ' at ' . date('g:i A') . "\n\n";
 			$body .= " Details:\n";
-
-			foreach ($this->paypal_lib->ipn_data as $key=>$value)
-				$body .= "\n$key: $value";
-	
+			
+			if (($this->input->post('payment_status') == 'Completed') /*&&
+				($this->input->post('receiver_email') == $our_email) &&
+				($this->input->post('payment_amount') == $amount_they_should_have_paid ) &&
+				($this->input->post('payment_currency') == "USD")*/)
+			{
+				$this->order_model->update_paypal_order($uuid);
+				$session_data = $this->data = $this->session->all_userdata();
+				$session_data['cart'] = array();
+				$this->data['cart'] = array();
+				$this->session->set_userdata($session_data);
+				
+				foreach ($this->input->post() as $key=>$value){
+					$body .= "\n$key: $value";
+				}
+				$subject = "Live-VALID IPN";
+			}
+			
+			
+			$this->order_model->insert_paypal_order($this->input->post());
+			
 			// load email lib and email results
-			$this->load->library('email');
+			$this->load->library('email');						
 			$this->email->to($to);
 			$this->email->from($this->paypal_lib->ipn_data['payer_email'], $this->paypal_lib->ipn_data['payer_name']);
-			$this->email->subject('CI paypal_lib IPN (Received Payment)');
+			$this->email->subject($subject);
 			$this->email->message($body);	
 			$this->email->send();
+		}else{
+			$this->paypal_lib->log_results("ERRER");
 		}
 	}
 }

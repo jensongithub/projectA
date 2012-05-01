@@ -1,14 +1,11 @@
 <?php
 if (! defined("BASEPATH")) exit("No direct script access allowed");
 
-class Dept extends CI_Controller {
-	var $data;
+class Dept extends MY_Controller {
+	
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('html');
-		$this->data=array();
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
 	}
 
 	public function index(){
@@ -20,8 +17,8 @@ class Dept extends CI_Controller {
 		// $this->lang->load('women');
 		//$this->lang->lang();
 
-		$this->data['title'] = ucfirst('women');
-		$this->data['cat'] = ucfirst($cat);
+		$this->set_page('title', ucfirst('women'));
+		$this->set_page('cat',ucfirst($cat));		
 
 		switch($cat){
 			case 'cardigans':
@@ -70,8 +67,8 @@ class Dept extends CI_Controller {
 		// $this->lang->load('women');
 		//$this->lang->lang();
 
-		$this->data['title'] = ucfirst('women');
-		$this->data['cat'] = ucfirst($cat);
+		$this->set_page('title', ucfirst('men'));
+		$this->set_page('cat',ucfirst($cat));		
 
 		switch($cat){
 			case 'cardigans':
@@ -120,11 +117,10 @@ class Dept extends CI_Controller {
 		$this->load->model( array('category_model', 'menu_model') );
 		$this->load->helper( array('json', 'directory') );
 		
-		$this->data['title'] = 'WOMEN';
-		$this->data['cat'] = $this->category_model->get_categories($cat);
-		
-		$this->data['menu'] = $this->menu_model->get_submenu('1');
-		$this->data['products'] = array();
+		$this->set_page('title', ucfirst('Ladies'));
+		$this->data['page']['cat']=$this->category_model->get_categories($cat);
+		$this->data['page']['menu'] = $this->menu_model->get_submenu('1');
+		$this->data['page']['products'] = array();
 		$products_set = array();
 		
 		$map = directory_map('images/products/' . $this->data['cat']['name'], 2);
@@ -134,14 +130,14 @@ class Dept extends CI_Controller {
 					foreach($item as $key2 => $floor){
 						$str = preg_split( '/[\s-]+/', $floor );
 						if( ! in_array( $str[0], $products_set ) && strpos( $floor, '-size.jpg' ) === FALSE ){
-							$this->data['products'][] = array( 'name' => $str[0], 'cat' => $key1 );
+							$this->data['page']['products'][] = array( 'name' => $str[0], 'cat' => $key1 );
 							$products_set[] = $str[0];
 						}
 					}
 				}else{
 					$str = preg_split( '/[\s-]+/', $item );
 					if( ! in_array( $str[0], $products_set ) && strpos( $item, '-size.jpg' ) === FALSE ){
-						$this->data['products'][] = array( 'name' => $str[0] );
+						$this->data['page']['products'][] = array( 'name' => $str[0] );
 						$products_set[] = $str[0];
 					}
 				}
@@ -157,7 +153,7 @@ class Dept extends CI_Controller {
 		$this->load->model( array('category_model', 'menu_model', 'product_model') );
 		$this->load->helper( 'url' );
 
-		$this->data['lang'] = $this->lang->lang();
+		$this->data['page']['lang'] = $this->lang->lang();
 
 		$dept = urldecode($dept);
 		$cat = urldecode($cat);
@@ -168,67 +164,68 @@ class Dept extends CI_Controller {
 		$sub = urldecode($sub);
 		$url = preg_replace( '/(\d+)$/', "", current_url());
 		$url = preg_replace( '/\/$/', "", $url) . '/';
-		$this->data['url'] = $url;
+		$this->data['page']['url'] = $url;
 		$offset = 0;
 		$count = 16;
 		
-		$this->data['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
+		$this->data['page']['path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 
-		if( isset($this->data['path'][0]) )
-			$this->data['menu'] = $this->menu_model->get_submenu($this->data['path'][0]['level']);
-
-
-		if( $this->data['path'] == FALSE ){
-			$this->data['error'] = _("No such category") . ": $dept/$cat/$sub";
-			$this->data['title'] = $this->data['error'];
-			$this->data['path'] = array();
+		if( isset($this->data['page']['path'][0]) )
+			$this->data['page']['menu'] = $this->menu_model->get_submenu($this->data['page']['path'][0]['level']);
+		
+		// if category is not SALES
+		if( $this->data['page']['path'] == FALSE ){
+			$this->data['page']['error'] = "No such category: $dept/$cat/$sub";
+			$this->data['page']['title'] = $this->data['page']['error'];
+			$this->data['page']['path'] = array();
 		}
 		else if( strcasecmp( $cat, 'sales' ) == 0 ){
 			$product_count = 0;
 
 			if( $page > 1 ){
 				$offset = ($page - 1) * $count;
-				$this->data['prev'] = ($page - 1);
+				$this->data['page']['prev'] = ($page - 1);
 			}
 
-			$this->data['products'] = $this->product_model->get_products_for_sales_listing( $this->data['path'][0]['level'], $offset, $count, $product_count );
+			$this->data['page']['products'] = $this->product_model->get_products_for_sales_listing( $this->data['page']['path'][0]['level'], $offset, $count, $product_count );
 
 			if( $offset + $count < $product_count )
-				$this->data['next'] = ($page + 1);
+				$this->data['page']['next'] = ($page + 1);
 
-			$this->data['title'] = ucfirst($this->data['path'][0]['text_en']);
+			$this->data['page']['title'] = $this->data['page']['path'][0]['text_' . $this->data['page']['lang']] . '/' . $this->data['page']['path'][1]['text_' . $this->data['page']['lang']];
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/women', $this->data);
 			$this->load->view('templates/footer', $this->data);
 			return;
 		}
 		else{
+
 			$product_count = 0;
-			$this->data['cat'] = $this->data['path'][count($this->data['path'])-1]['c_path'];
-			$this->data['cat_showcase'] = $this->category_model->get_category_showcase($this->data['path'][count($this->data['path'])-1]['path']);
+			$this->data['page']['cat'] = $this->data['page']['path'][count($this->data['page']['path'])-1]['c_path'];
+			$this->data['page']['cat_showcase'] = $this->category_model->get_category_showcase($this->data['page']['path'][count($this->data['page']['path'])-1]['path']);
 			
 			if( $page > 1 ){
-				if( $this->data['cat_showcase'] ){
+				if( $this->data['page']['cat_showcase'] ){
 					$offset = 14 + ($page - 2) * $count;
-					unset( $this->data['cat_showcase'] );
+					unset( $this->data['page']['cat_showcase'] );
 				}
 				else{
 					$offset = ($page - 1) * $count;
 				}
-				$this->data['prev'] = ($page - 1);
+				$this->data['page']['prev'] = ($page - 1);
 			}
-			else if( $this->data['cat_showcase'] ){
+			else if( $this->data['page']['cat_showcase'] ){
 				$count = 14;
 			}
 
-			$this->data['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub, $offset, $count, $product_count );
+			$this->data['page']['products'] = $this->product_model->get_products_for_listing( $dept, $cat, $sub, $offset, $count, $product_count );
 
 			if( $offset + $count < $product_count )
-				$this->data['next'] = ($page + 1);
+				$this->data['page']['next'] = ($page + 1);
 			
+			$this->data['page']['title'] = $this->data['page']['path'][0]['text_' . $this->data['page']['lang']] . '/' . $this->data['page']['path'][1]['text_' . $this->data['page']['lang']];
 		}
-
-		$this->data['title'] = ucfirst($this->data['path'][0]['text_en']);
+		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
 		$this->load->view('templates/footer', $this->data);
@@ -237,17 +234,18 @@ class Dept extends CI_Controller {
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
 		$this->load->model( array('category_model', 'product_model', 'component_model') );
 		$this->load->library('zh2cn');
-		$this->data['lang'] = $this->lang->lang();
+		$this->data['page']['lang'] = $this->lang->lang();
 		$dept = urldecode($dept);
 		$cat = urldecode($cat);
 		$sub = urldecode($sub);
 
-		$this->data['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
+		$this->data['page']['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 		//print_r($this->data['c_path']);
-		$this->data['id'] = $id;
+
+		$this->data['page']['id'] = $id;
 		
-		$this->data['product'] = $this->product_model->get_product_by_id($id, FALSE);
-		if( ! $this->data['product'] ){
+		$this->data['page']['product'] = $this->product_model->get_product_by_id($id, FALSE);
+		if( ! $this->data['page']['product'] ){
 			$this->data['title'] = _('No such product') . ": $id";
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/no_product', $this->data);
@@ -255,31 +253,31 @@ class Dept extends CI_Controller {
 			return;
 		}
 		
-		$this->data['category'] = $this->data['c_path'][count($this->data['c_path'])-1];
-		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
-		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['text_en']);
-		$this->data['dept'] = $dept;
-		$this->data['cat'] = $this->data['category']['name'];
+		$this->data['page']['category'] = $this->data['page']['c_path'][count($this->data['page']['c_path'])-1];
+		$this->data['page']['path'] = base_url() . 'images/products/' . $this->data['page']['category']['path'];
+		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['text_en']);
+		$this->data['page']['dept'] = $dept;
+		$this->data['page']['cat'] = $this->data['page']['category']['name'];
 
-		$this->data['colors'] = $this->product_model->get_products_color($id);
+		$this->data['page']['colors'] = $this->product_model->get_products_color($id);
 		$this->load->helper('json');
-		foreach( $this->data['colors'] as $key => $color ){
-			$this->data['colors_json']["c$key"] = $color;
+		foreach( $this->data['page']['colors'] as $key => $color ){
+			$this->data['page']['colors_json']["c$key"] = $color;
 		}
-		$this->data['colors_json'] = json_encode($this->data['colors_json']);
+		$this->data['page']['colors_json'] = json_encode($this->data['page']['colors_json']);
 		
-		$this->data['product']['comp_list'] = $this->component_model->get_components_from_json( json_decode($this->data['product']['components']) );
+		$this->data['page']['product']['comp_list'] = $this->component_model->get_components_from_json( json_decode($this->data['page']['product']['components']) );
 
-		if( $this->data['lang'] == 'cn' ){
-			$this->data['product']['description_cn'] = $this->zh2cn->convert( $this->data['product']['description_zh'] );
-			foreach( $this->data['product']['comp_list'] as $key => $val ){
-				$this->data['product']['comp_list'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
+		if( $this->data['page']['lang'] == 'cn' ){
+			$this->data['page']['product']['description_cn'] = $this->zh2cn->convert( $this->data['page']['product']['description_zh'] );
+			foreach( $this->data['page']['product']['comp_list'] as $key => $val ){
+				$this->data['page']['product']['comp_list'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
 			}
 		}
 
 		// get similar products
-		$this->data['sim_pro'] = $this->product_model->get_similar_products($this->data['id'], $this->data['category']['id'], 4);
-		//$sims = $this->product_model->get_products_in_category($this->data['category']['id']);
+		$this->data['page']['sim_pro'] = $this->product_model->get_similar_products($this->data['page']['id'], $this->data['page']['category']['id'], 4);
+		//$sims = $this->product_model->get_products_in_category($this->data['page']['category']['id']);
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);
