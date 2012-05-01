@@ -85,6 +85,14 @@
 	margin-left: 40px;
 }
 
+.showcase {
+	border: 1px solid #CCC;
+	display: none;
+	position: absolute;
+	width: 150px;
+	height: 200px;
+}
+
 .success {
 	background-color: #CFC;
 	border: 2px solid #3B3;

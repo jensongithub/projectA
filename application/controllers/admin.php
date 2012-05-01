@@ -102,9 +102,6 @@ class Admin extends MY_Controller {
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );
 		
-		$this->load->library('zh2cn');
-		echo $this->zh2cn->convert('繁體中文 - 萬國碼<br/>');
-		
 		if( $this->input->post('upload') == '1' ){
 		}
 		else if( $this->input->post('move') == '1' ){

@@ -145,6 +145,7 @@
 }
 
 .similar-thumbnail img {
+	display: block;
 	width: 96px;
 	height: 128px;
 }

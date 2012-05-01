@@ -204,18 +204,7 @@ class Product_model extends CI_Model {
 			$products[] = $this->db->query($query, array($id, $cat_id, $rand))->row_array();
 		}
 		
-		$i = 0;
-		$sim_pro = array();
-		foreach( $products as $sim ){
-			$colors = $this->get_products_color($sim['id']);
-			foreach( $colors as $color ){
-				$sim_pro[$i] = $sim;
-				$sim_pro[$i]['color'] = $color['color'];
-				$i++;
-				break;
-			}
-		}
-		return($sim_pro);
+		return($products);
 	}
 	
 	public function get_products_color( $pid = '' ) {

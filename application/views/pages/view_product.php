@@ -258,7 +258,7 @@ background: white;
 					<ul>
 						<?php foreach( $page['sim_pro']as $prod) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['id'] . $prod['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['front_img'] ) ); ?>
 							<span><?php echo anchor( str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), $prod['id'] ) ?></span><br />
 							<?php if( $prod['discount'] < $prod['price'] ) { ?>
 								<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
