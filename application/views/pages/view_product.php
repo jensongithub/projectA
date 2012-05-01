@@ -200,7 +200,7 @@ function initCartOperations(){
 function checkout(pg){
 	shop_cart.total = $("input[name=cl]").val();
 	
-	if (shop_cart.cur_item.size!='' || shop_cart.cur_item.color!='' || shop_cart.cur_item.size!=''){ 
+	if (shop_cart.cur_item.size!='' || shop_cart.cur_item.color!='' || shop_cart.cur_item.quantity!=''){ 
 		$('a[class=add_item]').click();
 	}
 	
