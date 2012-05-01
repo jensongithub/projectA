@@ -129,12 +129,13 @@
 	}
 	</style>
 	<script type='text/javascript'>
-	var product = <?php echo json_encode($product) ?>;
+	var product = eval(<?php echo json_encode($product) ?>);
+	var components = eval( '(' + product.components + ')' );
 	
 	$(document).ready(function(){
 		initProductForm();
 	});
-	
+
 	function initProductForm(){
 		// number range
 		$('#priority-range').change(function(){
@@ -174,35 +175,39 @@
 		$('#discount').keypress(function(){
 			$('#discount-range').val( Math.ceil( parseInt($(this).val()) / parseFloat($('#price').val()) * 100 ) );
 		});
+		$('#discount').change();
 		
 		// status radio
 		$("input[type='radio'][value='" + product.status + "']").attr('checked', 'checked');
-		
+
 		// components
-		$('#comp-search-field').keyup(function(){
-			$.ajax({
-				url: "<?php echo site_url() . "worker/get_components/" ?>" + $(this).val()
-			}).done(function(data){
-				var json = eval("json = " + data);
-				$('#description_zh').html('');
-				$.each(json, function(i, item){
-					$('#description_zh').append(item.id + "\n");
-				});
-			});
-		});
-		
 		$('#add-button').click(function(){
-			var comp = $('.comp-item:last').clone();
-			comp.children('input[type=number]').val(0);
-			comp.children('img').click(function(){
-				comp.remove();
-			});
-			$('#components-list').append( comp );
+			addSelectComponents('', 0);
 		});
+		$.each(components, function(key, val){
+			addSelectComponents(key, val);
+		});
+		if( count( components ) > 0 ){
+			$('.comp-item:first').remove();
+		}
 		
 		searchComponents();
 	}
 	
+	function count(obj) { return Object.keys(obj).length; }
+
+	function addSelectComponents(value, per){
+		var comp = $('.comp-item:last').clone();
+		var option = comp.find('option[value=' + value + ']');
+		alert(value);
+		option.attr('selected', 'selected');
+		comp.children('input[type=number]').val(per);
+		comp.children('img').click(function(){
+			comp.remove();
+		});
+		$('#components-list').append( comp );
+	}
+
 	function searchComponents(){
 		$.ajax({
 			url: "<?php echo site_url() . "worker/get_components/" ?>"
@@ -212,7 +217,6 @@
 			$.each(json, function(i, item){
 				selection.append("<option value='" + item.id + "'>" + item.name_en + " | " + item.name_zh + "</option>");
 			});
-			
 		});
 	}
 	</script>
@@ -292,8 +296,4 @@
 		
 		<input type="submit" class="button" value="Submit" />
 	</form>
-	
-	<div id='comp-search-form'>
-		<input id='comp-search-field' class='input' />
-	</div>
 </div>

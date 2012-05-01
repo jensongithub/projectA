@@ -177,8 +177,7 @@ class Dept extends CI_Controller {
 		if( isset($this->data['path'][0]) )
 			$this->data['menu'] = $this->menu_model->get_submenu($this->data['path'][0]['level']);
 
-		
-		// if category is not SALES
+
 		if( $this->data['path'] == FALSE ){
 			$this->data['error'] = _("No such category") . ": $dept/$cat/$sub";
 			$this->data['title'] = $this->data['error'];
@@ -197,6 +196,7 @@ class Dept extends CI_Controller {
 			if( $offset + $count < $product_count )
 				$this->data['next'] = ($page + 1);
 
+			$this->data['title'] = ucfirst($this->data['path'][0]['text_en']);
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/women', $this->data);
 			$this->load->view('templates/footer', $this->data);
@@ -226,10 +226,9 @@ class Dept extends CI_Controller {
 			if( $offset + $count < $product_count )
 				$this->data['next'] = ($page + 1);
 			
-			$this->data['title'] = ucfirst($this->data['cat']);
 		}
 
-		
+		$this->data['title'] = ucfirst($this->data['path'][0]['text_en']);
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/women', $this->data);
 		$this->load->view('templates/footer', $this->data);
@@ -258,7 +257,7 @@ class Dept extends CI_Controller {
 		
 		$this->data['category'] = $this->data['c_path'][count($this->data['c_path'])-1];
 		$this->data['path'] = base_url() . 'images/products/' . $this->data['category']['path'];
-		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['name']);
+		$this->data['title'] = $id . ' | ' . ucfirst($this->data['category']['text_en']);
 		$this->data['dept'] = $dept;
 		$this->data['cat'] = $this->data['category']['name'];
 
