@@ -173,13 +173,13 @@ class Dept extends MY_Controller {
 		if( isset($this->data['page']['path'][0]) )
 			$this->data['page']['menu'] = $this->menu_model->get_submenu($this->data['page']['path'][0]['level']);
 		
-		// if category is not SALES
 		if( $this->data['page']['path'] == FALSE ){
 			$this->data['page']['error'] = "No such category: $dept/$cat/$sub";
 			$this->data['page']['title'] = $this->data['page']['error'];
 			$this->data['page']['path'] = array();
 		}
 		else if( strcasecmp( $cat, 'sales' ) == 0 ){
+			// if category is SALES
 			$product_count = 0;
 
 			if( $page > 1 ){
@@ -199,7 +199,6 @@ class Dept extends MY_Controller {
 			return;
 		}
 		else{
-
 			$product_count = 0;
 			$this->data['page']['cat'] = $this->data['page']['path'][count($this->data['page']['path'])-1]['c_path'];
 			$this->data['page']['cat_showcase'] = $this->category_model->get_category_showcase($this->data['page']['path'][count($this->data['page']['path'])-1]['path']);
@@ -246,7 +245,7 @@ class Dept extends MY_Controller {
 		
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id, FALSE);
 		if( ! $this->data['page']['product'] ){
-			$this->data['title'] = _('No such product') . ": $id";
+			$this->data['page']['title'] = _('No such product') . ": $id";
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/no_product', $this->data);
 			$this->load->view('templates/footer', $this->data);
@@ -259,8 +258,17 @@ class Dept extends MY_Controller {
 		$this->data['page']['dept'] = $dept;
 		$this->data['page']['cat'] = $this->data['page']['category']['name'];
 
-		$this->data['page']['colors'] = $this->product_model->get_products_color($id);
+		$colors = $this->product_model->get_products_color($id);
 		$this->load->helper('json');
+		$this->data['page']['colors'] = array();
+		foreach( $colors as $key => $color ){
+			if( $color['color'] == substr( $this->data['page']['product']['front_img'], 6, 6) ){
+				array_unshift( $this->data['page']['colors'], $color );
+			}
+			else{
+				$this->data['page']['colors'][] = $color;
+			}
+		}
 		foreach( $this->data['page']['colors'] as $key => $color ){
 			$this->data['page']['colors_json']["c$key"] = $color;
 		}

@@ -102,9 +102,6 @@ class Admin extends MY_Controller {
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );
 		
-		$this->load->library('zh2cn');
-		echo $this->zh2cn->convert('繁體中文 - 萬國碼<br/>');
-		
 		if( $this->input->post('upload') == '1' ){
 		}
 		else if( $this->input->post('move') == '1' ){
@@ -159,6 +156,11 @@ class Admin extends MY_Controller {
 			$this->product_model->edit_product( $this->input->post() );
 
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id);
+		$this->data['page']['color'] = $this->product_model->get_products_color($id);
+		$this->data['page']['category'] = $this->product_model->get_product_category($id);
+		print_r($this->data['page']['color']);
+		print_r($this->data['page']['category']);
+		
 		$this->data['page']['title'] = "$id | Edit products";
 
 		$this->load->view('admin/templates/header', $this->data);

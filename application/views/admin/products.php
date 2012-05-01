@@ -1,6 +1,6 @@
 <?php echo css('css/admin/products.css') ?>
 <?php if( isset($page['error']) ) echo $page['error'];?>
-<?php if( isset($page['success_count']) ) echo "<div class='success'>" . _("$page['success_count'] record(s) has been modified.") . "</div>" ?>
+<?php if( isset($page['success_count']) ) echo "<div class='success'>" . _("${page['success_count']} record(s) has been modified.") . "</div>" ?>
 
 <div id='batch_upload'>
 	<?php echo form_open_multipart('admin/products/upload');?>
@@ -63,7 +63,7 @@
 				<tr>
 					<td><input type='checkbox' name='pid[]' value='<?php echo $product['id'] ?>' /></td>
 					<td><?php echo $product['cat_name'] ?></td>
-					<td><?php echo anchor('admin/products/edit/' . $product['id'], $product['id']) ?></td>
+					<td><span class='td-product' alt='<?php echo "images/products/" . $page['categories'][$product['cat_id']-1]['path'] . "/" . $product['front_img']?>'><?php echo anchor('admin/products/edit/' . $product['id'], $product['id']) ?></span></td>
 					<td><?php echo $product['name_zh'] ?></td>
 					<td>$<?php echo $product['price'] ?></td>
 					<td>$<?php echo $product['discount'] ?></td>
@@ -142,6 +142,22 @@ $(document).ready(function(){
 	$('tr').click(function(){
 		$(this).children('td > :checkbox').click();
 	});
+	
+	$('.td-product').hover(function(){
+		var img = $('.showcase');
+		img.attr('src', $(this).attr('alt'));
+		$(this).mousemove(function(ent){
+			img.css('left', (ent.pageX + 20) );
+			img.css('top', (ent.pageY + 20) );
+		});
+		img.css('display', 'block');
+	}, function(){
+		$(this).unbind('mousemove');
+		$('.showcase').css('display', 'none');
+	});
 });
 
 </script>
+
+<img class='showcase'>
+</img>

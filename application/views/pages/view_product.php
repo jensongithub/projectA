@@ -260,7 +260,7 @@ background: white;
 					<ul>
 						<?php foreach( $page['sim_pro']as $prod) { ?>
 						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['id'] . $prod['color'] . "-F_s.jpg") ); ?>
+							<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['front_img'] ) ); ?>
 							<span><?php echo anchor( str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), $prod['id'] ) ?></span><br />
 							<?php if( $prod['discount'] < $prod['price'] ) { ?>
 								<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
@@ -277,8 +277,11 @@ background: white;
 			<div id='product-text'>
 				<?php
 				$list = array();
-				foreach( $page['c_path'] as $item ){
-					$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
+				foreach( $page['c_path'] as $key => $item ){
+					if( $key == 0 )
+						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']) . '/sales', $item['text_' . $page['lang']] );
+					else
+						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
 					$list[] = ' > ';
 				}
 				$list[] = $page['id'];
