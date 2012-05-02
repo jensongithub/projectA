@@ -46,6 +46,7 @@ function setZoomRatio(src){
 }
 
 $(document).ready(function($){
+	
 	$('.item_color > img').bind("click.change", function(){
 		holder = pid + $(this).attr('alt');
 		var prefix = path + holder;
@@ -186,6 +187,10 @@ function loadSizeChart(){
 
 function initCartOperations(){	
 	shop_cart.cur_item = new shop_cart.item;
+	shop_cart.add_cart_url = '<?php echo $page['add_cart_url']?>';
+	shop_cart.del_cart_url = '<?php echo $page['del_cart_url']?>';
+	shop_cart.payment_url = '<?php echo $page['payment_url']?>';
+	
 	$('a[class=item_size]').click(function(){
 		shop_cart.cur_item.size=$(this).attr('value');
 	});
