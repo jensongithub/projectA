@@ -96,12 +96,11 @@ class Admin extends MY_Controller {
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
-	public function products(){
-		// require_login();
-		
+	public function products($cat_id = ''){
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );
 		
+		$this->data['page']['cid'] = $cat_id;
 		if( $this->input->post('upload') == '1' ){
 		}
 		else if( $this->input->post('move') == '1' ){
@@ -118,13 +117,32 @@ class Admin extends MY_Controller {
 			}
 		}
 		
-		$this->data['page']['products'] = $this->product_model->get_products();
+		if( $cat_id == '' ){
+			$this->data['page']['products'] = $this->product_model->get_products_in_category();
+		}
+		else{
+			$this->data['page']['products'] = $this->product_model->get_products_in_category($cat_id);
+			foreach( $this->data['page']['products'] as $key => $product ){
+				$colors = $this->product_model->get_products_color($product['id']);
+				$this->data['page']['products'][$key]['colors'] = array();
+				foreach( $colors as $color ){
+					if( $color['color'] == substr( $product['front_img'], 6, 6) ){
+						array_unshift( $this->data['page']['products'][$key]['colors'], $color );
+					}
+					else{
+						$this->data['page']['products'][$key]['colors'][] = $color;
+					}
+				}
+			}
+		}
+
 		$this->data['page']['categories'] = $this->category_model->get_categories();
 		
 		$this->data['page']['title'] = 'Edit products';
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/upload_products_form', $this->data);
 		$this->load->view('admin/products', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
 	}
@@ -144,8 +162,17 @@ class Admin extends MY_Controller {
 		else {
 			$this->load->library('Excel_reader_2_21');
 			$result = $this->product_model->handle_products_excel( $this->upload->data() );
-			print_r($result);
+			$this->data['page']['success'] = $result['success'];
+			$this->data['page']['fail'] = $result['fail'];
+			$this->data['page']['fail_log'] = $result['fail_log'];
 		}
+		
+		$this->data['page']['back'] = anchor('admin/products/', ' << Go back ');
+		
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/upload_products_result', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 	public function edit_products($id = ''){
@@ -158,9 +185,14 @@ class Admin extends MY_Controller {
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id);
 		$this->data['page']['color'] = $this->product_model->get_products_color($id);
 		$this->data['page']['category'] = $this->product_model->get_product_category($id);
-		print_r($this->data['page']['color']);
-		print_r($this->data['page']['category']);
-		
+		if( ! $this->data['page']['category'] ){
+			unset($this->data['page']['category']);
+			$this->data['page']['back'] = anchor('admin/products/', ' << Go back ');
+		}
+		else{
+			$this->data['page']['back'] = anchor('admin/products/' . $this->data['page']['category']['id'], ' << Go back ');
+		}
+
 		$this->data['page']['title'] = "$id | Edit products";
 
 		$this->load->view('admin/templates/header', $this->data);

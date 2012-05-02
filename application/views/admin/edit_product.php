@@ -119,6 +119,11 @@
 		});
 	}
 	</script>
+
+	<div class='clear'>
+		<?php echo $page['back'] ?>
+	</div>
+
 	<form id='product-form' method='post'>
 		<input type='hidden' name='action' value='edit' />
 		<input type='hidden' id='components' name='components' />
@@ -203,7 +208,8 @@
 		<div class='clear'></div>
 		<div>
 			<?php
-			foreach( $page['color'] as $color ){
+			if( isset($page['category']) ){
+				foreach( $page['color'] as $color ){
 			?>
 				<div class='color-selection'>
 					<?php
@@ -219,6 +225,10 @@
 					?>
 				</div>
 			<?php
+				}
+			}
+			else{
+				echo "You must assign a category for this product before you can view the thumbnail(s).";
 			}
 			?>
 		</div>

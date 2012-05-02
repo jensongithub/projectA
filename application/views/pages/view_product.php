@@ -16,6 +16,11 @@ var boundX = ( -imgSize.width + zoomPanelSize.width );
 var boundY = ( -imgSize.height + zoomPanelSize.height );
 var offsetW = zoomPanelSize.width / 2;
 var offsetH = (zoomPanelSize.height / 2);
+var zoomRatio = { width: 1, height: 1 };
+if( new String(navigator.appVersion).indexOf('Chrome') >= 0 ){
+	zoomRatio.width = 1;
+	zoomRatio.height = 1;
+}
 </script>
 <script type='text/javascript'>
 function CreateDelegate(contextObject, delegateMethod){
@@ -25,18 +30,20 @@ function CreateDelegate(contextObject, delegateMethod){
 }
 
 function imgTesting_onload() {
-	imgSize.width = this.width;
-	imgSize.height = this.height;
-	wRatio = this.width / showcaseSize.width;
-	hRatio = this.height / showcaseSize.height;
+	var zoomIndicator = $('.zoom-area');
+	var zoomInImg = $('.zoom-in');
+	imgSize.width = this.width * zoomRatio.width;
+	imgSize.height = this.height * zoomRatio.height;
+	zoomInImg.css('width', imgSize.width);
+	zoomInImg.css('height', imgSize.height);
+	wRatio = imgSize.width / showcaseSize.width;
+	hRatio = imgSize.height / showcaseSize.height;
 	zoomAreaSize.width = zoomPanelSize.width / wRatio;
 	zoomAreaSize.height = zoomPanelSize.height / hRatio;
-	$('.zoom-area').css('width', zoomAreaSize.width);
-	$('.zoom-area').css('height', zoomAreaSize.height);
+	zoomIndicator.css('width', zoomAreaSize.width);
+	zoomIndicator.css('height', zoomAreaSize.height);
 	boundX = ( -imgSize.width + zoomPanelSize.width );
 	boundY = ( -imgSize.height + zoomPanelSize.height );
-	offsetW = zoomPanelSize.width / 2;
-	offsetH = (zoomPanelSize.height / 2);
 }
 
 function setZoomRatio(src){
@@ -72,7 +79,7 @@ $(document).ready(function($){
 
 function initZoom() {
 	var p = $('.zoom-panel'); // zoom panel
-	var z = $('.zoom-in'); // zoom image
+	var z = $('.zoom-in'); // actual zoom in image
 	var a = $('.zoom-area'); // zoom area
 	var s = $('#showcase-img'); // showcase image
 	
@@ -84,7 +91,6 @@ function initZoom() {
 	//alert('top: ' + p.css('top') + '\nleft: ' + p.css('left'));
 	
 	z.attr('src', s.attr('src'));
-	wRatio = s.width();
 	setZoomRatio( s.attr('src') );
 	$('#showcase-stage').mouseenter(function(){
 		pos = getPosition(document.getElementById('showcase-img'));
@@ -119,8 +125,8 @@ function initZoom() {
 
 		var aX = e.pageX - pos.left - zoomAreaSize.width/2;
 		var aY = e.pageY - pos.top - zoomAreaSize.height/2;
-		$('#i1').val(aX);
-		$('#i2').val(aY);
+		//$('#i1').val(aX);
+		//$('#i2').val(aY);
 
 		if( aX > ( showcaseSize.width - zoomAreaSize.width) )
 			aX = showcaseSize.width - zoomAreaSize.width;
@@ -135,8 +141,8 @@ function initZoom() {
 		a.css('left', pos.left + aX);
 		a.css('top', pos.top + aY);
 		
-		z.css('top', newY);
 		z.css('left', newX);
+		z.css('top', newY);
 	});
 	
 	$('.item_color > img').bind('click.zoom', function(){

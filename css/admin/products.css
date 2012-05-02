@@ -86,11 +86,13 @@
 }
 
 .showcase {
+	background: #FFF;
 	border: 1px solid #CCC;
 	display: none;
 	position: absolute;
 	width: 150px;
 	height: 200px;
+	z-index: 999;
 }
 
 .success {
@@ -106,6 +108,10 @@
 	padding: 5px;
 }
 
+.thumbnail {
+	width: 35px;
+	height: 50px;
+}
 
 /**********************
 * edit_products.php
