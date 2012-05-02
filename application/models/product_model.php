@@ -51,6 +51,11 @@ class Product_model extends CI_Model {
 		return $product_details;
 	}
 	public function get_products_in_category( $cid = '', $order_by = "priority DESC, created_time DESC") {
+		if( $cid == '' ){
+			$query = "SELECT DISTINCT p.* FROM products p, product_category pc WHERE NOT EXISTS (SELECT c.id FROM categories c WHERE p.id = pc.pro_id AND pc.cat_id = c.id)";
+			$result = $this->db->query( $query );
+			return $result->result_array();
+		}
 		$this->db->select("products.*")->from("products, product_category")->where("products.id = product_category.pro_id AND product_category.cat_id = $cid")->order_by($order_by);
 		$result = $this->db->get();
 		return $result->result_array();
@@ -222,8 +227,26 @@ class Product_model extends CI_Model {
 	public function move_product_to_cat( $pid = '', $cid = '' ) {
 		if( $pid == '' || $cid == '' )
 			return FALSE;
+
+		$root = getcwd() . "/" . $this->config->item('image_dir') . "products/";
+		$cat = $this->get_product_category( $pid );
+		$from_path = $root . $cat['path'];
+		$query = "SELECT path FROM categories WHERE id = ?";
+		$result = $this->db->query($query, $cid )->row_array();
+		$to_path = $root . $result['path'];
 		
-		$query = "SELECT cat_id FROM product_category WHERE pro_id = ?";
+		$files = scandir($from_path);
+		foreach( $files as $file ){
+			$cmp = strcasecmp( substr($file, 0, 6), $pid);
+			if( $cmp < 0 )
+				continue;
+			else if( $cmp > 0 )
+				break;
+			rename($from_path . "/" . $file, $to_path . "/" . $file);
+			//echo "rename( $from_path/$file, $to_path/$file )<br/>";
+		}
+
+		$query = "SELECT pc.cat_id FROM product_category pc WHERE pc.pro_id = ?";
 		$result = $this->db->query($query, array($pid));
 		if ($result->num_rows() > 0) {
 			$query = "UPDATE product_category SET cat_id = ? WHERE pro_id = ?";
@@ -288,15 +311,20 @@ class Product_model extends CI_Model {
 				$data[] = $style_code;
 				$query = preg_replace( "(\?\d+)", "?", $query);
 
-				$result = $this->db->query($query, $data);
-				if( $result ) {
-					$success_count++;
-					$query = "INSERT INTO product_category VALUES ( ?, ? )";
-					$this->db->query( $query, array( $style_code, $cat_id ) );
-				}
-				else{
+				try{
+					$result = $this->db->query($query, $data);
+					if( $result ) {
+						$success_count++;
+						$query = "INSERT INTO product_category VALUES ( ?, ? ) ON DUPLICATE KEY UPDATE pro_id = pro_id";
+						$this->db->query( $query, array( $style_code, $cat_id ) );
+					}
+					else{
+						$fail_count++;
+						$fail_log[] = "DB error - " . $style_code;
+					}
+				}catch(Exception $e){
 					$fail_count++;
-					$fail_log[] = $style_code;
+					$fail_log[] = $e->getMessage() . " - " . $style_code;
 				}
 			}
 		}
@@ -327,10 +355,10 @@ class Product_model extends CI_Model {
 	}
 	
 	public function edit_product($detail = FALSE){
-		print_r($detail);
+		//print_r($detail);
 		$query = "UPDATE products SET name_en = ?, name_zh = ?, price = ?, discount = ?, priority = ?, front_img = ?, description_en = ?, description_zh = ?, components = ?, status = ? WHERE id = ?";
 		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['front_img'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
-		echo "<p>" . $this->db->last_query() . "</p>";
+		//echo "<p>" . $this->db->last_query() . "</p>";
 	}
 }
 
