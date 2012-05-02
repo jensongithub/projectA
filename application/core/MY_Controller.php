@@ -22,6 +22,21 @@ class MY_Controller extends CI_Controller {
 		$this->session->set_userdata($this->data);
 	}
 
+	function set_session($name, $value){
+		$session_data = $this->session->all_userdata();
+		//$session_data[$name] = $value;
+		$session_data[$name] = array_merge($session_data[$name], $value);
+		$this->session->set_userdata($session_data);
+	}
+	
+	function get_session($name=""){
+		if ($name===""){
+			$session_data = $this->session->all_userdata();
+		}else{
+			$session_data = $this->session->userdata($name);
+		}		
+		return $session_data;
+	}
 	
 	public function set_page($attr, $value){
 		$this->data['page'][$attr] = $value;
