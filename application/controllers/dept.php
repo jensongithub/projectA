@@ -287,6 +287,10 @@ class Dept extends MY_Controller {
 		$this->data['page']['sim_pro'] = $this->product_model->get_similar_products($this->data['page']['id'], $this->data['page']['category']['id'], 4);
 		//$sims = $this->product_model->get_products_in_category($this->data['page']['category']['id']);
 		
+		$this->data['page']['add_cart_url'] = site_url().$this->lang->lang()."/cart/add/";
+		$this->data['page']['del_cart_url'] = site_url().$this->lang->lang()."/cart/del/";
+		$this->data['page']['payment_url'] = site_url().$this->lang->lang()."/checkout/payment";
+		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);
 		$this->load->view('templates/footer', $this->data);
