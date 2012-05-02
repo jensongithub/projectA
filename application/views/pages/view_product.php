@@ -358,7 +358,10 @@ background: white;
 							<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 						</span>
 					</div>
-				</div>				
+					<?php if ('online' == $page['payment']) {
+						echo $alipay_form;
+					}?>
+				</div>
 			</div>
 		</div>
 	</div>

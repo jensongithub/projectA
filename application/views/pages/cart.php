@@ -29,7 +29,7 @@ $(function(){
 			</thead>
 			<tbody>
 	<?php foreach($cart as $key=>$each_item){
-		$total = ($each_item['price']-$each_item['discount'])*$each_item['quantity'];
+		$total = $each_item['discount']*$each_item['quantity'];
 		echo <<<CART_ITEM
 			<tr class="cart_item">
 				<td>{$each_item['id']}</td>

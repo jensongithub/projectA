@@ -1,12 +1,9 @@
 <?php
-class cart extends CI_Controller {
-	var $data = array();
+class cart extends MY_Controller {
+	
 	public function __construct()	{
 		parent::__construct();
-		$this->data['cart'] = array();
-		$this->data['title'] = "Cart";
-		$this->data = array_merge($this->data, $this->session->all_userdata());
-		$this->data['cart_counter'] = isset($this->data['cart'])? count($this->data['cart']) : 0;
+		$this->data['page']['title']='Cart';
 	}
 	
 	public function index(){
@@ -23,9 +20,22 @@ class cart extends CI_Controller {
 		}
 		$this->session->set_userdata($this->data);
 	
+	
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/cart', $this->data);
 		$this->load->view('templates/footer', $this->data);
+	}
+	
+	
+	public function alipay(){
+		
+		$data['order_sn'] = "111";
+		$data['product_name'] = "product_name";
+		$data['total'] = "34343";
+		
+		$this->load->model('alipay_model');
+		$data['alipay_form'] = $this->alipay_model->build_form($data['order_sn'], $data['product_name'], $data['total']);
+		$this->load->view('product/quick_buy', $data);
 	}
 	
 	public function add(){
