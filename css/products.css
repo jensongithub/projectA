@@ -77,12 +77,19 @@
 	height: 40px;
 }
 
+.item_size {
+	float: left;
+	padding: 3px;
+	text-align: center;
+	width: 20px;
+}
+
 .product-color {
-	background-color: #CCC;
 	cursor: pointer;
 	float: left;
 	font-size: 6pt;
 	margin: 5px 0px 10px 0;
+	padding: 2px;
 	width: 40px;
 	height: 40px;
 }
@@ -123,7 +130,12 @@
 	text-decoration: underline;
 }
 
-.selected {
+.selected-color {
+	border: 2px solid #E9BD86;
+}
+
+.selected-size {
+	border: 2px solid #E9BD86;
 }
 
 .similar-thumbnail {

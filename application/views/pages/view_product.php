@@ -75,6 +75,8 @@ $(document).ready(function($){
 	//initMagnifier();
 	initThumbnailEvent();
 	initCartOperations();
+	
+	$('.color-thumbnail:first').click();
 });
 
 function initZoom() {
@@ -206,6 +208,17 @@ function initCartOperations(){
 
 	});		
 	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});
+	
+	
+	$('.product-color').bind("click.select", function(){
+		$('.product-color').removeClass('selected-color');
+		$(this).addClass('selected-color');
+	});
+	
+	$('.item_size').bind("click.select", function(){
+		$('.item_size').removeClass('selected-size');
+		$(this).addClass('selected-size');
+	});
 }
 
 function checkout(pg){
@@ -343,12 +356,13 @@ background: white;
 					</div>
 					<div class='clear'></div>
 					<div style='margin-top:1em;'>
-						<h4>Size:<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
+						<h4>Size:<span><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
 						</h4>
 						<a href='javascript:void(0);' class='item_size' value='S'>S</a>
 						<a href='javascript:void(0);' class='item_size' value='M'>M</a>
 						<a href='javascript:void(0);' class='item_size' value='L'>L</a>
 						<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+						<div class='clear'></div>
 					</div>
 					
 					<div style='margin-top:1em;'>
