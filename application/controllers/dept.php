@@ -231,7 +231,7 @@ class Dept extends MY_Controller {
 	}
 
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
-		$this->load->model( array('category_model', 'product_model', 'component_model') );
+		$this->load->model( array('category_model', 'product_model', 'component_model', 'common_model') );
 		$this->load->library('zh2cn');
 		$this->data['page']['lang'] = $this->lang->lang();
 		$dept = urldecode($dept);
@@ -242,7 +242,7 @@ class Dept extends MY_Controller {
 		//print_r($this->data['c_path']);
 
 		$this->data['page']['id'] = $id;
-		
+
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id, FALSE);
 		if( ! $this->data['page']['product'] ){
 			$this->data['page']['title'] = _('No such product') . ": $id";
@@ -251,7 +251,7 @@ class Dept extends MY_Controller {
 			$this->load->view('templates/footer', $this->data);
 			return;
 		}
-		
+
 		$this->data['page']['category'] = $this->data['page']['c_path'][count($this->data['page']['c_path'])-1];
 		$this->data['page']['path'] = base_url() . 'images/products/' . $this->data['page']['category']['path'];
 		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['text_en']);
@@ -259,14 +259,25 @@ class Dept extends MY_Controller {
 		$this->data['page']['i_path'] = $this->data['page']['category']['path'];
 
 		$colors = $this->product_model->get_products_color($id);
+		$color_ids = array();
+		foreach( $colors as $color ){
+			$color_ids[] = $color['color'];
+		}
+		$color_from_pos = $this->common_model->get_color_by_id($color_ids);
+		unset($color_ids);
+
 		$this->load->helper('json');
 		$this->data['page']['colors'] = array();
 		foreach( $colors as $key => $color ){
 			if( $color['color'] == substr( $this->data['page']['product']['front_img'], 6, 6) ){
 				array_unshift( $this->data['page']['colors'], $color );
+				$this->data['page']['colors'][0]['name_en'] = $color_from_pos[$color['color']]['name_en'];
+				$this->data['page']['colors'][0]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
 			}
 			else{
 				$this->data['page']['colors'][] = $color;
+				$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_en'] = $color_from_pos[$color['color']]['name_en'];
+				$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
 			}
 		}
 		foreach( $this->data['page']['colors'] as $key => $color ){
@@ -280,6 +291,9 @@ class Dept extends MY_Controller {
 			$this->data['page']['product']['description_cn'] = $this->zh2cn->convert( $this->data['page']['product']['description_zh'] );
 			foreach( $this->data['page']['product']['comp_list'] as $key => $val ){
 				$this->data['page']['product']['comp_list'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
+			}
+			foreach( $this->data['page']['colors'] as $key => $val ){
+				$this->data['page']['colors'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
 			}
 		}
 
