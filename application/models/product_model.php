@@ -235,15 +235,20 @@ class Product_model extends CI_Model {
 		$result = $this->db->query($query, $cid )->row_array();
 		$to_path = $root . $result['path'];
 		
-		$files = scandir($from_path);
-		foreach( $files as $file ){
-			$cmp = strcasecmp( substr($file, 0, 6), $pid);
-			if( $cmp < 0 )
-				continue;
-			else if( $cmp > 0 )
-				break;
-			rename($from_path . "/" . $file, $to_path . "/" . $file);
-			//echo "rename( $from_path/$file, $to_path/$file )<br/>";
+		try{
+			$files = scandir($from_path);
+			foreach( $files as $file ){
+				$cmp = strcasecmp( substr($file, 0, 6), $pid);
+				if( $cmp < 0 )
+					continue;
+				else if( $cmp > 0 )
+					break;
+				rename($from_path . "/" . $file, $to_path . "/" . $file);
+				//echo "rename( $from_path/$file, $to_path/$file )<br/>";
+			}
+		}catch(Exception $e){
+			echo "There are some problems on file/directory access, please make sure the image file / directory exist.";
+			return FALSE;
 		}
 
 		$query = "SELECT pc.cat_id FROM product_category pc WHERE pc.pro_id = ?";
@@ -259,6 +264,15 @@ class Product_model extends CI_Model {
 		return TRUE;
 	}
 
+	public function change_status($pid = '', $status = ''){
+		if( $pid == '' || $status == '' )
+			return FALSE;
+
+		$query = "UPDATE products SET status = ? WHERE id = ?";
+		$this->db->query( $query, array( $status, $pid ) );
+		return TRUE;
+	}
+	
 	public function add_product_in_excel_sheets($sheets = FALSE) {
 		if( $sheets == FALSE )
 			return FALSE;

@@ -256,7 +256,7 @@ class Dept extends MY_Controller {
 		$this->data['page']['path'] = base_url() . 'images/products/' . $this->data['page']['category']['path'];
 		$this->data['page']['title'] = $id . ' | ' . ucfirst($this->data['page']['category']['text_en']);
 		$this->data['page']['dept'] = $dept;
-		$this->data['page']['cat'] = $this->data['page']['category']['name'];
+		$this->data['page']['i_path'] = $this->data['page']['category']['path'];
 
 		$colors = $this->product_model->get_products_color($id);
 		$this->load->helper('json');

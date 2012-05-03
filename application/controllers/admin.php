@@ -71,7 +71,7 @@ class Admin extends MY_Controller {
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
-	public function edit_menu(){
+	public function menu(){
 		// require_login();
 		
 		$this->load->model('category_model');
@@ -96,6 +96,9 @@ class Admin extends MY_Controller {
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
+	/**************************************
+	* Products
+	*/
 	public function products($cat_id = ''){
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );
@@ -103,17 +106,32 @@ class Admin extends MY_Controller {
 		$this->data['page']['cid'] = $cat_id;
 		if( $this->input->post('upload') == '1' ){
 		}
-		else if( $this->input->post('move') == '1' ){
+		else if( $this->input->post('action') == 'move' ){
 			$cid = $this->input->post('cid');
 			$pids = $this->input->post('pid');
-			$total = count($pids);
 			$this->data['page']['success_count'] = 0;
 			$this->data['page']['fail_count'] = 0;
-			foreach($pids as $pid){
-				if( $this->product_model->move_product_to_cat($pid, $cid) === TRUE)
-					$this->data['page']['success_count']++;
-				else
-					$this->data['page']['fail_count']++;
+			if( is_array($pids) ){
+				foreach($pids as $pid){
+					if( $this->product_model->move_product_to_cat($pid, $cid) === TRUE)
+						$this->data['page']['success_count']++;
+					else
+						$this->data['page']['fail_count']++;
+				}
+			}
+		}
+		else if( $this->input->post('action') == 'status' ){
+			$status = $this->input->post('status');
+			$pids = $this->input->post('pid');
+			$this->data['page']['success_count'] = 0;
+			$this->data['page']['fail_count'] = 0;
+			if( is_array($pids) ){
+				foreach($pids as $pid){
+					if( $this->product_model->change_status($pid, $status) === TRUE)
+						$this->data['page']['success_count']++;
+					else
+						$this->data['page']['fail_count']++;
+				}
 			}
 		}
 		
@@ -137,6 +155,10 @@ class Admin extends MY_Controller {
 		}
 
 		$this->data['page']['categories'] = $this->category_model->get_categories();
+		foreach( $this->data['page']['categories'] as $key => $cat ){
+			if( stripos( $cat['name'], 'sales' ) !== FALSE )
+				unset( $this->data['page']['categories'][$key] );
+		}
 		
 		$this->data['page']['title'] = 'Edit products';
 		
@@ -198,6 +220,32 @@ class Admin extends MY_Controller {
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/edit_product', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
+	}
+	
+	public function components(){
+		$this->load->helper(array('form'));
+		$this->load->model( array('component_model') );
+		
+		if( $this->input->post('action') == 'add' ){
+			print_r( $this->input->post() );
+			if( FALSE == $this->component_model->add_component( $this->input->post('cid'), $this->input->post('name_en'), $this->input->post('name_zh')) ){
+				$this->page['error'] = "Operation failed, please try again later or contact supporting staff";
+			}
+		}
+		else if( $this->input->post('action') == 'edit' ){
+			if( FALSE == $this->component_model->edit_component( $this->input->post('cid'), $this->input->post('name_en'), $this->input->post('name_zh')) ){
+				$this->page['error'] = "Operation failed, please try again later or contact supporting staff";
+			}
+		}
+		
+		$this->data['page']['components'] = $this->component_model->get_components();
+		
+		$this->data['page']['title'] = 'Edit components';
+
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/components', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
 	}
 	

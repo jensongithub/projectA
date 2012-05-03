@@ -15,9 +15,9 @@ class Worker extends MY_Controller {
 		
 		$this->load->model('menu_model');
 		$item['cat_id'] = $this->input->post('cat_id');
-		$item['text'] = $this->input->post('text');
-		$item['text_zh'] = $this->input->post('text_zh');
-		$item['text_cn'] = $this->input->post('text_cn');
+		$item['text_en'] = urldecode( $this->input->post('text_en') );
+		$item['text_zh'] = urldecode( $this->input->post('text_zh') );
+		$item['text_cn'] = urldecode( $this->input->post('text_cn') );
 		$item['level'] = $this->input->post('level');
 		if( !$this->menu_model->get_menu_item($item['cat_id']) ){
 			if( $this->menu_model->add_menu_item($item) )

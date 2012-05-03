@@ -31,9 +31,9 @@
 				<?php 
 				foreach($page['path'] as $key => $item){
 					if( $key == 0 )
-						echo anchor( 'browse/' . $item['c_path'] . '/sales', $item['text_' . $page['lang']] ) . ' / ';
+						echo anchor( 'browse/' . str_replace('&', '%26', $item['c_path']) . '/sales', $item['text_' . $page['lang']] ) . ' / ';
 					else
-						echo anchor( 'browse/' . $item['c_path'], $item['text_' . $page['lang']] ) . ' / ';
+						echo anchor( 'browse/' . str_replace('&', '%26', $item['c_path']), $item['text_' . $page['lang']] ) . ' / ';
 				}
 				?>
 				</h3>

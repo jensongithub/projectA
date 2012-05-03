@@ -241,13 +241,13 @@ background: white;
 				<div id='showcase'>
 					<?php
 					$files = array();
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
 					$list = array();
 					
-					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
+					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
 					
 					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
@@ -335,7 +335,7 @@ background: white;
 							<?php
 							foreach( $page['colors'] as $color ) {
 								echo "<li class='product-color' title='${color['color']}'>";
-								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['cat']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
+								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
 								echo "</li>";
 							}
 							?>
