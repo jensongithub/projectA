@@ -62,7 +62,7 @@ class Paypal_Lib {
 	var $SandboxFlag =true;
 	var $CI;
 	
-	function Paypal_Lib()
+	function __construct()
 	{
 		$this->CI =& get_instance();
 		$this->CI->load->helper('url');
@@ -77,8 +77,8 @@ class Paypal_Lib {
 		//' Replace <API_SIGNATURE> with your Signature
 		//'------------------------------------
 		$API_UserName="jendro_1334808935_biz_api1.gmail.com";
-		$API_Password="	1334808972";
-		$API_Signature="AGwSDTMAsMrQNVF8WepyRCBqikHNAw.RM-FlCzuBUukX-vUjb-IsXuiE ";
+		$API_Password="1334808972";
+		$API_Signature="AGwSDTMAsMrQNVF8WepyRCBqikHNAw.RM-FlCzuBUukX-vUjb-IsXuiE";
 
 		// BN Code 	is only applicable for partners
 		$sBNCode = "PP-ECWizard";
@@ -169,7 +169,7 @@ class Paypal_Lib {
 		return $str;
 	}
 	
-	public function validate_ipn(){
+	public function _validate_ipn(){
 		// read the post from paypal and add 'cmd'
 		$is_valid = FALSE;
 	
@@ -186,15 +186,17 @@ class Paypal_Lib {
 		(
 			CURLOPT_URL => $url,
 			CURLOPT_POST => TRUE,
-			CURLOPT_POSTFIELDS => http_build_query(array('cmd' => '_notify-validate') + $this->input->post()),
+			CURLOPT_VERBOSE => TRUE,
+			CURLOPT_POSTFIELDS => http_build_query(array_merge(array('cmd' => '_notify-validate'), $_POST)),
 			CURLOPT_RETURNTRANSFER => TRUE,
-			CURLOPT_HEADER => FALSE
-			/*,
-			CURLOPT_SSL_VERIFYPEER => TRUE,
-			CURLOPT_CAINFO => 'cacert.pem',
+			CURLOPT_HEADER => FALSE,
+			CURLOPT_SSL_VERIFYPEER => FALSE,
+			CURLOPT_SSL_VERIFYHOST => FALSE
+			/*, 
+			,CURLOPT_CAINFO => 'cacert.pem',
 			*/
 		));
-
+		
 		// Execute request and get response and status code
 		$response = curl_exec($request);
 		$status   = curl_getinfo($request, CURLINFO_HTTP_CODE);
@@ -205,19 +207,81 @@ class Paypal_Lib {
 		if($status == 200 && $response == 'VERIFIED')
 		{
 			
-			$this->log_results("OKOK".$res);
-			$is_valid = TRUE;
+			$this->log_results($status.":".$response.":". http_build_query(array('cmd' => '_notify-validate') + $_POST));
+			$is_valid = TRUE; 
 		}
 		else
 		{
-			$this->log_results("FAIL".$res);
+			$this->log_results($status.":".$response.":". http_build_query(array('cmd' => '_notify-validate') + $_POST));
 		}		
 	    
 		return $is_valid;
 	}
 	
+	public function validate_ipn()
+	{
+		// parse the paypal URL
+		$url_parsed = parse_url($this->paypal_url);  
+
+		// generate the post string from the _POST vars aswell as load the
+		// _POST vars into an arry so we can play with them from the calling
+		// script.
+		$post_string = '';
+		if ($this->CI->input->post())
+		{
+			foreach ($this->CI->input->post() as $field=>$value)
+			{ 
+				$this->ipn_data[$field] = $value;
+				$post_string .= $field.'='.urlencode(stripslashes($value)).'&';
+			}
+		}
+		
+		$post_string.="cmd=_notify-validate"; // append ipn command
+
+		// open the connection to paypal
+		$fp = fsockopen("ssl://www.sandbox.paypal.com",443,$err_num,$err_str,30); 		
+		if(!$fp)
+		{ 
+			// could not open the connection.  If loggin is on, the error message
+			// will be in the log.
+			$this->last_error = "fsockopen error no. $errnum: $errstr,".$url_parsed['host']; 
+			$this->log_ipn_results(false);
+			return false;
+		} 
+		else
+		{ 
+			// Post the data back to paypal
+			$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
+			//fputs($fp, "Host: $url_parsed[host]\r\n"); 
+			$header .= "Content-type: application/x-www-form-urlencoded\r\n"; 
+			$header .= "Content-length: ".strlen($post_string)."\r\n"; 
+			$header .= "Connection: close\r\n\r\n"; 
+			fputs($fp, $header . $post_string); 
+
+			// loop through the response from the server and append to variable
+			while(!feof($fp)){
+				$this->ipn_response = fgets($fp, 1024); 
+			}
+
+			fclose($fp); // close connection
+		}
+
+		if (strcmp ($this->ipn_response, "VERIFIED") == 0) 
+		{
+			// Valid IPN transaction.
+			$this->log_ipn_results(true);
+			return true;		 
+		}
+		else 
+		{
+			// Invalid IPN transaction.  Check the log for details.
+			$this->last_error = 'IPN Validation Failed.';
+			$this->log_ipn_results(false);	
+			return false;
+		}
+	}
 	
-	function log_results($data) 
+	public function log_results($data) 
 	{
 		if (!$this->ipn_log) return;  // is logging turned off?
 

@@ -26,18 +26,6 @@ class cart extends MY_Controller {
 		$this->load->view('templates/footer', $this->data);
 	}
 	
-	
-	public function alipay(){
-		
-		$data['order_sn'] = "111";
-		$data['product_name'] = "product_name";
-		$data['total'] = "34343";
-		
-		$this->load->model('alipay_model');
-		$data['alipay_form'] = $this->alipay_model->build_form($data['order_sn'], $data['product_name'], $data['total']);
-		$this->load->view('product/quick_buy', $data);
-	}
-	
 	public function add(){
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation');

@@ -17,13 +17,13 @@
 
 class checkout extends MY_Controller {
 	
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->library('email');
-		$this->load->helper(array('form'));
 		$this->load->library('paypal_lib');
+		$this->load->helper(array('form'));		
 	}
 	
 	public function index()	{
@@ -136,7 +136,7 @@ class checkout extends MY_Controller {
 		$this->load->view('cart/success', $this->data);
 	}
 	
-	function paypal_ipn($uuid)
+	function paypal_ipn($uuid="aaaaa")
 	{
 		// Payment has been received and IPN is verified.  This is where you
 		// update your database to activate or process the order, or setup
@@ -151,6 +151,10 @@ class checkout extends MY_Controller {
 		// For this example, we'll just email ourselves ALL the data.
 		$to    = 'davidrobinson91@hotmail.com';    //  your email
 		
+		$body ="";
+		foreach ($this->input->post() as $key=>$value){
+			$body .= "\n$key: $value";
+		}
 		if ($this->paypal_lib->validate_ipn()) 
 		{
 			//$this->paypal_lib->ipn_data['payer_email'] = $to;
@@ -188,8 +192,10 @@ class checkout extends MY_Controller {
 			$this->email->message($body);	
 			$this->email->send();
 		}else{
-			$this->paypal_lib->log_results("ERRER");
+			$this->paypal_lib->log_results("error: ".$body);
 		}
 	}
+	
+
 }
 ?>

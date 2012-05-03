@@ -6,7 +6,7 @@ $config['partner']      = "";
 $config['key']              = "";
  
 //??支付???或?家支付???
-$config['seller_email'] = "";
+$config['seller_email'] = "info@casimira.com";
  
 //交易?程中服?器通知的?面 要用 http://格式的完整路?，不允?加?id=123??自定???
 $config['notify_url']       = "";
@@ -15,10 +15,10 @@ $config['notify_url']       = "";
 $config['return_url']       = "";
  
 //网站商品的展示地址，不允?加?id=123??自定???
-$config['show_url']     = "http://www.heui.org";
+$config['show_url']     = "http://www.casimira.com.hk";
  
 //收款方名?，如：公司名?、网站名?、收款人姓名等
-$config['mainname']     = "heui";
+$config['mainname']     = "Casimira";
  
 //↑↑↑↑↑↑↑↑↑↑?在?里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 //$config['total_fee']    = 1;  //???金?，?示在支付?收?台里的“?付??”里

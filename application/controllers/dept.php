@@ -231,6 +231,15 @@ class Dept extends MY_Controller {
 	}
 
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
+	
+		$this->data['page']['order_sn'] = "111";
+		$this->data['page']['product_name'] = "product_name";
+		$this->data['page']['total'] = "34343";
+		
+		$this->load->model('alipay_model');
+		$this->data['page']['alipay_form'] = $this->alipay_model->build_form($this->data['page']['order_sn'], $this->data['page']['product_name'], $this->data['page']['total']);
+		
+	
 		$this->load->model( array('category_model', 'product_model', 'component_model') );
 		$this->load->library('zh2cn');
 		$this->data['page']['lang'] = $this->lang->lang();
@@ -290,6 +299,7 @@ class Dept extends MY_Controller {
 		$this->data['page']['add_cart_url'] = site_url().$this->lang->lang()."/cart/add/";
 		$this->data['page']['del_cart_url'] = site_url().$this->lang->lang()."/cart/del/";
 		$this->data['page']['payment_url'] = site_url().$this->lang->lang()."/checkout/payment";
+		
 		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/view_product', $this->data);

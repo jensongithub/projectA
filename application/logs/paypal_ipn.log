@@ -1,46 +1,4 @@
-ENTERED
+1
 
-HTTP/1.1 200 OK
-
-
-Date: Mon, 30 Apr 2012 06:07:23 GMT
-
-
-Server: Apache
-
-
-X-Frame-Options: SAMEORIGIN
-
-
-Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=ciuq3Z65T2C7VDsXhdhslkyPq5_X7f6I2k_6FZ1o371MDog2rRLC-m01QqoItK0lg15HkezwftFG3-2DRT54MnzzBoEie_aldDBwY3xgOrnhfOhJFV1W0kiBok0Syxah0qcVg0%7cT5HgpjypdshUSI2-nLfW7k8LL22PQTFatzxUzXRDG4Jetxbe7es4xcQVPiBJJDlLAx1xDW%7cxmf8cjfoTv0ymeVuNuFAo33wjQR99A5X7z3LilsJNm2frPEg4H9Na7_LqPdPyZHQ1QRd4W%7c1335766043; domain=.paypal.com; path=/; Secure; HttpOnly
-
-
-Set-Cookie: cookie_check=yes; expires=Thu, 28-Apr-2022 06:07:23 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
-
-
-Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
-
-
-Set-Cookie: navlns=0.0; expires=Sun, 25-Apr-2032 06:07:23 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
-
-
-Set-Cookie: Apache=10.72.109.11.1335766043005005; path=/; expires=Wed, 23-Apr-42 06:07:23 GMT
-
-
-Connection: close
-
-
-Content-Type: text/html; charset=UTF-8
-
-
-
-
-
-INVALID
-
-FAILINVALID
-
-ERRER
-
-dfdg
+error: 
 
