@@ -1,3 +1,10 @@
 .info-panel {
 	padding: 50px;
 }
+
+.youtube-video {
+	display: block;
+	margin: 20px auto;
+	width: 640px;
+	height: 360px;
+}

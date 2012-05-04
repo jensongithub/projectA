@@ -10,9 +10,9 @@ class Product_care extends MY_Controller {
 	}
 
 	public function index(){
-		$lang = '_'.$this->lang->lang();
+		$lang = $this->lang->lang();
 		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/product_care'.$lang);
+		$this->load->view('pages/product_care_'.$lang);
 		$this->load->view("templates/footer");
 	}
 
