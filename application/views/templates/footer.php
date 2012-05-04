@@ -2,7 +2,7 @@
 </div>
 <div id="footer">
 	<div class='footer_list'>
-		<div class='block'>
+		<div class='block-1'>
 			<ul>
 				<li class='footer_head'><?php echo _("Customer Services");?></li>
 				<li><?php echo anchor('howtoorder', _('How to Order')); ?></li>
@@ -11,16 +11,15 @@
 				<li><?php echo anchor('info#contact', _('Contact Us')); ?></li>
 			</ul>
 		</div>
-		<div class='block'>
+		<div class='block-2'>
 			<ul>
 				<li class='footer_head'><?php echo _("Online Shop");?></li>
-				<li><?php echo anchor('dept/ladies', _('Ladies')); ?></li>
-				<li><?php echo anchor('dept/men', _('Men')); ?></li>
-				<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
-				<li><?php echo anchor('sales', _('Sales')); ?></li>
+				<li><?php echo anchor('browse/ladies/sales', _('Ladies')); ?></li>
+				<li><?php echo anchor('browse/men/sales', _('Men')); ?></li>
+				<li><?php echo anchor('browse/accessories/sales', _('Accessories')); ?></li>
 			</ul>
 		</div>
-		<div class='block'>
+		<div class='block-3'>
 			<ul>
 				<li class='footer_head'><?php echo _("Payment Methods");?></li>
 				<li>VISA/MASTER</li>
@@ -28,7 +27,7 @@
 				<li><a href='https://www.alipay.com/'>AliPay</a></li>
 			</ul>
 		</div>
-		<div class='block'>
+		<div class='block-4'>
 			<ul>
 				<li class='footer_head'><?php echo _("Others");?></li>
 				<li><?php echo anchor('sitemap', _('Sitemap')); ?></li>

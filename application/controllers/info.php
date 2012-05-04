@@ -7,13 +7,12 @@ class Info extends MY_Controller {
 		parent::__construct();
 		$this->load->helper('html');
 		$this->set_page('title','Info');
-	
 	}
 
 	public function index(){		
-		$lang = '_'.$this->lang->lang();
+		$lang = $this->lang->lang();
 		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/info'.$lang);
+		$this->load->view('pages/info_'.$lang);
 		$this->load->view("templates/footer");
 	}
 

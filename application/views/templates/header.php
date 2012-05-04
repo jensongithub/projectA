@@ -31,9 +31,8 @@
 		<ul>
 			<li><?php echo anchor('company', _('About us')); ?> / </li>			
 			<li><?php echo anchor('browse/ladies/sales', _('Ladies')); ?> / </li>
-			<li><?php echo anchor('', _('Men')); ?> / </li>
+			<li><?php echo anchor('browse/men/sales', _('Men')); ?> / </li>
 			<li><?php echo anchor('', _('Accessories')); ?> / </li>
-			<li><?php echo anchor('sales', _('Sales')); ?> / </li>
 			<li><?php echo anchor('news', _('News')); ?> / </li>
 			<li><?php echo anchor('info#location', _('Location')); ?> / </li>
 			<li><?php echo anchor('product_care', _('Product Care')); ?> / </li>

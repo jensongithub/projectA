@@ -346,8 +346,12 @@ background: white;
 
 		<div class='product-title'>
 			<span class='product-name'><?php echo $page['id'] . $page['colors'][0]['color']; ?></span>
-			<span class='product-discount'> $<?php echo $page['product']['discount'] ?> </span>
-			<span class='product-price'> $<?php echo $page['product']['price'] ?> </span>
+			<?php if( $page['product']['discount'] < $page['product']['price'] ) { ?>
+				<span class='product-discount'> $<?php echo $page['product']['discount'] ?> </span>
+				<span class='product-price'> $<?php echo $page['product']['price'] ?> </span>
+			<?php } else { ?>
+				<span class='product-discount'> $<?php echo $page['product']['price'] ?> </span>
+			<?php } ?>
 		</div>
 
 		<div id='_product-description'>
