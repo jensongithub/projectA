@@ -41,5 +41,5 @@
 		</ul>
 	</div>
 </div>
-<div id="content" class="container">
+<div id="content">
 	<div class="container">

@@ -169,55 +169,9 @@ a:visited,
 	font-size:14px;
 }
 
-.left-block,
-.right-block{
-	position:relative;
-	width:26em;
-	height: 16em;
-	border:1px solid #CCC;
-}
-
-.left-block{
-	float:left;
-}
-
-.right-block{
-	float:right;
-	margin-right:3em;
-}
-
-.section-header{
-	font-size:22px;
-	padding-top:.5em;
-	padding-bottom:.5em;
-	background-color:#de3;
-}
-
-.left-block .header,
-.right-block .header{
-	padding-top:1em;
-	padding-bottom:1em;
-	font-size:18px;
-	border-bottom:1px solid #CCC;
-}
-
-.left-block label{
-	display:block;
-}
-
-.left-block .row{
-	margin-bottom:1em;
-}
-
-
 .sitemap-left, .sitemap-right{
 
 }
-
-.expando{
-	min-height:30em;
-}
-
 
 .footer_list{
 	margin-left: 25%;
@@ -345,7 +299,7 @@ h2 {
 }
 
 #cat-menu {
-	color: #501100;
+	color: #B08047;
 	float: left;
 	width: 150px;
 }
@@ -512,17 +466,17 @@ h2 {
 }
 
 .level-0 {
-	font-size: 0.95em;
+	font-size: 16px;
 }
 
 .level-1 {
-	font-size: 0.95em;
+	font-size: 16px;
 	font-weight: bold;
 	margin-left: 0px;
 }
 
 .level-2 {
-	font-size: 0.9em;
+	font-size: 15px;
 	margin-left: 20px;
 }
 
