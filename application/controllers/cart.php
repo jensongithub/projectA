@@ -64,7 +64,7 @@ class cart extends MY_Controller {
 			}
 		}
 		
-		$this->session->set_userdata($this->data);		
+		$this->session->set_userdata($this->data);
 		if ($is_same) $item='""';
 
 		echo <<<JSON

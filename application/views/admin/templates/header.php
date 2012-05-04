@@ -30,15 +30,15 @@
 		<ul>
 			<li><?php echo anchor('admin/', _('Dashboard')); ?></li>
 			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
-			<li><?php echo anchor('admin/edit_menu', _('Menu')); ?></li>
-			<li><?php echo anchor('dept/accessories', _('Accessories')); ?></li>
+			<li><?php echo anchor('admin/menu', _('Menu')); ?></li>
+			<li><?php echo anchor('admin/products', _('Products')); ?></li>
 			
 		</ul>
 		<ul>
 			<li><?php echo anchor('admin/edit_content/company', _('About us')); ?></li>
 			<li><?php echo anchor('sales', _('Sales')); ?></li>
 			<li><?php echo anchor('admin/edit_content/news', _('News')); ?></li>			
-			<li><?php echo anchor('admin/products', _('Products')); ?></li>
+			<li><?php echo anchor('admin/components', _('Components')); ?></li>
 			<li><?php echo anchor('admin/edit_content/info', _('Location')); ?></li>
 		</ul>
 

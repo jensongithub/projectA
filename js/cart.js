@@ -74,7 +74,7 @@ var shop_cart = {
 			success: function (data, textStatus, jqXHR) {
 				if (jqXHR.responseText!=""){
 					$('div[class=payment_gateway]').append(jqXHR.responseText);
-					$('form[name=order_form]').submit();
+					$('form[name=paypal_form]').submit();
 				}
 			},
 			error:function(xhr,err){ alert(err+"Please try again later or contact info@casimira.com.hk."); },

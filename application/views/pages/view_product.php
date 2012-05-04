@@ -75,6 +75,8 @@ $(document).ready(function($){
 	//initMagnifier();
 	initThumbnailEvent();
 	initCartOperations();
+	
+	$('.color-thumbnail:first').click();
 });
 
 function initZoom() {
@@ -206,6 +208,17 @@ function initCartOperations(){
 
 	});		
 	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});
+	
+	
+	$('.product-color').bind("click.select", function(){
+		$('.product-color').removeClass('selected-color');
+		$(this).addClass('selected-color');
+	});
+	
+	$('.item_size').bind("click.select", function(){
+		$('.item_size').removeClass('selected-size');
+		$(this).addClass('selected-size');
+	});
 }
 
 function checkout(pg){
@@ -241,13 +254,13 @@ background: white;
 				<div id='showcase'>
 					<?php
 					$files = array();
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
-					$files[] = "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
+					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
 					$list = array();
 					
-					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['cat']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
+					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
 					
 					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
@@ -335,7 +348,7 @@ background: white;
 							<?php
 							foreach( $page['colors'] as $color ) {
 								echo "<li class='product-color' title='${color['color']}'>";
-								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['cat']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}") )."</a>";
+								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}", 'title' => $color['name_' . $page['lang']]) )."</a>";
 								echo "</li>";
 							}
 							?>
@@ -343,12 +356,13 @@ background: white;
 					</div>
 					<div class='clear'></div>
 					<div style='margin-top:1em;'>
-						<h4>Size:<span id="selected-size"><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
+						<h4>Size:<span><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
 						</h4>
 						<a href='javascript:void(0);' class='item_size' value='S'>S</a>
 						<a href='javascript:void(0);' class='item_size' value='M'>M</a>
 						<a href='javascript:void(0);' class='item_size' value='L'>L</a>
 						<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+						<div class='clear'></div>
 					</div>
 					
 					<div style='margin-top:1em;'>

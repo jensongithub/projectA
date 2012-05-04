@@ -1,6 +1,7 @@
 <?php echo js('jquery-validation-1.9.0/jquery.validate.min.js'); ?>
 <?php echo css('css/admin/categories.css') ?>
 
+<h2>Categories</h2>
 <div id='categories-list-panel'>
 	<select id='categories-list' size='10'>
 		<?php 
@@ -62,23 +63,33 @@
 	<form id='category-add-form' action='edit_categories' method='post' class='form'>
 		<input type='hidden' id='action' name='action' value='add' />
 		<h3>Add new category</h3>
-		<p><label for='catname-a'><?php echo _('Category name') ?></label></p>
-		<p><input id='catname-a' name='catname-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-a'); ?>' /></p>
-		<p><label for='path-a'><?php echo _('Path') ?></label></p>
-		<p><input id='path-a' name='path-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-a'); ?>' /></p>
-		<p><input type='submit' value='<?php echo _('Submit') ?>' /></p>
+		<div class='field'>
+			<label for='catname-a' class='label'><?php echo _('Category name') ?></label>
+			<input id='catname-a' name='catname-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-a'); ?>' class='input' />
+		</div>
+		<div class='field'>
+			<label for='path-a' class='label'><?php echo _('Path') ?></label>
+			<input id='path-a' name='path-a' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-a'); ?>' class='input' />
+		</div>
+		<input type='submit' value='<?php echo _('Submit') ?>' class='submit-button' />
 	</form>
 	
 	<form id='category-edit-form' action='edit_categories' method='post' class='form'>
 		<input type='hidden' id='action' name='action' value='edit' />
 		<input type='hidden' id='catid' name='catid' value='<?php echo set_value('catid'); ?>' />
 		<h3>Edit category</h3>
-		<p><?php echo _('Original category') ?></p>
-		<p><input id='ori-catname' name='ori-catname' size='50' value='<?php if( validation_errors() != "" ) echo set_value('ori-catname'); ?>' /></p>
-		<p><label for='catname-e'><?php echo _('New category name') ?></label></p>
-		<p><input id='catname-e' name='catname-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-e'); ?>' /></p>
-		<p><label for='path-e'><?php echo _('Path') ?></label></p>
-		<p><input id='path-e' name='path-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-e'); ?>' /></p>
-		<p><input type='submit' value='<?php echo _('Submit') ?>' /></p>
+		<div class='field'>
+			<label class='label'><?php echo _('Original category') ?></label>
+			<input id='ori-catname' name='ori-catname' size='50' value='<?php if( validation_errors() != "" ) echo set_value('ori-catname'); ?>' class='input' />
+		</div>
+		<div class='field'>
+			<label for='catname-e' class='label'><?php echo _('New category name') ?></label>
+			<input id='catname-e' name='catname-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('catname-e'); ?>' class='input' />
+		</div>
+		<div class='field'>
+			<label for='path-e' class='label'><?php echo _('Path') ?></label>
+			<input id='path-e' name='path-e' size='50' value='<?php if( validation_errors() != "" ) echo set_value('path-e'); ?>' class='input' />
+		</div>
+		<input type='submit' value='<?php echo _('Submit') ?>' class='submit-button' />
 	</form>
 </div>

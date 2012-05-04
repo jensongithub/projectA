@@ -6,6 +6,19 @@ class Component_model extends CI_Model {
 		$this->load->database();
 	}
 	
+	public function add_component($id = '', $name_en = '', $name_zh = ''){
+		if( $id == '' || $name_en == '' || $name_zh == '' )
+			return FALSE;
+
+		try{
+			$query = "INSERT INTO components VALUES(?, ?, ?)";
+			return $this->db->query( $query, array( $id, $name_en, $name_zh ) );
+		}catch(Exception $e){
+			echo $e->get_message();
+			return FALSE;
+		}
+	}
+
 	public function search_by_name($needle = ''){
 		$needle = "%$needle%";
 		$query = "SELECT * FROM components WHERE name_en LIKE ? OR name_zh LIKE ?";
@@ -18,9 +31,15 @@ class Component_model extends CI_Model {
 		return $result;
 	}
 	
-	public function get_components_by_id($id = ''){
+	public function get_components($id = ''){
+		if( $id == '' ){
+			$query = "SELECT * FROM components";
+			$result = $this->db->query($query);
+			return $result->result_array();
+		}
 		$query = "SELECT * FROM components WHERE id = ?";
-		$this->db->query($query, $id);
+		$result = $this->db->query($query, $id);
+		return $result->result_array();
 	}
 	
 	public function get_components_from_json($json = null){
@@ -37,6 +56,20 @@ class Component_model extends CI_Model {
 		}
 		
 		return $ret;
+	}
+	
+	public function edit_component($id = '', $name_en = FALSE, $name_zh = FALSE){
+		if( $id == '' || $name_en === FALSE || $name_zh === FALSE )
+			return FALSE;
+
+		try{
+			$query = "UPDATE components SET name_en = ?, name_zh = ? WHERE id = ?";
+			$this->db->query( $query, array( $name_en, $name_zh, $id ) );
+			return TRUE;
+		}catch(Exception $e){
+			echo $e->get_message();
+			return FALSE;
+		}
 	}
 }
 ?>

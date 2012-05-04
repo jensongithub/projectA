@@ -137,7 +137,7 @@ class Paypal_Lib {
 		$this->fields[$field] = $value;
 	}
 
-	function paypal_auto_form() 
+	/*function paypal_auto_form() 
 	{
 		// this function actually generates an entire HTML page consisting of
 		// a form with hidden elements which is submitted to paypal via the 
@@ -167,6 +167,43 @@ class Paypal_Lib {
 		$str .= form_close() . "\n";
 
 		return $str;
+	*/}
+	
+	function build_form($data){
+		$html = <<<PAYPAL_FORM
+			<form action="{$this->paypal_url}" METHOD='POST' name="paypal_form">
+			<input type="hidden" name="cmd" value="_cart" />
+			<input type="hidden" name="upload" value="1" />
+			<input type="hidden" name="business" value="{$payment['paypal_id']}" />
+PAYPAL_FORM;
+		$item_num=1;
+		foreach($data['page']['cart'] as $each_item){
+			$html.=<<<PAYPAL_FORM
+			<input type="hidden" name="item_name_$item_num" value={$each_item['name_zh']}" />
+			<input type="hidden" name="item_number_$item_num" value="{$each_item['id']}" />
+			<input type="hidden" name="amount_$item_num" value="{$each_item['price']}" />
+			<input type="hidden" name="quantity_$item_num" value="{$each_item['quantity']}" />
+PAYPAL_FORM
+			++$item_num;
+		}
+		
+		$success_url = site_url().$this->lang->lang()."/checkout/success";
+		$cancel_url = site_url().$this->lang->lang()."/checkout/cancel";
+		$notify_url = site_url().$this->lang->lang()."/checkout/notify";
+		
+		$html.=<<<PAYPAL_FORM
+			<input type="hidden" name="currency_code" value="USD">
+			<input type="hidden" name="lc" value="US">
+			<input type="hidden" name="rm" value="2">
+			<input type="hidden" name="shipping_1" value="0">
+			<input type="hidden" name="return" value="{$success_url}">
+			<input type="hidden" name="cancel_return" value="{$cancel_url}">
+			<input type="hidden" name="notify_url" value="{$notify_url}">
+			<input type="hidden" name="order_id" value="{$data['order_id']}">
+			<input type="hidden" name="pg" value="paypal_submit">
+		</form>
+PAYPAL_FORM;
+		return $html;
 	}
 	
 	public function _validate_ipn(){

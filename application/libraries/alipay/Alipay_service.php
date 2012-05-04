@@ -56,9 +56,9 @@ class Alipay_service {
      */
     function build_form() {
         //GET方式??
-        $sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->gateway."_input_charset=".$this->parameter['_input_charset']."' method='get'>";
+        $sHtml = "<form id='alipay_form' name='alipay_form' action='".$this->gateway."_input_charset=".$this->parameter['_input_charset']."' method='get'>";
         //POST方式??（GET与POST二必?一）
-        //$sHtml = "<form id='alipaysubmit' name='alipaysubmit' action='".$this->gateway."_input_charset=".$this->parameter['_input_charset']."' method='post'>";
+        //$sHtml = "<form id='alipay_form' name='alipay_form' action='".$this->gateway."_input_charset=".$this->parameter['_input_charset']."' method='post'>";
  
         while (list ($key, $val) = each ($this->parameter)) {
             $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
@@ -66,11 +66,12 @@ class Alipay_service {
  
         $sHtml = $sHtml."<input type='hidden' name='sign' value='".$this->mysign."'/>";
         $sHtml = $sHtml."<input type='hidden' name='sign_type' value='".$this->sign_type."'/>";
+		$sHtml = $sHtml."<input type='hidden' name='pg' value='alipay_submit'/>";
  
         //submit按?控件?不要含有name?性
         $sHtml = $sHtml."<input type='submit' value='支付?确?付款'></form>";
  
-        //$sHtml = $sHtml."<script>document.forms['alipaysubmit'].submit();</script>";
+        //$sHtml = $sHtml."<script>document.forms['alipay_form'].submit();</script>";
  
         return $sHtml;
     }

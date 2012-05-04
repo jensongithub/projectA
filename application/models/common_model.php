@@ -35,6 +35,29 @@ class Common_model extends CI_Model {
 		return FALSE;
 	}
 	
+	public function get_color_by_id($id = ''){
+		if( $id == '' )
+			return FALSE;
+
+		$this->lna_pos = $this->load->database('lna_pos', TRUE);
+		$query = "SELECT color_code, short_name AS name_zh, e_full_name AS name_en, c_full_name, status ";
+		$query .= "FROM tbl_pos_color_mstr WHERE color_code = ?";
+		if( is_array($id) ){
+			for( $i = 1; $i < count($id); $i++){
+				$query .= " OR color_code = ?";
+			}
+		}
+		$result = $this->lna_pos->query( $query, $id );
+		$result = $result->result_array();
+		$colors = array();
+		foreach( $result as $color ){
+			$colors[$color['color_code']] = array();
+			$colors[$color['color_code']]['name_en'] = $color['name_en'];
+			$colors[$color['color_code']]['name_zh'] = $color['name_zh'];
+		}
+		return $colors;
+	}
+	
 	/*********************
 	* This function will return the stock of the product(s) which the products' barcode LIKE '[barcode]'
 	* If barcode is not provided, this will return the stock of all the products

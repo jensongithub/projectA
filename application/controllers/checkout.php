@@ -49,57 +49,59 @@ class checkout extends MY_Controller {
 	}
 
 	function payment(){
+		$this->load->model('product_model');
+		// 		the session contains the alipay_submit or paypal_submit
+		if (isset($_POST['pg'])){
+			$this->set_session('page', array('pg'=>$_POST['pg']));
+		}
+		
+		// save current link
+		$this->set_session('page', array('prev_page'=>current_url()));
+		
+		// check login first!!!!
+		require_login(1);
+		// if is_login!=true then redirect to login		
+		// 		if login success redirect to prev saved link checkout/payment || checkout/payment
+		
+		// 		if exists alipay_submit, paypal_submit, then, in the payment, calls the $this->paypa() || $this->alipay()
+		
 		$this->load->model(array("order_model"));
 		$this->load->helper( array('form') );
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('pg', 'lang:payment_gateway', 'required|integer|xss_clean');		
 		
-		if($this->form_validation->run() == TRUE) {
-			if (count($this->data['cart'])>0){
-				if ($this->input->post("pg")==="0"){
-					// insert to database order					
-					$this->paypal();
-				}else if ($this->input->post("pg")==="1"){
-					$this->alipay();
+		
+		if(count($this->data['cart'])>0 && !isset($this->data['page']['pg'])) {
+		
+			// get the price from the database and put in the $this->data['cart']
+			$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
+			foreach($this->data['cart'] as $key=>$each_item){
+				foreach ($product_details as $each_product){
+					if ($each_product['id'] === $each_item['id']){
+						$this->data['cart'][$key]['price'] = $each_product['price'];
+						$this->data['cart'][$key]['discount'] = $each_product['discount'];
+					}
 				}
-			}else{
-				echo "-999";
 			}
-		}else{
-			echo "-999";
+			
+			if ($this->data['page']['pg']==="paypal_submit"){
+				// insert to database order			
+				$this->paypal();
+			}else if ($this->data['page']['pg']==="alipay_submit"){
+				$this->alipay();
+			}
 		}
 	}
 	
-	function paypal(){
-		$this->data['payment']=array();
-		
-		$this->data['payment']['gateway'] = 'paypal';
-		$this->data['payment']['paypal_id'] = 'jendro_1334808935_biz@gmail.com';
-		$this->data['payment']['payment_url'] = $this->paypal_lib->paypal_url;
-		
-		
-		$this->load->model('product_model');
+	private function paypal(){
 		$this->load->model("order_model");
-
-		$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
-
-		foreach($this->data['cart'] as $key=>$each_item){
-			foreach ($product_details as $each_product){
-				if ($each_product['id'] === $each_item['id']){
-					$this->data['cart'][$key]['price'] = $each_product['price'];
-					$this->data['cart'][$key]['discount'] = $each_product['discount'];
-				}
-			}
+		$this->load->library('paypal_lib');
+		
+		if (!isset($this->data['page']['order_id'])){
+			$order_id = $this->order_model->insert_checkout_item($this->data['cart']);
+			$this->set_session('page', array('order_id'=>$order_id));
 		}
 		
-		$order_id = $this->order_model->insert_checkout_item($this->data['cart']);
-		
-		$this->data['payment']['success_url']= site_url().$this->lang->lang()."/checkout/success";
-		$this->data['payment']['cancel_url']= site_url().$this->lang->lang()."/checkout/cancel/$order_id";
-		$this->data['payment']['notify_url']= site_url().$this->lang->lang()."/checkout/paypal_ipn/$order_id";
-				
-		echo $this->load->view("pages/product", $this->data, true);
-		
+		$this->paypal_lib->build_form($this->data);
+		//return $this->load->view("pages/product", $this->data, true);
 	}
 	
 	function alipay(){

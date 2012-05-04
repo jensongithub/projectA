@@ -1,32 +1,10 @@
-@charset "utf-8";
-
-#categories-list {
-	width: 370px;
-}
-
-#categories-list-panel {
-	float: left;
-	width: 370px;
-}
-
-#forms-panel {
-	float: left;
-	margin-left: 20px;
-	padding: 0;
-	width: 500px;
-}
-
-.field {
-	margin: 5px 0;
-}
-
-.form {
+#add-panel {
 	background: #f0f0f0;
 	float: left;
 	margin-bottom: 20px;
 	overflow:auto;
 	padding: 10px;
-	width: 500px;
+	width: 450px;
 	
 	/* Border style */
 	border: 1px solid #cccccc;
@@ -40,8 +18,36 @@
 	box-shadow: 2px 2px 2px #cccccc;
 }
 
+#components-list {
+	width: 380px;
+}
+
+#edit-panel {
+	background: #f0f0f0;
+	float: left;
+	margin-bottom: 20px;
+	overflow:auto;
+	padding: 10px;
+	width: 450px;
+	
+	/* Border style */
+	border: 1px solid #cccccc;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
+
+	/* Border Shadow */
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+}
+
+.field {
+	margin: 5px 0;
+}
+
 .input {
-	width: 350px;
+	width: 260px;
 }
 
 .label {
@@ -54,7 +60,18 @@
 	padding-right: 5px;
 	text-align: right;
 	text-shadow: 2px 2px 2px #ccc;
-	width: 120px;
+	width: 150px;
+}
+
+.left-panel {
+	float: left;
+	width: 400px;
+}
+
+.right-panel {
+	float: left;
+	margin: 0 20px;
+	width: 450px;
 }
 
 .submit-button {

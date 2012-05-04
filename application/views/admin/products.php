@@ -31,8 +31,8 @@
 
 <h2>Showing products in <?php echo ($page['cid']==0)?'unclassified':$page['categories'][$page['cid']-1]['name'] ?></h2>
 
-<form method='post' action=''>
-	<input type='hidden' name='move' value='1' />
+<form id='form' method='post' action=''>
+	<input type='hidden' id='action' name='action' value='move' />
 	<div id="tablewrapper">
 		<div id="tableheader">
 			<div class="search">
@@ -53,7 +53,18 @@
 						echo "<option value='${cat['id']}'>${cat['name']}</option>";
 					} ?>
 				</select>
-				<span><input type='submit' value='<?php echo _('Execute') ?>' /></span>
+				<span><input type='submit' id='category-submit' value='<?php echo _('Execute') ?>' /></span>
+			</div>
+			<div class='change-status'>
+				<label for=''><?php echo _('Change products\'s status to') ?> </label>
+				<select id='' name='status'>
+					<option value='A'>Available</option>
+					<option value='S'>On Sales</option>
+					<option value='F'>Off Shelf</option>
+					<option value='N'>Not Available</option>
+					<option value='D'>Deleted</option>
+				</select>
+				<span><input type='submit' id='status-submit' value='<?php echo _('Execute') ?>' /></span>
 			</div>
 		</div>
 		
@@ -180,6 +191,14 @@ $(document).ready(function(){
 	}, function(){
 		$(this).unbind('mousemove');
 		$('.showcase').css('display', 'none');
+	});
+	
+	$('#category-submit').click(function(){
+		$('#form').find('#action').val('move');
+	});
+	
+	$('#status-submit').click(function(){
+		$('#form').find('#action').val('status');
 	});
 });
 
