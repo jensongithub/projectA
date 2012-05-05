@@ -7,7 +7,7 @@
 		<?php 
 		$i = 1;
 		foreach( $page['categories'] as $cat ){ ?>
-		<option id='<?php echo "cat$i" ?>' value='<?php echo $cat['id'] ?>'><?php echo $cat['name'] ?></option>
+		<option id='<?php echo "cat$i" ?>' value='<?php echo $cat['id'] ?>'><?php echo $cat['id'] . ' | ' . $cat['name'] ?></option>
 		<?php $i++; } ?>
 	</select>
 	

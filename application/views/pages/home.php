@@ -1,4 +1,4 @@
-<div id="content" class='container'>
+<div>
 	<div id='slider-container'>
 		<?php echo css('js/nivo-slider/themes/default/default.css', 'screen', FALSE); ?>
 		<?php echo css('js/nivo-slider/nivo-slider.css', 'screen', FALSE); ?>

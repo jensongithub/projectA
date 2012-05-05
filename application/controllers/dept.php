@@ -174,11 +174,14 @@ class Dept extends MY_Controller {
 			$this->data['page']['menu'] = $this->menu_model->get_submenu($this->data['page']['path'][0]['level']);
 		
 		if( $this->data['page']['path'] == FALSE ){
-			$this->data['page']['error'] = "No such category: $dept/$cat/$sub";
-			$this->data['page']['title'] = $this->data['page']['error'];
-			$this->data['page']['path'] = array();
+			$this->data['page']['title'] = T_("No such category") . ": $dept/$cat/$sub";
+			$this->load->view('templates/header', $this->data);
+			$this->load->view('pages/no_category', $this->data);
+			$this->load->view('templates/footer', $this->data);
+			return;
 		}
-		else if( strcasecmp( $cat, 'sales' ) == 0 ){
+
+		if( strcasecmp( $cat, 'sales' ) == 0 ){
 			// if category is SALES
 			$product_count = 0;
 
@@ -258,7 +261,7 @@ class Dept extends MY_Controller {
 
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id, FALSE);
 		if( ! $this->data['page']['product'] ){
-			$this->data['page']['title'] = _('No such product') . ": $id";
+			$this->data['page']['title'] = T_('No such product') . ": $id";
 			$this->load->view('templates/header', $this->data);
 			$this->load->view('pages/no_product', $this->data);
 			$this->load->view('templates/footer', $this->data);

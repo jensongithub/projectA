@@ -147,7 +147,7 @@ a:visited,
 }
 
 #footer{
-	padding-top:4em;
+	margin-top: 30px;
 }
 
 .menu_lang  li,
@@ -178,60 +178,20 @@ a:visited,
 	font-size:14px;
 }
 
-.left-block,
-.right-block{
-	position:relative;
-	width:26em;
-	height: 16em;
-	border:1px solid #CCC;
-}
-
-.left-block{
-	float:left;
-}
-
-.right-block{
-	float:right;
-	margin-right:3em;
-}
-
-.section-header{
-	font-size:22px;
-	padding-top:.5em;
-	padding-bottom:.5em;
-	background-color:#de3;
-}
-
-.left-block .header,
-.right-block .header{
-	padding-top:1em;
-	padding-bottom:1em;
-	font-size:18px;
-	border-bottom:1px solid #CCC;
-}
-
-.left-block label{
-	display:block;
-}
-
-.left-block .row{
-	margin-bottom:1em;
-}
-
-
 .sitemap-left, .sitemap-right{
 
 }
 
-.expando{
-	min-height:30em;
+.footer_list {
+	font-size:x-small;
+	margin-left: auto;
+	margin-right: auto;
+	width: 760px;
 }
 
-
-.footer_list{
-	margin-left: 25%;
-	margin-right: auto;	
-	font-size:x-small;
+.footer_list li {
+	padding: 0 10px;
+	text-align: right;
 }
 
 .footer_list:after{
@@ -243,22 +203,29 @@ a:visited,
 	height:0;
 }
 
-.footer_list .block{
-	position: relative;
+.footer_list .block-1,
+.footer_list .block-2,
+.footer_list .block-3,
+.footer_list .block-4 {
 	float: left;
-	padding-right:4em;
-	
+	padding: 10px;
+	width: 170px;
 }
 
 .footer_head{
-	
-	padding-bottom:0.5em;
+	-webkit-box-shadow: 0 5px 6px -6px black;
+	-moz-box-shadow: 0 5px 6px -6px black;
+	box-shadow: 0 5px 6px -6px black;
+
 	font-size:12px;
-	/*border-bottom: 1px solid #565656;*/
+	font-weight: bold;
+	margin-bottom: 10px;
+	text-align: center;
+	border-bottom: 1px solid #B08047;
 }
 
 .footer_script{
-	margin-top:3em;
+	margin: 20px;
 	text-align: center;
 }
 
@@ -354,7 +321,7 @@ h2 {
 }
 
 #cat-menu {
-	color: #501100;
+	color: #B08047;
 	float: left;
 	width: 150px;
 }
@@ -521,17 +488,17 @@ h2 {
 }
 
 .level-0 {
-	font-size: 0.95em;
+	font-size: 16px;
 }
 
 .level-1 {
-	font-size: 0.95em;
+	font-size: 16px;
 	font-weight: bold;
 	margin-left: 0px;
 }
 
 .level-2 {
-	font-size: 0.9em;
+	font-size: 15px;
 	margin-left: 20px;
 }
 

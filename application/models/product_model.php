@@ -185,7 +185,7 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_similar_products($id = FALSE, $cat_id = FALSE, $num = 1){
-		$query = "SELECT COUNT(*) AS 'count' FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND pc.cat_id = ?";
+		$query = "SELECT COUNT(*) AS 'count' FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND pc.cat_id = ?";
 		$count = $this->db->query($query, $cat_id)->row_array();
 		$max = $count['count'] - 2;
 		
@@ -194,7 +194,7 @@ class Product_model extends CI_Model {
 		$rand = 0;
 		
 		if( $max <= $num - 1 ){
-			$query = "SELECT * FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? ORDER BY rand()";
+			$query = "SELECT * FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? ORDER BY rand()";
 			$products = $this->db->query($query, array($id, $cat_id, $rand))->result_array();
 		}
 		
@@ -205,7 +205,7 @@ class Product_model extends CI_Model {
 					break;
 			}
 			$temp[$rand] = 1;
-			$query = "SELECT * FROM products p, product_category pc WHERE p.status <> 'D' AND p.status <> 'F' AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? LIMIT ?, 1";
+			$query = "SELECT * FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? LIMIT ?, 1";
 			$products[] = $this->db->query($query, array($id, $cat_id, $rand))->row_array();
 		}
 		

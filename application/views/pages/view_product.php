@@ -4,6 +4,8 @@ var pid = '<?php echo $page['id'] ?>';
 var colors = <?php echo $page['colors_json'] ?>;
 var path = '<?php echo $page['path']."/" ?>';
 var holder = pid + colors.c0.color;
+var measurementHolder = false;
+var chartHolder = false;
 
 var imgTesting;
 var showcaseSize = { width: 350, height: 470 };
@@ -64,20 +66,55 @@ $(document).ready(function($){
 		$('#img3').attr('src', prefix + '-D2_s.jpg');
 		$('#showcase-img').attr('src', prefix + '-F.jpg');
 	});
-	
-	$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
-	
-	$('#mask').click(function(){
-		$(this).css('display', 'none');
-	});
-	
+
 	initZoom();
 	//initMagnifier();
+	initSizeChart();
 	initThumbnailEvent();
 	initCartOperations();
 	
 	$('.color-thumbnail:first').click();
 });
+
+function initSizeChart(){
+	var canvas = $('.canvas');
+	$('.mask').click(function(){
+		$(this).css('display', 'none');
+		canvas.css('display', 'none');
+		$(document).unbind('keyup.esc');
+	});
+
+	$('#size-chart-switch').click(function(){
+		$(document).bind('keyup.esc', function(e){
+			if( e.keyCode == 27 ){
+				$('.mask').css('display', 'none');
+				canvas.css('display', 'none');
+				$(document).unbind('keyup.esc');
+			}
+		});
+	});
+}
+
+function showSizeChart(){
+	//$('#size-chart-switch').attr('href', path + pid + "-size.jpg");
+	var canvas = $('.canvas');
+
+	if( ! measurementHolder ){
+		measurementHolder = '<?php echo img( array( 'id' => 'measurement-holder', 'src' => 'products/size info-' . $page['lang'] . '.jpg' ) ) ?>';
+		canvas.append(measurementHolder);
+		var cWidth = $('#measurement-holder').width();
+		canvas.css( 'width', cWidth );
+		canvas.css( 'left', ($(window).width() - cWidth)/2 );
+	}
+	
+	if( ! chartHolder ){
+		chartHolder = '<?php echo img( array( 'id' => 'chart-holder', 'src' => "products/" . $page['i_path'] . "/" .  $page['id'] . '-size.jpg' ) ) ?>';
+		canvas.append(chartHolder);
+	}
+	
+	$('.mask').css('display', 'block');
+	$('.canvas').css('display', 'block');
+}
 
 function initZoom() {
 	var p = $('.zoom-panel'); // zoom panel
@@ -183,16 +220,6 @@ function getPosition(obj){
 	};
 }
 
-function loadSizeChart(){
-	var mask = $('#mask');
-	mask.css('top', 0);
-	mask.css('left', 0);
-	mask.css('display', 'block');
-	$('#size-chart-holder').html( "<img src='" + path + pid + "-size.jpg' />" );
-}
-
-
-
 function initCartOperations(){	
 	shop_cart.item_count = <?php echo count($cart)?>;
 	shop_cart.cur_item = new shop_cart.item;
@@ -237,164 +264,149 @@ filter: progid:DXImageTransform.Microsoft.dropShadow(color=#818181, offX=5, offY
 background: white;
 }
 </style>
-<div id="content" class='container'>
-	<div class="content">
-		<div class="container">
-			<div id='product-image'>
-				<div id='showcase'>
-					<?php
-					$files = array();
-					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
-					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
-					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
-					$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
-					$list = array();
-					
-					$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
-					
-					echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
-					foreach( $files as $key => $file ){
-						if( file_exists( "images/$file" ) )
-							$list[] = img( array( 'id' => "img$key", 'src' => $file, 'class' => 'showcase-thumbnail') );
-					}
-					
-					$attr = array(
-										'id' => 'showcase-backstage'
-					);
+<div class="content">
+	<div id='product-image'>
+		<div id='showcase'>
+			<?php
+			$files = array();
+			$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F_s.jpg";
+			$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-B_s.jpg";
+			$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D1_s.jpg";
+			$files[] = "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-D2_s.jpg";
+			$list = array();
+			
+			$attr = array( 'id' => 'showcase-img', 'src' => "products/{$page['i_path']}/{$page['id']}" . $page['colors'][0]['color'] . "-F.jpg", 'class' => 'showcase-normal');
+			
+			echo "<div id='showcase-stage'>" . img($attr) . "<div class='zoom-area'>" . img( array( 'id' => 'magnifier', 'src' => 'magnifier-left.png' ) ) . "</div></div>";
 
-					echo ul($list, $attr);
-					?>
-					<div class='zoom-panel'>
-						<img class='zoom-in' />
-					</div>
-				</div>
-				<div id='similar-products'>
-					<h3><?php echo _('Similar Products'); ?></h3>
-					<ul>
-						<?php foreach( $page['sim_pro']as $prod) { ?>
-						<li class="similar-thumbnail">
-							<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['front_img'] ) ); ?>
-							<span><?php echo anchor( str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), $prod['id'] ) ?></span><br />
-							<?php if( $prod['discount'] < $prod['price'] ) { ?>
-								<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
-								<span style='color: #F00'>$<?php echo $prod['discount'] ?></span><br />
-							<?php } else { ?>
-								<span>$<?php echo $prod['price'] ?></span><br />
-							<?php } ?>
-						</li>
-						<?php } ?>
-					</ul>
-				</div>
-			</div>
+			foreach( $files as $key => $file ){
+				if( file_exists( "images/$file" ) )
+					$list[] = img( array( 'id' => "img$key", 'src' => $file, 'class' => 'showcase-thumbnail') );
+			}
+			
+			$attr = array(
+								'id' => 'showcase-backstage'
+			);
 
-			<div id='product-text'>
-				<?php
-				$list = array();
-				foreach( $page['c_path'] as $key => $item ){
-					if( $key == 0 )
-						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']) . '/sales', $item['text_' . $page['lang']] );
-					else
-						$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
-					$list[] = ' > ';
-				}
-				$list[] = $page['id'];
-
-				$attr = array(
-							'id' => 'product-path'
-				);
-
-				echo ul($list, $attr);
-				?>
-				<div class='clear'></div>
-
-				<div class='product-title'>
-					<span class='product-name'><?php echo $page['id'] . $page['colors'][0]['color']; ?></span>
-					<span class='product-discount'> $<?php echo $page['product']['discount'] ?> </span>
-					<span class='product-price'> $<?php echo $page['product']['price'] ?> </span>
-				</div>
-
-				<div id='_product-description'>
-					<div style='margin-bottom: 30px;'>
-						<h4><?php echo _('Description'); ?></h4>
-						<p><?php echo $page['product']['description_' . $page['lang']] ?></p>
-					</div>
-
-					<div>
-						<h4><?php echo _('Details'); ?></h4>
-						<div>
-						<?php
-						if( $page['product']['comp_list'] )
-							foreach( $page['product']['comp_list'] as $comp ){
-								echo "<p>" . $comp['percentage'] . " % " . $comp['name_' . $page['lang']] . "</p>";
-							}
-						?>
-						</div>
-					</div>
-
-					<div style='margin-top:1em;'>
-						<h4>Colour:</h4>
-						<ul>
-							<?php
-							foreach( $page['colors'] as $color ) {
-								echo "<li class='product-color' title='${color['color']}'>";
-								echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}", 'title' => $color['name_' . $page['lang']]) )."</a>";
-								echo "</li>";
-							}
-							?>
-						</ul>
-					</div>
-					<div class='clear'></div>
-					<div style='margin-top:1em;'>
-						<h4>Size:<span><a id='size-chart-switch' href='' target='_blank'>Size Chart</a></span><br/>
-						</h4>
-						<a href='javascript:void(0);' class='item_size' value='S'>S</a>
-						<a href='javascript:void(0);' class='item_size' value='M'>M</a>
-						<a href='javascript:void(0);' class='item_size' value='L'>L</a>
-						<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
-						<div class='clear'></div>
-					</div>
-					
-					<div style='margin-top:1em;'>
-						<h4>Quantity:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
-					</div>
-					
-					<div style='margin-top:1em;' class="payment_gateway">
-						<span>
-							<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-							<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
-							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
-							<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
-						</span>
-					</div>
-					
-					<?php echo $page['alipay_form']; ?>
-					
-				</div>
+			echo ul($list, $attr);
+			?>
+			<div class='zoom-panel'>
+				<img class='zoom-in' />
 			</div>
 		</div>
+		<div id='similar-products'>
+			<h3><?php echo T_('Similar Products'); ?></h3>
+			<ul>
+				<?php foreach( $page['sim_pro']as $prod) { ?>
+				<li class="similar-thumbnail">
+					<?php echo anchor(str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), img("products/" . $page['category']['path'] . "/" . $prod['front_img'] ) ); ?>
+					<span><?php echo anchor( str_replace('&', '%26', "view/" . $page['category']['c_path'] . "/" . $prod['id']), $prod['id'] ) ?></span><br />
+					<?php if( $prod['discount'] < $prod['price'] ) { ?>
+						<span style='text-decoration: line-through;'> $<?php echo $prod['price'] ?> </span><br />
+						<span style='color: #F00'>$<?php echo $prod['discount'] ?></span><br />
+					<?php } else { ?>
+						<span>$<?php echo $prod['price'] ?></span><br />
+					<?php } ?>
+				</li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+
+	<div id='product-text'>
+		<?php
+		$list = array();
+		foreach( $page['c_path'] as $key => $item ){
+			if( $key == 0 )
+				$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']) . '/sales', $item['text_' . $page['lang']] );
+			else
+				$list[] = anchor( str_replace('&', '%26', 'browse/' . $item['c_path']), $item['text_' . $page['lang']] );
+			$list[] = ' > ';
+		}
+		$list[] = $page['id'];
+
+		$attr = array(
+					'id' => 'product-path'
+		);
+
+		echo ul($list, $attr);
+		?>
+		<div class='clear'></div>
+
+		<div class='product-title'>
+			<span class='product-name'><?php echo $page['id'] . $page['colors'][0]['color']; ?></span>
+			<?php if( $page['product']['discount'] < $page['product']['price'] ) { ?>
+				<span class='product-discount'> $<?php echo $page['product']['discount'] ?> </span>
+				<span class='product-price'> $<?php echo $page['product']['price'] ?> </span>
+			<?php } else { ?>
+				<span class='product-discount'> $<?php echo $page['product']['price'] ?> </span>
+			<?php } ?>
+		</div>
+
+		<div id='_product-description'>
+			<div style='margin-bottom: 30px;'>
+				<h4><?php echo T_('Description'); ?></h4>
+				<p><?php echo $page['product']['description_' . $page['lang']] ?></p>
+			</div>
+
+			<div>
+				<h4><?php echo T_('Details'); ?></h4>
+				<div>
+				<?php
+				if( $page['product']['comp_list'] )
+					foreach( $page['product']['comp_list'] as $comp ){
+						echo "<p>" . $comp['percentage'] . " % " . $comp['name_' . $page['lang']] . "</p>";
+					}
+				?>
+				</div>
+			</div>
+
+
+			<div style='margin-top:1em;'>
+				<h4><?php echo T_('Colour') ?>:</h4>
+				<ul>
+					<?php
+					foreach( $page['colors'] as $color ) {
+						echo "<li class='product-color' title='${color['color']}'>";
+						echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}", 'title' => $color['name_' . $page['lang']]) )."</a>";
+						echo "</li>";
+					}
+					?>
+				</ul>
+
+			</div>
+			<div class='clear'></div>
+			<div style='margin-top:1em;'>
+				<h4><?php echo T_('Size') ?>: <a id='size-chart-switch' href='javascript: showSizeChart()'>Size Chart</a></h4>
+				<a href='javascript:void(0);' class='item_size' value='S'>S</a>
+				<a href='javascript:void(0);' class='item_size' value='M'>M</a>
+				<a href='javascript:void(0);' class='item_size' value='L'>L</a>
+				<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+				<div class='clear'></div>
+			</div>
+			
+			<div style='margin-top:1em;'>
+				<h4><?php echo T_('Quantity') ?>:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
+			</div>
+			
+			<div style='margin-top:1em;' class="payment_gateway">
+				<span>
+					<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+					<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+					<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
+					<?php echo $page['alipay_form']; ?>
+					<input type="hidden" name="pg" value=""/>
+					<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
+				</span>
+			</div>
+		</div>				
 	</div>
 </div>
 
-<style>
-#mask {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	background-color: #333;
-	opacity: 0.5;
-}
 
-#size-chart-holder {
-	position: fixed;
-	margin: auto auto auto auto;
-	width: 500px;
-	height: 400px;
-}
-</style>
-
-
-<div id='mask'><div id='size-chart-holder'></div></div>
+<div class='mask'></div>
+<div class='canvas'></div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>
 <div class="modal" name="login_modal" style="display:none;">
 

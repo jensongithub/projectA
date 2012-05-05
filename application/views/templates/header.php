@@ -22,24 +22,23 @@
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
 			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389' target='_blank'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
-			<li><?php echo anchor('cart', "<img class='fb_logo' src='/images/cart.png' />") ?><span class='item_count'><?php echo count($cart)>0? "(".count($cart).")":''; ?></span></li>
-			<li><?php echo ($user['is_login']===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?></li>
+			<li><?php echo anchor('cart', "<img class='fb_logo' src='/images/cart.png' />") ?><span class='cart_counter'><?php echo count($cart)>0? "(".count($cart).")":''; ?></span></li>
+			<li><?php echo ($user['is_login']===FALSE) ? anchor('login', T_('Login')) : anchor('logout', T_('Logout')) ?></li>
 		</ul>
 	</div>
-	<div><a href="/"><img class='logo' src="/images/logo.png" alt=""/></a></div>
+	<div><?php echo anchor( base_url() . $this->lang->lang(), img( array('src' => 'logo.png', 'class' => 'logo') ) ) ?></div>
 	<div class='menu_l2'>
 		<ul>
-			<li><?php echo anchor('company', _('About us')); ?> / </li>			
-			<li><?php echo anchor('browse/ladies/sales', _('Ladies')); ?> / </li>
-			<li><?php echo anchor('', _('Men')); ?> / </li>
-			<li><?php echo anchor('', _('Accessories')); ?> / </li>
-			<li><?php echo anchor('sales', _('Sales')); ?> / </li>
-			<li><?php echo anchor('news', _('News')); ?> / </li>
-			<li><?php echo anchor('info#location', _('Location')); ?> / </li>
-			<li><?php echo anchor('product_care', _('Product Care')); ?> / </li>
-			<li><?php echo anchor('info#contact', _('Contact us')); ?></li>
+			<li><?php echo anchor('company', T_('About us')); ?> / </li>			
+			<li><?php echo anchor('browse/ladies/sales', T_('Ladies')); ?> / </li>
+			<li><?php echo anchor('browse/men/sales', T_('Men')); ?> / </li>
+			<li><?php echo anchor('', T_('Accessories')); ?> / </li>
+			<li><?php echo anchor('news', T_('News')); ?> / </li>
+			<li><?php echo anchor('info#location', T_('Location')); ?> / </li>
+			<li><?php echo anchor('product_care', T_('Product Care')); ?> / </li>
+			<li><?php echo anchor('info#contact', T_('Contact us')); ?></li>
 		</ul>
 	</div>
 </div>
-<div id="content" class="container">
+<div id="content">
 	<div class="container">
