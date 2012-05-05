@@ -2,6 +2,28 @@
 	padding: 50px;
 }
 
+.product-care-img {
+	display: block;
+	margin: 0 auto;
+}
+
+.section {
+	padding: 20px;
+}
+
+.section h2 {
+	color: #B08047;
+}
+
+.title {
+	border-bottom: 1px solid #B08047;
+	color: #B08047;
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0px 20px;
+	padding: 20px;
+}
+
 .youtube-video {
 	display: block;
 	margin: 20px auto;

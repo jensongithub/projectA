@@ -37,8 +37,8 @@
 			</h3>
 			<div class='page-nav'>
 				<?php
-				if( isset($page['prev']) ) echo anchor($page['url'] . $page['prev'], "<div class='prev-page'>&lt; " . _('Previous page') . "</div>");
-				if( isset($page['next']) ) echo anchor($page['url'] . $page['next'], "<div class='next-page'>" . _('Next page') . " &gt;</div>");
+				if( isset($page['prev']) ) echo anchor($page['url'] . $page['prev'], "<div class='prev-page'>&lt; " . T_('Previous page') . "</div>");
+				if( isset($page['next']) ) echo anchor($page['url'] . $page['next'], "<div class='next-page'>" . T_('Next page') . " &gt;</div>");
 				?>
 			</div>
 		</div>
@@ -77,8 +77,8 @@
 		
 		<div class='page-nav'>
 			<?php
-			if( isset($page['prev']) ) echo anchor($page['url'] . $page['prev'], "<div class='prev-page'>&lt; " . _('Previous page') . "</div>");
-			if( isset($page['next']) ) echo anchor($page['url'] . $page['next'], "<div class='next-page'>" . _('Next page') . " &gt;</div>");
+			if( isset($page['prev']) ) echo anchor($page['url'] . $page['prev'], "<div class='prev-page'>&lt; " . T_('Previous page') . "</div>");
+			if( isset($page['next']) ) echo anchor($page['url'] . $page['next'], "<div class='next-page'>" . T_('Next page') . " &gt;</div>");
 			?>
 		</div>
 	</div>

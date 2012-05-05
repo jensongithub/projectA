@@ -306,7 +306,7 @@ background: white;
 			</div>
 		</div>
 		<div id='similar-products'>
-			<h3><?php echo _('Similar Products'); ?></h3>
+			<h3><?php echo T_('Similar Products'); ?></h3>
 			<ul>
 				<?php foreach( $page['sim_pro']as $prod) { ?>
 				<li class="similar-thumbnail">
@@ -356,12 +356,12 @@ background: white;
 
 		<div id='_product-description'>
 			<div style='margin-bottom: 30px;'>
-				<h4><?php echo _('Description'); ?></h4>
+				<h4><?php echo T_('Description'); ?></h4>
 				<p><?php echo $page['product']['description_' . $page['lang']] ?></p>
 			</div>
 
 			<div>
-				<h4><?php echo _('Details'); ?></h4>
+				<h4><?php echo T_('Details'); ?></h4>
 				<div>
 				<?php
 				if( $page['product']['comp_list'] )
@@ -373,7 +373,7 @@ background: white;
 			</div>
 
 			<div style='margin-top:1em;'>
-				<h4>Colour:</h4>
+				<h4><?php echo T_('Colour') ?>:</h4>
 				<ul>
 					<?php
 					foreach( $page['colors'] as $color ) {
@@ -386,7 +386,7 @@ background: white;
 			</div>
 			<div class='clear'></div>
 			<div style='margin-top:1em;'>
-				<h4>Size: <a id='size-chart-switch' href='javascript: showSizeChart()'>Size Chart</a></h4>
+				<h4><?php echo T_('Size') ?>: <a id='size-chart-switch' href='javascript: showSizeChart()'>Size Chart</a></h4>
 				<a href='javascript:void(0);' class='item_size' value='S'>S</a>
 				<a href='javascript:void(0);' class='item_size' value='M'>M</a>
 				<a href='javascript:void(0);' class='item_size' value='L'>L</a>
@@ -395,7 +395,7 @@ background: white;
 			</div>
 			
 			<div style='margin-top:1em;'>
-				<h4>Quantity:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
+				<h4><?php echo T_('Quantity') ?>:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
 			</div>
 			
 			<div style='margin-top:1em;' class="payment_gateway">
