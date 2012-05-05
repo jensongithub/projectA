@@ -9,6 +9,10 @@ class cart extends MY_Controller {
 	public function index(){
 		$this->load->model("product_model");				
 		
+		$this->data['page']['add_cart_url'] = site_url().$this->lang->lang()."/cart/add/";
+		$this->data['page']['del_cart_url'] = site_url().$this->lang->lang()."/cart/del/";
+		$this->data['page']['payment_url'] = site_url().$this->lang->lang()."/checkout/payment";
+		
 		$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
 		foreach($this->data['cart'] as $key=>$each_item){
 			foreach ($product_details as $each_product){
@@ -68,7 +72,7 @@ class cart extends MY_Controller {
 		if ($is_same) $item='""';
 
 		echo <<<JSON
-{"cart_item":$item, "cart_counter":$cart_counter, "success":"$ret"}
+{"cart_item":$item, "item_count":$cart_counter, "success":"$ret"}
 JSON;
 }
 	
@@ -99,7 +103,7 @@ JSON;
 		$this->session->set_userdata($this->data);
 		
 		echo <<<JSON
-{"cart_item":"", "cart_counter":$cart_counter, "success":"$ret"}
+{"cart_item":"", "item_count":$cart_counter, "success":"$ret"}
 JSON;
 	}
 }

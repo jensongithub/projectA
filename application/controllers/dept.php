@@ -231,14 +231,17 @@ class Dept extends MY_Controller {
 	}
 
 	public function view($dept = '', $cat = '', $sub = '', $id = '') {
-	
+		$this->load->model('alipay_model');
 		$this->data['page']['order_sn'] = "111";
 		$this->data['page']['product_name'] = "product_name";
 		$this->data['page']['total'] = "34343";
 		
-		$this->load->model('alipay_model');
 		$this->data['page']['alipay_form'] = $this->alipay_model->build_form($this->data['page']['order_sn'], $this->data['page']['product_name'], $this->data['page']['total']);
 		
+		
+		$this->load->helper( array('form') );
+		//$this->load->library('form_validation');
+		$this->data['page']['login_url'] = site_url().$this->lang->lang()."/login/";
 	
 		$this->load->model( array('category_model', 'product_model', 'component_model', 'common_model') );
 
@@ -273,7 +276,7 @@ class Dept extends MY_Controller {
 		foreach( $colors as $color ){
 			$color_ids[] = $color['color'];
 		}
-		//$color_from_pos = $this->common_model->get_color_by_id($color_ids);
+		$color_from_pos = $this->common_model->get_color_by_id($color_ids);
 		unset($color_ids);
 
 		$this->load->helper('json');

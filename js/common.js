@@ -1,4 +1,4 @@
-function check_login(){
+function _check_login(){
 	var lobj = {};
 	$.ajax({
 			type: "POST",

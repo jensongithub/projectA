@@ -109,19 +109,17 @@ class User_model extends CI_Model {
 		$sql = "SELECT id, firstname, lastname, email, pwd, phone, gender, role_id, activate_code, activate_date FROM users WHERE email = ? ";		
 		$query = $this->db->query($sql, array($login['email'])); 
 		
-		list($user) = $query->result_array();
-		if ($query->num_rows()===1){
-			if ($user['pwd']===$login['pwd']){
-				$user['is_login']=TRUE;
-				$session_data = $this->session->all_userdata();
-				$session_data['user'] = $user;
-				$this->session->set_userdata($session_data);
-				return $user;
+		$ret = FALSE;
+		if (count($query->result_array())>0){
+			list($user) = $query->result_array();
+			if ($query->num_rows()===1){
+				if ($user['pwd']===$login['pwd']){
+					$user['is_login']=TRUE;
+					$ret = &$user;
+				}
 			}
-			return FALSE;
-		}else{
-			return FALSE;
 		}
+		return $ret;
 	}
 	
 	/********************

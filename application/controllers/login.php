@@ -16,30 +16,59 @@ class Login extends MY_Controller {
 		$this->form_validation->set_rules('email', 'Email', 'email|required');
 		$this->form_validation->set_rules('pwd', 'Password', 'required');
 		
-		$this->load->view('templates/header', $this->data);
-		if($this->form_validation->run() == FALSE) {
-			$this->load->view('account/login_form', $this->data);
-		}
-		else {
-			$user = array();
-			if (($user=$this->user_model->authenticate_user())===FALSE){
-				$this->load->view('account/login_form', $this->data);
+		
+		$ret = $this->_auth();
+		
+		if (isset($_POST['cli']) && $this->input->post('cli')==="js"){
+			// AJAX LOGIN FORM
+			if ($ret === GO_TO_LOGIN_PAGE){
+				echo "-1";
+			}else if ($ret === GO_TO_ACTIVATE_PAGE){
+				echo $this->load->view('account/warning/activation', $this->data);
+			}else if ($ret === GO_TO_NEXT_PAGE){
+				echo "200";
 			}
-			else{
-				//$nextPage = $this->input->post('nextPage') =='' ? 'index': $this->input->post('nextPage');
-				if (empty($user['activate_date'])){
-					redirect("account/warning/activation");
+			else if ($ret === GO_TO_INDEX_PAGE){
+				echo "200";
+			}
+		}else{
+			// NORMAL FORM POST
+			if ($ret === GO_TO_LOGIN_PAGE){
+				$this->load->view('templates/header', $this->data);
+				$this->load->view('account/login_form', $this->data);
+				$this->load->view('templates/footer');
+			}else if ($ret === GO_TO_ACTIVATE_PAGE){
+				$this->load->view('templates/header', $this->data);
+				$this->load->view('account/warning/activation', $this->data);
+				$this->load->view('templates/footer');
+			}else if ($ret === GO_TO_NEXT_PAGE){
+				redirect($page['next_page']);
+			}
+			else if ($ret === GO_TO_INDEX_PAGE){
+				redirect($this->lang->lang()."/index");
+			}
+		}
+	}
+	
+	public function _auth(){
+		$flag = NULL;
+		$user = array();
+		if (($user=$this->user_model->authenticate_user())===FALSE){
+			$flag = GO_TO_LOGIN_PAGE;  
+		}
+		else{
+			$this->set_session('user', $user);			
+			if (empty($user['activate_date'])){
+				$flag = GO_TO_ACTIVATION_PAGE;
+			}else{
+				$page = $this->data = $this->session->userdata('page');
+				if (isset($page['next_page']) && !empty($page['next_page'])){
+					$flag = GO_TO_NEXT_PAGE;
 				}else{
-					$page = $this->data = $this->session->userdata('page');
-					if (isset($page['next_page']) && !empty($page['next_page'])){
-						redirect($page['next_page']);
-					}else{
-						redirect('index');
-					}
+					$flag = GO_TO_INDEX_PAGE;
 				}
 			}
 		}
-		$this->load->view('templates/footer');
+		return $flag;
 	}
-	
 }

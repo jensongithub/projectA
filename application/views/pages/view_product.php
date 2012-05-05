@@ -194,6 +194,7 @@ function loadSizeChart(){
 
 
 function initCartOperations(){	
+	shop_cart.item_count = <?php echo count($cart)?>;
 	shop_cart.cur_item = new shop_cart.item;
 	shop_cart.add_cart_url = '<?php echo $page['add_cart_url']?>';
 	shop_cart.del_cart_url = '<?php echo $page['del_cart_url']?>';
@@ -205,10 +206,15 @@ function initCartOperations(){
 	
 	$('a[class=item_color]').click(function(){
 		shop_cart.cur_item.color=$(this).attr('value');
+	});
 
-	});		
-	$('a[class=add_item]').click(function(){ shop_cart.add_item.call($(this));});
+	$('input[class=item_quantity]').change(function(){
+		shop_cart.cur_item.quantity=$(this).attr('value');
+	});
 	
+	$('a[class=add_item]').click(function(){ 
+		shop_cart.add_rows=shop_cart.add_item.call($(this));
+	});
 	
 	$('.product-color').bind("click.select", function(){
 		$('.product-color').removeClass('selected-color');
@@ -220,22 +226,6 @@ function initCartOperations(){
 		$(this).addClass('selected-size');
 	});
 }
-
-function checkout(pg){
-	if (shop_cart.cur_item.size!='' || shop_cart.cur_item.color!='' || shop_cart.cur_item.quantity!=''){ 
-		$('a[class=add_item]').click();
-	}
-	var lobj = check_login();
-	if (lobj.code=="200"){
-		shop_cart.total = $("input[name=cl]").val();
-		
-		if(shop_cart.total>0 ){
-			$("input[name=pg]").val(pg);
-			shop_cart.payment_gateway();
-		}
-	}
-}
-
 
 </script>
 <style type="text/css">
@@ -374,7 +364,6 @@ background: white;
 							<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
 							<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
 							<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
-							<input type="hidden" name="pg" value=""/>
 							<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 						</span>
 					</div>
@@ -403,5 +392,10 @@ background: white;
 	height: 400px;
 }
 </style>
+
+
 <div id='mask'><div id='size-chart-holder'></div></div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>
+<div class="modal" name="login_modal" style="display:none;">
+
+</div>

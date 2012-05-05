@@ -17,7 +17,6 @@ define('FILE_READ_MODE', 0644);
 define('FILE_WRITE_MODE', 0666);
 define('DIR_READ_MODE', 0755);
 define('DIR_WRITE_MODE', 0777);
-define('ADMIN_ROLE', 3);
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +35,17 @@ define('FOPEN_WRITE_CREATE',					'ab');
 define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
+
+
+
+
+define('ADMIN_ROLE', 3);
+define('GO_TO_LOGIN_PAGE', 1);
+define('GO_TO_ACTIVATE_PAGE', 2);
+define('GO_TO_NEXT_PAGE', 3);
+define('GO_TO_INDEX_PAGE', 4);
+
+
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

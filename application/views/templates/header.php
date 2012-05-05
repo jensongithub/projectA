@@ -22,7 +22,7 @@
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
 			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389' target='_blank'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
-			<li><?php echo anchor('cart', "<img class='fb_logo' src='/images/cart.png' />") ?><span class='cart_counter'><?php echo count($cart)>0? "(".count($cart).")":''; ?></span></li>
+			<li><?php echo anchor('cart', "<img class='fb_logo' src='/images/cart.png' />") ?><span class='item_count'><?php echo count($cart)>0? "(".count($cart).")":''; ?></span></li>
 			<li><?php echo ($user['is_login']===FALSE) ? anchor('login', _('Login')) : anchor('logout', _('Logout')) ?></li>
 		</ul>
 	</div>

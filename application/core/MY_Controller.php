@@ -67,6 +67,7 @@ class MY_Controller extends CI_Controller {
 		return isset($session_data['user']['is_login']) && $session_data['user']['is_login']===TRUE;
 	}
 
+	/*
 	public function require_login($role_id=1,$next_page=""){
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation');
@@ -90,13 +91,13 @@ class MY_Controller extends CI_Controller {
 			
 			if ($is_valid){
 				echo <<<JS_SCRIPT
-				{"code":"200", "url":""}
+				{"status":"200", "url":""}
 JS_SCRIPT;
 			}
 			else{
 				$url = site_url().$this->lang->lang()."/login";
 				echo <<<JS_SCRIPT
-					{"code":"-999", "url":"$url"}
+					{"status":"-999", "url":"$url"}
 JS_SCRIPT;
 			}
 		}else{			
@@ -109,6 +110,6 @@ JS_SCRIPT;
 				redirect('login');
 			}
 		}
-	}
+	}*/
 	
 }

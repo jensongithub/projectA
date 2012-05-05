@@ -1,7 +1,12 @@
 
 <script type='text/javascript'>
 $(function(){
+	shop_cart.add_cart_url = '<?php echo $page['add_cart_url']?>';
+	shop_cart.del_cart_url = '<?php echo $page['del_cart_url']?>';
+	shop_cart.payment_url = '<?php echo $page['payment_url']?>';
+	
 	shop_cart.cur_item = new shop_cart.item;
+	shop_cart.item_count = <?php echo count($cart)?>;
 	$('a[class=del_item]').click(function(){ 
 		shop_cart.del_item.call($(this));
 		$(this).closest("tr[class=cart_item]").remove();
@@ -44,7 +49,16 @@ $(function(){
 CART_ITEM;
 		} ?>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan=8>
+						<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+						<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
+		<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 	<?php } ?>
 </div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>

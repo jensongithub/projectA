@@ -167,29 +167,31 @@ class Paypal_Lib {
 		$str .= form_close() . "\n";
 
 		return $str;
-	*/}
+	}*/
 	
 	function build_form($data){
+		$paypal_id = $this->CI->config->item('paypal_id');
+		
 		$html = <<<PAYPAL_FORM
-			<form action="{$this->paypal_url}" METHOD='POST' name="paypal_form">
+		<form action="{$this->paypal_url}" METHOD='POST' name="order_form">
 			<input type="hidden" name="cmd" value="_cart" />
 			<input type="hidden" name="upload" value="1" />
-			<input type="hidden" name="business" value="{$payment['paypal_id']}" />
+			<input type="hidden" name="business" value="$paypal_id" />
 PAYPAL_FORM;
 		$item_num=1;
-		foreach($data['page']['cart'] as $each_item){
+		foreach($data['cart'] as $each_item){
 			$html.=<<<PAYPAL_FORM
-			<input type="hidden" name="item_name_$item_num" value={$each_item['name_zh']}" />
+			<input type="hidden" name="item_name_$item_num" value="{$each_item['name_'.$data['page']['lang']]}" />
 			<input type="hidden" name="item_number_$item_num" value="{$each_item['id']}" />
 			<input type="hidden" name="amount_$item_num" value="{$each_item['price']}" />
 			<input type="hidden" name="quantity_$item_num" value="{$each_item['quantity']}" />
-PAYPAL_FORM
+PAYPAL_FORM;
 			++$item_num;
 		}
 		
-		$success_url = site_url().$this->lang->lang()."/checkout/success";
-		$cancel_url = site_url().$this->lang->lang()."/checkout/cancel";
-		$notify_url = site_url().$this->lang->lang()."/checkout/notify";
+		$success_url = site_url().$this->CI->lang->lang()."/checkout/success";
+		$cancel_url = site_url().$this->CI->lang->lang()."/checkout/cancel";
+		$notify_url = site_url().$this->CI->lang->lang()."/checkout/paypal_ipn";
 		
 		$html.=<<<PAYPAL_FORM
 			<input type="hidden" name="currency_code" value="USD">
@@ -199,14 +201,15 @@ PAYPAL_FORM
 			<input type="hidden" name="return" value="{$success_url}">
 			<input type="hidden" name="cancel_return" value="{$cancel_url}">
 			<input type="hidden" name="notify_url" value="{$notify_url}">
-			<input type="hidden" name="order_id" value="{$data['order_id']}">
+			<input type="hidden" name="invoice" value="{$data['page']['order_id']}">
 			<input type="hidden" name="pg" value="paypal_submit">
 		</form>
+		<script>document.order_form.submit();</script>
 PAYPAL_FORM;
 		return $html;
 	}
 	
-	public function _validate_ipn(){
+	function _validate_ipn(){
 		// read the post from paypal and add 'cmd'
 		$is_valid = FALSE;
 	
@@ -255,7 +258,7 @@ PAYPAL_FORM;
 		return $is_valid;
 	}
 	
-	public function validate_ipn()
+	function validate_ipn()
 	{
 		// parse the paypal URL
 		$url_parsed = parse_url($this->paypal_url);  
@@ -318,7 +321,7 @@ PAYPAL_FORM;
 		}
 	}
 	
-	public function log_results($data) 
+	function log_results($data) 
 	{
 		if (!$this->ipn_log) return;  // is logging turned off?
 
