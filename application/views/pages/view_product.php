@@ -73,7 +73,7 @@ $(document).ready(function($){
 	initThumbnailEvent();
 	initCartOperations();
 	
-	$('.color-thumbnail:first').click();
+	//$('.color-thumbnail:first').click();
 });
 
 function initSizeChart(){
@@ -227,31 +227,67 @@ function initCartOperations(){
 	shop_cart.del_cart_url = '<?php echo $page['del_cart_url']?>';
 	shop_cart.payment_url = '<?php echo $page['payment_url']?>';
 	
-	$('a[class=item_size]').click(function(){
-		shop_cart.cur_item.size=$(this).attr('value');
+	$('a[class=item_size]').click(
+		function(){
+		if (shop_cart.cur_item.size==$(this).attr('value')){
+			$(".item_size").removeClass('selected-color');
+			shop_cart.cur_item.size="";
+		}else{
+			$(".item_size").removeClass('selected-color');
+			$(this).addClass('selected-color');
+			shop_cart.cur_item.size=$(this).attr('value');
+		}
 	});
 	
-	$('a[class=item_color]').click(function(){
-		shop_cart.cur_item.color=$(this).attr('value');
+	$('a[class=item_color]').click(
+		function(){
+		if (shop_cart.cur_item.color==$(this).attr('value')){
+			$(".product-color").removeClass('selected-color');
+			shop_cart.cur_item.color="";
+		}else{
+			$(".product-color").removeClass('selected-color');
+			$(this).parent().addClass('selected-color');
+			shop_cart.cur_item.color=$(this).attr('value');
+		}
 	});
 
 	$('input[class=item_quantity]').change(function(){
 		shop_cart.cur_item.quantity=$(this).attr('value');
 	});
 	
-	$('a[class=add_item]').click(function(){ 
-		shop_cart.add_rows=shop_cart.add_item.call($(this));
+	$('a[class=add_item]').click(function(){
+		shop_cart.add_item.call($(this));
 	});
+}
+
+function buy_now(pg){
+	var row=0;
+	//if (shop_cart.cur_item.size!='' && shop_cart.cur_item.color!='' && shop_cart.cur_item.quantity!=''){
+	//row = shop_cart.add_item.call($(this));
+	//}
 	
-	$('.product-color').bind("click.select", function(){
-		$('.product-color').removeClass('selected-color');
-		$(this).addClass('selected-color');
-	});
+	$('a[class=add_item]').click();
 	
-	$('.item_size').bind("click.select", function(){
-		$('.item_size').removeClass('selected-size');
-		$(this).addClass('selected-size');
-	});
+	if (shop_cart.add_rows!=0){
+		shop_cart.pg=pg;
+		shop_cart.payment_gateway();
+	}
+	
+	//var lobj = check_login();
+	//if (lobj.code=="200"){
+	//shop_cart.item_count = $("input[name=cl]").val();
+
+	
+	//}
+}
+
+function reset_entry(){
+	$('input[class=item_quantity]').val("");
+	$('.item_color').removeClass('selected-size');
+	$('.item_size').removeClass('selected-size');
+	shop_cart.cur_item.color=""
+	shop_cart.cur_item.size="";
+	shop_cart.cur_item.quantity="";
 }
 
 </script>
@@ -374,7 +410,6 @@ background: white;
 					}
 					?>
 				</ul>
-
 			</div>
 			<div class='clear'></div>
 			<div style='margin-top:1em;'>
@@ -392,8 +427,8 @@ background: white;
 			
 			<div style='margin-top:1em;' class="payment_gateway">
 				<span>
-					<input type='image' name='button' onclick ="checkout(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-					<input type='image' name='button' onclick ="checkout(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+					<input type='image' name='button' onclick ="buy_now(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+					<input type='image' name='button' onclick ="buy_now(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
 					<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
 					<?php echo $page['alipay_form']; ?>
 					<input type="hidden" name="pg" value=""/>
@@ -408,6 +443,4 @@ background: white;
 <div class='mask'></div>
 <div class='canvas'></div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>
-<div class="modal" name="login_modal" style="display:none;">
-
-</div>
+<div class="modal" name="modal" style="display:none;"></div>

@@ -1,7 +1,8 @@
+<?php echo css('css/login.css') ?>
 <div id="content" class='container' style="margin-top:10em;">
-	<div class="content expando">		
-		<div class='error-panel' style="display:none;" ></div>
+	<div class="content expando" name="modal_content">		
 		<div class='section-header'><?php echo _("Sign In / Create Account");?></div>
+		<div class='error-panel' style="display:none;" ></div>
 		<div class='left-block'>
 			<div class='header'><?php echo _("Existing Customers");?></div>
 			<form method="POST" name='login_form' action="<?php echo $page['login_url']; ?>">
@@ -48,7 +49,8 @@ function check_login(){
 					$("div[class=error-panel]").append("<div>Login Failed. Please try again.</div>");					
 					
 				}else{
-					$('.modal').children("div:first-child").remove();
+					//$('.modal').children("div:first-child").remove();
+					$('.modal').children().remove();
 					$('.modal').css({"display":"block"});
 					$('.modal').append(jqXHR.responseText);
 				}
@@ -59,8 +61,8 @@ function check_login(){
 		});
 }
 function login_callback(){ 
-$('.modal').children("div:first-child").remove();
-$('.modal').append("<div id='content' class='container' style='margin-top:10em;'><div class='content expando'><div>We are directing you to Paypal. Please do not close the browser.</div></div></div>");
+$('.modal').children().remove();
+//$('.modal').append("<div id='content' class='container' style='margin-top:10em;'><div class='content expando'><div>We are directing you to Paypal. Please do not close the browser.</div></div></div>");
 shop_cart.payment_gateway();
 };  
 

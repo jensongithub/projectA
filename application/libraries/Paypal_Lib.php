@@ -192,16 +192,20 @@ PAYPAL_FORM;
 		$success_url = site_url().$this->CI->lang->lang()."/checkout/success";
 		$cancel_url = site_url().$this->CI->lang->lang()."/checkout/cancel";
 		$notify_url = site_url().$this->CI->lang->lang()."/checkout/paypal_ipn";
+		$currency = $this->CI->config->item('paypal_lib_currency_code');
 		
 		$html.=<<<PAYPAL_FORM
-			<input type="hidden" name="currency_code" value="USD">
-			<input type="hidden" name="lc" value="US">
+			<input type="hidden" name="currency_code" value="$currency">
+			<input type="hidden" name="lc" value="HK">
 			<input type="hidden" name="rm" value="2">
 			<input type="hidden" name="shipping_1" value="0">
 			<input type="hidden" name="return" value="{$success_url}">
 			<input type="hidden" name="cancel_return" value="{$cancel_url}">
 			<input type="hidden" name="notify_url" value="{$notify_url}">
-			<input type="hidden" name="invoice" value="{$data['page']['order_id']}">
+			<input type="hidden" name="invoice" value="{$data['page']['rand_key']}">
+			<input type="hidden" name="custom" value="{$data['user']['id']}">
+			<input type="hidden" name="parent_txn_id" value="{$data['page']['order_id']}">
+			<input type="hidden" name="charset" value="utf-8">
 			<input type="hidden" name="pg" value="paypal_submit">
 		</form>
 		<script>document.order_form.submit();</script>
@@ -261,7 +265,7 @@ PAYPAL_FORM;
 	function validate_ipn()
 	{
 		// parse the paypal URL
-		$url_parsed = parse_url($this->paypal_url);  
+		$url_parsed = parse_url($this->paypal_url);
 
 		// generate the post string from the _POST vars aswell as load the
 		// _POST vars into an arry so we can play with them from the calling
@@ -325,22 +329,6 @@ PAYPAL_FORM;
 	{
 		if (!$this->ipn_log) return;  // is logging turned off?
 
-		/*
-		// Timestamp
-		$text = '['.date('m/d/Y g:i A').'] - '; 
-
-		// Success or failure being logged?
-		if ($success) $text .= "SUCCESS!\n";
-		else $text .= 'FAIL: '.$this->last_error."\n";
-
-		// Log the POST variables
-		$text .= "IPN POST Vars from Paypal:\n";
-		foreach ($this->ipn_data as $key=>$value)
-			$text .= "$key=$value, ";
-
-		// Log the response from the paypal server
-		$text .= "\nIPN Response from Paypal Server:\n ".$this->ipn_response;
-
 		// Write to log*/
 		$fp=fopen($this->ipn_log_file,'a');
 		fwrite($fp, $data . "\n\n"); 
@@ -356,11 +344,11 @@ PAYPAL_FORM;
 		$text = '['.date('m/d/Y g:i A').'] - '; 
 
 		// Success or failure being logged?
-		if ($success) $text .= "SUCCESS!\n";
+		if ($success) $text .= "SUEEEEECCESS!\n";
 		else $text .= 'FAIL: '.$this->last_error."\n";
 
 		// Log the POST variables
-		$text .= "IPN POST Vars from Paypal:\n";
+		$text .= "IPN POST vars from Paypal:\n";
 		foreach ($this->ipn_data as $key=>$value)
 			$text .= "$key=$value, ";
 

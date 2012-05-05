@@ -20,10 +20,10 @@ class checkout extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('user_model');
+		$this->load->model(array('user_model', 'order_model'));
 		$this->load->library('email');
 		$this->load->library('paypal_lib');
-		$this->load->helper(array('form'));		
+		$this->load->helper(array('form'));
 	}
 	
 	public function index()	{
@@ -62,7 +62,7 @@ class checkout extends MY_Controller {
 		$this->load->model(array("order_model"));
 		$this->load->helper( array('form') );
 		
-		// 		the session contains the alipay_submit or paypal_submit
+			// the session contains the alipay_submit or paypal_submit
 		if (isset($_POST['pg'])){
 			// 0 = paypal
 			// 1 = alipay
@@ -72,17 +72,9 @@ class checkout extends MY_Controller {
 			}
 		}
 		
-		// save cart checkout
-		
+		// save cart checkout		
 		$this->set_session('page', array('next_page'=>site_url().$this->lang->lang()."/cart"));
-		
-		// check login first!!!!
-		
-		//$this->require_login(1);
-		// if is_login!=true then redirect to login
-		// 		if login success redirect to prev saved link checkout/payment || checkout/payment
-		// 		if exists alipay_submit, paypal_submit, then, in the payment, calls the $this->paypa() || $this->alipay()
-		
+
 		if(count($this->data['cart'])>0 && isset($this->data['page']['pg'])) {
 			// get the price from the database and put in the $this->data['cart']
 			$product_details = $this->product_model->get_cart_item_price($this->data['cart']);
@@ -98,7 +90,6 @@ class checkout extends MY_Controller {
 			}
 			
 			if ($this->data['page']['pg']==="0"){
-				// insert to database order			
 				$this->paypal();
 			}else if ($this->data['page']['pg']==="1"){
 				$this->alipay();
@@ -110,20 +101,26 @@ class checkout extends MY_Controller {
 		$this->load->model("order_model");
 		$this->load->library('paypal_lib');
 		
-		if (!isset($this->data['page']['order_id'])){
-			$order_id = $this->order_model->insert_checkout_item($this->data['cart']);
-			$this->set_session('page', array('order_id'=>$order_id));
-			$this->data['page']['order_id'] = $order_id;
+		if (!isset($this->data['page']['rand_key'])){
+			$order_keys = $this->order_model->insert_checkout_item($this->data);
+			// $order_keys : array('rand_key'=>value1, 'order_id'=>value2);
+			$this->set_session('page', $order_keys);
+			$this->data['page']['rand_key'] = $order_keys['rand_key'];
+			$this->data['page']['order_id'] = $order_keys['order_id'];
 		}
-		
+
 		echo <<<HTML
-		We are connecting you to Paypal. Please do not close the browser. Thank you.<br/>
+		<div id="content" class="container" style="margin-top:10em;">
+			<div class="content expando">
+				We are connecting you to Paypal. <br/>
+				Please do not close the browser. Thank you.<br/>
 HTML;
 		echo $this->paypal_lib->build_form($this->data);
-		exit();
-		//var_dump($this->data);
-		
-		//return $this->load->view("pages/product", $this->data, true);
+		echo <<<HTML
+			</div>
+		</div>
+HTML;
+
 	}
 	
 	function alipay(){
@@ -139,7 +136,8 @@ HTML;
 
 	function cancel()
 	{
-		$this->load->view('paypal/cancel');
+		
+		$this->load->view('pages/payment_cancel');
 	}
 	
 	function success()
@@ -157,7 +155,7 @@ HTML;
 		// below).
 
 		$this->data['pp_info'] = $this->input->post();
-		$this->load->view('cart/success', $this->data);
+		$this->load->view('pages/payment_success', $this->data);
 	}
 	
 	function paypal_ipn()
@@ -180,45 +178,59 @@ HTML;
 			$body .= "\n$key: $value";
 		}
 		
-		if ($this->paypal_lib->validate_ipn()) 
+		if ($this->paypal_lib->validate_ipn())
 		{
 			//$this->paypal_lib->ipn_data['payer_email'] = $to;
 			$body  = 'An instant payment notification was successfully received from ';
 			$body .= $this->input->post('payer_email') . ' on '.date('m/d/Y') . ' at ' . date('g:i A') . "\n\n";
 			$body .= " Details:\n";
 			
-			if (($this->input->post('payment_status') == 'Completed') //&&
+			
+			if (($this->input->post('payment_status') === 'Completed') //&&
 				//($this->input->post('receiver_email') == 'info@casimira.com.hk') //&&
 				//($this->input->post('payment_amount') == $amount_they_should_have_paid ) &&
 				//($this->input->post('payment_currency') == "USD")*/
 				)
 			{
-				$this->order_model->update_paypal_order($this->input->post('invoice'));
 				
-				$session_data = $this->data = $this->session->all_userdata();
+				
+				$this->order_model->update_paypal_order();
+				
+				
+				
 				// clear the cart data
+				$session_data = $this->data = $this->session->all_userdata();
 				$session_data['cart'] = array();
-				$this->session->set_userdata($session_data);
 				$this->data['cart'] = array();
+				$this->session->set_userdata($session_data);
 				
-				foreach ($this->input->post() as $key=>$value){
-					$body .= "\n$key: $value";
-				}
 				$subject = "Live-VALID IPN";
 			}
 			
-			$this->order_model->insert_paypal_order($this->input->post());
-			
 			// load email lib and email results
-			$this->load->library('email');						
+			$this->load->library('email');
 			$this->email->to($to);
 			$this->email->from($this->paypal_lib->ipn_data['payer_email'], $this->paypal_lib->ipn_data['payer_name']);
 			$this->email->subject($subject);
-			$this->email->message($body);	
+			$this->email->message($body);
 			$this->email->send();
 		}else{
 			$this->paypal_lib->log_results("error: ".$body);
+			$subject = "Casimira Payment Failure";
+			
+			$this->session->set_userdata($session_data);
+			$this->load->library('email');
+			
+			$this->email->to($to);
+			$this->email->from($this->paypal_lib->ipn_data['payer_email'], $this->paypal_lib->ipn_data['payer_name']);
+			$this->email->subject($subject);
+			$this->email->message("Sorry! Your transaction failed. Please try again");
+			$this->email->send();
 		}
+		
+		$this->data['page']['rand_key']="";
+		$this->data['page']['order_id']="";
+		$this->set_session('page', array('rand_key'=>'', 'order_id'=>''));
 	}
 }
 ?>

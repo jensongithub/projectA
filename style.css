@@ -537,6 +537,20 @@ h2 {
 	text-decoration: underline;
 }
 
+.item_size{
+	border: 2px solid #fff;
+}
+.item_size:hover {
+	border: 2px solid #f00;
+}
+.product-color{
+	border: 2px solid #fff;
+}
+
+.product-color:hover {
+	border: 2px solid #f00;
+}
+
 .product-thumbnail {
 	border: 1px solid #E0E0E0;
 	float: left;

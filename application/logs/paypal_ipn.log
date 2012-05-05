@@ -2,3 +2,59 @@
 
 error: 
 
+[05/05/2012 7:24 PM] - FAIL: IPN Validation Failed.
+IPN POST Vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 12:38 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 1:28 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 3:06 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 3:07 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 3:38 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+
+[05/06/2012 3:46 AM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+

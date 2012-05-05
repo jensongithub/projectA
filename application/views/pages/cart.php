@@ -1,4 +1,4 @@
-
+<?php echo css('css/login.css'); ?>
 <script type='text/javascript'>
 $(function(){
 	shop_cart.add_cart_url = '<?php echo $page['add_cart_url']?>';
@@ -61,4 +61,5 @@ CART_ITEM;
 		<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 	<?php } ?>
 </div>
+<div class="modal" name="login_modal" style="display:none;"></div>
 <script type='text/javascript' src="/js/jquery.json-2.3.min"></script>
