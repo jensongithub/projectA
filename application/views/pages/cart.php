@@ -22,6 +22,7 @@ $(function(){
 		<table border=1>
 			<thead>
 				<tr>
+					<th><?php echo _("Picture");?> </th>
 					<th><?php echo _("Product Code");?> </th>
 					<th><?php echo _("Color");?></th>
 					<th><?php echo _("Size");?></th>
@@ -37,6 +38,7 @@ $(function(){
 		$total = $each_item['discount']*$each_item['quantity'];
 		echo <<<CART_ITEM
 			<tr class="cart_item">
+				<td><img class="showcase-thumbnail" src="{$each_item['filepath']}"/></td>
 				<td>{$each_item['id']}</td>
 				<td>{$each_item['color']}</td>
 				<td>{$each_item['size']}</td>

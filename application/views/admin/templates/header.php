@@ -7,12 +7,12 @@
 	<script type='text/javascript' src="/js/jquery.min.js"></script>
 </head>
 <body>
-<div id='header'>
+<div>
 	<div class='menu_lang'>
 		<ul>
-			
+
 		</ul>
-	</div>
+	</div>	
 	<div class='menu_l1'>
 		<ul>
 

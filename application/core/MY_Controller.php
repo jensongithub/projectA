@@ -19,6 +19,11 @@ class MY_Controller extends CI_Controller {
 		$this->data['page'] = isset($session_data['page']) ? array_merge($this->data['page'],$session_data['page']): $this->data['page'];
 		$this->data['cart'] = isset($session_data['cart']) ? $session_data['cart']: array() ;
 		
+		
+		if (!preg_match('/login/',current_url())){
+			$this->data['page']['next_page'] = current_url();
+		}
+		
 		$this->session->set_userdata($this->data);
 	}
 
@@ -67,15 +72,12 @@ class MY_Controller extends CI_Controller {
 		return isset($session_data['user']['is_login']) && $session_data['user']['is_login']===TRUE;
 	}
 
-	/*
+	
 	public function require_login($role_id=1,$next_page=""){
-		$this->load->helper( array('form') );
-		$this->load->library('form_validation');
-		
 		$is_valid = FALSE;
-		
+
 		$session_data = $this->session->all_userdata();
-		
+				
 		if (isset($session_data['user']['is_login']) && $session_data['user']['is_login']===TRUE && 
 			($session_data['user']['role_id'] == $role_id || 
 			 $session_data['user']['role_id'] == ADMIN_ROLE)
@@ -84,32 +86,13 @@ class MY_Controller extends CI_Controller {
 			$is_valid = TRUE;
 		}
 		
-		
-		if ($this->input->post('cli')==="js"){
-			$session_data['page']['next_page'] = $this->input->post('redirect');
-			$this->session->set_userdata($session_data);
-			
-			if ($is_valid){
-				echo <<<JS_SCRIPT
-				{"status":"200", "url":""}
-JS_SCRIPT;
-			}
-			else{
-				$url = site_url().$this->lang->lang()."/login";
-				echo <<<JS_SCRIPT
-					{"status":"-999", "url":"$url"}
-JS_SCRIPT;
-			}
-		}else{			
-			$session_data['page']['next_page'] = empty($next_page)? current_url(): $next_page;
-			$this->session->set_userdata($session_data);			
-
-			if ($is_valid){
-				if ($session_data['page']['next_page'] != current_url()) redirect($session_data['page']['next_page']);
-			}else{
-				redirect('login');
-			}
+		if ($is_valid){
+			if ($session_data['page']['next_page'] != current_url()) {
+				redirect($session_data['page']['next_page']);
+			}else{	/* do nothing	echo "do nothing"; */}
+		}else{
+			redirect('login');
 		}
-	}*/
-	
+
+	}
 }

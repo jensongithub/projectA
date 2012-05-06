@@ -262,23 +262,13 @@ function initCartOperations(){
 
 function buy_now(pg){
 	var row=0;
-	//if (shop_cart.cur_item.size!='' && shop_cart.cur_item.color!='' && shop_cart.cur_item.quantity!=''){
-	//row = shop_cart.add_item.call($(this));
-	//}
-	
+		
 	$('a[class=add_item]').click();
 	
 	if (shop_cart.add_rows!=0){
 		shop_cart.pg=pg;
 		shop_cart.payment_gateway();
 	}
-	
-	//var lobj = check_login();
-	//if (lobj.code=="200"){
-	//shop_cart.item_count = $("input[name=cl]").val();
-
-	
-	//}
 }
 
 function reset_entry(){

@@ -8,11 +8,12 @@ class Login extends MY_Controller {
 		$this->load->model('user_model');
 		$this->load->helper( array('form') );
 		$this->load->library('form_validation');
+		
 	}
 
 	public function index(){
 		$this->set_page('title', 'Login');
-		
+		$page = $this->get_session('page');
 		$this->form_validation->set_rules('email', 'Email', 'email|required');
 		$this->form_validation->set_rules('pwd', 'Password', 'required');
 		
@@ -53,6 +54,8 @@ class Login extends MY_Controller {
 	public function _auth(){
 		$flag = NULL;
 		$user = array();
+		$page = $this->get_session('page');
+		
 		if (($user=$this->user_model->authenticate_user())===FALSE){
 			$flag = GO_TO_LOGIN_PAGE;  
 		}
@@ -61,7 +64,7 @@ class Login extends MY_Controller {
 			if (empty($user['activate_date'])){
 				$flag = GO_TO_ACTIVATION_PAGE;
 			}else{
-				$page = $this->data = $this->session->userdata('page');
+				
 				if (isset($page['next_page']) && !empty($page['next_page'])){
 					$flag = GO_TO_NEXT_PAGE;
 				}else{

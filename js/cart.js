@@ -4,7 +4,7 @@ var shop_cart = {
 	del_cart_url:'',
 	payment_url:'',
 	item_count:0,
-	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size='';},
+	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size=''; this.filepath=''; },
 	save: function(each_item){
 		$.ajax({
 			type: "POST",
@@ -62,8 +62,9 @@ var shop_cart = {
 			alert("Please enter quantity");
 			return ret;
 		}else{
+			shop_cart.cur_item.filepath = window.location.href.replace(/(zh|en|cn)\/view/,'images/products/')+shop_cart.cur_item.color+"-F_s.jpg";
 			shop_cart.save(shop_cart.cur_item);
-			shop_cart.cur_item = new shop_cart.item;
+			shop_cart.cur_item = new shop_cart.item;			
 			shop_cart.add_rows=1;
 		}
 		return ret;

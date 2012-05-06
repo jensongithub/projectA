@@ -218,7 +218,6 @@ HTML;
 			$this->paypal_lib->log_results("error: ".$body);
 			$subject = "Casimira Payment Failure";
 			
-			$this->session->set_userdata($session_data);
 			$this->load->library('email');
 			
 			$this->email->to($to);
