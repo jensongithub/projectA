@@ -279,7 +279,8 @@ class Dept extends MY_Controller {
 		foreach( $colors as $color ){
 			$color_ids[] = $color['color'];
 		}
-		$color_from_pos = $this->common_model->get_color_by_id($color_ids);
+		$color_from_pos = false;
+		//$color_from_pos = $this->common_model->get_color_by_id($color_ids);
 		unset($color_ids);
 
 		$this->load->helper('json');
@@ -287,13 +288,17 @@ class Dept extends MY_Controller {
 		foreach( $colors as $key => $color ){
 			if( $color['color'] == substr( $this->data['page']['product']['front_img'], 6, 6) ){
 				array_unshift( $this->data['page']['colors'], $color );
-				$this->data['page']['colors'][0]['name_en'] = $color_from_pos[$color['color']]['name_en'];
-				$this->data['page']['colors'][0]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
+				if( $color_from_pos ){
+					$this->data['page']['colors'][0]['name_en'] = $color_from_pos[$color['color']]['name_en'];
+					$this->data['page']['colors'][0]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
+				}
 			}
 			else{
 				$this->data['page']['colors'][] = $color;
-				$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_en'] = $color_from_pos[$color['color']]['name_en'];
-				$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
+				if( $color_from_pos ){
+					$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_en'] = $color_from_pos[$color['color']]['name_en'];
+					$this->data['page']['colors'][count($this->data['page']['colors'])-1]['name_zh'] = $color_from_pos[$color['color']]['name_zh'];
+				}
 			}
 		}
 		foreach( $this->data['page']['colors'] as $key => $color ){
