@@ -279,4 +279,12 @@ class Admin extends MY_Controller {
 		}
 		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}
+	
+	public function order(){
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/edit_product', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
+	}
+	
 }
