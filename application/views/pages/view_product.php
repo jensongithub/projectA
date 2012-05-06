@@ -397,7 +397,7 @@ background: white;
 					<?php
 					foreach( $page['colors'] as $color ) {
 						echo "<li class='product-color' title='${color['color']}'>";
-						echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}", 'title' => $color['name_' . $page['lang']]) )."</a>";
+						echo "<a href='javascript:void(0)' class='item_color' value='{$color['color']}'>".img( array( 'src' => "products/{$page['i_path']}/".$page['id'].$color['color'].'-F_s.jpg', 'class' => 'color-thumbnail', 'alt' => "${color['color']}", 'title' => isset($color['name_' . $page['lang']])?$color['name_' . $page['lang']]:$color['color'] ) )."</a>";
 						echo "</li>";
 					}
 					?>
