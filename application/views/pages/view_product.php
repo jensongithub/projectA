@@ -241,14 +241,16 @@ function initCartOperations(){
 	
 	$('a[class=item_color]').click(
 		function(){
-		if (shop_cart.cur_item.color==$(this).attr('value')){
-			$(".product-color").removeClass('selected-color');
-			shop_cart.cur_item.color="";
-		}else{
-			$(".product-color").removeClass('selected-color');
-			$(this).parent().addClass('selected-color');
-			shop_cart.cur_item.color=$(this).attr('value');
-		}
+			if (shop_cart.cur_item.color==$(this).attr('value')){
+				$(".product-color").removeClass('selected-color');
+				shop_cart.cur_item.filepath = "";
+				shop_cart.cur_item.color="";
+			}else{
+				$(".product-color").removeClass('selected-color');
+				$(this).parent().addClass('selected-color');
+				shop_cart.cur_item.color=$(this).attr('value');
+				shop_cart.cur_item.filepath = $(this).children("img").attr("src");
+			}
 	});
 
 	$('input[class=item_quantity]').change(function(){

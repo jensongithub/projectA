@@ -82,6 +82,10 @@
 	width: 40px;
 	height: 40px;
 }
+.cart-thumbnail{
+	width: 60px;
+	height: 80px;
+}
 
 .item_size {
 	float: left;

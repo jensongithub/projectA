@@ -1,4 +1,4 @@
-<?php echo css('css/login.css'); ?>
+<?php echo css('css/products.css'); ?>
 <script type='text/javascript'>
 $(function(){
 	shop_cart.add_cart_url = '<?php echo $page['add_cart_url']?>';
@@ -38,7 +38,7 @@ $(function(){
 		$total = $each_item['discount']*$each_item['quantity'];
 		echo <<<CART_ITEM
 			<tr class="cart_item">
-				<td><img class="showcase-thumbnail" src="{$each_item['filepath']}"/></td>
+				<td><img class="cart-thumbnail"src="{$each_item['filepath']}"/></td>
 				<td>{$each_item['id']}</td>
 				<td>{$each_item['color']}</td>
 				<td>{$each_item['size']}</td>
