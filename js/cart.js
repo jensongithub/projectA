@@ -62,7 +62,7 @@ var shop_cart = {
 			alert("Please enter quantity");
 			return ret;
 		}else{
-			shop_cart.cur_item.filepath = window.location.href.replace(/(zh|en|cn)\/view/,'images/products/')+shop_cart.cur_item.color+"-F_s.jpg";
+			shop_cart.cur_item.filepath = window.location.href.replace(/(zh|en|cn)\/view/,'images/products')+shop_cart.cur_item.color+"-F_s.jpg";
 			shop_cart.save(shop_cart.cur_item);
 			shop_cart.cur_item = new shop_cart.item;			
 			shop_cart.add_rows=1;
