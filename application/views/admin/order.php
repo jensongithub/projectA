@@ -75,11 +75,11 @@ function search_order(){
 					<th><?php echo _("Contact Number");?> </th>
 					<th><?php echo _("Address");?> </th>
 					<th><?php echo _("Total Amount");?></th>
-					<th><?php echo _("Is handled?");?></th>
-					<th><?php echo _("Handled By");?></th>
-					<th><?php echo _("Handled Date");?></th>
+					<th><?php echo _("Payment Status");?></th>
+					<th><?php echo _("Done?");?></th>
+					<th><?php echo _("Handle By");?></th>
+					<th><?php echo _("Handle Date");?></th>
 					<th><?php echo _("Remarks");?></th>
-					<th></th>
 				</tr>
 			</thead>
 			<tbody style="overflow-y:scroll;">
@@ -88,18 +88,18 @@ function search_order(){
 				?>
 				<tr>
 					<td><input type='checkbox' name='oid[]' value='<?php echo $each_row['id'] ?>' /></td>
-					<td><?php echo anchor('admin/order/' . $each_row['id']) ?></td>
 					<td><?php echo $each_row['payment_date'] ?></td>
-					<td><?php echo $each_row['first_name'].$each_row['last_name'] ?></td>
+					<td><?php echo $each_row['id'] ?></td>					
+					<td><?php echo $each_row['lastname']." ".$each_row['firstname'] ?></td>
 					<td><?php echo $each_row['email'] ?></td>
-					<td><?php echo $each_row['contact number'] ?></td>
-					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['address_country'].",".$each_row['address_country_code']  ?></td>
+					<td><?php echo $each_row['phone'] ?></td>
+					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['country'].",".$each_row['country_code'].",".$each_row['country']  ?></td>
 					<td><?php echo $each_row['total_amount'] ?></td>
 					<td><?php echo $each_row['status'] ?></td>
 					<td><?php echo $each_row['is_handled'] ?></td>
-					<td><?php echo $each_row['handled_by'] ?></td>
-					<td><?php echo $each_row['handled_date'] ?></td>
-					<td><?php echo $each_row['remarks'] ?></td>
+					<td><?php echo $each_row['handle_by'] ?></td>
+					<td><?php echo $each_row['handle_date'] ?></td>
+					<td><?php echo $each_row['remark'] ?></td>
 				</tr>
 				<?php
 				}

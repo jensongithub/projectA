@@ -22,7 +22,7 @@ class Order_model extends CI_Model {
 		
 		//$this->CI->input->post('invoice') is the rand_key
 		
-		$query = "insert into order_address(order_id, user_id, country, country_code, country_zip, country_state, country_city, country_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
+		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
 		$result = $this->db->query($query, array($this->CI->input->post('parent_txn_id'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
 
 		$query = "update orders set txn_id = ?, total_amount=?, status = ?, payment_date=?, modified_date = ? where rand_key = ? and user_id = ? and id = ?";
@@ -88,7 +88,9 @@ class Order_model extends CI_Model {
 			$condition_str .= " and $key = '$val' ";
 		}
 		
-		$query = "sselect users.firstname, users.lastname, users.email, orders.* from orders, users, order_address where  orders.user_id = users.id and orders.address_id = order_address.id and orders.status='Completed' $condition_str limit ?, ?";
+		$query = "select users.firstname, users.lastname, users.email, users.phone, order_address.*, orders.* 
+					from orders, users, order_address 
+					where orders.user_id = users.id and orders.id = order_address.order_id and orders.status='Completed' $condition_str limit ?, ?";
 		$query = $this->db->query($query, array( $rownum, $howmany) );
 		
 		return $query->result_array();
