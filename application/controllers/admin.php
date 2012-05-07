@@ -287,7 +287,8 @@ class Admin extends MY_Controller {
 		
 		$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
 		$this->data['page']['order'] = &$order;
-		$this->data['page']['search_url'] = site_url().$this->lang->lang()."/admin/order_search/";
+		$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
+		$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
 		
 		var_dump($order);
 		
@@ -310,5 +311,17 @@ class Admin extends MY_Controller {
 		return json_encode($orders, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
 		
 		
+	}
+	
+	public function order_save(){
+		// settings
+		$this->load->model(array('product_model','order_model'));
+		$order_id = $this->input->post('id');
+		$is_handled = $this->input->post('done');
+		$user = $this->get_session('user');
+		
+		$affected_rows = $this->order_model->set_order_is_handed($order_id, $is_handled, $user['id']);
+		
+		return $affected_rows;
 	}
 }
