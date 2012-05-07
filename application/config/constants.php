@@ -37,6 +37,27 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 
+/*
+|--------------------------------------------------------------------------
+| Domain name/ URI
+|--------------------------------------------------------------------------
+|
+| These are used to configure the url according to languages
+|
+*/
+
+define('HK_DOMAIN', '127.0.0.1');
+define('CN_DOMAIN', '127.0.0.2');
+
+
+/*
+|--------------------------------------------------------------------------
+| Other
+|--------------------------------------------------------------------------
+|
+| These are used to 
+|
+*/
 
 
 define('ADMIN_ROLE', 3);

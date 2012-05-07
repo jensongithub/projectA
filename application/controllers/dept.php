@@ -313,8 +313,10 @@ class Dept extends MY_Controller {
 			foreach( $this->data['page']['product']['comp_list'] as $key => $val ){
 				$this->data['page']['product']['comp_list'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
 			}
-			foreach( $this->data['page']['colors'] as $key => $val ){
-				$this->data['page']['colors'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
+			if( $color_from_pos ){
+				foreach( $this->data['page']['colors'] as $key => $val ){
+					$this->data['page']['colors'][$key]['name_cn'] = $this->zh2cn->convert( $val['name_zh'] );
+				}
 			}
 		}
 

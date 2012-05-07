@@ -18,9 +18,16 @@
 	<div class='menu_l1'>
 		<ul>
 			<?php echo ($user['is_login']===FALSE) ? '': '<li>'.anchor('account', "Hello, {$user['firstname']}").'</li>';?>
-			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
-			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
-			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
+			<?php if( defined('IS_CN') ) { ?>
+				<li><a href='<?php echo 'http://' . HK_DOMAIN . '/en/' . uri_string() ?>'><span class="">Eng</span></a></li>
+				<li><a href='<?php echo 'http://' . HK_DOMAIN . '/zh/' . uri_string() ?>'><span class="">繁</span></a></li>
+				<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>
+			<?php } else { ?>
+				<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
+				<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
+				<!--<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>-->
+				<li><a href='<?php echo 'http://' . CN_DOMAIN . preg_replace('/\/\//', '/', '/' . preg_replace('/^(\w)(\w)/', '', uri_string()) ) ?>'><span class="">簡</span></a></li>
+			<?php } ?>
 			<li><a href='http://www.facebook.com/pages/Casimira/326940370663389' target='_blank'><img class='fb_logo' src='/images/f_logo.png' /></a></li>
 			<?php $item_count = count($cart)>0? "(".count($cart).")":''; ?>
 			<li><?php echo anchor('cart', "<img class='fb_logo' src='/images/cart.png' /><span class='item_count'>$item_count</span>") ?></li>
