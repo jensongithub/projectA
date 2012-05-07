@@ -174,17 +174,17 @@ HTML;
 		$to    = 'davidrobinson91@hotmail.com';    //  your email
 		
 		$body ="";
-		foreach ($this->input->post() as $key=>$value){
-			$body .= "\n$key: $value";
+		foreach ($_POST as $key=>$value){
+			$data .= "\n$key: $value";
 		}
 		
 		if ($this->paypal_lib->validate_ipn())
 		{
 			//$this->paypal_lib->ipn_data['payer_email'] = $to;
-			$body  = 'An instant payment notification was successfully received from ';
+			$body .= 'An instant payment notification was successfully received from ';
 			$body .= $this->input->post('payer_email') . ' on '.date('m/d/Y') . ' at ' . date('g:i A') . "\n\n";
 			$body .= " Details:\n";
-			
+			$body .= $data;
 			
 			if (($this->input->post('payment_status') === 'Completed') //&&
 				//($this->input->post('receiver_email') == 'info@casimira.com.hk') //&&
@@ -192,12 +192,9 @@ HTML;
 				//($this->input->post('payment_currency') == "USD")*/
 				)
 			{
-				
-				
+								
 				$this->order_model->update_paypal_order();
-				
-				
-				
+				$this->paypal_lib->log_results($body);
 				// clear the cart data
 				$session_data = $this->data = $this->session->all_userdata();
 				$session_data['cart'] = array();

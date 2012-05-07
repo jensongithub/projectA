@@ -32,7 +32,7 @@
 			<li><?php echo anchor('admin/edit_categories', _('Categories')); ?></li>
 			<li><?php echo anchor('admin/menu', _('Menu')); ?></li>
 			<li><?php echo anchor('admin/products', _('Products')); ?></li>
-			
+			<li><?php echo anchor('admin/order', _('Order')); ?></li>
 		</ul>
 		<ul>
 			<li><?php echo anchor('admin/edit_content/company', _('About us')); ?></li>

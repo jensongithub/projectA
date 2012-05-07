@@ -58,3 +58,11 @@ IPN Response from Paypal Server:
 
 error: 
 
+[05/07/2012 4:29 PM] - FAIL: IPN Validation Failed.
+IPN POST vars from Paypal:
+
+IPN Response from Paypal Server:
+ INVALID
+
+error: 
+

@@ -293,7 +293,7 @@ PAYPAL_FORM;
 			return false;
 		} 
 		else
-		{ 
+		{
 			// Post the data back to paypal
 			$header = "POST /cgi-bin/webscr HTTP/1.0\r\n";
 			//fputs($fp, "Host: $url_parsed[host]\r\n"); 

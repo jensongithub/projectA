@@ -279,4 +279,36 @@ class Admin extends MY_Controller {
 		}
 		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}
+	
+	public function order(){
+		// settings
+		$this->data['page']['title']='Purchase Order';
+		$this->load->model(array('product_model','order_model'));
+		
+		$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
+		$this->data['page']['order'] = &$order;
+		$this->data['page']['search_url'] = site_url().$this->lang->lang()."/admin/order_search/";
+		
+		var_dump($order);
+		
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/order', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
+	}
+	
+	public function order_search(){
+		// settings
+		$this->load->model(array('product_model','order_model'));
+		
+		$row_num = $this->input->post('row_num');
+		$howmany = $this->input->post('howmany');
+		$query_key_pairs = $this->input->post('val');
+		$_key_pairs = json_decode($query_key_pairs, true);
+		
+		$orders = $this->order_model->get_order_by_status($_key_pairs, $row_num=0, $howmany=15);
+		return json_encode($orders, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
+		
+		
+	}
 }
