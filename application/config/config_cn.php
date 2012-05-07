@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://127.0.0.1/';
+$config['base_url']	= 'http://127.0.0.2/';
 //$config['base_url']	= 'http://210.176.126.120:81/';
 
 /*
@@ -38,7 +38,7 @@ $config['css_dir'] = '';
 | Languages available in the application
 |
 */
-$config['language']='english';
+$config['language']='schinese';
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-//$config['language']	= 'english';
+$config['language']	= 'schinese';
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,482 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: lna\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-05-05 09:35+0800\n"
+"PO-Revision-Date: 2012-05-08 00:08+0800\n"
+"Last-Translator: Marco Fan <fanch_-dev@yahoo.com.hk>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;T_\n"
+"X-Poedit-Basepath: D:\\Marco\\project\\projectA\\application\\views\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: HONG KONG\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: pages\n"
+"X-Poedit-SearchPath-1: templates\n"
+"X-Poedit-SearchPath-2: .\n"
+
+#: pages/cart.php:14
+msgid "No items"
+msgstr "沒有产品"
+
+#: pages/cart.php:20
+msgid "Product Code"
+msgstr "产品编号"
+
+#: pages/cart.php:21
+msgid "Color"
+msgstr "颜色"
+
+#: pages/cart.php:22
+msgid "Size"
+msgstr "尺码"
+
+#: pages/cart.php:23
+msgid "Unit Price"
+msgstr "单价"
+
+#: pages/cart.php:24
+msgid "Discount"
+msgstr "优惠价"
+
+#: pages/cart.php:25
+msgid "Quantity"
+msgstr "数量"
+
+#: pages/cart.php:26
+msgid "Total"
+msgstr "总数"
+
+#: pages/contact.php:5
+msgid "Email:"
+msgstr "电邮:"
+
+#: pages/contact.php:6
+msgid "Phone:"
+msgstr "电话:"
+
+#: pages/location.php:2
+msgid "Location"
+msgstr "门市地址"
+
+#: pages/men.php:2
+msgid "this is men"
+msgstr ""
+
+#: pages/no_category.php:2
+msgid "No such category"
+msgstr "此类别不存在"
+
+#: pages/no_category.php:3
+msgid "The category may be unavailable temporarily, or never exist."
+msgstr "此产品类别可能并不存在，或暂时无法存取。"
+
+#: pages/no_product.php:2
+msgid "No such product"
+msgstr "此产品不存在"
+
+#: pages/no_product.php:3
+msgid "The product may be unavailable temporarily, or never exist."
+msgstr "此产品可能并不存在，或暂时无法存取。"
+
+#: pages/product_care_zh.php:4
+msgid "Product Care"
+msgstr "产品护理"
+
+#: pages/product_care_zh.php:7
+msgid "How to wash your cashmere sweater"
+msgstr "如何清洗你的山羊绒毛衣"
+
+#: pages/view_product.php:309
+msgid "Similar Products"
+msgstr "相似产品"
+
+#: pages/view_product.php:359
+msgid "Description"
+msgstr "产品描述"
+
+#: pages/view_product.php:364
+msgid "Details"
+msgstr "产品详情"
+
+#: pages/view_product.php:376
+msgid "Colour"
+msgstr "颜色"
+
+#: pages/women.php:40
+#: pages/women.php:80
+msgid "Previous page"
+msgstr "上一页"
+
+#: pages/women.php:41
+#: pages/women.php:81
+msgid "Next page"
+msgstr "下一页"
+
+#: templates/footer.php:7
+msgid "Customer Services"
+msgstr "客户服务"
+
+#: templates/footer.php:8
+msgid "How to Order"
+msgstr "如何订购"
+
+#: templates/footer.php:9
+msgid "Delivery"
+msgstr "送货事宜"
+
+#: templates/footer.php:10
+msgid "Goods Return and Change"
+msgstr "退还货品"
+
+#: templates/footer.php:11
+msgid "Contact Us"
+msgstr "联络我们"
+
+#: templates/footer.php:16
+msgid "Online Shop"
+msgstr "网上商店"
+
+#: templates/footer.php:17
+#: templates/header.php:33
+msgid "Ladies"
+msgstr "女士"
+
+#: templates/footer.php:18
+#: templates/header.php:34
+msgid "Men"
+msgstr "男士"
+
+#: templates/footer.php:19
+#: templates/header.php:35
+msgid "Accessories"
+msgstr "配饰"
+
+#: templates/footer.php:24
+msgid "Payment Methods"
+msgstr "付款方法"
+
+#: templates/footer.php:32
+msgid "Others"
+msgstr "其他"
+
+#: templates/footer.php:33
+msgid "Sitemap"
+msgstr "网站地图"
+
+#: templates/footer.php:34
+msgid "Disclaimer and Terms"
+msgstr "细则及条款"
+
+#: templates/footer.php:35
+msgid "Privacy and Policies"
+msgstr "私隐政策"
+
+#: templates/footer.php:39
+msgid "Casimira &copy; 2012"
+msgstr ""
+
+#: templates/header.php:26
+msgid "Login"
+msgstr "登入"
+
+#: templates/header.php:26
+msgid "Logout"
+msgstr "注销"
+
+#: templates/header.php:32
+msgid "About us"
+msgstr "关于我们"
+
+#: templates/header.php:36
+msgid "News"
+msgstr "最新动态"
+
+#: templates/header.php:39
+msgid "Contact us"
+msgstr "联络我们"
+
+#: welcome_message.php:74
+msgid "username"
+msgstr "用户名称"
+
+#: account/forgotten_form.php:6
+msgid "Forgotten Login"
+msgstr "忘记登入信息"
+
+#: account/forgotten_form.php:8
+msgid "Please Enter your email address"
+msgstr "请输入阁下电邸地址"
+
+#: account/forgotten_form.php:11
+#: account/info_form.php:63
+#: account/login_form.php:14
+msgid "Email"
+msgstr "电邮"
+
+#: account/info_form.php:54
+msgid "Update Successful"
+msgstr "更新成功"
+
+#: account/info_form.php:56
+msgid "Update Profile"
+msgstr "更新帐户数据"
+
+#: account/info_form.php:67
+msgid "First Name"
+msgstr "名字"
+
+#: account/info_form.php:71
+msgid "Last Name"
+msgstr "姓氏"
+
+#: account/info_form.php:75
+#: account/login_form.php:17
+msgid "Password"
+msgstr "密码"
+
+#: account/info_form.php:79
+msgid "Confirm Password"
+msgstr "确认密码"
+
+#: account/info_form.php:83
+msgid "Phone"
+msgstr "电话"
+
+#: account/info_form.php:87
+msgid "Gender"
+msgstr "性别"
+
+#: account/info_form.php:93
+msgid "submit"
+msgstr "提交"
+
+#: account/login_form.php:8
+msgid "Sign In / Create Account"
+msgstr "登入/注册"
+
+#: account/login_form.php:11
+msgid "Existing Customers"
+msgstr "会员登入"
+
+#: account/login_form.php:19
+msgid "Submit"
+msgstr "提交"
+
+#: account/login_form.php:20
+msgid "Forgotten Password"
+msgstr "忘记密码"
+
+#: account/login_form.php:25
+msgid "New Customer"
+msgstr "新用户"
+
+#: account/login_form.php:26
+msgid "Creating an account provides you with convenient features, including:"
+msgstr "注册成为会员将为你带来多个好处, 包括"
+
+#: account/login_form.php:28
+msgid "Quick checkout"
+msgstr "简单又快速的购物体验"
+
+#: account/login_form.php:29
+msgid "View and track orders"
+msgstr "查看/追踪订单功能"
+
+#: account/login_form.php:30
+msgid "Add to wish list"
+msgstr "希望清单, 储存你有兴趣的产品"
+
+#: account/login_form.php:31
+msgid "Save multiple shipping addresses"
+msgstr "可储存多个送货地址"
+
+#: account/login_form.php:32
+msgid "Advance notice on latest promotions"
+msgstr "取得各种优惠信息"
+
+#: account/login_form.php:34
+msgid "Register"
+msgstr "注册"
+
+#: account/register_finish.php:4
+msgid "register_success_message"
+msgstr "恭喜阁下已成功注册成为会员"
+
+#: account/register_finish.php:6
+#: account/user_update_success.php:6
+msgid "email"
+msgstr "电邮"
+
+#: account/register_finish.php:7
+#: account/user_update_success.php:7
+msgid "firstname"
+msgstr "名称"
+
+#: account/register_finish.php:8
+#: account/user_update_success.php:8
+msgid "lastname"
+msgstr "姓氏"
+
+#: account/register_finish.php:9
+#: account/user_update_success.php:9
+msgid "phone"
+msgstr "电话"
+
+#: account/register_finish.php:10
+#: account/user_update_success.php:10
+msgid "gender"
+msgstr "性别"
+
+#: account/register_form.php:70
+msgid "Registration"
+msgstr "注册"
+
+#: account/register_form.php:100
+msgid "male"
+msgstr "男性"
+
+#: account/register_form.php:102
+msgid "female"
+msgstr "女性"
+
+#: account/register_form.php:111
+msgid "I would like to receive email newsletters and other email based offers relating to casimira's products and services"
+msgstr "本人愿意接收由Casimira 发送之优惠或其他相关电邮"
+
+#: account/register_form.php:116
+msgid "I accept the"
+msgstr "本人接受"
+
+#: account/register_form.php:116
+msgid "Terms of Use"
+msgstr "使用条款"
+
+#: account/register_form.php:116
+#, fuzzy
+msgid "Privacy Policy"
+msgstr "私隐政策"
+
+#: account/reset_password_form.php:9
+msgid "Reset Password"
+msgstr "重设密码"
+
+#: admin/categories.php:67
+msgid "Category name"
+msgstr ""
+
+#: admin/categories.php:71
+#: admin/categories.php:90
+msgid "Path"
+msgstr ""
+
+#: admin/categories.php:82
+msgid "Original category"
+msgstr ""
+
+#: admin/categories.php:86
+msgid "New category name"
+msgstr ""
+
+#: admin/components.php:61
+#: admin/templates/header.php:41
+msgid "Components"
+msgstr "成分"
+
+#: admin/components.php:84
+msgid "Add"
+msgstr ""
+
+#: admin/components.php:101
+msgid "Edit"
+msgstr ""
+
+#: admin/edit_product.php:207
+msgid "Product thumbnail"
+msgstr "产品缩图"
+
+#: admin/menu.php:5
+msgid "Refresh the list"
+msgstr ""
+
+#: admin/menu.php:9
+msgid "Preview"
+msgstr "预览"
+
+#: admin/menu.php:99
+msgid "Menu item"
+msgstr ""
+
+#: admin/menu.php:104
+msgid "Display level"
+msgstr ""
+
+#: admin/menu.php:110
+msgid "Display text"
+msgstr ""
+
+#: admin/menu.php:114
+msgid "Text (T.Chinese)"
+msgstr ""
+
+#: admin/menu.php:118
+msgid "Text (S.Chinese)"
+msgstr ""
+
+#: admin/products.php:7
+msgid "View products in"
+msgstr ""
+
+#: admin/products.php:14
+msgid "View"
+msgstr ""
+
+#: admin/products.php:50
+msgid "Move product(s) to"
+msgstr ""
+
+#: admin/products.php:56
+#: admin/products.php:67
+msgid "Execute"
+msgstr ""
+
+#: admin/products.php:59
+msgid "Change products's status to"
+msgstr ""
+
+#: admin/upload_products_form.php:3
+msgid "Add products in excel file"
+msgstr ""
+
+#: admin/upload_products_form.php:9
+msgid "Upload"
+msgstr ""
+
+#: admin/templates/footer.php:18
+msgid "Women"
+msgstr ""
+
+#: admin/templates/footer.php:21
+#: admin/templates/header.php:39
+msgid "Sales"
+msgstr ""
+
+#: admin/templates/header.php:31
+msgid "Dashboard"
+msgstr "管理面版"
+
+#: admin/templates/header.php:32
+msgid "Categories"
+msgstr "产品类别"
+
+#: admin/templates/header.php:33
+msgid "Menu"
+msgstr "选单"
+
+#: admin/templates/header.php:34
+msgid "Products"
+msgstr "产品"
+

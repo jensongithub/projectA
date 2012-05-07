@@ -1,3 +1,9 @@
+#2012-05-08 00:10 by Marco
+2 working domains, 1 for .cn, 1 for .hk
+Only need to config these 2 domains in application/config/constants.php
+Please configure the server to support 2 virtual hosts with the corresponding domain.
+
+
 #2012-02-05 17:48 by Marco
 Added a language switcher above the navigation bar, and a image slider library.
   Nivo Slider usage:

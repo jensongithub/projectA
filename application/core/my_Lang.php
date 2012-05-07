@@ -13,7 +13,7 @@ load the MX_Loader class */
 
 //class MY_Lang extends MX_Lang {
 
-class my_Lang extends CI_Lang {
+class MY_Lang extends CI_Lang {
 
 	/**************************************************
 	configuration
@@ -48,15 +48,15 @@ class my_Lang extends CI_Lang {
 		$uri_segment = $this->get_uri_lang($this->uri);
 		$this->lang_code = $uri_segment['lang'] ;
 		$url_ok = false;
-	
-        if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))		
-        {	
-            $language = $this->languages[$this->lang_code];
-            $CFG->set_item('language', $language);
-            $url_ok = true;
-        }
+
+		if ((!empty($this->lang_code)) && (array_key_exists($this->lang_code, $this->languages)))		
+		{
+			$language = $this->languages[$this->lang_code];
+			$CFG->set_item('language', $language);
+			$url_ok = true;
+		}
 		
-		if ((!$url_ok) && (!$this->is_special($uri_segment['parts'][0]))) // special URI -> no redirect
+		if ((!$url_ok) && !defined('IS_CN') && (!$this->is_special($uri_segment['parts'][0]))) // special URI -> no redirect
 		{
 			// set default language
 			$CFG->set_item('language', $this->languages[$this->default_lang()]);
@@ -66,7 +66,7 @@ class my_Lang extends CI_Lang {
 			$new_url = $CFG->config['base_url'].$this->default_lang().$uri;
 			header("Location: " . $new_url, TRUE, 302);
 		}
-    }
+	}
 
 
     // get current language
@@ -95,24 +95,24 @@ class my_Lang extends CI_Lang {
     }
 
 
-    function switch_uri($lang)
-     {
-         if ((!empty($this->uri)) && (array_key_exists($lang, $this->languages)))
-         {
+	function switch_uri($lang){
+		if( defined('IS_CN') ){
+			if( $lang == 'cn' )
+				return $this->uri;
+		}
 
-          if ($uri_segment = $this->get_uri_lang($this->uri))
-          {
-           $uri_segment['parts'][0] = $lang;
-           $uri = implode('/',$uri_segment['parts']);
-          }
-          else
-          {
-           $uri = $lang.'/'.$this->uri;
-          }
-         }
+		if ( (!empty($this->uri)) && (array_key_exists($lang, $this->languages))){
+			if ($uri_segment = $this->get_uri_lang($this->uri)){
+				$uri_segment['parts'][0] = $lang;
+				$uri = implode('/',$uri_segment['parts']);
+			}
+			else{
+				$uri = $lang.'/'.$this->uri;
+			}
+		}
 
-         return $uri;
-     }
+		return $uri;
+	}
 
  //check if the language exists
  //when true returns an array with lang abbreviation + rest
@@ -153,7 +153,7 @@ class my_Lang extends CI_Lang {
      if (!empty($uri))
      {
       $uri_segment = $this->get_uri_lang($uri);
-      if (!$uri_segment['lang'])
+      if (!$uri_segment['lang'] && !defined('IS_CN'))
       {
 
        if ((!$this->is_special($uri_segment['parts'][0])) && (!preg_match('/(.+)\.[a-zA-Z0-9]{2,4}$/', $uri)))

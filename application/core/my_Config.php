@@ -22,10 +22,10 @@ class my_Config extends CI_Config {
             $uri = implode('/', $uri);
         }
         
-        if (function_exists('get_instance'))        
+        if (function_exists('get_instance'))
         {
             $CI =& get_instance();
-            $uri = $CI->lang->localized($uri);            
+            $uri = $CI->lang->localized($uri);
         }
 
         return parent::site_url($uri);
