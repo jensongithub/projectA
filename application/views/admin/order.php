@@ -1,8 +1,9 @@
 <?php echo css('css/admin/products.css') ?>
 <?php if( isset($page['error']) ) echo $page['error'];?>
 <script>
-	var query_obj = {"url":"", "val":{}};
-	query_obj.url = "<?php echo $page['search_url']; ?>";
+	var order_obj = {"url":"", "val":{}};
+	order_obj.query_url = "<?php echo $page['query_url']; ?>";
+	order_obj.save_url = "<?php echo $page['save_url']; ?>";
 	
 </script>
 <script>
@@ -14,16 +15,16 @@ function set_rownum(val){
 function search_order(){
 	var s_key = $('#columns').val();
 	var s_value = $('#search_value').val();
-	query_obj.val[s_key]=s_value;
+	order_obj.val[s_key]=s_value;
 	
-	var val = $.toJSON(query_obj.val);
+	var val = $.toJSON(order_obj.val);
 	
 	var row_num=$("input[name=row_num]").val();
 	var howmany=$("select[name=howmany]").val();
 	
 	$.ajax({
 		type: "POST",
-		 url: query_obj.url,
+		 url: order_obj.query_url,
 		data: "val="+val+"&row_num="+row_num+"&howmany="+howmany,
 		dataType: "json",
 		success: function (data, textStatus, jqXHR) {
@@ -38,26 +39,52 @@ function search_order(){
 		async:false
 	});
 }
+
+function save_order(order_id){
+	
+	var flag = confirm('Are you sure to save?');
+	
+	var done = $(this).attr('checked') ==="checked"?'1':'0';
+	
+	$.ajax({
+		type: "POST",
+		 url: order_obj.save_url,
+		data: "id="+order_id+"&done="+done,
+		dataType: "json",
+		success: function (data, textStatus, jqXHR) {
+			var obj = jQuery.parseJSON(jqXHR.responseText);
+			/*if (obj.cart_item!=''){
+				shop_cart.list.push(obj.cart_item);
+			}*/
+			
+			
+		},
+		error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
+		async:false
+	});
+	
+	return flag;
+}
 </script>
 
 
 <h2>Purchase Order</h2>
 <hr style='margin: 10px 0 20px 0;' />
-<form id='form' method='post' action=''>
+<form id='form' method='post' action='' onSubmit='return save_order_form();'>
 	<input type='hidden' id='action' name='action' value='move' />
 	<div id="tablewrapper">
 		<div id="tableheader">
 			<div class="search">
 				<select id="columns">
 					<option value="orders.payment_date">Payment Date</option>
-					<option value="orders.id">Order Number</option>
+					<option value="orders.id">Order#</option>
 					<option value="users.email">Email</option>
-					<option value="users.contact">Contact Number</option>
+					<option value="users.contact">Phone</option>
 					<option value="orders.total_amount">Total Amount</option>
-					<option value="orders.is_handled">Is Handled?(y/n)</option>
-					<option value="orders.handled_by">Handled By</option>
-					<option value="orders.handled_date">Handled Date</option>
-					<option value="orders.remarks">Remarks</option>
+					<option value="orders.is_handled">Done?(y/n)</option>
+					<option value="orders.handled_by">Handle By</option>
+					<option value="orders.handled_date">Handle Date</option>
+					<!--option value="orders.remarks">Remark</option-->
 				</select>
 				<input type="text" id="search_value" style="content:sdf" />
 			</div>
@@ -67,19 +94,19 @@ function search_order(){
 		<table id='order-table' class='tinytable'>
 			<thead>
 				<tr>
-					<th class='nosort' style='padding: 6px;'><input id='check-all-button' type='checkbox' /></th>
+					<!--th class='nosort' style='padding: 6px;'><input id='check-all-button' type='checkbox' /></th-->
 					<th><?php echo _("Payment Date");?> </th>
-					<th><?php echo _("Order Number");?> </th>
+					<th><?php echo _("Order#");?> </th>
 					<th><?php echo _("Buyer");?> </th>
 					<th><?php echo _("Email");?> </th>
-					<th><?php echo _("Contact Number");?> </th>
-					<th><?php echo _("Address");?> </th>
+					<th><?php echo _("Phone");?> </th>
+					<th><?php echo _("Address");?> </th> 
 					<th><?php echo _("Total Amount");?></th>
-					<th><?php echo _("Is handled?");?></th>
-					<th><?php echo _("Handled By");?></th>
-					<th><?php echo _("Handled Date");?></th>
-					<th><?php echo _("Remarks");?></th>
-					<th></th>
+					<th><?php echo _("Payment Status");?></th>
+					<th><?php echo _("Done?");?></th>
+					<th><?php echo _("Handle By");?></th>
+					<th><?php echo _("Handle Date");?></th>
+					<!--th><?php //echo _("Remark");?></th-->
 				</tr>
 			</thead>
 			<tbody style="overflow-y:scroll;">
@@ -87,26 +114,24 @@ function search_order(){
 				foreach( $page['order'] as $each_row ){
 				?>
 				<tr>
-					<td><input type='checkbox' name='oid[]' value='<?php echo $each_row['id'] ?>' /></td>
-					<td><?php echo anchor('admin/order/' . $each_row['id']) ?></td>
 					<td><?php echo $each_row['payment_date'] ?></td>
-					<td><?php echo $each_row['first_name'].$each_row['last_name'] ?></td>
+					<td><?php echo $each_row['id'] ?></td>					
+					<td><?php echo $each_row['lastname']." ".$each_row['firstname'] ?></td>
 					<td><?php echo $each_row['email'] ?></td>
-					<td><?php echo $each_row['contact number'] ?></td>
-					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['address_country'].",".$each_row['address_country_code']  ?></td>
+					<td><?php echo $each_row['phone'] ?></td>
+					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['country'].",".$each_row['country_code'].",".$each_row['country']  ?></td>
 					<td><?php echo $each_row['total_amount'] ?></td>
 					<td><?php echo $each_row['status'] ?></td>
-					<td><?php echo $each_row['is_handled'] ?></td>
-					<td><?php echo $each_row['handled_by'] ?></td>
-					<td><?php echo $each_row['handled_date'] ?></td>
-					<td><?php echo $each_row['remarks'] ?></td>
+					<td><input type='checkbox' name='oid_<?php echo $each_row['id'] ?>' onclick='return save_order(<?php echo $each_row['id'] ?>);' value='<?php echo $each_row['id'] ?>' <?php echo $each_row['is_handled']==='1' ? 'checked=checked' : 'checked=""' ?> /></td>
+					<td><?php echo $each_row['handle_by'] ?></td>
+					<td><?php echo $each_row['handle_date'] ?></td>
+					<!--td><?php //echo $each_row['remark'] ?></td-->
 				</tr>
 				<?php
 				}
 				?>
 			</tbody>
 		</table>
-		
 		<div id="tablefooter">
 			<div id="tablenav">
 				<div>
