@@ -280,16 +280,22 @@ class Admin extends MY_Controller {
 		redirect(site_url().$this->lang->lang().'/admin/edit_content/'.$name);
 	}
 	
-	public function order(){
+	public function order($id=null){
 		// settings
 		$this->data['page']['title']='Purchase Order';
 		$this->load->model(array('product_model','order_model'));
-		
-		$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
-		$this->data['page']['order'] = &$order;
-		$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
-		$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
-		
+		if ($id==null){
+			$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
+			$this->data['page']['order'] = &$order;
+			
+			$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
+			$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
+		}else{
+			$order = $this->order_model->get_order_by_status(array('orders.id'=>$id), $row_num=0, $howmany=15);
+			$order_detail = $this->order_model->get_order_items_by_id($id);
+			$this->data['page']['order'] = &$order;
+			$this->data['page']['order_items'] = &$order_detail;
+		}
 		var_dump($order);
 		
 		$this->load->view('admin/templates/header', $this->data);
@@ -320,7 +326,7 @@ class Admin extends MY_Controller {
 		$is_handled = $this->input->post('done');
 		$user = $this->get_session('user');
 		
-		$affected_rows = $this->order_model->set_order_is_handed($order_id, $is_handled, $user['id']);
+		$affected_rows = $this->order_model->set_order_is_handed($order_id, $user['lastname']." " .$user['firstname'].'-'.$user['id']);
 		
 		return $affected_rows;
 	}

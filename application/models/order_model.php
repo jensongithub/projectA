@@ -103,9 +103,9 @@ class Order_model extends CI_Model {
 		//return json_encode($query->result_array(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
 	}
 	
-	function set_order_is_handed($order_id, $is_handled, $user_id){
-		$query = "update orders set is_handled = ?, handle_by = ?, modified_date = NOW() where id = $order_id";
-		$result = $this->db->query($query, array($is_handled, $user_id));
+	function set_order_is_handed($order_id, $username){
+		$query = "update orders set is_handled = CASE WHEN is_handled = 0 THEN 1 WHEN is_handled = 1 THEN 0 END, handle_by = ?, handle_date = NOW() where id = ?";
+		$result = $this->db->query($query, array($username, $order_id));
 		
 		return $this->db->affected_rows();
 	}

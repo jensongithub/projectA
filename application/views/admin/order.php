@@ -40,16 +40,14 @@ function search_order(){
 	});
 }
 
-function save_order(order_id){
+function save_order(order_id, val){
 	
 	var flag = confirm('Are you sure to save?');
-	
-	var done = $(this).attr('checked') ==="checked"?'1':'0';
 	
 	$.ajax({
 		type: "POST",
 		 url: order_obj.save_url,
-		data: "id="+order_id+"&done="+done,
+		data: "id="+order_id,
 		dataType: "json",
 		success: function (data, textStatus, jqXHR) {
 			var obj = jQuery.parseJSON(jqXHR.responseText);
@@ -115,23 +113,41 @@ function save_order(order_id){
 				?>
 				<tr>
 					<td><?php echo $each_row['payment_date'] ?></td>
-					<td><?php echo $each_row['id'] ?></td>					
+					<td><a href='<?php echo current_url().'/'.$each_row['id'] ?>' target='_new'><?php echo $each_row['id'] ?></a></td>
 					<td><?php echo $each_row['lastname']." ".$each_row['firstname'] ?></td>
 					<td><?php echo $each_row['email'] ?></td>
 					<td><?php echo $each_row['phone'] ?></td>
 					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['country'].",".$each_row['country_code'].",".$each_row['country']  ?></td>
 					<td><?php echo $each_row['total_amount'] ?></td>
 					<td><?php echo $each_row['status'] ?></td>
-					<td><input type='checkbox' name='oid_<?php echo $each_row['id'] ?>' onclick='return save_order(<?php echo $each_row['id'] ?>);' value='<?php echo $each_row['id'] ?>' <?php echo $each_row['is_handled']==='1' ? 'checked=checked' : 'checked=""' ?> /></td>
+					<td><input type='checkbox' name='oid_<?php echo $each_row['id'] ?>' onclick='return save_order(<?php echo $each_row['id'] ?>);' <?php echo $each_row['is_handled']==='1' ? 'checked' : '' ?> /></td>
 					<td><?php echo $each_row['handle_by'] ?></td>
 					<td><?php echo $each_row['handle_date'] ?></td>
 					<!--td><?php //echo $each_row['remark'] ?></td-->
 				</tr>
 				<?php
-				}
+				}				
 				?>
 			</tbody>
 		</table>
+		
+		<?php if (isset($page['order_detail']) ) { ?>
+		<table>
+			<tbody>
+			<?php foreach( $page['order_detail'] as $each_row ){	?>
+				<tr>
+					<td><?php echo $each_row['order_id '] ?></td>
+					<td><?php echo $each_row['prod_id'] ?></td>
+					<td><?php echo $each_row['price'] ?></td>
+					<td><?php echo $each_row['quantity'] ?></td>
+					<td><?php echo $each_row['size'] ?></td>
+					<td><?php echo $each_row['color'] ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+		<?php } ?>
+		
 		<div id="tablefooter">
 			<div id="tablenav">
 				<div>
