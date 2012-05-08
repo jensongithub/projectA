@@ -73,7 +73,7 @@ $(document).ready(function($){
 	initThumbnailEvent();
 	initCartOperations();
 	
-	//$('.color-thumbnail:first').click();
+	$('.color-thumbnail:first').click();
 });
 
 function initSizeChart(){

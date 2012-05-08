@@ -11,9 +11,9 @@ class Privacy extends MY_Controller {
 
 	public function index(){
 		
-		$lang = '_'.$this->lang->lang();
+		$lang = $this->lang->lang();
 		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/privacy'.$lang);
+		$this->load->view('pages/privacy_'.$lang);
 		$this->load->view('templates/footer');
 	}
 }
