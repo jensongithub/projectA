@@ -113,7 +113,7 @@ function save_order(order_id, val){
 				?>
 				<tr>
 					<td><?php echo $each_row['payment_date'] ?></td>
-					<td><a href='<?php echo site_url().$page['lang'].'/admin/order/view/'.$each_row['id'] ?>' target='_new'><?php echo $each_row['id'] ?></a></td>
+					<td><a href='<?php echo site_url().$page['lang'].'/admin/order/'.$each_row['id'] ?>' target='_new'><?php echo $each_row['id'] ?></a></td>
 					<td><?php echo $each_row['lastname']." ".$each_row['firstname'] ?></td>
 					<td><?php echo $each_row['email'] ?></td>
 					<td><?php echo $each_row['phone'] ?></td>

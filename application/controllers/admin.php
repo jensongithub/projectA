@@ -297,6 +297,8 @@ class Admin extends MY_Controller {
 			$this->data['page']['order_items'] = &$order_detail;
 		}
 		
+		//var_dump($order_detail);
+		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/order', $this->data);
