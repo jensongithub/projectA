@@ -96,10 +96,22 @@ class Order_model extends CI_Model {
 		return $query->result_array();
 	}
 	
-	function get_order_items_by_order_id($order_id){
+	function get_order_items_by_id($order_id){
 		
-		//SELECT cat.* FROM products pro, categories cat, product_category pc WHERE pro.id = pc.pro_id AND cat.id = pc.cat_id AND pro.id = ?
 		
+		$query = "select categories.path, orders_items.order_id, orders_items.prod_id, orders_items.price, orders_items.quantity, orders_items.color, orders_items.size
+		from orders_items, 
+			orders, 
+			categories, 
+			product_category 
+		where orders_items.order_id = orders.id 
+		and orders.id = ?
+		and orders_items.prod_id = product_category.pro_id
+		and product_category.cat_id = categories.id";
+		
+		$query = $this->db->query($query, array($order_id) );
+		
+		return $query->result_array();
 		//return json_encode($query->result_array(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
 	}
 	

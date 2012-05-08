@@ -6,10 +6,11 @@ var shop_cart = {
 	item_count:0,
 	item: function() { this.id=''; this.name=''; this.color=''; this.price=''; this.quantity=''; this.size=''; this.filepath=''; },
 	save: function(each_item){
+		
 		$.ajax({
 			type: "POST",
 			 url: shop_cart.add_cart_url,
-			data: "item="+$.toJSON(each_item),
+			data: "item="+encodeURIComponent($.toJSON(each_item)),
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				var obj = jQuery.parseJSON(jqXHR.responseText);
@@ -50,7 +51,7 @@ var shop_cart = {
 	add_rows:0,
 	add_item: function(){
 		var ret=0;
-		shop_cart.cur_item.id=$(this).attr('value');
+		shop_cart.cur_item.id=$(this).attr('val');
 		shop_cart.cur_item.quantity=$('input[class=item_quantity]').val();
 		if (shop_cart.cur_item.size==''){
 			alert("Please enter size");

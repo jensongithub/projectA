@@ -72,7 +72,7 @@ class cart extends MY_Controller {
 		if ($is_same) $item='""';
 
 		echo <<<JSON
-{"cart_item":$item, "item_count":$cart_counter, "success":"$ret"}
+{"cart_item":$item, "item_count":"$cart_counter", "success":"$ret"}
 JSON;
 }
 	
@@ -103,7 +103,7 @@ JSON;
 		$this->session->set_userdata($this->data);
 		
 		echo <<<JSON
-{"cart_item":"", "item_count":$cart_counter, "success":"$ret"}
+{"cart_item":"", "item_count":"$cart_counter", "success":"$ret"}
 JSON;
 	}
 }

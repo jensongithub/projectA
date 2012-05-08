@@ -81,9 +81,9 @@ class MY_Router extends CI_Router {
 		}
 		
 		if( $routes_loaded ){
-			echo "MY_Router.php line " . __LINE__ . ": loaded routes_cn.php<br/>";
+//			echo "MY_Router.php line " . __LINE__ . ": loaded routes_cn.php<br/>";
 		}else{
-			echo "MY_Router.php line " . __LINE__ . ": loaded routes.php<br/>";
+//			echo "MY_Router.php line " . __LINE__ . ": loaded routes.php<br/>";
 		}
 
 		$this->routes = ( ! isset($route) OR ! is_array($route)) ? array() : $route;

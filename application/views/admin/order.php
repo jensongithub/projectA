@@ -113,7 +113,7 @@ function save_order(order_id, val){
 				?>
 				<tr>
 					<td><?php echo $each_row['payment_date'] ?></td>
-					<td><a href='<?php echo current_url().'/'.$each_row['id'] ?>' target='_new'><?php echo $each_row['id'] ?></a></td>
+					<td><a href='<?php echo site_url().$page['lang'].'/admin/order/view/'.$each_row['id'] ?>' target='_new'><?php echo $each_row['id'] ?></a></td>
 					<td><?php echo $each_row['lastname']." ".$each_row['firstname'] ?></td>
 					<td><?php echo $each_row['email'] ?></td>
 					<td><?php echo $each_row['phone'] ?></td>
@@ -130,14 +130,28 @@ function save_order(order_id, val){
 				?>
 			</tbody>
 		</table>
-		
-		<?php if (isset($page['order_detail']) ) { ?>
-		<table>
-			<tbody>
-			<?php foreach( $page['order_detail'] as $each_row ){	?>
+		<br/>
+		<br/>
+		<p>Order Item(s)</p>
+		<?php if (isset($page['order_items']) ) { ?>
+		<table class='tinytable'>
+			<thead>
 				<tr>
-					<td><?php echo $each_row['order_id '] ?></td>
+					<th>Order#</th>
+					<th>Produce ID</th>
+					<th>Picture</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Size</th>
+					<th>Color</th>
+				</tr>
+			</head>
+			<tbody>
+			<?php foreach( $page['order_items'] as $each_row ){ ?>
+				<tr>
+					<td><?php echo $each_row['order_id'] ?></td>
 					<td><?php echo $each_row['prod_id'] ?></td>
+					<td><img class="cart-thumbnail" src='<?php echo site_url().$this->lang->lang().'/'.$each_row['path'].'/'.$each_row['prod_id'].$each_row['color'].'-F_s.jpg'?>'/></td>
 					<td><?php echo $each_row['price'] ?></td>
 					<td><?php echo $each_row['quantity'] ?></td>
 					<td><?php echo $each_row['size'] ?></td>
@@ -181,8 +195,6 @@ function save_order(order_id, val){
 	</div>
 </form>
 <?php echo css('css/TinyTableV3.css') ?>
-
-
 
 <script>
 function checkAll(){

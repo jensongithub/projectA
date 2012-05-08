@@ -421,7 +421,7 @@ background: white;
 				<span>
 					<input type='image' name='button' onclick ="buy_now(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
 					<input type='image' name='button' onclick ="buy_now(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
-					<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' value='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
+					<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' val='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
 					<?php echo $page['alipay_form']; ?>
 					<input type="hidden" name="pg" value=""/>
 					<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>

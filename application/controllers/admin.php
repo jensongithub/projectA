@@ -284,19 +284,18 @@ class Admin extends MY_Controller {
 		// settings
 		$this->data['page']['title']='Purchase Order';
 		$this->load->model(array('product_model','order_model'));
+		
+		$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
+		$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
 		if ($id==null){
 			$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
 			$this->data['page']['order'] = &$order;
-			
-			$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
-			$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
 		}else{
 			$order = $this->order_model->get_order_by_status(array('orders.id'=>$id), $row_num=0, $howmany=15);
 			$order_detail = $this->order_model->get_order_items_by_id($id);
 			$this->data['page']['order'] = &$order;
 			$this->data['page']['order_items'] = &$order_detail;
 		}
-		var_dump($order);
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -315,8 +314,6 @@ class Admin extends MY_Controller {
 		
 		$orders = $this->order_model->get_order_by_status($_key_pairs, $row_num=0, $howmany=15);
 		return json_encode($orders, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
-		
-		
 	}
 	
 	public function order_save(){

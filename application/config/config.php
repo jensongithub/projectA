@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://127.0.0.1/';
+$config['base_url']	= 'http://lna.localhost/';
 //$config['base_url']	= 'http://210.176.126.120:81/';
 
 /*

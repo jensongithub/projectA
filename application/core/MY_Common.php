@@ -51,7 +51,7 @@ if ( ! function_exists('get_config'))
 			}
 		}
 		
-		echo __FILE__ . " line " . __LINE__ . ": loaded $file_path<br/>";
+		//echo __FILE__ . " line " . __LINE__ . ": loaded $file_path<br/>";
 
 		// Fetch the config file
 		if ( ! file_exists($file_path))

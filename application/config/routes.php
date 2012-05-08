@@ -48,6 +48,9 @@ $route['^(en|zh|cn)/view/(.+)/(.+)/(.+)$'] = 'dept/view/$2/$3/$4';
 $route['^(en|zh|cn)/admin/products/edit/(.+)$'] = 'admin/edit_products/$2';
 $route['^(en|zh|cn)/admin/products/upload$'] = 'admin/upload_products';
 $route['^(en|zh|cn)/admin/products/(.+)$'] = 'admin/products/$2';
+
+$route['^(en|zh|cn)/admin/order/(.+)$'] = 'admin/order/$2';
+
 $route['^(en|zh|cn)/admin/(.+)/(.+)/(.+)$'] = 'admin/$3_$2/$4';
 $route['^(en|zh|cn)/admin/(.+)/(.+)$'] = 'admin/$3_$2';
 
