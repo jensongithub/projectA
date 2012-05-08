@@ -1,0 +1,54 @@
+#checkout-panel {
+	float: right;
+	margin: 50px 30px 0;
+}
+
+#product-list {
+	-moz-box-shadow: 1px 2px 5px #777;
+	-webkit-box-shadow: 1px 2px 5px #777;
+	box-shadow: 1px 2px 5px #777;
+
+	background: #FFEFD5; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FDF5E6', endColorstr='#FFEFD5'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#FDF5E6), to(#FFEFD5)); /* for webkit browsers */
+	background: -moz-linear-gradient(top, #FDF5E6, #FFEFD5); /* for firefox 3.6+ */
+	
+	margin: 20px auto;
+	padding: 50px 10px;
+	width: 700px;
+}
+
+#product-list table {
+	width: 100%;
+}
+
+#product-list thead tr,
+#product-list tbody tr {
+	border-bottom: 1px solid #B08047;
+}
+
+#product-list table th {
+	color: #B08047;
+	padding: 10px;
+	text-align: right;
+}
+
+#product-list table td {
+	padding: 20px 10px 10px 10px;
+	text-align: right;
+}
+
+#total {
+	color: #B08047;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.no-item {
+	color: #B08047;
+}
+
+.title {
+	color: #B08047;
+	font-weight: bold;
+}
