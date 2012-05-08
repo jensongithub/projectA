@@ -1,5 +1,10 @@
 .info-panel {
-	padding: 50px;
+	margin: 0 auto;
+	width: 700px;
+}
+
+.info-panel table {
+	width: 100%;
 }
 
 .product-care-img {
@@ -13,6 +18,7 @@
 
 .section h2 {
 	color: #B08047;
+	padding: 10px;
 }
 
 .title {

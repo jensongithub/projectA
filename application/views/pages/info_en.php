@@ -1,15 +1,19 @@
 <?php echo css('css/static.css') ?>
 <div class='info-panel'>
-	<div class="section">
-		<div>電郵 info@casimira.com.hk</div>
-		<div>電話 39739211</div>
+	<div id='contact' class="section">
+		<h2><?php echo T_('Contact methods') ?></h2>
+		<div>電郵: info@casimira.com.hk</div>
+		<div>電話: 39739211</div>
 	</div>
-	<div class="section">
+	<div id='location' class="section">
+		<h2><?php echo T_('Branches address') ?></h2>
 		<table>
 			<thead>
-				<tr><th>分店</th>
-				<th>地址</th>
-				<th>電話</th></tr>
+				<tr>
+					<th>分店</th>
+					<th>地址</th>
+					<th>電話</th>
+				</tr>
 			</thead>
 			<tbody>
 				<tr>

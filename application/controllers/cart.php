@@ -4,6 +4,7 @@ class cart extends MY_Controller {
 	public function __construct()	{
 		parent::__construct();
 		$this->data['page']['title']='Cart';
+		$this->data['page']['lang'] = $this->lang->lang();
 	}
 	
 	public function index(){
@@ -19,6 +20,20 @@ class cart extends MY_Controller {
 				if ($each_product['id'] === $each_item['id']){
 					$this->data['cart'][$key]['price'] = $each_product['price'];
 					$this->data['cart'][$key]['discount'] = $each_product['discount'];
+				}
+			}
+			$color_from_pos = FALSE;
+			//$color_from_pos = $this->common_model->get_color_by_id($each_item['color']);
+			
+			if( $color_from_pos ){
+				$this->data['cart'][$key]['color_name'] = array();
+				foreach( $color_from_pos[$this->data['cart'][$key]['color']] as $lang => $val ){
+					$this->data['cart'][$key]['color_name'][$lang] = $val;
+				}
+				
+				if( $color_from_pos && $this->data['page']['lang'] == 'cn' ){
+					$this->load->library('zh2cn');
+					$this->data['cart'][$key]['color_name']['name_cn'] = $this->zh2cn->convert( $this->data['cart'][$key]['color_name']['name_zh'] );
 				}
 			}
 		}

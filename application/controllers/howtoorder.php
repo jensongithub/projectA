@@ -12,9 +12,9 @@ class Howtoorder extends CI_Controller {
 	}
 
 	public function index(){		
-		$lang = '_'.$this->lang->lang();
+		$lang = $this->lang->lang();
 		$this->load->view('templates/header', $this->data);
-		$this->load->view('pages/howtoorder'.$lang);
+		$this->load->view('pages/howtoorder_'.$lang);
 		$this->load->view('templates/footer');
 	}
 }
