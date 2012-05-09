@@ -33,6 +33,7 @@
 			<li><?php echo anchor('admin/menu', _('Menu')); ?></li>
 			<li><?php echo anchor('admin/products', _('Products')); ?></li>
 			<li><?php echo anchor('admin/order', _('Order')); ?></li>
+			<li><?php echo anchor('admin/analysis', _('Analysis')); ?></li>
 		</ul>
 		<ul>
 			<li><?php echo anchor('admin/edit_content/company', _('About us')); ?></li>
@@ -41,8 +42,6 @@
 			<li><?php echo anchor('admin/components', _('Components')); ?></li>
 			<li><?php echo anchor('admin/edit_content/info', _('Location')); ?></li>
 		</ul>
-
-		
 	</div>
 </div>
 

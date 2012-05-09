@@ -329,4 +329,9 @@ class Admin extends MY_Controller {
 		
 		return $affected_rows;
 	}
+	
+	public function analysis($id){
+		
+	}
+	
 }
