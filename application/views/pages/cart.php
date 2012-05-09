@@ -1,5 +1,13 @@
 <?php echo css('css/products.css'); ?>
 <?php echo css('css/cart.css') ?>
+<?php
+function get_color_str($item, $lang){
+	if( isset( $item['color_name'] ) ){
+		return $item['color_name']['name_' . $lang];
+	}
+	return $item['color'];
+}
+?>
 <div class='pad'>
 	<script type='text/javascript'>
 	$(function(){
@@ -53,15 +61,15 @@
 			</thead>
 			<tbody>
 			<?php
-			$name_lang = 'name_' . $page['lang'];
 			if ( ! empty($this->data['cart']) ){
 				foreach($cart as $key=>$each_item){
+					$color = get_color_str( $each_item, $page['lang'] );
 					$total = $each_item['discount']*$each_item['quantity'];
 					echo <<<CART_ITEM
 						<tr class="cart_item">
 							<td><img class="cart-thumbnail"src="{$each_item['filepath']}"/></td>
 							<td>{$each_item['id']}</td>
-							<td>{$each_item['color_name'][$name_lang]}</td>
+							<td>{$color}</td>
 							<td>{$each_item['size']}</td>
 							<td>{$each_item['price']}</td>
 							<td>{$each_item['discount']}</td>
