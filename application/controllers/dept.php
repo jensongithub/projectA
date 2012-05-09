@@ -280,7 +280,7 @@ class Dept extends MY_Controller {
 			$color_ids[] = $color['color'];
 		}
 		$color_from_pos = false;
-		//$color_from_pos = $this->common_model->get_color_by_id($color_ids);
+		$color_from_pos = $this->common_model->get_color_by_id($color_ids);
 		unset($color_ids);
 
 		$this->load->helper('json');

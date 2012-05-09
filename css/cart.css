@@ -44,6 +44,11 @@
 	font-weight: bold;
 }
 
+.cart-thumbnail{
+	width: 60px;
+	height: 80px;
+}
+
 .checkout {
 	color: #B08047;
 	margin: 5px 20px;
