@@ -28,19 +28,29 @@ class Testmssql extends CI_Controller {
 	}
 	
 	public function check(){
-		$result = $this->common_model->check_stock();
-		
-		if(is_array($result)){
-			$i = 0;		
-			foreach($result as $row){
-				echo "<p>Row $i<br />";
-				foreach($row as $key => $value){
-					echo "[$key] => $value ";
-				}
-				echo "</p>";
-				$i++;
-			}
+		$stock = $this->common_model->check_stock('TC297P');
+		echo '<p>$stock = $this->common_model->check_stock("TC297P")<br/>';
+		if(is_array($stock)){
+			print_r( $stock );
 		}
+		echo '<br/>$stock["TC297P"]["WT0002"]["3"] : ' . $stock["TC297P"]["WT0002"]["3"];
+		echo "</p>";
+		
+		$stock = $this->common_model->check_stock('TC297P', 'WT0002');
+		echo '<p>$stock = $this->common_model->check_stock("TC297P", "WT0002")<br/>';
+		if(is_array($stock)){
+			print_r( $stock );
+		}
+		echo '<br/>$stock["TC297P"]["WT0002"]["4"] : ' . $stock["TC297P"]["WT0002"]["4"];
+		echo "</p>";
+		
+		$stock = $this->common_model->check_stock('TC297P', 'WT0002', '5');
+		echo '<p>$stock = $this->common_model->check_stock("TC297P", "WT0002", "5")<br/>';
+		if(is_array($stock)){
+			print_r( $stock );
+		}
+		echo '<br/>$stock["TC297P"]["WT0002"]["5"] : ' . $stock["TC297P"]["WT0002"]["5"];
+		echo "</p>";
 	}
 	
 	public function color(){

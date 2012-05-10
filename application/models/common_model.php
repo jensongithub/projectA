@@ -62,24 +62,41 @@ class Common_model extends CI_Model {
 	* This function will return the stock of the product(s) which the products' barcode LIKE '[barcode]'
 	* If barcode is not provided, this will return the stock of all the products
 	*/
-	public function check_stock($barcode = '%'){
+	public function check_stock($style = '', $color = '', $size = ''){
 		$tb_product = 'erp.dbo.tbl_pos_item_mstr';
 		$tb_stock = 'erp.dbo.tbl_wh_stk_tx';
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
 
-		$query = "SELECT items.item_code, (SUM(CASE WHEN trans_type='A' OR trans_type='I' THEN trans_qty ELSE 0 END) - SUM(CASE WHEN trans_type <> 'A' AND trans_type <> 'I' THEN trans_qty ELSE 0 END)) AS 'sum' ";
+		$barcode = $style . $color . $size . '%';
+		$query = "SELECT items.style_no, items.color_code, items.size_code, (SUM(CASE WHEN trans_type='A' OR trans_type='I' THEN trans_qty ELSE 0 END) - SUM(CASE WHEN trans_type <> 'A' AND trans_type <> 'I' THEN trans_qty ELSE 0 END)) AS 'sum' ";
 		$query .= "FROM $tb_product items, $tb_stock stock ";
 		$query .= "WHERE items.barcode_no = stock.barcode_no AND ISNULL(stock.rec_status, '') <> 'D' AND items.barcode_no LIKE ? ";
-		$query .= "GROUP BY items.item_code ";
-		$query .= "ORDER BY items.item_code ";
+		$query .= "GROUP BY items.style_no, items.color_code, items.size_code ";
+		$query .= "ORDER BY items.style_no, items.color_code ";
 
 		$query = $this->lna_pos->query( $query, array($barcode) );
 		//echo "<p>" . $this->lna_pos->last_query() . "</p>";
 		//var_dump($query->num_rows());
 		
 		if ($query->num_rows() > 0) {
-			return $query->result_array();
+			$result = $query->result_array();
+			$ret = array();
+			$style = '';
+			$color = '';
+			$size = '';
+			foreach( $result as $row ){
+				if( $row['style_no'] != $style ){
+					$ret[ $row['style_no'] ] = array();
+					$style = $row['style_no'];
+				}
+				if( $row['color_code'] != $color ){
+					$ret[ $style ][ $row['color_code'] ] = array();
+					$color = $row['color_code'];
+				}
+				$ret[ $style ][ $color ][ $row['size_code'] ] = $row['sum'];
+			}
+			return $ret;
 		}
 		return FALSE;
 	}
