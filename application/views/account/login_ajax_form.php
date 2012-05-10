@@ -1,32 +1,34 @@
-<?php echo css('css/login.css') ?>
+﻿<?php echo css('css/login.css') ?>
 <div id="content" class='container' style="margin-top:10em;">
 	<div class="content expando" name="modal_content">		
-		<div class='section-header'><?php echo _("Sign In / Create Account");?></div>
+		<div class='section-header'><?php echo T_("Sign In / Create Account");?></div>
 		<div class='error-panel' style="display:none;" ></div>
 		<div class='left-block'>
 			<div class='header'><?php echo _("Existing Customers");?></div>
 			<form method="POST" name='login_form' action="<?php echo $page['login_url']; ?>">
-				<div class='row'>
-					<label><?php echo _("Email");?></label><input type='text' name='email' value='<?php echo set_value('email'); ?>'/>
+				<div class='field'>
+					<label for='email' class='label'><?php echo T_("Email");?></label><input type='text' id='email' name='email' value='<?php echo set_value('email'); ?>' class='input' />
 				</div>
-				<div class='row'>
-					<label><?php echo _("Password");?></label><input type='password' name='pwd' />
+				<div class='field'>
+					<label for='pwd' class='label'><?php echo T_("Password");?></label><input type='password' id='pwd' name='pwd' class='input' />
 				</div>
-				<div><a href='account/forgotten'><?php echo _("Forgotten Password");?></a></div>
-				<div><input type='button' onclick="check_login();" value='Submit' /><input type='button' value='Reset' /></div>
+				<div><input type='button'  class='submit-button'  onclick="check_login();" value='<?php echo T_("Submit");?>' /></div>
+				<div class='forgot-pwd'><a href='account/forgotten'><?php echo T_("Forgotten Password");?></a></div>
+				
 			</form>
 		</div>
 		<div class='right-block'>
-			<div class='header'><?php echo _("New Customer");?></div>
-			<p><?php echo _("Creating an account provides you with convenient features, including:");?></p>
+			<div class='header'><?php echo T_("New Customer") ?></div>
+			<p><?php echo T_("Creating an account provides you with convenient features, including:");?>
 				<ul>
-					<li>? <?php echo _("Quick checkout");?></li>
-					<li>? <?php echo _("View and track orders");?></li>
-					<li>? <?php echo _("Add to wish list");?></li>
-					<li>? <?php echo _("Save multiple shipping addresses");?></li>
-					<li>? <?php echo _("Advance notice on latest promotions");?></li>
+					<li>› <?php echo T_("Quick checkout");?></li>
+					<li>› <?php echo T_("View and track orders");?></li>
+					<li>› <?php echo T_("Add to wish list");?></li>
+					<li>› <?php echo T_("Save multiple shipping addresses");?></li>
+					<li>› <?php echo T_("Advance notice on latest promotions");?></li>
 				</ul>
-				<center><a class='reg-btn' href='register' target="_new"><?php echo _("Register");?></a></center>
+				<a class='reg-btn' href='register'><?php echo T_("Register");?></a>
+			</p>
 		</div>
 	</div>
 </div>

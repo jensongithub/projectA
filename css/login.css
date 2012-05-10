@@ -86,10 +86,14 @@
 }
 
 .section-header{
-	background-color: #FFF9D7;
+	/*background-color: #FFF9D7;
 	border: 2px solid #E2C822;
+	*/
+	font-size: 18px;
 	margin-bottom: 20px;
+	background-color:rgb(176, 128,71);
 	padding: 10px 15px;
+	color:#fff;
 }
 
 .submit-button {

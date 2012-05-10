@@ -17,7 +17,7 @@
 	</div>	
 	<div class='menu_l1'>
 		<ul>
-			<?php echo ($user['is_login']===FALSE) ? '': '<li>'.anchor('account/history', T_("Purchase History")).'</li><li>'.anchor('account', T_("Hello")."{$user['firstname']}").'</li>';?>
+			<?php echo ($user['is_login']===FALSE) ? '': '<li>'.anchor('account/history', T_("Purchase History")).'</li><li>'.anchor('account', T_("Hello").", {$user['firstname']}").'</li>';?>
 			<?php if( defined('IS_CN') ) { ?>
 				<li><a href='<?php echo 'http://' . HK_DOMAIN . '/en/' . uri_string() ?>'><span class="">Eng</span></a></li>
 				<li><a href='<?php echo 'http://' . HK_DOMAIN . '/zh/' . uri_string() ?>'><span class="">繁</span></a></li>
