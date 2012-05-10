@@ -154,8 +154,9 @@ HTML;
 		// order based on a database (which can be modified with the IPN code 
 		// below).
 
-		$this->data['pp_info'] = $this->input->post();
+		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/payment_success', $this->data);
+		$this->load->view('templates/footer');
 	}
 	
 	function paypal_ipn()
@@ -192,14 +193,19 @@ HTML;
 				//($this->input->post('payment_currency') == "USD")*/
 				)
 			{
-								
+				
+				// update the transaction id retreived form paypal to orders, orders_items and order_address table
 				$this->order_model->update_paypal_order();
+				
+				
 				$this->paypal_lib->log_results($body);
-				// clear the cart data
-				$session_data = $this->data = $this->session->all_userdata();
+				
+				// clear the cart data				
+				$session_data = $this->session->all_userdata();
+				
+				// clear cart
 				$session_data['cart'] = array();
 				$this->data['cart'] = array();
-				$this->session->set_userdata($session_data);
 				
 				$subject = "Live-VALID IPN";
 			}
@@ -224,9 +230,14 @@ HTML;
 			$this->email->send();
 		}
 		
+		// clear order id (invoice number) and rand_key
+		$session_data['page']['order_id']='';
+		$session_data['page']['rand_key']='';
+		
 		$this->data['page']['rand_key']="";
 		$this->data['page']['order_id']="";
-		$this->set_session('page', array('rand_key'=>'', 'order_id'=>''));
+		
+		$this->session->set_userdata($session_data);
 	}
 }
 ?>

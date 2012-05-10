@@ -179,9 +179,10 @@ class Paypal_Lib {
 			<input type="hidden" name="business" value="$paypal_id" />
 PAYPAL_FORM;
 		$item_num=1;
+		//<input type="hidden" name="item_name_$item_num" value="{$each_item['name_'.$data['page']['lang']]}" />
 		foreach($data['cart'] as $each_item){
 			$html.=<<<PAYPAL_FORM
-			<input type="hidden" name="item_name_$item_num" value="{$each_item['name_'.$data['page']['lang']]}" />
+			<input type="hidden" name="item_name_$item_num" value="{$each_item['id']}" /> 
 			<input type="hidden" name="item_number_$item_num" value="{$each_item['id']}" />
 			<input type="hidden" name="amount_$item_num" value="{$each_item['price']}" />
 			<input type="hidden" name="quantity_$item_num" value="{$each_item['quantity']}" />
@@ -202,15 +203,15 @@ PAYPAL_FORM;
 			<input type="hidden" name="return" value="{$success_url}">
 			<input type="hidden" name="cancel_return" value="{$cancel_url}">
 			<input type="hidden" name="notify_url" value="{$notify_url}">
-			<input type="hidden" name="invoice" value="{$data['page']['rand_key']}">
+			<input type="hidden" name="invoice" value="{$data['page']['order_id']}">
 			<input type="hidden" name="custom" value="{$data['user']['id']}">
-			<input type="hidden" name="parent_txn_id" value="{$data['page']['order_id']}">
 			<input type="hidden" name="charset" value="utf-8">
-			<input type="hidden" name="pg" value="paypal_submit">
 		</form>
 		<script>document.order_form.submit();</script>
 PAYPAL_FORM;
 		return $html;
+		//<input type="hidden" name="parent_txn_id" value="{$data['page']['order_id']}">
+		//<input type="hidden" name="pg" value="paypal_submit">
 	}
 	
 	function _validate_ipn(){
@@ -276,7 +277,8 @@ PAYPAL_FORM;
 			foreach ($this->CI->input->post() as $field=>$value)
 			{ 
 				$this->ipn_data[$field] = $value;
-				$post_string .= $field.'='.urlencode(stripslashes($value)).'&';
+				//$post_string .= $field.'='.urlencode(stripslashes($value)).'&';
+				$post_string .= $field.'='.$value.'&';
 			}
 		}
 		
@@ -301,7 +303,7 @@ PAYPAL_FORM;
 			$header .= "Content-length: ".strlen($post_string)."\r\n"; 
 			$header .= "Connection: close\r\n\r\n"; 
 			fputs($fp, $header . $post_string); 
-
+			$this->log_results($post_string);
 			// loop through the response from the server and append to variable
 			while(!feof($fp)){
 				$this->ipn_response = fgets($fp, 1024); 

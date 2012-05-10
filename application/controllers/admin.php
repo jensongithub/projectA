@@ -282,22 +282,47 @@ class Admin extends MY_Controller {
 	
 	public function order($id=null){
 		// settings
+		$this->load->helper( array('form') );
+		//$this->load->library('form_validation');
+		
+		$conditions = array();
+		
+		$row_num = 0;
+		$howmany = 15;
+		
 		$this->data['page']['title']='Purchase Order';
 		$this->load->model(array('product_model','order_model'));
 		
 		$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/order_search/";
 		$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
-		if ($id==null){
-			$order = $this->order_model->get_order_by_status(array(), $row_num=0, $howmany=15);
-			$this->data['page']['order'] = &$order;
+		
+		if ($this->input->post()===FALSE){
+			if ($id!==null){
+				$conditions = array('orders.id'=>$id);
+				$order_detail = $this->order_model->get_order_items_by_id($id);
+				$this->data['page']['order_items'] = &$order_detail;		
+			}
 		}else{
-			$order = $this->order_model->get_order_by_status(array('orders.id'=>$id), $row_num=0, $howmany=15);
-			$order_detail = $this->order_model->get_order_items_by_id($id);
-			$this->data['page']['order'] = &$order;
-			$this->data['page']['order_items'] = &$order_detail;
+			
+			
+			//if( $this->form_validation->run() == TRUE ) {
+				$row_num = $this->input->post('_row_num');			
+				$howmany = $this->input->post('howmany');
+				$row_num = $row_num*$howmany;
+				$query_key_pairs = $this->input->post('val');
+				$conditions = json_decode($query_key_pairs, true);
+			//}
 		}
 		
-		//var_dump($order_detail);
+		
+		// get total page number
+		$order = $this->order_model->get_order_by_status($conditions, $row_num, $howmany);		
+		list($total_rows) = $this->order_model->get_order_count($conditions);	
+		$this->data['page']['total_page_num'] = ceil($total_rows['cnt']/$howmany);
+		$this->data['page']['curr_page_num'] = $row_num+1;
+		$this->data['page']['total_row'] = $total_rows['cnt'];
+		
+		$this->data['page']['order'] = &$order;
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
@@ -315,7 +340,8 @@ class Admin extends MY_Controller {
 		$_key_pairs = json_decode($query_key_pairs, true);
 		
 		$orders = $this->order_model->get_order_by_status($_key_pairs, $row_num=0, $howmany=15);
-		return json_encode($orders, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
+		return $orders;
+		//echo json_encode($orders, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
 	}
 	
 	public function order_save(){

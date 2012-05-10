@@ -718,10 +718,14 @@ if ( ! function_exists('set_select'))
 				}
 				return '';
 			}
-
-			$field = $_POST[$field];
-
-			if (is_array($field))
+			
+			
+			
+			$_field = $_POST[$field];
+			
+			
+			
+			if (is_array($_field))
 			{
 				if ( ! in_array($value, $field))
 				{
@@ -730,10 +734,12 @@ if ( ! function_exists('set_select'))
 			}
 			else
 			{
-				if (($field == '' OR $value == '') OR ($field != $value))
+				if (($_field === '' OR $value === '') OR ($_field !== $value))
 				{
+
 					return '';
 				}
+				
 			}
 
 			return ' selected="selected"';

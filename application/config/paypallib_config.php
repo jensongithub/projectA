@@ -12,7 +12,7 @@ $config['paypal_lib_ipn_log'] = TRUE;
 $config['paypal_lib_button_path'] = 'images';
 
 // What is the default currency?
-$config['paypal_lib_currency_code'] = 'HKD';
+$config['paypal_lib_currency_code'] = 'USD';
 
 		
 $config['paypal_id'] = 'jendro_1334808935_biz@gmail.com';

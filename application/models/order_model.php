@@ -10,26 +10,24 @@ class Order_model extends CI_Model {
 
 	public function update_paypal_order() {
 		// update the temporary order to complete order
-		$timestamp = strtotime($this->CI->input->post('payment_date'));
+		$timestamp = strtotime(urldecode($this->CI->input->post('payment_date'))); 
 		$payment_date = date("Y-m-d H:i:s",$timestamp);
 		
 		
 		// custom is the user id in the production database
 		//$this->CI->input->post('custom')
 		
-		// parent_txn_id is the order id 
-		//$this->CI->input->post('parent_txn_id')
-		
-		//$this->CI->input->post('invoice') is the rand_key
+		// order id
+		//$this->CI->input->post('invoice') is the orders.id 
 		
 		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
-		$result = $this->db->query($query, array($this->CI->input->post('parent_txn_id'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
+		$result = $this->db->query($query, array($this->CI->input->post('invoice'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
 
-		$query = "update orders set txn_id = ?, total_amount=?, status = ?, payment_date=?, modified_date = ? where rand_key = ? and user_id = ? and id = ?";
-		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('mc_gross'), $this->CI->input->post('payment_status'), $payment_date, $payment_date, $this->CI->input->post('invoice'), $this->CI->input->post('custom'), $this->CI->input->post('parent_txn_id')));
+		$query = "update orders set txn_id = ?, total_amount=?, status = ?, payment_date=?, modified_date = NOW() where id = ? and user_id = ?";
+		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('payment_gross'), $this->CI->input->post('payment_status'), $payment_date, $this->CI->input->post('invoice'), $this->CI->input->post('custom')));
 		
-		$query = "update orders_items set txn_id = ?, modified_date = NOW() where rand_key = ? and order_id = ?";
-		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('invoice'), $this->CI->input->post('parent_txn_id')));
+		$query = "update orders_items set txn_id = ?, modified_date = NOW() where order_id = ?";
+		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('invoice')));
 	}
 	
 	function insert_checkout_item($data){
@@ -81,23 +79,37 @@ class Order_model extends CI_Model {
 		return array("rand_key"=>$rand_key, "order_id"=>$order_id);
 	}
 	
-	function get_order_by_status($condition, $rownum, $howmany){
-		$condition_str = '';		
-		foreach ($condition as $key=>$val){			
+	function get_order_by_status($conditions, $rownum='0', $howmany=15){
+		$condition_str = '';
+		foreach ($conditions as $key=>$val){
 			//$val = $each_cond[$key];
 			$condition_str .= " and $key = '$val' ";
 		}
 		
 		$query = "select users.firstname, users.lastname, users.email, users.phone, order_address.*, orders.* 
 					from orders, users, order_address 
-					where orders.user_id = users.id and orders.id = order_address.order_id and orders.status='Completed' $condition_str limit ?, ?";
-		$query = $this->db->query($query, array( $rownum, $howmany) );
+					where orders.user_id = users.id and orders.id = order_address.order_id and orders.status='Completed' $condition_str limit $rownum, $howmany";
+		$query = $this->db->query($query);
+		
+		return $query->result_array();
+	}
+	
+	function get_order_count($conditions){
+		$condition_str = '';
+		foreach ($conditions as $key=>$val){
+			//$val = $each_cond[$key];
+			$condition_str .= " and $key = '$val' ";
+		}
+		
+		$query = "select count(1) as cnt
+					from orders, users, order_address 
+					where orders.user_id = users.id and orders.id = order_address.order_id and orders.status='Completed' $condition_str";
+		$query = $this->db->query($query);
 		
 		return $query->result_array();
 	}
 	
 	function get_order_items_by_id($order_id){
-		
 		
 		$query = "select categories.path, orders_items.order_id, orders_items.prod_id, orders_items.price, orders_items.quantity, orders_items.color, orders_items.size
 		from orders_items, 
