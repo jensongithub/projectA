@@ -4,7 +4,7 @@
 		<div class='section-header'><?php echo T_("Sign In / Create Account");?></div>
 		<div class='error-panel' style="display:none;" ></div>
 		<div class='left-block'>
-			<div class='header'><?php echo _("Existing Customers");?></div>
+			<div class='header'><?php echo T_("Existing Customers");?></div>
 			<form method="POST" name='login_form' action="<?php echo $page['login_url']; ?>">
 				<div class='field'>
 					<label for='email' class='label'><?php echo T_("Email");?></label><input type='text' id='email' name='email' value='<?php echo set_value('email'); ?>' class='input' />
