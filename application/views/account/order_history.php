@@ -1,5 +1,6 @@
 <?php echo css('css/admin/products.css') ?>
 <?php if( isset($page['error']) ) echo $page['error'];?>
+
 <script>
 
 var order_obj = {"url":"", "val":{}};
@@ -74,8 +75,10 @@ function search_order(){
 
 </script>
 
+<div class='content'> 
 <h2>Purchase Order</h2>
 <hr style='margin: 10px 0 20px 0;' />
+
 <form name='admin_order_form' method='post' action=''>
 	<div id="tablewrapper">		
 		
@@ -189,6 +192,7 @@ OPT;
 	<input type='hidden' name="_ttl_pg" value="<?php echo $page['total_page_num']; ?>" />
 	<input type='hidden' name='val' value="" />
 </form>
+</div>
 <?php echo css('css/TinyTableV3.css') ?>
 
 

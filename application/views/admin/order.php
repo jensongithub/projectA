@@ -26,7 +26,6 @@ function set_rownum(val){
 	var _ttl_pg = $("input[name=_ttl_pg]").val();
 	var howmany = $("select[name=howmany]").val();
 	
-
 		if (val===1){
 			if (_curr_pg <_ttl_pg){
 				$("input[name=_row_num]").val(Math.max(_curr_pg-1+val, 0));
