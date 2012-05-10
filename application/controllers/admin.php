@@ -303,17 +303,12 @@ class Admin extends MY_Controller {
 				$this->data['page']['order_items'] = &$order_detail;		
 			}
 		}else{
-			
-			
-			//if( $this->form_validation->run() == TRUE ) {
 				$row_num = $this->input->post('_row_num');			
 				$howmany = $this->input->post('howmany');
 				$row_num = $row_num*$howmany;
 				$query_key_pairs = $this->input->post('val');
 				$conditions = json_decode($query_key_pairs, true);
-			//}
 		}
-		
 		
 		// get total page number
 		$order = $this->order_model->get_order_by_status($conditions, $row_num, $howmany);		

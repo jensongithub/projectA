@@ -101,13 +101,17 @@ class checkout extends MY_Controller {
 		$this->load->model("order_model");
 		$this->load->library('paypal_lib');
 		
-		if (!isset($this->data['page']['rand_key'])){
-			$order_keys = $this->order_model->insert_checkout_item($this->data);
-			// $order_keys : array('rand_key'=>value1, 'order_id'=>value2);
-			$this->set_session('page', $order_keys);
-			$this->data['page']['rand_key'] = $order_keys['rand_key'];
-			$this->data['page']['order_id'] = $order_keys['order_id'];
-		}
+		// always create a new order number
+		$order_keys = $this->order_model->insert_checkout_item($this->data);
+		//if (!isset($this->data['page']['rand_key'])){
+			
+		// $order_keys : array('rand_key'=>value1, 'order_id'=>value2);
+		$this->set_session('page', $order_keys);
+		$this->data['page']['rand_key'] = $order_keys['rand_key'];
+		$this->data['page']['order_id'] = $order_keys['order_id'];
+		//var_dump($this->get_session());
+		//var_dump($this->data['page']);
+		//}
 
 		echo <<<HTML
 		<div id="content" class="container" style="margin-top:10em;">
@@ -136,8 +140,22 @@ HTML;
 
 	function cancel()
 	{
+		// clear cart
+		$session_data = $this->session->all_userdata();
+		$session_data['cart'] = array();
+		// clear order id (invoice number) and rand_key		
+		$session_data['page']['order_id']='';
+		$session_data['page']['rand_key']='';
+		$this->session->set_userdata($session_data);
 		
+		$this->data['cart'] = array();
+		$this->data['page']['rand_key']="";
+		$this->data['page']['order_id']="";
+		
+		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/payment_cancel');
+		$this->load->view('templates/footer');
+		
 	}
 	
 	function success()
@@ -153,7 +171,19 @@ HTML;
 		// order status page which presents the user with the status of their
 		// order based on a database (which can be modified with the IPN code 
 		// below).
-
+		
+		// clear cart
+		$session_data = $this->session->all_userdata();
+		$session_data['cart'] = array();
+		// clear order id (invoice number) and rand_key		
+		$session_data['page']['order_id']='';
+		$session_data['page']['rand_key']='';
+		$this->session->set_userdata($session_data);
+		
+		$this->data['cart'] = array();
+		$this->data['page']['rand_key']="";
+		$this->data['page']['order_id']="";
+		//exit();
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/payment_success', $this->data);
 		$this->load->view('templates/footer');
@@ -196,23 +226,13 @@ HTML;
 				
 				// update the transaction id retreived form paypal to orders, orders_items and order_address table
 				$this->order_model->update_paypal_order();
-				
-				
 				$this->paypal_lib->log_results($body);
-				
-				// clear the cart data				
-				$session_data = $this->session->all_userdata();
-				
-				// clear cart
-				$session_data['cart'] = array();
-				$this->data['cart'] = array();
-				
 				$subject = "Live-VALID IPN";
 			}
 			
 			// load email lib and email results
 			$this->load->library('email');
-			$this->email->to($to);
+			$this->email->to(array($to,$this->data['user']['email']));
 			$this->email->from($this->paypal_lib->ipn_data['payer_email'], $this->paypal_lib->ipn_data['payer_name']);
 			$this->email->subject($subject);
 			$this->email->message($body);
@@ -229,15 +249,6 @@ HTML;
 			$this->email->message("Sorry! Your transaction failed. Please try again");
 			$this->email->send();
 		}
-		
-		// clear order id (invoice number) and rand_key
-		$session_data['page']['order_id']='';
-		$session_data['page']['rand_key']='';
-		
-		$this->data['page']['rand_key']="";
-		$this->data['page']['order_id']="";
-		
-		$this->session->set_userdata($session_data);
 	}
 }
 ?>

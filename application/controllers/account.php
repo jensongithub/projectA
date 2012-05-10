@@ -113,4 +113,55 @@ class Account extends MY_Controller {
 		
 		$this->load->view('templates/footer');
 	}
+	
+	public function history($order_id=null){
+	
+		$this->load->helper( array('form') );
+		//$this->load->library('form_validation');
+		
+		$row_num = 0;
+		$howmany = 15;
+		$conditions=array('users.id'=>$this->data['user']['id']);
+		
+		$this->data['page']['title']='Purchase History';
+		$this->load->model(array('product_model','order_model'));
+		
+		$this->data['page']['query_url'] = site_url().$this->lang->lang()."/admin/history_search/";
+		//$this->data['page']['save_url'] = site_url().$this->lang->lang()."/admin/order_save/";
+		
+		//$this->order_model->get_orders_by_user_id($this->data['user']['id']);
+		
+		
+		// when the user click click an order and wants to see the order items
+		if ($this->input->post()===FALSE){
+			if ($order_id!==null){
+				$conditions = array('orders.id'=>$order_id);
+				$order_detail = $this->order_model->get_order_items_by_id($order_id);
+				$this->data['page']['order_items'] = &$order_detail;		
+			}
+		}else{
+				$row_num = $this->input->post('_row_num');			
+				$howmany = $this->input->post('howmany');
+				$row_num = $row_num*$howmany;
+				//$query_key_pairs = $this->input->post('val');
+				//$conditions = array_merge($conditions, json_decode($query_key_pairs, true));
+				
+				
+				// ensure the current user, not override by other users
+				$conditions['users.id']=$this->data['user']['id'];
+		}
+		
+		$order = $this->order_model->get_order_by_status($conditions, $row_num, $howmany);
+		list($total_rows) = $this->order_model->get_orders_cnt_by_user_id($conditions);
+		
+		$this->data['page']['order'] = &$order;		
+		
+		$this->data['page']['total_page_num'] = ceil($total_rows['cnt']/$howmany);
+		$this->data['page']['curr_page_num'] = $row_num+1;
+		$this->data['page']['total_row'] = $total_rows['cnt'];
+		
+		$this->load->view('templates/header', $this->data);
+		$this->load->view('account/order_history', $this->data);
+		$this->load->view('templates/footer', $this->data);
+	}
 }

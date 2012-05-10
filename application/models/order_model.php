@@ -133,4 +133,15 @@ class Order_model extends CI_Model {
 		
 		return $this->db->affected_rows();
 	}
+	
+	function get_orders_by_user_id($conditions, $rownum=0, $howmany=15){
+		
+		return $this->get_order_by_status($conditions, $rownum, $howmany);
+	}
+	
+	function get_orders_cnt_by_user_id($conditions, $rownum=0, $howmany=15){
+		
+		return $this->get_order_count($conditions);
+	}
+	
 }
