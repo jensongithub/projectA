@@ -364,7 +364,7 @@ class Product_model extends CI_Model {
 		for($i = 0; $i < $ns; $i++){
 			$sheets[$i]['name'] = $this->excel_reader_2_21->boundsheets[$i]['name'];
 		}
-		
+
 		return $this->product_model->add_product_in_excel_sheets( $sheets );
 	}
 	

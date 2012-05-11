@@ -182,6 +182,8 @@ class Admin extends MY_Controller {
 			$this->data['page']['error'] = $this->upload->display_errors();
 		}
 		else {
+			$this->common_model->load_products_to_web_store();
+			
 			$this->load->library('Excel_reader_2_21');
 			$result = $this->product_model->handle_products_excel( $this->upload->data() );
 			$this->data['page']['success'] = $result['success'];

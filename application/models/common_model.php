@@ -110,7 +110,14 @@ class Common_model extends CI_Model {
 		$tb_price = 'erp.dbo.tbl_pos_item_price';
 		$tb_cost = 'erp.dbo.tbl_pos_item_cost';
 		
-		$date_filter = '2011-01-01';
+		$config_key = "pos_last_load_time";
+		$current_time = date('Y-m-d H:i:s', time());
+		if( $date_filter == FALSE ){
+			$result = $this->db->query("SELECT * FROM config WHERE item = ?", $config_key);
+			$result = $result->row_array();
+			$date_filter = $result['value'];
+		}
+		//echo "Current time is $current_time, start loading products from POS from $date_filter";
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
 
@@ -135,7 +142,8 @@ class Common_model extends CI_Model {
 				//$i++;
 			}
 			//echo "<p>$i record(s) loaded</p>";
-		
+
+			$this->db->query("UPDATE config SET value = ? WHERE item = ?", array( $current_time, $config_key ) );
 			return $query->result_array();
 		}
 		return FALSE;

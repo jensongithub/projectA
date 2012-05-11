@@ -2,7 +2,7 @@
 
 <div>
 	<div><?php echo $page['back'] ?></div>
-	<div class='success'><?php echo $page['success'] ?> products imported successfully.</div>
+	<div class='success'><?php echo $page['success'] ?> products updated successfully.</div>
 	<?php if( $page['fail'] > 0 ) { ?>
 		<div class='error'>
 			<p><?php echo $page['fail'] ?> products resulted in failure:</p>
