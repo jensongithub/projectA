@@ -356,8 +356,6 @@ class Admin extends MY_Controller {
 		$this->load->helper( array('form') );
 		//$this->load->library('form_validation');
 		
-		$row_num = 0;
-		$howmany = 15;
 		$conditions=array();
 		
 		$this->data['page']['title']='Purchase History';
@@ -365,15 +363,19 @@ class Admin extends MY_Controller {
 		
 		// when the user click click an order and wants to see the order items
 		if ($this->input->post()===FALSE){
+			
 			if ($order_id!==null){
 				$conditions = array('orders.id'=>$order_id);
 				$order_detail = $this->order_model->get_orders_summary_by_status($conditions);
 				$this->data['page']['order_items'] = &$order_detail;
+			}else{
+				$conditions['report_year']='2012';
+				$conditions['report_duration']='this_week';
+				$conditions['report_category']='';				
 			}
+			
 		}else{
-				$row_num = $this->input->post('_row_num');
-				$howmany = $this->input->post('howmany');
-				$row_num = $row_num*$howmany;
+				$conditions = &$this->input->post();
 		}
 		$order = $this->order_model->get_orders_summary_by_status($conditions);
 		

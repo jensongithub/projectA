@@ -146,10 +146,14 @@ class Order_model extends CI_Model {
 	
 	function get_orders_summary_by_status($conditions){
 		
+		
+		
+		/*
 		$conditions = array();
 		$conditions['report_year']='2012';
 		$conditions['report_duration']='this_week';
 		$conditions['report_category']='';
+		*/
 		
 		$period_condition='';
 		$grp_condition=array();
@@ -162,7 +166,7 @@ class Order_model extends CI_Model {
 		if (isset($conditions['report_duration'])){
 			if ($conditions['report_duration']==='this_week'){
 				$period_condition = "WEEK(orders.payment_date) period,";
-				$grp_condition[] = "WEEK(NOW()) HAVING period=WEEK(NOW())";
+				$grp_condition[] = "period HAVING period=WEEK(NOW())";
 			}else if ($conditions['report_duration']==='weekly'){
 				$period_condition = "WEEK(orders.payment_date) period,";
 				$grp_condition[] = "WEEK($date_field)";
@@ -187,9 +191,10 @@ class Order_model extends CI_Model {
 		
 		$grp_condition_str = "GROUP BY ".implode(", ", $grp_condition);
 		
-		$query = "select $period_condition categories.name cat_name, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty
-			from orders_items, orders, categories, product_category 
+		$query = "select $period_condition categories.name cat_name, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty, sum(products.cost) total_cost
+			from orders_items, orders, categories, product_category, products
 			where orders_items.order_id = orders.id 
+			and products.id = product_category.pro_id 
 			and orders_items.prod_id = product_category.pro_id 
 			and product_category.cat_id = categories.id 
 			and orders.status='Completed'

@@ -34,7 +34,7 @@
 				<select id="report_category" name='report_category'>
 					<option value="" <?php echo set_select('report_category', '1 year' ); ?>>--Category--</option>
 				</select>
-				<input type='submit' onclick='search_order();' name='search' value='Search'/>
+				<input type='submit' name='search' value='Search'/>
 			</div>
 		</div>
 		
@@ -55,11 +55,11 @@
 				?>
 				<tr>
 					<td><?php echo $each_row['period'] ?></td>
-					<td><?php echo $each_row['name'] ?></td>
+					<td><?php echo $each_row['cat_name'] ?></td>
 					<td>$<?php echo $each_row['total_amount'] ?></td>
 					<td>$<?php echo $each_row['total_cost'] ?></td>
 					<td><?php echo $each_row['qty'] ?></td>
-					<td>$<?php echo $each_row['net_profit'] ?></td>
+					<td>$<?php echo $each_row['total_amount'] - $each_row['total_cost']?></td>
 				</tr>
 				<?php
 				}

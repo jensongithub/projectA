@@ -108,14 +108,15 @@ class Common_model extends CI_Model {
 	public function load_products_to_web_store($date_filter = FALSE){
 		$tb_product = 'erp.dbo.tbl_pos_item_mstr';
 		$tb_price = 'erp.dbo.tbl_pos_item_price';
+		$tb_cost = 'erp.dbo.tbl_pos_item_cost';
 		
 		$date_filter = '2011-01-01';
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.
 
-		$query = "SELECT items.item_code, style_no, color_code, size_code, short_desc, items.created_date, price.selling_price ";
-		$query .= "FROM $tb_product items, $tb_price price ";
-		$query .= "WHERE items.item_code = price.item_code AND DATEDIFF(DAY, CONVERT(DATETIME, ?, 103), items.created_date) >= 0 ";
+		$query = "SELECT items.item_code, style_no, color_code, size_code, short_desc, items.created_date, price.selling_price, c.cost ";
+		$query .= "FROM $tb_product items, $tb_price price, $tb_cost c";
+		$query .= "WHERE items.item_code = price.item_code AND c.item_code = items.item_code AND DATEDIFF(DAY, CONVERT(DATETIME, ?, 103), items.created_date) >= 0 ";
 		$query .= "ORDER BY items.item_code ";
 
 		$query = $this->lna_pos->query( $query, array($date_filter) );
@@ -124,7 +125,7 @@ class Common_model extends CI_Model {
 			$pos_products = $query->result_array();
 			
 			$this->load->database();
-			$query1 = "INSERT INTO products (id, name_zh, front_img, price, discount, status) VALUES ( ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
+			$query1 = "INSERT INTO products (id, name_zh, front_img, price, discount, cost, status) VALUES ( ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
 			$query2 = "INSERT INTO product_color_size (pro_id, color, size) VALUES ( ?, ?, ?) ON DUPLICATE KEY UPDATE size=size";
 			//$i = 0;
 			
