@@ -351,8 +351,38 @@ class Admin extends MY_Controller {
 		return $affected_rows;
 	}
 	
-	public function analysis($id){
+	public function analysis($order_id=null){
 		
+		$this->load->helper( array('form') );
+		//$this->load->library('form_validation');
+		
+		$row_num = 0;
+		$howmany = 15;
+		$conditions=array();
+		
+		$this->data['page']['title']='Purchase History';
+		$this->load->model(array('product_model','order_model'));
+		
+		// when the user click click an order and wants to see the order items
+		if ($this->input->post()===FALSE){
+			if ($order_id!==null){
+				$conditions = array('orders.id'=>$order_id);
+				$order_detail = $this->order_model->get_orders_summary_by_status($conditions);
+				$this->data['page']['order_items'] = &$order_detail;
+			}
+		}else{
+				$row_num = $this->input->post('_row_num');
+				$howmany = $this->input->post('howmany');
+				$row_num = $row_num*$howmany;
+		}
+		$order = $this->order_model->get_orders_summary_by_status($conditions);
+		
+		$this->data['page']['order'] = &$order;
+		
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/analysis', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
 	}
 	
 }

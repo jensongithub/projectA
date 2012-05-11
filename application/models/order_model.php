@@ -144,4 +144,61 @@ class Order_model extends CI_Model {
 		return $this->get_order_count($conditions);
 	}
 	
+	function get_orders_summary_by_status($conditions){
+		
+		$conditions = array();
+		$conditions['report_year']='2012';
+		$conditions['report_duration']='this_week';
+		$conditions['report_category']='';
+		
+		$period_condition='';
+		$grp_condition=array();
+		$date_field = 'orders.payment_date';
+		
+		if (isset($conditions['report_year'])){
+			$grp_condition[] = "Year({$conditions['report_year']})";
+		}
+		
+		if (isset($conditions['report_duration'])){
+			if ($conditions['report_duration']==='this_week'){
+				$period_condition = "WEEK(orders.payment_date) period,";
+				$grp_condition[] = "WEEK(NOW()) HAVING period=WEEK(NOW())";
+			}else if ($conditions['report_duration']==='weekly'){
+				$period_condition = "WEEK(orders.payment_date) period,";
+				$grp_condition[] = "WEEK($date_field)";
+			}else if ($conditions['report_duration']==='monthly'){
+				$period_condition = "MONTH(orders.payment_date) period,";
+				$grp_condition[] = "MONTH($date_field)";
+			}else if ($conditions['report_duration']==='quarterly'){
+				$period_condition = "QUARTER(orders.payment_date) period,";
+				$grp_condition[] = "QUARTER($date_field)";
+			}else if ($conditions['report_duration']==='annually'){
+				
+			}
+		}
+		
+		$and_conditions = array();
+		if (isset($conditions['category'])){
+			$str = implode("', '", $conditions['category']);
+			$and_conditions[] = "and categories.id in (7,8)";
+		}
+		
+		$and_condition_str = implode(" ", $and_conditions);
+		
+		$grp_condition_str = "GROUP BY ".implode(", ", $grp_condition);
+		
+		$query = "select $period_condition categories.name cat_name, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty
+			from orders_items, orders, categories, product_category 
+			where orders_items.order_id = orders.id 
+			and orders_items.prod_id = product_category.pro_id 
+			and product_category.cat_id = categories.id 
+			and orders.status='Completed'
+		$and_condition_str
+		$grp_condition_str";
+		
+		$query = $this->db->query($query);
+		
+		return $query->result_array();
+	}
+	
 }
