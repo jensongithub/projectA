@@ -230,6 +230,19 @@
 	box-shadow: 1px 1px 5px #999;
 }
 
+.stock {
+	color: #B08047;
+	display: block;
+	height: 20px;
+}
+
+.success-img {
+	display: none;
+	margin-left: 10px;
+	width: 16px;
+	height: 16px;
+}
+
 .zoom-area {
 	background-color: #AAA;
 	border: 2px solid #FFF;
