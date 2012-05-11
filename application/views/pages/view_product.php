@@ -3,7 +3,10 @@
 var pid = '<?php echo $page['id'] ?>';
 var colors = <?php echo $page['colors_json'] ?>;
 var path = '<?php echo $page['path']."/" ?>';
+var stock = <?php echo json_encode( $page['stock'] ) ?>;
 var holder = pid + colors.c0.color;
+var selectedColor;
+var selectedSize;
 var measurementHolder = false;
 var chartHolder = false;
 
@@ -194,6 +197,31 @@ function initThumbnailEvent(){
 	$('.showcase-thumbnail').bind("click.change", function(){
 		$('#showcase-img').attr('src', $(this).attr('src').replace("_s", '') );
 	});
+	
+	$('.color-thumbnail').bind('click.select', function(){
+		selectedColor = $(this).attr('alt');
+		$('#size-button-holder').empty();
+		$.each( stock[pid][selectedColor], function( key, obj ){
+			$('#size-button-holder').append("<a href='javascript:void(0);' class='item_size' value='" + key + "'>" + key + "</a>");
+		});
+		
+		$('a[class=item_size]').click(
+			function(){
+			if (shop_cart.cur_item.size==$(this).attr('value')){
+				$(".item_size").removeClass('selected-size');
+				shop_cart.cur_item.size="";
+			}else{
+				$(".item_size").removeClass('selected-size');
+				$(this).addClass('selected-size');
+				shop_cart.cur_item.size=$(this).attr('value');
+			}
+		});
+
+		$('.item_size').bind('click.select', function(){
+			selectedSize = $(this).text();
+			$('.stock').html( getStockMsg() );
+		});
+	});
 }
 
 function initMagnifier(){
@@ -229,23 +257,16 @@ function initCartOperations(){
 	
 	$('a[class=item_size]').click(
 		function(){
-		if (shop_cart.cur_item.size==$(this).attr('value')){
-			$(".item_size").removeClass('selected-color');
-			shop_cart.cur_item.size="";
-		}else{
-			$(".item_size").removeClass('selected-color');
-			$(this).addClass('selected-color');
+		if (shop_cart.cur_item.size != $(this).attr('value')){
+			$(".item_size").removeClass('selected-size');
+			$(this).addClass('selected-size');
 			shop_cart.cur_item.size=$(this).attr('value');
 		}
 	});
 	
 	$('a[class=item_color]').click(
 		function(){
-			if (shop_cart.cur_item.color==$(this).attr('value')){
-				$(".product-color").removeClass('selected-color');
-				shop_cart.cur_item.filepath = "";
-				shop_cart.cur_item.color="";
-			}else{
+			if (shop_cart.cur_item.color != $(this).attr('value')){
 				$(".product-color").removeClass('selected-color');
 				$(this).parent().addClass('selected-color');
 				shop_cart.cur_item.color=$(this).attr('value');
@@ -258,7 +279,14 @@ function initCartOperations(){
 	});
 	
 	$('a[class=add_item]').click(function(){
-		shop_cart.add_item.call($(this));
+		var res = shop_cart.add_item.call($(this));
+		if( res == true ){
+			$('.success-img').css('display', 'inline');
+			setTimeout( function(){
+				$('.success-img').fadeOut(500);
+			}, 1000);
+			reset_entry();
+		}
 	});
 }
 
@@ -275,13 +303,17 @@ function buy_now(pg){
 
 function reset_entry(){
 	$('input[class=item_quantity]').val("");
-	$('.item_color').removeClass('selected-size');
 	$('.item_size').removeClass('selected-size');
-	shop_cart.cur_item.color=""
+	$('.stock').html('');
+	$('.color-thumbnail:first').click();
 	shop_cart.cur_item.size="";
 	shop_cart.cur_item.quantity="";
 }
 
+function getStockMsg(){
+	var msg = '<?php echo T_('There are %s in the inventory') ?>';
+	return msg.replace('%s', stock[pid][selectedColor][selectedSize]);
+}
 </script>
 <style type="text/css">
 .magnifyarea{ /* CSS to add shadow to magnified image. Optional */
@@ -406,22 +438,23 @@ background: white;
 			<div class='clear'></div>
 			<div style='margin-top:1em;'>
 				<h4><?php echo T_('Size') ?>: <a id='size-chart-switch' href='javascript: showSizeChart()'>Size Chart</a></h4>
-				<a href='javascript:void(0);' class='item_size' value='S'>S</a>
-				<a href='javascript:void(0);' class='item_size' value='M'>M</a>
-				<a href='javascript:void(0);' class='item_size' value='L'>L</a>
-				<a href='javascript:void(0);' class='item_size' value='XL'>XL</a>
+				<div id='size-button-holder'>
+				</div>
 				<div class='clear'></div>
 			</div>
 			
 			<div style='margin-top:1em;'>
-				<h4><?php echo T_('Quantity') ?>:<input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/></h4>						
+				<h4><?php echo T_('Quantity') ?>: <input style='width:3em;' class='item_quantity' type='text' value='' name='qty'/><?php echo img( array('class' => 'success-img', 'src' => 'tick.gif' ) ) ?></h4>
+				<span class='stock'></span>
 			</div>
 			
 			<div style='margin-top:1em;' class="payment_gateway">
 				<span>
 					<input type='image' name='button' onclick ="buy_now(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-					<input type='image' name='button' onclick ="buy_now(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
-					<span style='margin-left:2em;'><a href='javascript:void(0)' class='add_item' val='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
+					<input type='image' name='button' onclick ="buy_now(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/>
+				</span>
+				<span style='margin-left:2em;'>
+					<a href='javascript:void(0)' class='add_item' val='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
 					<?php echo $page['alipay_form']; ?>
 					<input type="hidden" name="pg" value=""/>
 					<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>

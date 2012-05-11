@@ -243,7 +243,6 @@ class Dept extends MY_Controller {
 		
 		
 		$this->load->helper( array('form') );
-		//$this->load->library('form_validation');
 		$this->data['page']['login_url'] = site_url().$this->lang->lang()."/login/";
 	
 		$this->load->model( array('category_model', 'product_model', 'component_model', 'common_model') );
@@ -258,6 +257,7 @@ class Dept extends MY_Controller {
 		//print_r($this->data['c_path']);
 
 		$this->data['page']['id'] = $id;
+		$this->data['page']['stock'] = $this->common_model->check_stock($id);
 
 		$this->data['page']['product'] = $this->product_model->get_product_by_id($id, FALSE);
 		if( ! $this->data['page']['product'] ){

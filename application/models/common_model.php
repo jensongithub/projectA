@@ -94,7 +94,7 @@ class Common_model extends CI_Model {
 					$ret[ $style ][ $row['color_code'] ] = array();
 					$color = $row['color_code'];
 				}
-				$ret[ $style ][ $color ][ $row['size_code'] ] = $row['sum'];
+				$ret[ $style ][ $color ][ $row['size_code'] ] = intval( $row['sum'] );
 			}
 			return $ret;
 		}

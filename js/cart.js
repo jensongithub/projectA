@@ -41,7 +41,6 @@ var shop_cart = {
 				if (obj.item_count==0){ cart_val = ""; }
 				shop_cart.item_count = obj.item_count;
 				$('span[class=item_count]').html(cart_val);
-				
 			},
 			error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
 			async:false
@@ -50,24 +49,23 @@ var shop_cart = {
 	cur_item:[],
 	add_rows:0,
 	add_item: function(){
-		var ret=0;
 		shop_cart.cur_item.id=$(this).attr('val');
 		shop_cart.cur_item.quantity=$('input[class=item_quantity]').val();
 		if (shop_cart.cur_item.size==''){
 			alert("Please enter size");
-			return ret;
+			return false;
 		}else if (shop_cart.cur_item.color==''){ 
 			alert("Please enter color");
-			return ret;
+			return false;
 		}else if (shop_cart.cur_item.quantity==''){
 			alert("Please enter quantity");
-			return ret;
+			return false;
 		}else{
 			shop_cart.save(shop_cart.cur_item);
-			shop_cart.cur_item = new shop_cart.item;			
+			shop_cart.cur_item = new shop_cart.item;
 			shop_cart.add_rows=1;
 		}
-		return ret;
+		return true;
 	},
 	del_item: function(){
 		shop_cart.remove($(this).attr("value"));
