@@ -22,7 +22,7 @@
 		<div id='operation-panel'>			
 			<div class="search">
 				<select id="report_year" name='report_year'>
-					<option value="2012" <?php echo set_select('analyse_year', '2012-2013'); ?>>2012-2013</option>
+					<option value="2012" <?php echo set_select('analyse_year', '2012'); ?>>2012</option>
 				</select>
 				<select id="report_duration" name='report_duration'>
 					<option value="this_week" <?php echo set_select('report_duration', 'this_week'); ?>>This week</option>
