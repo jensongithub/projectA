@@ -307,7 +307,7 @@ class Admin extends MY_Controller {
 		}else{
 				$row_num = $this->input->post('_row_num');			
 				$howmany = $this->input->post('howmany');
-				$row_num = $row_num*$howmany;
+				//$row_num = $row_num*$howmany;
 				$query_key_pairs = $this->input->post('val');
 				$conditions = json_decode($query_key_pairs, true);
 		}

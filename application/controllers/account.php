@@ -137,12 +137,15 @@ class Account extends MY_Controller {
 			if ($order_id!==null){
 				$conditions = array('orders.id'=>$order_id);
 				$order_detail = $this->order_model->get_order_items_by_id($order_id);
-				$this->data['page']['order_items'] = &$order_detail;		
+				$this->data['page']['order_items'] = &$order_detail;
 			}
+			$offset_row = $row_num;
 		}else{
 				$row_num = $this->input->post('_row_num');			
 				$howmany = $this->input->post('howmany');
-				$row_num = $row_num*$howmany;
+				$offset_row = $row_num*$howmany;
+				
+				
 				//$query_key_pairs = $this->input->post('val');
 				//$conditions = array_merge($conditions, json_decode($query_key_pairs, true));
 				
@@ -151,7 +154,7 @@ class Account extends MY_Controller {
 				$conditions['users.id']=$this->data['user']['id'];
 		}
 		
-		$order = $this->order_model->get_order_by_status($conditions, $row_num, $howmany);
+		$order = $this->order_model->get_order_by_status($conditions, $offset_row, $howmany);
 		list($total_rows) = $this->order_model->get_orders_cnt_by_user_id($conditions);
 		
 		$this->data['page']['order'] = &$order;		

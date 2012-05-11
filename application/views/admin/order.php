@@ -26,6 +26,9 @@ function set_rownum(val){
 	var _ttl_pg = $("input[name=_ttl_pg]").val();
 	var howmany = $("select[name=howmany]").val();
 	
+	_curr_pg =parseInt(_curr_pg,10)
+	_ttl_pg =parseInt(_ttl_pg,10);
+	howmany =parseInt(howmany,10);
 		if (val===1){
 			if (_curr_pg <_ttl_pg){
 				$("input[name=_row_num]").val(Math.max(_curr_pg-1+val, 0));
@@ -45,7 +48,7 @@ function set_rownum(val){
 			$("#pagedropdown").val('1');
 			search_order();
 		}else if (val===-2){
-			if (_ttl_pg>=howmany){
+			if (_curr_pg <_ttl_pg){
 				$("input[name=_row_num]").val(_ttl_pg-1);
 				$("#pagedropdown").val(_ttl_pg);
 				search_order();
