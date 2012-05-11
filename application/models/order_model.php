@@ -177,7 +177,8 @@ class Order_model extends CI_Model {
 				$period_condition = "QUARTER(orders.payment_date) period,";
 				$grp_condition[] = "QUARTER($date_field)";
 			}else if ($conditions['report_duration']==='annually'){
-				
+				$period_condition = "YEAR(orders.payment_date) period,";
+				$grp_condition[] = "YEAR($date_field)";
 			}
 		}
 		
