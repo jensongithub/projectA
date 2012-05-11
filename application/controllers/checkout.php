@@ -140,6 +140,7 @@ HTML;
 
 	function cancel()
 	{
+		$this->data['page']['title'] ='Payment Cancelled!';
 		// clear cart
 		$session_data = $this->session->all_userdata();
 		$session_data['cart'] = array();
@@ -155,7 +156,6 @@ HTML;
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/payment_cancel');
 		$this->load->view('templates/footer');
-		
 	}
 	
 	function success()
@@ -171,7 +171,7 @@ HTML;
 		// order status page which presents the user with the status of their
 		// order based on a database (which can be modified with the IPN code 
 		// below).
-		
+		$this->data['page']['title'] ='Payment Success!';
 		// clear cart
 		$session_data = $this->session->all_userdata();
 		$session_data['cart'] = array();

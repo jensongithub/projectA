@@ -10,7 +10,7 @@ class Order_model extends CI_Model {
 
 	public function update_paypal_order() {
 		// update the temporary order to complete order
-		$timestamp = strtotime(urldecode($this->CI->input->post('payment_date'))); 
+		$timestamp = strtotime($this->CI->input->post('payment_date')); 
 		$payment_date = date("Y-m-d H:i:s",$timestamp);
 		
 		
@@ -23,8 +23,8 @@ class Order_model extends CI_Model {
 		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
 		$result = $this->db->query($query, array($this->CI->input->post('invoice'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
 
-		$query = "update orders set txn_id = ?, total_amount=?, status = ?, payment_date=?, modified_date = NOW() where id = ? and user_id = ?";
-		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('payment_gross'), $this->CI->input->post('payment_status'), $payment_date, $this->CI->input->post('invoice'), $this->CI->input->post('custom')));
+		$query = "update orders set txn_id = ?, total_amount=?, currency=? status = ?, payment_date=?, modified_date = NOW() where id = ? and user_id = ?";
+		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('mc_gross'), $this->CI->input->post('mc_currency'), $this->CI->input->post('payment_status'), $payment_date, $this->CI->input->post('invoice'), $this->CI->input->post('custom')));
 		
 		$query = "update orders_items set txn_id = ?, modified_date = NOW() where order_id = ?";
 		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('invoice')));
