@@ -183,9 +183,10 @@ class Order_model extends CI_Model {
 		}
 		
 		$and_conditions = array();
-		if (isset($conditions['category'])){
-			$str = implode("', '", $conditions['category']);
-			$and_conditions[] = "and categories.id in (7,8)";
+		if (isset($conditions['report_category']) && $conditions['report_category']!=''){
+			//$str = implode("', '", $conditions['report_category']);
+			$str = $conditions['report_category'];
+			$and_conditions[] = "and categories.name in ('$str')";
 		}
 		
 		$and_condition_str = implode(" ", $and_conditions);

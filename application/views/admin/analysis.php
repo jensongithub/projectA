@@ -32,7 +32,12 @@
 					<option value="annually" <?php echo set_select('report_duration', 'annually' ); ?>>Yearly</option>
 				</select>
 				<select id="report_category" name='report_category'>
-					<option value="" <?php echo set_select('report_category', '1 year' ); ?>>--Category--</option>
+					<option value="">--Category--</option>
+					<?php
+					foreach($page['categories'] as $each_row){
+						echo "<option value='{$each_row['name']}'". set_select('report_category', $each_row['name']) .">{$each_row['name']}</option>";
+					}
+					?>
 				</select>
 				<input type='submit' name='search' value='Search'/>
 			</div>

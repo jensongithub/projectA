@@ -374,14 +374,17 @@ class Admin extends MY_Controller {
 				$conditions['report_year']='2012';
 				$conditions['report_duration']='this_week';
 				$conditions['report_category']='';				
-			}
-			
+			}			
 		}else{
 				$conditions = &$this->input->post();
 		}
+		
+		$categories = $this->product_model->get_all_categories();
 		$order = $this->order_model->get_orders_summary_by_status($conditions);
 		
 		$this->data['page']['order'] = &$order;
+		$this->data['page']['categories'] = &$categories;
+		
 		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);

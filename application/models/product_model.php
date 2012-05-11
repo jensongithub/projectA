@@ -374,6 +374,12 @@ class Product_model extends CI_Model {
 		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['front_img'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
 		//echo "<p>" . $this->db->last_query() . "</p>";
 	}
+	
+	public function get_all_categories(){
+		$query = "SELECT name, path FROM categories";
+		$query = $this->db->query($query);
+		return $query->result_array();
+	}
 }
 
 ?>
