@@ -86,8 +86,10 @@ class Order_model extends CI_Model {
 			$condition_str .= " and $key = '$val' ";
 		}
 		
+		
+		
 		$query = "select users.firstname, users.lastname, users.email, users.phone, order_address.*, orders.* 
-					from orders, users, order_address 
+					from orders, users, order_address
 					where orders.user_id = users.id and orders.id = order_address.order_id and orders.status='Completed' $condition_str limit $rownum, $howmany";
 		$query = $this->db->query($query);
 		
@@ -127,9 +129,9 @@ class Order_model extends CI_Model {
 		//return json_encode($query->result_array(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
 	}
 	
-	function set_order_is_handed($order_id, $username){
-		$query = "update orders set is_handled = CASE WHEN is_handled = 0 THEN 1 WHEN is_handled = 1 THEN 0 END, handle_by = ?, handle_date = NOW() where id = ?";
-		$result = $this->db->query($query, array($username, $order_id));
+	function set_order_handle_status($status, $order_id, $username){
+		$query = "update orders set handle_status = ? , handle_by = ?, handle_date = NOW() where id = ?";
+		$result = $this->db->query($query, array($status, $username, $order_id));
 		
 		return $this->db->affected_rows();
 	}
@@ -144,10 +146,9 @@ class Order_model extends CI_Model {
 		return $this->get_order_count($conditions);
 	}
 	
+	
+	// analysis page
 	function get_orders_summary_by_status($conditions){
-		
-		
-		
 		/*
 		$conditions = array();
 		$conditions['report_year']='2012';
@@ -156,6 +157,7 @@ class Order_model extends CI_Model {
 		*/
 		
 		$period_condition='';
+		$and_conditions = array();
 		$grp_condition=array();
 		$date_field = 'orders.payment_date';
 		
@@ -166,35 +168,55 @@ class Order_model extends CI_Model {
 		if (isset($conditions['report_duration'])){
 			if ($conditions['report_duration']==='this_week'){
 				$period_condition = "WEEK(orders.payment_date) period,";
-				$grp_condition[] = "period HAVING period=WEEK(NOW())";
+				$grp_condition[] = "period, categories.id HAVING period=WEEK(NOW())";
 			}else if ($conditions['report_duration']==='weekly'){
 				$period_condition = "WEEK(orders.payment_date) period,";
-				$grp_condition[] = "WEEK($date_field)";
+				$grp_condition[] = "WEEK($date_field), categories.id";
 			}else if ($conditions['report_duration']==='monthly'){
 				$period_condition = "MONTH(orders.payment_date) period,";
-				$grp_condition[] = "MONTH($date_field)";
+				$grp_condition[] = "MONTH($date_field), categories.id";
 			}else if ($conditions['report_duration']==='quarterly'){
 				$period_condition = "QUARTER(orders.payment_date) period,";
-				$grp_condition[] = "QUARTER($date_field)";
+				$grp_condition[] = "QUARTER($date_field), categories.id";
 			}else if ($conditions['report_duration']==='annually'){
 				$period_condition = "YEAR(orders.payment_date) period,";
-				$grp_condition[] = "YEAR($date_field)";
+				$grp_condition[] = "YEAR($date_field), categories.id";
 			}
 		}
 		
-		$and_conditions = array();
+		if (isset($conditions['report_duration']) && isset($conditions['report_period'])){
+			if ($conditions['report_period']!=''){
+				if ($conditions['report_duration']==='weekly'){
+					$and_conditions[] = "WEEK(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='monthly'){
+					$and_conditions[] = "MONTH(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='quarterly'){
+					$and_conditions[] = "QUARTER(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='annually'){
+					$and_conditions[] = "YEAR(orders.payment_date) = {$conditions['report_period']}";
+				}
+			}
+		}
+		
+		// currency
+		if (preg_match('/HKD|RMB/', $conditions['report_currency'])){
+			$and_conditions[] = "orders.currency = '{$conditions['report_currency']}'";
+		}
+		
 		if (isset($conditions['report_category']) && $conditions['report_category']!=''){
 			//$str = implode("', '", $conditions['report_category']);
 			$str = $conditions['report_category'];
-			$and_conditions[] = "and categories.name in ('$str')";
+			$and_conditions[] = "categories.id in ('$str')";
 		}
 		
-		$and_condition_str = implode(" ", $and_conditions);
-		
+		$and_condition_str = implode(" and ", $and_conditions);
+		if (strlen($and_condition_str)>0) {
+			$and_condition_str = "and ".$and_condition_str;
+		}
 		$grp_condition_str = "GROUP BY ".implode(", ", $grp_condition);
 		
-		$query = "select $period_condition categories.name cat_name, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty, sum(products.cost) total_cost
-			from orders_items, orders, categories, product_category, products
+		$query = "select $period_condition categories.id cat_id, categories.name cat_name, orders.currency, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty, sum(products.cost) total_cost
+			from orders_items, orders, categories, product_category, products 
 			where orders_items.order_id = orders.id 
 			and products.id = product_category.pro_id 
 			and orders_items.prod_id = product_category.pro_id 
@@ -202,6 +224,84 @@ class Order_model extends CI_Model {
 			and orders.status='Completed'
 		$and_condition_str
 		$grp_condition_str";
+		
+		$query = $this->db->query($query);
+		
+		return $query->result_array();
+	}
+	
+	// analysis page
+	function get_orders_breakdown_by_cat_id($conditions){
+		
+		/*
+		$conditions = array();
+		$conditions['report_year']='2012';
+		$conditions['report_duration']='this_week';
+		$conditions['report_category']='';
+		*/
+		
+		$period_condition='';
+		$grp_condition=array();
+		$and_conditions = array();
+		$date_field = 'orders.payment_date';
+		
+		if (isset($conditions['report_year'])){
+			$and_conditions[] = "Year(orders.payment_date) = {$conditions['report_year']}";
+		}
+		
+		if (isset($conditions['report_duration'])){
+			if ($conditions['report_duration']==='this_week'){
+				$and_conditions[] = "WEEK(orders.payment_date) = WEEK(NOW()) ";
+			}else if ($conditions['report_duration']==='weekly'){
+				$and_conditions[] = "WEEK(orders.payment_date) = WEEK($date_field)";
+			}else if ($conditions['report_duration']==='monthly'){
+				$and_conditions[] = "MONTH(orders.payment_date) = MONTH($date_field)";				
+			}else if ($conditions['report_duration']==='quarterly'){
+				$and_conditions[] = "QUARTER(orders.payment_date) = QUARTER($date_field)";
+			}else if ($conditions['report_duration']==='annually'){
+				$and_conditions[] = "YEAR(orders.payment_date) = YEAR($date_field)";
+			}
+		}
+		
+		if (isset($conditions['report_duration']) && isset($conditions['report_period'])){
+			if ($conditions['report_period']!=''){
+				if ($conditions['report_duration']==='weekly'){
+					$and_conditions[] = "WEEK(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='monthly'){
+					$and_conditions[] = "MONTH(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='quarterly'){
+					$and_conditions[] = "QUARTER(orders.payment_date) = {$conditions['report_period']}";
+				}else if ($conditions['report_duration']==='annually'){
+					$and_conditions[] = "YEAR(orders.payment_date) = {$conditions['report_period']}";
+				}
+			}
+		}
+		
+		if (isset($conditions['report_category']) && $conditions['report_category']!=''){
+			//$str = implode("', '", $conditions['report_category']);
+			$str = $conditions['report_category'];
+			$and_conditions[] = "categories.id in ('$str')";
+		}
+		
+		// currency
+		if (preg_match('/HKD|RMB/', $conditions['report_currency'])){
+			$and_conditions[] = "orders.currency = '{$conditions['report_currency']}'";
+		}
+		
+		$and_condition_str = implode(" and ", $and_conditions);
+		if (strlen($and_condition_str)>0) {
+			$and_condition_str = "and ".$and_condition_str;
+		}
+		
+		$query = "select categories.id cat_id, categories.name cat_name, products.name_zh product_name, orders.currency, orders_items.prod_id, orders_items.size, orders_items.color, sum(orders_items.price*orders_items.quantity) total_amount, sum(orders_items.quantity) qty, sum(products.cost) total_cost
+			from orders_items, orders, categories, product_category, products
+			where orders_items.order_id = orders.id 
+			and products.id = product_category.pro_id 
+			and orders_items.prod_id = product_category.pro_id 
+			and product_category.cat_id = categories.id 
+			and orders.status='Completed'
+		$and_condition_str
+		GROUP BY orders_items.prod_id, orders_items.color, orders_items.size ORDER BY orders_items.prod_id, orders_items.color, orders_items.size";
 		
 		$query = $this->db->query($query);
 		

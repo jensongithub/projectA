@@ -50,6 +50,7 @@ $route['^(en|zh|cn)/admin/products/upload$'] = 'admin/upload_products';
 $route['^(en|zh|cn)/admin/products/(.+)$'] = 'admin/products/$2';
 
 $route['^(en|zh|cn)/admin/order/(.+)$'] = 'admin/order/$2';
+$route['^(en|zh|cn)/admin/analysis/(.+)$'] = 'admin/analysis/$2';
 
 $route['^(en|zh|cn)/admin/edit_content/(.+)$'] = 'admin/edit_content/$2';
 $route['^(en|zh|cn)/admin/submit_content/(.+)$'] = 'admin/submit_content/$2';

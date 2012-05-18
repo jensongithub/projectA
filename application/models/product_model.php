@@ -376,7 +376,7 @@ class Product_model extends CI_Model {
 	}
 	
 	public function get_all_categories(){
-		$query = "SELECT name, path FROM categories";
+		$query = "SELECT id, name, path FROM categories";
 		$query = $this->db->query($query);
 		return $query->result_array();
 	}

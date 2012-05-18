@@ -74,24 +74,26 @@ function search_order(){
 	$("form[name=admin_order_form]").submit();	
 }
 
-function save_order(order_id, val){
+function save_order(order_id){
 	
 	var flag = confirm('Are you sure to save?');
-	
-	$.ajax({
-		type: "POST",
-		 url: order_obj.save_url,
-		data: "id="+order_id,
-		dataType: "json",
-		success: function (data, textStatus, jqXHR) {
-			var obj = jQuery.parseJSON(jqXHR.responseText);
-			/*if (obj.cart_item!=''){
-				shop_cart.list.push(obj.cart_item);
-			}*/
-		},
-		error:function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk.");},
-		async:false
-	});
+	if (flag){
+		var handle_status = $('#handle_status_'+order_id).val();
+		$.ajax({
+			type: "POST",
+			 url: order_obj.save_url,
+			data: "id="+order_id+'&handle_status='+handle_status,
+			dataType: "json",
+			success: function (data, textStatus, jqXHR) {
+				var obj = jQuery.parseJSON(jqXHR.responseText);
+				/*if (obj.cart_item!=''){
+					shop_cart.list.push(obj.cart_item);
+				}*/
+			},
+			error: function(xhr,err){ alert("Please try again later or contact info@casimira.com.hk."); },
+			async: false
+		});
+	}
 	
 	return flag;
 }
@@ -150,7 +152,15 @@ function save_order(order_id, val){
 					<td><?php echo $each_row['address_street'].",".$each_row['address_zip'].",".$each_row['address_state'].",".$each_row['address_city'].",".$each_row['country'].",".$each_row['country_code'].",".$each_row['country']  ?></td>
 					<td><?php echo $each_row['total_amount'] ?></td>
 					<td><?php echo $each_row['status'] ?></td>
-					<td><input type='checkbox' name='oid_<?php echo $each_row['id'] ?>' onclick='return save_order(<?php echo $each_row['id'] ?>);' <?php echo $each_row['is_handled']==='1' ? 'checked' : '' ?> /></td>
+					<td><select id ='handle_status_<?php echo $each_row['id'] ?>' onchange='save_order(<?php echo $each_row['id'] ?>);'>
+							<option value=''>--Status--</option>
+							<option value='processing' <?php echo $each_row['handle_status'] === 'processing'? 'selected':''; ?>>Processing</option>
+							<option value='checkout_pos' <?php echo $each_row['handle_status']=== 'checkout_pos'? 'selected':''; ?>>Checkout POS</option>
+							<option value='delivered' <?php echo $each_row['handle_status'] === 'delivered'? 'selected':''; ?>>Delivered</option>
+							<option value='complete' <?php echo $each_row['handle_status'] === 'complete'? 'selected':''; ?>>Complete</option>
+							<option value='return' <?php echo $each_row['handle_status'] === 'return'? 'selected':''; ?>>Returned</option>
+						</select>
+					</td>
 					<td><?php echo $each_row['handle_by'] ?></td>
 					<td><?php echo $each_row['handle_date'] ?></td>
 					<!--td><?php //echo $each_row['remark'] ?></td-->

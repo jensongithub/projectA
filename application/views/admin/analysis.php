@@ -7,6 +7,8 @@
 <hr style='margin: 10px 0 20px 0;' />
 <form id='form' method='post' action=''>
 	<input type='hidden' id='action' name='action' value='move' />
+	<input type='hidden' id='cat_id' name='cat_id' value='' />
+	<input type='hidden' id='report_period' name='report_period' value='' />
 	<div id="tablewrapper">
 		<div id="tableheader">
 			<div class="search">
@@ -35,9 +37,13 @@
 					<option value="">--Category--</option>
 					<?php
 					foreach($page['categories'] as $each_row){
-						echo "<option value='{$each_row['name']}'". set_select('report_category', $each_row['name']) .">{$each_row['name']}</option>";
+						echo "<option value='{$each_row['id']}'". set_select('report_category', $each_row['id']) .">{$each_row['name']}</option>";
 					}
 					?>
+				</select>
+				<select name='report_currency'>
+					<option value="HKD" <?php echo set_select('report_currency', 'HKD'); ?>>HKD</option>
+					<option value="RMB" <?php echo set_select('report_currency', 'RMB'); ?>>RMB</option>
 				</select>
 				<input type='submit' name='search' value='Search'/>
 			</div>
@@ -60,17 +66,46 @@
 				?>
 				<tr>
 					<td><?php echo $each_row['period'] ?></td>
-					<td><?php echo $each_row['cat_name'] ?></td>
-					<td>$<?php echo $each_row['total_amount'] ?></td>
-					<td>$<?php echo $each_row['total_cost'] ?></td>
+					<td><a href='javascript:show_analysis_breakdown(<?php echo $each_row['cat_id'].','.$each_row['period']; ?>)'><?php echo $each_row['cat_name'] ?></a></td>
+					<td><?php echo $each_row['total_amount'] ?></td>
+					<td><?php echo $each_row['total_cost'] ?></td>
 					<td><?php echo $each_row['qty'] ?></td>
-					<td>$<?php echo $each_row['total_amount'] - $each_row['total_cost']?></td>
+					<td><?php echo $each_row['total_amount'] - $each_row['total_cost']?></td>
 				</tr>
 				<?php
 				}
 				?>
 			</tbody>
 		</table>
+		<?php if (isset($page['order_items']) ) { ?>
+		<br/>
+		<br/>
+		<p>Order Item(s)</p>
+		<table class='tinytable' name="order_items">
+			<thead>
+				<tr>
+					<th>Produce ID</th>
+					<th>Currency</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Size</th>
+					<th>Color</th>
+				</tr>
+			</head>
+			<tbody>
+			<?php foreach( $page['order_items'] as $each_row ){ ?>
+				<tr>
+					<td><?php echo $each_row['prod_id'] ?></td>
+					<td><?php echo $each_row['currency'] ?></td>
+					<td><?php echo $each_row['total_amount'] ?></td>
+					<td><?php echo $each_row['qty'] ?></td>
+					<td><?php echo $each_row['size'] ?></td>
+					<td><?php echo $each_row['color'] ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+		<?php } ?>
 		
 		<div id="tablefooter">
 			<div id="tablenav">
@@ -102,6 +137,7 @@
 			</div>
 		</div>
 	</div>
+	
 </form>
 <?php echo css('css/TinyTableV3.css') ?>
 <?php echo js('TinyTableV3/script.js') ?>
@@ -112,8 +148,8 @@ var sorter = new TINY.table.sorter('sorter','product-table',{
 	descclass:'desc',
 	evenclass:'evenrow',
 	oddclass:'oddrow',
-	evenselclass:'evenselected',
-	oddselclass:'oddselected',
+	//evenselclass:'evenselected',
+	//oddselclass:'oddselected',
 	paginate:true,
 	size:15,
 	colddid:'columns',
@@ -167,6 +203,12 @@ $(document).ready(function(){
 		$('#form').find('#action').val('status');
 	});
 });
+
+function show_analysis_breakdown(cat_id, period){
+	$('#cat_id').val(cat_id);
+	$('#report_period').val(period);
+	$('#form').submit();
+}
 
 </script>
 

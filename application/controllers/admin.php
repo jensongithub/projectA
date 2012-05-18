@@ -345,16 +345,15 @@ class Admin extends MY_Controller {
 		// settings
 		$this->load->model(array('product_model','order_model'));
 		$order_id = $this->input->post('id');
-		$is_handled = $this->input->post('done');
+		$handle_status = $this->input->post('handle_status');
 		$user = $this->get_session('user');
 		
-		$affected_rows = $this->order_model->set_order_is_handed($order_id, $user['lastname']." " .$user['firstname'].'-'.$user['id']);
+		$affected_rows = $this->order_model->set_order_handle_status($handle_status, $order_id, $user['lastname']." " .$user['firstname'].'-'.$user['id']);
 		
 		return $affected_rows;
 	}
 	
-	public function analysis($order_id=null){
-		
+	public function analysis(){
 		$this->load->helper( array('form') );
 		//$this->load->library('form_validation');
 		
@@ -363,20 +362,24 @@ class Admin extends MY_Controller {
 		$this->data['page']['title']='Purchase History';
 		$this->load->model(array('product_model','order_model'));
 		
-		// when the user click click an order and wants to see the order items
 		if ($this->input->post()===FALSE){
-			
-			if ($order_id!==null){
-				$conditions = array('orders.id'=>$order_id);
-				$order_detail = $this->order_model->get_orders_summary_by_status($conditions);
+			$conditions['report_year']='2012';
+			$conditions['report_duration']='this_week';
+			$conditions['report_category']='';
+			$conditions['report_currency']='HKD';
+		}else{
+			//var_dump($this->input->post());
+			if ($this->input->post('cat_id')!==''){
+				$conditions['report_year'] = $this->input->post('report_year');
+				$conditions['report_duration'] = $this->input->post('report_duration');
+				$conditions['report_category'] = $this->input->post('cat_id');
+				$conditions['report_period'] = $this->input->post('report_period');
+				$conditions['report_currency'] = $this->input->post('report_currency');
+				$order_detail = $this->order_model->get_orders_breakdown_by_cat_id($conditions);
 				$this->data['page']['order_items'] = &$order_detail;
 			}else{
-				$conditions['report_year']='2012';
-				$conditions['report_duration']='this_week';
-				$conditions['report_category']='';				
-			}			
-		}else{
 				$conditions = &$this->input->post();
+			}
 		}
 		
 		$categories = $this->product_model->get_all_categories();
@@ -385,11 +388,9 @@ class Admin extends MY_Controller {
 		$this->data['page']['order'] = &$order;
 		$this->data['page']['categories'] = &$categories;
 		
-		
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/analysis', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
 	}
-	
 }
