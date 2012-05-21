@@ -199,8 +199,9 @@ PAYPAL_FORM;
 			<input type="hidden" name="currency_code" value="$currency">
 			<input type="hidden" name="lc" value="HK">
 			<input type="hidden" name="rm" value="2">
-			<input type="hidden" name="shipping" value="{$data['page']['delivery_charge']}">
+			<input type="hidden" name="shipping" value="0">
 			<input type="hidden" name="shipping_2" value="0">
+			<input type="hidden" name="handling_cart" value="{$data['page']['delivery_charge']}">
 			<input type="hidden" name="return" value="{$success_url}">
 			<input type="hidden" name="cancel_return" value="{$cancel_url}">
 			<input type="hidden" name="notify_url" value="{$notify_url}">
