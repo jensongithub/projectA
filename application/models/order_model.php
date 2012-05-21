@@ -20,14 +20,19 @@ class Order_model extends CI_Model {
 		// order id
 		//$this->CI->input->post('invoice') is the orders.id 
 		
-		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
-		$result = $this->db->query($query, array($this->CI->input->post('invoice'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
+		//$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
+		//$result = $this->db->query($query, array($this->CI->input->post('invoice'), $this->CI->input->post('custom'), $this->CI->input->post('address_country'), $this->CI->input->post('address_country_code'), $this->CI->input->post('address_zip'), $this->CI->input->post('address_state'), $this->CI->input->post('address_city'), $this->CI->input->post('address_street')));
 
 		$query = "update orders set txn_id = ?, total_amount=?, currency=?, status = ?, payment_date=?, modified_date = NOW() where id = ? and user_id = ?";
 		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('mc_gross'), $this->CI->input->post('mc_currency'), $this->CI->input->post('payment_status'), $payment_date, $this->CI->input->post('invoice'), $this->CI->input->post('custom')));
 		
 		$query = "update orders_items set txn_id = ?, modified_date = NOW() where order_id = ?";
 		$result = $this->db->query($query, array($this->CI->input->post('txn_id'), $this->CI->input->post('invoice')));
+	}
+	
+	public function set_order_address($order_id, $user){
+		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
+		$result = $this->db->query($query, array($order_id, $user['id'], $user['country'], $user['country_code'], $user['address_zip'], $user['address_state'], $user['address_city'], $user['address_street']));
 	}
 	
 	function insert_checkout_item($data){
@@ -85,8 +90,6 @@ class Order_model extends CI_Model {
 			//$val = $each_cond[$key];
 			$condition_str .= " and $key = '$val' ";
 		}
-		
-		
 		
 		$query = "select users.firstname, users.lastname, users.email, users.phone, order_address.*, orders.* 
 					from orders, users, order_address
@@ -308,4 +311,11 @@ class Order_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	function get_order_addr_by_uid($user_id){
+		$query = "select distinct country, country_code, address_zip, address_state, address_city, address_street from order_address where user_id = ?";
+		$query = $this->db->query($query, array($user_id) );
+		
+		return $query->result_array();
+		//return json_encode($query->result_array(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_FORCE_OBJECT);
+	}
 }

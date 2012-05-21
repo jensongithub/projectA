@@ -94,8 +94,8 @@ CART_ITEM;
 		<?php if ( ! empty($this->data['cart']) ){ ?>
 			<div id='checkout-panel'>
 				<span class='checkout'><?php echo T_('Check out') ?>: </span>
-				<input type='image' name='button' onclick ="checkout(0);" class='checkout-button' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-				<input type='image' name='button' onclick ="checkout(1);" class='checkout-button' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
+				<input type='image' name='button' onclick ="checkout('paypal');" class='checkout-button' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+				<input type='image' name='button' onclick ="checkout('alipay');" class='checkout-button' src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/></span>
 			</div>
 		<?php } ?>
 		<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>

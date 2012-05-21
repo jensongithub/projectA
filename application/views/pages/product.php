@@ -22,7 +22,7 @@
 		<input type="hidden" name="currency_code" value="USD">
 		<input type="hidden" name="lc" value="US">
 		<input type="hidden" name="rm" value="2">
-		<input type="hidden" name="shipping_1" value="0">
+		<input type="hidden" name="shipping" value=""<?php echo $payment['dilivery_charge'] ?>">
 		<input type="hidden" name="return" value="<?php echo $payment['success_url'] ?>">
 		<input type="hidden" name="cancel_return" value="<?php echo $payment['cancel_url'] ?>">
 		<input type="hidden" name="notify_url" value="<?php echo $payment['notify_url'] ?>">

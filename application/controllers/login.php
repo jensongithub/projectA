@@ -7,8 +7,7 @@ class Login extends MY_Controller {
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->helper( array('form') );
-		$this->load->library('form_validation');
-		
+		$this->load->library( 'form_validation' );
 	}
 
 	public function index(){
@@ -28,8 +27,7 @@ class Login extends MY_Controller {
 				echo $this->load->view('account/warning/activation', $this->data);
 			}else if ($ret === GO_TO_NEXT_PAGE){
 				echo "200";
-			}
-			else if ($ret === GO_TO_INDEX_PAGE){
+			}else if ($ret === GO_TO_INDEX_PAGE){
 				echo "200";
 			}
 		}else{

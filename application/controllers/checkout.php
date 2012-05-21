@@ -49,12 +49,22 @@ class checkout extends MY_Controller {
 	}
 
 	function payment(){
-	
+		// 1. check login
 		if (!$this->is_login()){
-			//$url = site_url().$this->lang->lang()."/login";
 			$this->load->library('form_validation');
 			$this->data['page']['login_url'] = site_url().$this->lang->lang()."/login/";
 			echo $this->load->view('account/login_ajax_form', $this->data, true);
+			exit();
+		}
+		
+		// 2. ask for address
+		if (!isset($this->data['page']['order_address_status'])){	// true false
+			$this->load->model('order_model');
+			$this->order_model->get_order_addr_by_uid($this->data['user']['id']);
+			
+			$this->data['page']['order_address_url'] = site_url().$this->lang->lang()."/checkout/address/";
+			$this->data['page']['payment_gateway'] = $this->input->post('pg');
+			echo $this->load->view('account/order_address', $this->data, true);
 			exit();
 		}
 		
@@ -66,7 +76,7 @@ class checkout extends MY_Controller {
 		if (isset($_POST['pg'])){
 			// 0 = paypal
 			// 1 = alipay
-			if ($_POST['pg']==="0" || $_POST['pg']==="1"){
+			if ($_POST['pg']==="paypal" || $_POST['pg']==="alipay"){
 				$this->set_session('page', array('pg'=>$_POST['pg']));
 				$this->data['page']['pg'] = $_POST['pg'];
 			}
@@ -89,13 +99,55 @@ class checkout extends MY_Controller {
 				}
 			}
 			
-			if ($this->data['page']['pg']==="0"){
+			if ($this->data['page']['pg']==="paypal"){
 				$this->paypal();
-			}else if ($this->data['page']['pg']==="1"){
+			}else if ($this->data['page']['pg']==="alipay"){
 				$this->alipay();
 			}
 		}
 	}
+
+	
+	function address(){
+		$this->load->model(array('order_model','delivery_model'));
+		$this->load->library('form_validation', 'session');
+		$this->form_validation->set_rules('country', 'Country', 'required');
+		$this->form_validation->set_rules('address_state', 'Address_State', 'required');
+		$this->form_validation->set_rules('address_zip', 'Address ZIP', 'required|integer');
+		$this->form_validation->set_rules('address_city', 'Address City', 'required');
+		$this->form_validation->set_rules('address_street', 'Address Street', 'required');
+		
+		$this->data['page']['order_address_url'] = site_url().$this->lang->lang()."/checkout/address/";
+		$this->data['page']['pg'] = $this->input->post('pg');
+		
+		if($this->form_validation->run() == FALSE) {
+			$this->load->view('account/order_address', $this->data);
+		} else {
+			$this->data['page']['order_address_status'] =TRUE;
+			
+			// store the user shipping address
+			$this->data['user']['country'] = $this->input->post('country');
+			$this->data['user']['country_code'] = $this->input->post('country_code');
+			$this->data['user']['address_state'] = $this->input->post('address_state');
+			$this->data['user']['address_zip'] = $this->input->post('address_zip');
+			$this->data['user']['address_city'] = $this->input->post('address_city');
+			$this->data['user']['address_street'] = $this->input->post('address_street');
+						
+			if ($this->lang->lang() ==='cn'){
+				$src_country_code = 'CN';
+				$currency = 'rmb';
+			}else{			
+				$src_country_code = 'HK';
+				$currency = 'hkd';
+			}
+			
+			list($delivery_charge) = $this->delivery_model->get_charge_by_country_code($src_country_code, $this->data['user']['country_code'], $currency);						
+			var_dump($delivery_charge);
+			$this->data['page']['delivery_charge'] = $delivery_charge[$currency];
+			$this->payment();
+		}
+	}
+
 	
 	private function paypal(){
 		$this->load->model("order_model");
@@ -109,6 +161,7 @@ class checkout extends MY_Controller {
 		$this->set_session('page', $order_keys);
 		$this->data['page']['rand_key'] = $order_keys['rand_key'];
 		$this->data['page']['order_id'] = $order_keys['order_id'];
+		$result = $this->order_model->set_order_address($this->data['page']['order_id'], $this->data['user']);
 		//var_dump($this->get_session());
 		//var_dump($this->data['page']);
 		//}
@@ -124,7 +177,6 @@ HTML;
 			</div>
 		</div>
 HTML;
-
 	}
 	
 	function alipay(){
@@ -183,7 +235,7 @@ HTML;
 		$this->data['cart'] = array();
 		$this->data['page']['rand_key']="";
 		$this->data['page']['order_id']="";
-		//exit();
+		
 		$this->load->view('templates/header', $this->data);
 		$this->load->view('pages/payment_success', $this->data);
 		$this->load->view('templates/footer');

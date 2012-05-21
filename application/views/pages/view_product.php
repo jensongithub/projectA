@@ -292,7 +292,7 @@ function initCartOperations(){
 
 function buy_now(pg){
 	var row=0;
-		
+	$('input[name=pg]').val(pg);
 	$('a[class=add_item]').click();
 	
 	if (shop_cart.add_rows!=0){
@@ -450,12 +450,12 @@ background: white;
 			
 			<div style='margin-top:1em;' class="payment_gateway">
 				<span>
-					<input type='image' name='button' onclick ="buy_now(0);" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
-					<input type='image' name='button' onclick ="buy_now(1);" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/>
+					<input type='image' name='button' onclick ="buy_now('paypal');" src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' border='0' align='top' alt='Check out with PayPal'/>
+					<input type='image' name='button' onclick ="buy_now('alipay');" src='https://img.alipay.com/pa/img/home/logo-alipay-t.png' border='0' align='top' alt='Check out with PayPal'/>
 				</span>
 				<span style='margin-left:2em;'>
 					<a href='javascript:void(0)' class='add_item' val='<?php echo $page['product']['id'] ?>'>Add to Cart</a>
-					<?php echo $page['alipay_form']; ?>
+					<?php //echo $page['alipay_form']; ?>
 					<input type="hidden" name="pg" value=""/>
 					<input type="hidden" name="cl" value="<?php echo count($cart); ?>"/>
 				</span>

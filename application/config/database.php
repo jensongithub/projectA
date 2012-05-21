@@ -64,6 +64,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+
 $db['lna_pos']['hostname'] = '210.176.126.120';
 $db['lna_pos']['username'] = 'sa';
 $db['lna_pos']['password'] = 'xyz9007';
@@ -91,6 +92,7 @@ $db['production']['dbcollat'] = 'utf8_general_ci';
 $db['production']['swap_pre'] = '';
 $db['production']['autoinit'] = TRUE;
 $db['production']['stricton'] = FALSE;
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
