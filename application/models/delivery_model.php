@@ -18,6 +18,18 @@ class Delivery_model extends CI_Model {
 		$query = $this->db->query($query, array($src_country_code, $dest_country_code));
 		
 		return $query->result_array();
+	}
+	
+	public function get_charge_by_order_id($src_country_code, $order_id, $currency){
+		$charge_currency = '';
+		if (preg_match('/HKD|RMB|USD/i', $currency)){
+			$charge_currency = $currency;
+		}else{
+			$charge_currency = 'hkd';
+		}
+		$query = "select $charge_currency from delivery_charge where src_country_code = ? and country_code = (select country_code from order_address where order_id = ?)";
+		$query = $this->db->query($query, array($src_country_code, $order_id));
 		
+		return $query->result_array();
 	}
 }

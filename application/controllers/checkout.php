@@ -60,7 +60,7 @@ class checkout extends MY_Controller {
 		// 2. ask for address
 		if (!isset($this->data['page']['order_address_status'])){	// true false
 			$this->load->model('order_model');
-			$this->order_model->get_order_addr_by_uid($this->data['user']['id']);
+			$this->data['page']['order_address'] = $this->order_model->get_order_addr_by_uid($this->data['user']['id']);
 			
 			$this->data['page']['order_address_url'] = site_url().$this->lang->lang()."/checkout/address/";
 			$this->data['page']['payment_gateway'] = $this->input->post('pg');
@@ -111,11 +111,12 @@ class checkout extends MY_Controller {
 	function address(){
 		$this->load->model(array('order_model','delivery_model'));
 		$this->load->library('form_validation', 'session');
-		$this->form_validation->set_rules('country', 'Country', 'required');
-		$this->form_validation->set_rules('address_state', 'Address_State', 'required');
-		$this->form_validation->set_rules('address_zip', 'Address ZIP', 'required|integer');
-		$this->form_validation->set_rules('address_city', 'Address City', 'required');
-		$this->form_validation->set_rules('address_street', 'Address Street', 'required');
+		$this->form_validation->set_rules('country', 'Country', '');
+		$this->form_validation->set_rules('address_state', 'Address_State', '');
+		$this->form_validation->set_rules('address_zip', 'Address ZIP', 'integer');
+		$this->form_validation->set_rules('address_city', 'Address City', '');
+		$this->form_validation->set_rules('address_street', 'Address Street', '');
+		$this->form_validation->set_rules('address_id', 'Address Street', 'integer');
 		
 		$this->data['page']['order_address_url'] = site_url().$this->lang->lang()."/checkout/address/";
 		$this->data['page']['pg'] = $this->input->post('pg');
@@ -132,7 +133,8 @@ class checkout extends MY_Controller {
 			$this->data['user']['address_zip'] = $this->input->post('address_zip');
 			$this->data['user']['address_city'] = $this->input->post('address_city');
 			$this->data['user']['address_street'] = $this->input->post('address_street');
-						
+			$this->data['user']['address_id'] = $this->input->post('address_id');
+			
 			if ($this->lang->lang() ==='cn'){
 				$src_country_code = 'CN';
 				$currency = 'rmb';
@@ -141,13 +143,17 @@ class checkout extends MY_Controller {
 				$currency = 'hkd';
 			}
 			
-			list($delivery_charge) = $this->delivery_model->get_charge_by_country_code($src_country_code, $this->data['user']['country_code'], $currency);						
-			var_dump($delivery_charge);
+			if ($this->data['user']['address_id']!=""){
+				list($delivery_charge) = $this->delivery_model->get_charge_by_order_id($src_country_code, $this->data['user']['address_id'], $currency);
+			}else{
+				list($delivery_charge) = $this->delivery_model->get_charge_by_country_code($src_country_code, $this->data['user']['country_code'], $currency);						
+			}
+			
+			
 			$this->data['page']['delivery_charge'] = $delivery_charge[$currency];
 			$this->payment();
 		}
 	}
-
 	
 	private function paypal(){
 		$this->load->model("order_model");

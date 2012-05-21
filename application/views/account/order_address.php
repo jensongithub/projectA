@@ -182,9 +182,23 @@
 				<div class='field'>
 					<label for='address_street' class='label'><?php echo T_("Address_street");?></label><input type='text' id='address_street' name='address_street' value='<?php echo set_value('address_street'); ?>' class='input' />
 				</div>
+				<hr/>
 				<div>
-				
-				<input type='button'  class='submit-button'  onclick="check_address();" value='<?php echo T_("Submit");?>' /></div>
+					<ul name='address_list'>
+				<?php
+					foreach($page['order_address'] as $each_row){
+						echo <<< ADDR_LIST
+						<li>
+						<input type='radio' name='address[]' value='{$each_row['order_id']}' id='{$each_row['order_id']}'/>
+						<label for='{$each_row['order_id']}'>{$each_row['country']}, {$each_row['country_code']}, {$each_row['address_state']}, {$each_row['address_zip']}, {$each_row['address_city']}, {$each_row['address_street']}</label>
+						</li>
+ADDR_LIST;
+					}
+				?>
+					</ul>
+				</div>
+				  <input type="reset" class='submit-button'/>
+				<input type='button'  class='submit-button'  onclick="check_address();" value='<?php echo T_("Submit");?>' /></div>				
 			</form>
 		</div>
 	</div>
@@ -200,10 +214,24 @@ function check_address(){
 	var address_city = encodeURIComponent($("input[name=address_city]").val());
 	var address_street = encodeURIComponent($("input[name=address_street]").val());
 	var pg = encodeURIComponent($('input[name=pg]').val());
-		$.ajax({
+	var address_id = $("input[type='radio']:checked").val();
+	
+	//alert(country+':'+ country_code+':'+ address_state+':'+ address_zip+':'+ address_city+':'+ address_street);
+	if((country_code!='' || address_state!='' || address_zip!='' || address_city !='' || address_street!='') && address_id!=''){
+		alert('Please enter either enter the new order address or select the address below.');
+		return false;
+	}
+	
+	
+	if(country_code=='' && address_state=='' && address_zip=='' && address_city =='' && address_street=='' && address_id===''){
+		alert('Please enter either enter the new order address or select the address below.');
+		return false;
+	}
+	
+	$.ajax({
 			type: "POST",
 			url: "<?php echo $page['order_address_url']?>",
-			data: "country="+country+"&country_code="+country_code+"&address_state="+address_state+"&address_zip="+address_zip+"&address_city="+address_city+"&address_street="+address_street+"&cli=js"+"&pg="+pg,
+			data: "country="+country+"&country_code="+country_code+"&address_state="+address_state+"&address_zip="+address_zip+"&address_city="+address_city+"&address_street="+address_street+"&address_id="+address_id+"&cli=js"+"&pg="+pg,
 			dataType: "text",
 			success: function (data, textStatus, jqXHR) {
 				if (jqXHR.responseText=="200"){

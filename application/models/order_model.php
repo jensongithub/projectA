@@ -31,8 +31,13 @@ class Order_model extends CI_Model {
 	}
 	
 	public function set_order_address($order_id, $user){
-		$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
-		$result = $this->db->query($query, array($order_id, $user['id'], $user['country'], $user['country_code'], $user['address_zip'], $user['address_state'], $user['address_city'], $user['address_street']));
+		if ($user['address_id']!=''){
+			$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) select $order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, NOW(), NOW() from order_address where order_id= ? and user_id = ?";
+			$result = $this->db->query($query, array($user['address_id'], $user['id']));
+		}else{
+			$query = "insert into order_address(order_id, user_id, country, country_code, address_zip, address_state, address_city, address_street, created_date, modified_date) values(?, ?, ?, ?,?,?,?,?,NOW(), NOW())";
+			$result = $this->db->query($query, array($order_id, $user['id'], $user['country'], $user['country_code'], $user['address_zip'], $user['address_state'], $user['address_city'], $user['address_street']));
+		}
 	}
 	
 	function insert_checkout_item($data){
@@ -307,12 +312,11 @@ class Order_model extends CI_Model {
 		GROUP BY orders_items.prod_id, orders_items.color, orders_items.size ORDER BY orders_items.prod_id, orders_items.color, orders_items.size";
 		
 		$query = $this->db->query($query);
-		
 		return $query->result_array();
 	}
 	
 	function get_order_addr_by_uid($user_id){
-		$query = "select distinct country, country_code, address_zip, address_state, address_city, address_street from order_address where user_id = ?";
+		$query = "select order_id, country, country_code, address_zip, address_state, address_city, address_street from order_address where user_id = ? group by order_id";
 		$query = $this->db->query($query, array($user_id) );
 		
 		return $query->result_array();
