@@ -73,7 +73,7 @@ class Product_model extends CI_Model {
 			$q_sub = "SELECT cat.id, CONCAT(q_cat.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.text_en = ? AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		else{
-			$q_sub = "SELECT cat.id, CONCAT(q_cat.text_en, '/', nav.text_en) AS text_en FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
+			$q_sub = "SELECT cat.id, q_cat.text_en AS text_en FROM categories cat, navigations nav, ($q_cat) q_cat WHERE cat.id = nav.cat_id AND nav.level LIKE CONCAT(q_cat.level, '%') ";
 		}
 		
 		// real
@@ -197,16 +197,17 @@ class Product_model extends CI_Model {
 			$query = "SELECT * FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? ORDER BY rand()";
 			$products = $this->db->query($query, array($id, $cat_id, $rand))->result_array();
 		}
-		
-		while( count($products) < $num ){
-			while( TRUE ){
-				$rand = rand(0, $max);
-				if( ! isset($temp[$rand]) )
-					break;
+		else{
+			while( count($products) < $num ){
+				while( TRUE ){
+					$rand = rand(0, $max);
+					if( ! isset($temp[$rand]) )
+						break;
+				}
+				$temp[$rand] = 1;
+				$query = "SELECT * FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? LIMIT ?, 1";
+				$products[] = $this->db->query($query, array($id, $cat_id, $rand))->row_array();
 			}
-			$temp[$rand] = 1;
-			$query = "SELECT * FROM products p, product_category pc WHERE ( p.status = 'A' OR p.status = 'S' ) AND p.id = pc.pro_id AND p.id <> ? AND pc.cat_id = ? LIMIT ?, 1";
-			$products[] = $this->db->query($query, array($id, $cat_id, $rand))->row_array();
 		}
 		
 		return($products);
@@ -372,6 +373,20 @@ class Product_model extends CI_Model {
 		//print_r($detail);
 		$query = "UPDATE products SET name_en = ?, name_zh = ?, price = ?, discount = ?, priority = ?, front_img = ?, description_en = ?, description_zh = ?, components = ?, status = ? WHERE id = ?";
 		$this->db->query($query, array( $detail['name_en'], $detail['name_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['front_img'], $detail['description_en'], $detail['description_zh'], $detail['components'], $detail['status'], $detail['id']) );
+		//echo "<p>" . $this->db->last_query() . "</p>";
+	}
+
+	public function add_product($detail = FALSE){
+		//print_r($detail);
+		try{
+			$query = "INSERT INTO products (id, name_en, name_zh, description_en, description_zh, price, discount, priority, components, status) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE id=id";
+			$this->db->query($query, array( $detail['id'], $detail['name_en'], $detail['name_zh'], $detail['description_en'], $detail['description_zh'], $detail['price'], $detail['discount'], $detail['priority'], $detail['components'], $detail['status']) );
+			$query = "INSERT INTO product_category (pro_id, cat_id) VALUES ( ?, ?) ON DUPLICATE KEY UPDATE cat_id=cat_id";
+			$this->db->query($query, array( $detail['id'], $detail['cat']) );
+		}catch(Exception $e){
+			return FALSE;
+		}
+		return TRUE;
 		//echo "<p>" . $this->db->last_query() . "</p>";
 	}
 	

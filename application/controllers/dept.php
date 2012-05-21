@@ -251,7 +251,12 @@ class Dept extends MY_Controller {
 		$this->data['page']['lang'] = $this->lang->lang();
 		$dept = urldecode($dept);
 		$cat = urldecode($cat);
+		if( $id === '' ){
+			$id = $sub;
+			$sub = '';
+		}
 		$sub = urldecode($sub);
+
 
 		$this->data['page']['c_path'] = $this->category_model->get_category_by_text($dept, $cat, $sub);
 		//print_r($this->data['c_path']);
@@ -280,7 +285,7 @@ class Dept extends MY_Controller {
 			$color_ids[] = $color['color'];
 		}
 		$color_from_pos = false;
-		//$color_from_pos = $this->common_model->get_color_by_id($color_ids);
+		$color_from_pos = $this->common_model->get_color_by_id($color_ids);
 		unset($color_ids);
 
 		$this->load->helper('json');

@@ -149,14 +149,14 @@ class Common_model extends CI_Model {
 		return FALSE;
 	}
 	
-	public function get_product_list( $where = "created_date > '2012-02-01 00:00:00'" ) {
+	public function get_product_list() {
 		$product = 'erp.dbo.tbl_pos_item_mstr';
 		$price = 'erp.dbo.tbl_pos_item_price';
 		$stock = 'erp.dbo.tbl_wh_stk_tx';
 		
 		$this->lna_pos = $this->load->database('lna_pos', TRUE); // Load the db, and assign to the member var.		
 		
-		$this->lna_pos->select("$product.item_code, $product.barcode_no, style_no, color_code, size_code, short_desc, status, $product.created_date, $price.*")->from("$product, $price")->where("$product.item_code = $price.item_code")->order_by("$product.created_date", "desc")->limit(0, 30);
+		$this->lna_pos->select("$product.item_code, $product.barcode_no, style_no, color_code, size_code, short_desc, status, $product.created_date, $price.*")->from("$product, $price")->where("$product.item_code = $price.item_code AND $product.item_code LIKE 'DS%'")->order_by("$product.created_date", "desc")->limit(0, 30);
 
 		$query = $this->lna_pos->get();
 		var_dump($query->num_rows());

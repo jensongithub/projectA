@@ -49,6 +49,7 @@ $route['^view/(.+)/(.+)/(.+)$'] = 'dept/view/$1/$2/$3';
 
 $route['^admin/products/edit/(.+)$'] = 'admin/edit_products/$1';
 $route['^admin/products/upload$'] = 'admin/upload_products';
+$route['^admin/products/add$'] = 'admin/add_product';
 $route['^admin/products/(.+)$'] = 'admin/products/$1';
 $route['^admin/(.+)/(.+)/(.+)$'] = 'admin/$2_$1/$3';
 $route['^admin/(.+)/(.+)$'] = 'admin/$2_$1';

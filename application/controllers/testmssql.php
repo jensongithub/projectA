@@ -71,7 +71,7 @@ class Testmssql extends CI_Controller {
 
 	public function load(){
 		$data['title'] = 'Login';
-		$result = $this->common_model->load_products_to_web_store();
+		$result = $this->common_model->load_products_to_web_store('2010-01-01');
 		$i = 0;
 		foreach($result as $row){
 			echo "<p>Row $i<br />";
@@ -83,5 +83,18 @@ class Testmssql extends CI_Controller {
 		}
 
 		$this->load->view('admin/templates/footer');
+	}
+	
+	public function get_list(){
+		$result = $this->common_model->get_product_list();
+		$i = 0;
+		foreach($result as $row){
+			echo "<p>Row $i<br />";
+			foreach($row as $key => $value){
+				echo "[$key] => $value ";
+			}
+			echo "</p>";
+			$i++;
+		}
 	}
 }
