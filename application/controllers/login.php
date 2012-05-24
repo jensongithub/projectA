@@ -60,7 +60,7 @@ class Login extends MY_Controller {
 		else{
 			$this->set_session('user', $user);			
 			if (empty($user['activate_date'])){
-				$flag = GO_TO_ACTIVATION_PAGE;
+				$flag = GO_TO_ACTIVATE_PAGE;
 			}else{
 				
 				if (isset($page['next_page']) && !empty($page['next_page'])){
