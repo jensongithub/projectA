@@ -193,12 +193,34 @@ class Admin extends MY_Controller {
 		
 		$this->data['page']['back'] = anchor('admin/products/', ' << Go back ');
 		
+		$this->data['page']['title'] = "Upload product excel";
 		$this->load->view('admin/templates/header', $this->data);
 		$this->load->view('admin/templates/menu', $this->data);
 		$this->load->view('admin/upload_products_result', $this->data);
 		$this->load->view('admin/templates/footer', $this->data);
 	}
-	
+
+	public function add_product(){
+		$this->load->model( array('product_model', 'category_model') );
+
+		if( $this->input->post('action') == 'add' ){
+			//$this->common_model->load_products_to_web_store();
+			$result = $this->product_model->add_product( $this->input->post() );
+			if( $result === TRUE )
+				$this->data['page']['success'] = "Product added.";
+			else
+			$this->data['page']['error'] = "Operation failed, please contact the support staff.";
+		}
+		$this->data['page']['categories'] = $this->category_model->get_categories();
+		$this->data['page']['back'] = anchor('admin/products/', ' << Go back ');
+		
+		$this->data['page']['title'] = "Add new product";
+		$this->load->view('admin/templates/header', $this->data);
+		$this->load->view('admin/templates/menu', $this->data);
+		$this->load->view('admin/add_product', $this->data);
+		$this->load->view('admin/templates/footer', $this->data);
+	}
+
 	public function edit_products($id = ''){
 		$this->load->helper(array('form'));
 		$this->load->model( array('product_model', 'category_model') );

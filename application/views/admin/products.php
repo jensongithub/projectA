@@ -1,6 +1,11 @@
 <?php echo css('css/admin/products.css') ?>
 <?php if( isset($page['error']) ) echo $page['error'];?>
 
+<div id='add-link'>
+	<h3>Or <?php echo anchor('admin/products/add', 'add a new product'); ?></h3>
+</div>
+<div class='clear'></div>
+
 <form id='navigation-form' method='get' action='/admin/products/'>
 	<div class='navigation'>
 		<div>
