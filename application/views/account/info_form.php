@@ -52,7 +52,7 @@
 				</style>
 				<!--?php echo T_('Username'); ?-->
 				<?php if (isset($page['success']))
-					{ echo TT_('Update Successful'); 
+					{ echo T_('Update Successful'); 
 				}?>
 				<div class='section-header'><?php echo T_('Update Profile'); ?></div>
 			<?php

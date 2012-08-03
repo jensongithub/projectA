@@ -16,7 +16,7 @@
 	<div class='menu_l1'>
 		<ul>
 
-			<?php echo ($user['is_login']===FALSE) ? '': '<li>Hello, '.$user['firstname']. '</li>';?>
+			<?php echo ($user['is_login']===FALSE) ? '': '<li>'.anchor('account', T_("Hello").", {$user['firstname']}"). '</li>';?>
 			<li><?php echo anchor($this->lang->switch_uri('en'), '<span class="">Eng</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('zh'), '<span class="">繁</span>'); ?></li>
 			<li><?php echo anchor($this->lang->switch_uri('cn'), '<span class="">簡</span>'); ?></li>

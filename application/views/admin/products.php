@@ -5,6 +5,7 @@
 	<h3>Or <?php echo anchor('admin/products/add', 'add a new product'); ?></h3>
 </div>
 <div class='clear'></div>
+<hr style='margin: 10px 0 20px 0;' />
 
 <form id='navigation-form' method='get' action='/admin/products/'>
 	<div class='navigation'>
@@ -32,7 +33,6 @@
 		});
 	</script>
 </form>
-<hr style='margin: 10px 0 20px 0;' />
 
 <h2>Showing products in <?php echo ($page['cid']==0)?'unclassified':$page['categories'][$page['cid']-1]['name'] ?></h2>
 
