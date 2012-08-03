@@ -114,6 +114,9 @@ class Category_model extends CI_Model {
 		$category['created_time'] = $now;
 		$category['modified_time'] = $now;
 		$this->db->insert('categories', $category);
+		
+		mkdir( 'images/products/' . $path);
+		
 		return $category;
 	}
 	
